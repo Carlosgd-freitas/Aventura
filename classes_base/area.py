@@ -340,7 +340,7 @@ class Area():
         print('Após alguns bons minutos sem ser atacado, você teve a idéia de descansar e recuperar suas' +
         ' energias. Você pode evitar qualquer combate e procurar a estalagem\nmais próxima, gastando ouro para se' +
         ' recuperar completamente, mas com certeza que não será atacado. Você também pode juntar alguns' +
-        ' materiais e fazer uma clareira\npor onde você se encontra, se recuperando parcialmentemas mas com chance' +
+        ' materiais e fazer uma clareira\npor onde você se encontra, se recuperando parcialmente mas mas com chance' +
         ' de ser emboscado por criaturas inimigas se ficar distraído. Ou dá só pra ignorar esse\npensamento e' +
         ' continuar batalhando. O que você escolhe?\n')
 
@@ -380,8 +380,8 @@ class Area():
                 jogador.mana = jogador.maxMana
 
                 mensagem = f'Você gastou {self.estalagem_preco} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + ' e '
-                mensagem += f'recuperou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' e ' + Fore.BLUE + 'Mana'
-                print(mensagem + 'completamente.')
+                mensagem += f'recuperou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' e ' + Fore.BLUE + 'Mana' + Style.RESET_ALL
+                print(mensagem + ' completamente.')
                 break
 
             # Clareira

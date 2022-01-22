@@ -87,8 +87,14 @@ def MenuExplorar(jogador, area):
                     print('Você retoma seu fôlego e segue em sua Aventura.')
 
                 elif resultado == -1:
-                    print('O último ataque foi grave demais. Sua consciência vai se esvaindo e você colapsa no chão.')
-                    input(Style.BRIGHT + 'GAME OVER.' + Style.RESET_ALL)
+                    print('\nO último ataque foi grave demais. Sua consciência vai se esvaindo e você colapsa no chão.')
+                    print("     _____                                ____                         ")
+                    print("    / ____|                              / __ \                        ")
+                    print("   | |  __    __ _   _ __ ___     ___   | |  | | __   __  ___   _ __   ")
+                    print("   | | |_ |  / _` | | '_ ` _ \   / _ \  | |  | | \ \ / / / _ \ | '__|  ")
+                    print("   | |__| | | (_| | | | | | | | |  __/  | |__| |  \ V / |  __/ | |     ")
+                    print("    \_____|  \__,_| |_| |_| |_|  \___|   \____/    \_/   \___| |_|     ")                                                            
+                    input('\nPressione [ENTER] para fechar o jogo.')
                     os._exit(0)
 
             retorno = 1

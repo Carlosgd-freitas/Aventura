@@ -47,7 +47,7 @@ class NotasAtualizacao():
             'adicionados.')
         self.positivo('Antídoto e Bomba Inferior adicionados.\n')
 
-        input('Aperte [ENTER] para sair.')
+        input('Pressione [ENTER] para sair.')
         return
 
     def titulo(string):
