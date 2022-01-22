@@ -93,6 +93,7 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
         print('')
     
     mecanicas.TerminarBuffsDebuffs(jogador)
+    mecanicas.AcrescentarRecargasMaximo(jogador)
 
     return acabou
 

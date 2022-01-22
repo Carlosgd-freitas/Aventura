@@ -133,12 +133,17 @@ def InicioTurno(criatura):
 def AcrescentarRecargas(criatura):
     """
     Acrescenta em 1 a recarga atual de todas as habilidades de uma criatura ou jogador caso ela não seja igual à
-    recarga.
+    recarga. Se alguma habilidade da criatura foi recarregada, a função retorna 1 e, caso contrário, retorna 0.
     """
+
+    recarregou = 0
 
     for h in criatura.habilidades:
         if h.recarga_atual < h.recarga:
             h.recarga_atual += 1
+            recarregou = 1
+    
+    return recarregou
 
 def DecairBuffsDebuffs(criatura, verbose = 1):
     """
@@ -283,4 +288,15 @@ def TerminarBuffsDebuffs(criatura):
         decaiu = DecairBuffsDebuffs(criatura, verbose = 0)
 
         if decaiu == 0:
+            break
+
+def AcrescentarRecargasMaximo(criatura):
+    """
+    Remove todos os buffs e debuffs presentes na criatura de maneira apropriada.
+    """
+
+    while True:
+        recarregou = AcrescentarRecargas(criatura)
+
+        if recarregou == 0:
             break
