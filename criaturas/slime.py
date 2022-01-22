@@ -1,7 +1,10 @@
+import random
 import sys
 
 sys.path.append("..")
-from classes_base import criatura, habilidade, efeito, item
+from classes_base import criatura
+from habilidades import ativas_alvo_unico, passivas_inicio_turno
+from itens import espolios
 
 class Slime(criatura.Criatura):
     """
@@ -29,7 +32,7 @@ class Slime(criatura.Criatura):
             maxHp += 2
             ataque += 1
             experiencia += 1
-            maxMana += 1   
+            maxMana += 1
             ouro += 1
 
             # A cada 3 níveis
@@ -49,42 +52,38 @@ class Slime(criatura.Criatura):
 
         # Habilidades da Criatura
         habilidades = []
-        atacar = habilidade.Habilidade("Atacar", "Um ataque normal.", "Normal", "inimigo", "ativa", 0, [], 0, 0,
-            [("ataque", 100)], [])
+        atacar = ativas_alvo_unico.Atacar("Normal")
         habilidades.append(atacar)
 
         if nivel >= 3:
-            regeneracao = habilidade.Habilidade("Regeneração", "Recupera parte da vida no início do turno.", "Normal",
-                "proprio", "passiva", regen, [], 0, 0, [("magia", 50)], [])
+            regeneracao = passivas_inicio_turno.Regeneracao(regen)
             habilidades.append(regeneracao)
 
         if nivel >= 5:
-            perfurante = efeito.Efeito("Perfurante %", 50, 0, -1, 100)
-            cuspe = habilidade.Habilidade("Cuspe Ácido", "Um cuspe ácido que ignora 50% da defesa do alvo.", "Normal",
-                "inimigo", "ativa", ataque, [("Mana", 4)], 2, 2, [("magia", 50)], [perfurante])
+            cuspe = ativas_alvo_unico.CuspeAcido(ataque)
             habilidades.append(cuspe)
 
         # Espolios da Criatura
-        grana = item.Item(nome = "Ouro", quantidade = ouro, descricao = "Peças de ouro aceitas como moeda por todo o mundo.")
-        fluido = item.Item(nome = "Fluido de Slime", quantidade = 1,
-            descricao = "Uma parte viscosa e um pouco ácida do interior de um Slime derrotado.")
+        grana = espolios.Ouro(ouro)
+        fluido = espolios.FluidoSlime(1, 1)
 
-        espolios = [(grana, 100), (fluido, 10)]
+        esp = [(100, grana), (10, fluido)]
 
         # Criando a Criatura
-        super(Slime, self).__init__([], [], habilidades, espolios, "Slime", tipo = "Normal", maxHp = maxHp, hp = maxHp, 
+        super(Slime, self).__init__([], [], habilidades, esp, "Slime", tipo = "Normal", maxHp = maxHp, hp = maxHp, 
             maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia, velocidade = velocidade,
             nivel = nivel, experiencia = experiencia,
             descricao = "Um monstro verde e gelatinoso que utiliza seu interior ácido para matar suas vítimas lentamente.")
 
-    def EscolherAcao(self):
+    def EscolherAcao(self, jogador = None):
         """
         Qual ação a criatura irá tomar.
         """
-        # Cuspe Ácido
+        # Cuspe Ácido -> 75% de chance do Slime usar
         if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[2]):
-            return ("habilidade", self.habilidades[2])
+            chance = random.randint(1, 100)
+            if chance <= 75:
+                return ("habilidade", self.habilidades[2])
 
         # Atacar
-        else:
-            return ("atacar", self.habilidades[0])
+        return ("atacar", self.habilidades[0])

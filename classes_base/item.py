@@ -24,3 +24,39 @@ class Item(basico.Base):
 
         super(Item, self).__init__(nome, descricao, tipo, nivel, experiencia, maxHp, hp, maxMana, mana,
                                         ataque, defesa, magia, velocidade)
+
+    def ClonarItem(self):
+        """
+        Cria e retorna um novo item que possui os atributos com os mesmos valores deste.
+        """
+
+        preco = self.preco
+        quantidade = self.quantidade
+        nome = self.nome
+        descricao = self.descricao
+        tipo = self.tipo
+        nivel = self.nivel
+        experiencia = self.experiencia
+        maxHp = self.maxHp
+        hp = self.hp
+        maxMana = self.maxMana
+        mana = self.mana
+        ataque = self.ataque
+        defesa = self.defesa
+        magia = self.magia
+        velocidade = self.velocidade
+        
+        buffs = []
+        for b in self.buffs:
+            b_2 = b.ClonarEfeito()
+            buffs.append(b_2)
+
+        debuffs = []
+        for d in self.debuffs:
+            d_2 = d.ClonarEfeito()
+            debuffs.append(d_2)
+
+        item_2 = Item(buffs, debuffs, preco, quantidade, nome, descricao, tipo, nivel, experiencia, maxHp, hp,
+            maxMana, mana, ataque, defesa, magia, velocidade)
+
+        return item_2

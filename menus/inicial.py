@@ -1,19 +1,20 @@
 import os
+import sys
 from colorama import Fore, Back, Style
 
-import sys
+from . import notas_atualizacao, menu_explorar, menu_equipamentos
+
 sys.path.append("..")
 
-from classes_base import jogador
-from criaturas import slime
-from combate import batalha
+from classes_base import guerreiro, mago, utils
+from areas import area_1
 
 def MenuInicial():
     """
     Primeiro menu visto ao inicializar o jogo.
     """
 
-    notas = NotasAtualizacao
+    notas = notas_atualizacao.NotasAtualizacao
     retorno = 1
 
     while True:
@@ -24,15 +25,15 @@ def MenuInicial():
             print(f"  / _ \ \ \ / / / _ \ | '_ \  | __| | | | | | '__| / _` |")
             print(f" / ___ \ \ V / |  __/ | | | | | |_  | |_| | | |   | (_| |")
             print(f"/_/   \_\ \_/   \___| |_| |_|  \__|  \__,_| |_|    \__,_|\n")
-            print(f"   por Carlos Gabriel de Freitas - Alpha v0.0.1\n")        
+            print(f"      por Carlos Gabriel de Freitas - Alpha v0.0.2\n")        
 
-            print('[1] Novo Save File')
-            print(Fore.RED + '[2] Carregar Save File' + Style.RESET_ALL)
+            print('[1] Novo Jogo')
+            print(Fore.RED + '[2] Carregar Jogo' + Style.RESET_ALL)
             print('[3] Notas de Atualização\n')
             print('[0] Sair')
             retorno = 0
 
-        op = int(input('> '))
+        op = utils.LerNumero('> ')
 
         if op == 0:
             os._exit(0)
@@ -70,88 +71,22 @@ def NovoSaveFile():
 
     nome = input('\nDigite o seu nome: ')
 
-    print('Escolha a sua classe: ')
+    print('\nEscolha a sua classe: ')
     print('[1] Guerreiro')
-    print('[2] Mago')
+    print('[2] Mago\n')
 
+    j = None
     while True:
-        op = int(input('> '))
+        op = utils.LerNumero('> ')
 
         if op == 1:
-            op = "Guerreiro"
+            j = guerreiro.CriarNovoGuerreiro(nome)
             break
     
         elif op == 2:
-            op = "Mago"
+            j = mago.CriarNovoMago(nome)
             break
 
-    j = jogador.Jogador(op, nome)
-
-    # Aumentando os atributos do jogador com base em seus equipamentos
-    for equip in j.equipados:
-        j.ataque += equip[1].ataque
-        j.defesa += equip[1].defesa
-        j.magia += equip[1].magia
-        j.velocidade += equip[1].velocidade
-
-    slime_1 = slime.Slime(3)
-
-    inimigos = [slime_1]
-
-    resultado = batalha.BatalhaPrinicipal(j, inimigos)
-    if resultado == 1:
-        print('ganhei')
-    elif resultado == -1:
-        print('AFF')
-    else:
-        print('escapei')
-    ##################################################################
-
-class NotasAtualizacao():
-    """
-    Exibe o que foi adicionado, removido ou balanceado nas versões lançadas do jogo.
-    """
-    def exibir(self):
-        """
-        Exibe as notas de atualização.
-        """
-
-        self.titulo('\n----------------------------------- Alpha Versão 0.0.1 -----------------------------------')
-        print('\nJogabilidade')
-        self.positivo('Ações de Atacar, Defender, Usar Consumível, Usar Habilidade e Correr de uma Batalha adicionadas.\n')
-        print('Jogador')
-        self.positivo('Classes Guerreiro e Mago adicionadas.\n')
-        print('Inimigos')
-        self.positivo('Slime adicionado.\n')
-        print('Habilidades')
-        self.positivo('Projétil de Mana, Regeneração e Cuspe Ácido adicionados.\n')
-        print('Itens')
-        self.positivo('Espada Enferrujada, Cajado de Iniciante, Poção de Cura Pequena e Poção de Mana Pequena adicionados.\n')
-
-        input('Aperte [ENTER] para sair.')
-        return
-
-    def titulo(string):
-        """
-        Utilizado para imprimir o título de uma versão. Impime a string em preto com fundo branco.
-        """
-        print(Fore.BLACK + Back.WHITE + string + Style.RESET_ALL)
-
-    def positivo(string):
-        """
-        Imprime um '+' verde e uma string em branco, ambos com fundo preto.
-        """
-        print(Back.BLACK + Fore.GREEN + '+ ' + Fore.WHITE + string + Style.RESET_ALL)
-    
-    def negativo(string):
-        """
-        Imprime um '-' vermelho e uma string em branco, ambos com fundo preto.
-        """
-        print(Back.BLACK + Fore.RED + '- ' + Fore.WHITE + string + Style.RESET_ALL)
-    
-    def neutro(string):
-        """
-        Imprime um '*' amarelo e uma string em branco, ambos com fundo preto.
-        """
-        print(Back.BLACK + Fore.YELLOW + '- ' + Fore.WHITE + string + Style.RESET_ALL)
-        
+    menu_equipamentos.EquipadosGanhos(j)
+    area = area_1.Area_1(j, 15)
+    menu_explorar.MenuExplorar(j, area)

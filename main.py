@@ -1,8 +1,14 @@
+import random
+from colorama import init
+
 from classes_base.criatura import *
 from classes_base.item import *
 from menus.inicial import *
 
-from colorama import init
+# Lembrete: Quando uma nova arma for criada e ela for de um tipo que não é "Normal", ela deve alterar o tipo
+# do ataque normal do jogador em EquipadosGanhos()
+
+# Lembrete: Quando um item equipável aumenta maxHp/maxMana, ele também deve aumentar hp/mana
 
 # .py -> .exe : pyinstaller --onefile main.py
 
@@ -11,6 +17,7 @@ from colorama import init
 # Fore. ; Back.
 
 # Inicialização do colorama
+random.seed()
 init()
 
 MenuInicial()

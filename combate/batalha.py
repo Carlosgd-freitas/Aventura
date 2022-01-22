@@ -3,13 +3,14 @@ import random
 import sys
 from colorama import Fore, Back, Style
 
-from . import jogador_acoes, utils
+from . import jogador_acoes, mecanicas, imprimir, usar_habilidade
 sys.path.append("..")
-from classes_base import efeito
+from classes_base import efeito, utils
+from menus import menu_equipamentos
 
-def BatalhaPrinicipal(jogador, criaturas):
+def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
     """
-    Recebe o jogador e uma lista de criatuas e emula uma batalha.
+    Recebe o jogador e uma lista de criaturas inimigas e emula uma batalha.
     """
     
     # -1 -> o jogador perdeu
@@ -17,19 +18,9 @@ def BatalhaPrinicipal(jogador, criaturas):
     #  1 -> o jogador venceu
     #  2 -> o jogador escapou da batalha
     acabou = 0
+    espolios = []
 
     while acabou == 0:
-
-        # A ordem dos turnos é atualizada no começo
-        ordem = [jogador]
-        for c in criaturas:
-            ordem.append(c)
-        ordem.sort(key = lambda x: x.velocidade)
-
-        # Acrescenta a recarga das habilidades de todos em combate
-        for c in ordem:
-            utils.AcrescentarRecargas(c)
-            utils.DecairBuffsDebuffs(c)
 
         if jogador.hp <= 0:
             acabou = -1
@@ -38,35 +29,70 @@ def BatalhaPrinicipal(jogador, criaturas):
             acabou = 1
 
         else:
+            ordem = []
+            
+            # A ordem dos turnos é atualizada normalmente
+            if emboscada == 0:
+                ordem.append(jogador)
+                for c in criaturas:
+                    ordem.append(c)
+                ordem.sort(key = lambda x: x.velocidade)
+            
+            # Jogador sofreu uma emboscada e age por último no primeiro turno
+            else:
+                print('Você foi emboscado!')
+                for c in criaturas:
+                    ordem.append(c)
+                ordem.sort(key = lambda x: x.velocidade)
+                ordem.append(jogador)
+
+                emboscada = 0
+
             for c in ordem:
+                consciente = mecanicas.InicioTurno(c)
+                mecanicas.DecairBuffsDebuffs(c)
+                mecanicas.AcrescentarRecargas(c)
+                mecanicas.AbaterCriaturas(criaturas, espolios)
+
                 # Vez do Jogador
-                if c == jogador and jogador.hp > 0:
-                    utils.InicioTurno(jogador)
+                if c == jogador and jogador.hp > 0 and consciente == 1:
                     acabou = JogadorVez(jogador, criaturas)
-                    utils.AbaterCriaturas(criaturas)
+
+                    mecanicas.AbaterCriaturas(criaturas, espolios)
 
                 # Vez da Criatura
-                elif c.hp > 0 and jogador.hp > 0 and acabou != 2:
-                    utils.InicioTurno(c)
-                    acao = c.EscolherAcao()
+                elif c.hp > 0 and jogador.hp > 0 and acabou != 2 and consciente == 1:
+                   
+                    morreu = mecanicas.AbaterCriaturas(criaturas, espolios, c)
 
-                    # Ataque normal
-                    if acao[0] == "atacar":
-                        dano = utils.CalcularDano(c, jogador, acao[1])
-                        jogador.hp -= dano
-                        print(f'{c.nome} te atacou e deu {dano} de dano!')
-                    
-                    # Usando uma Habilidade
-                    elif acao[0] == "habilidade":
-
-                        # Habilidade de alvo único
-                        if acao[1].alvo == "inimigo":
-                            dano = utils.UsarHabilidadeAlvoUnico(c, jogador, acao[1])
-                            print(f'{c.nome} usou {acao[1].nome} e deu {dano} de dano!')
+                    if morreu == 0:
+                        CriaturaInimigaVez(c, jogador, criaturas)
 
                 # Jogador tentou escapar mas não conseguiu
                 if acabou != 2:
                     acabou = 0
+
+    # Jogador recebe os espólios da batalha caso tenha vencido
+    if acabou == 1:
+        print('Você venceu!')
+        print('\nEspólios:')
+
+        for e in espolios:
+            if e[0] == "Ouro":
+                jogador.ouro += e[1].quantidade
+                print(f'Você ganhou {e[1].quantidade} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + '.')
+
+            elif e[0] == "Experiencia":
+                jogador.experiencia += e[1].quantidade
+                print(f'Você ganhou {e[1].quantidade} de experiência.')
+            
+            else:
+                jogador.AdicionarAoInventario(e)
+                print(f'Você ganhou {e[1].quantidade} {e[1].nome}.')
+        
+        print('')
+    
+    mecanicas.TerminarBuffsDebuffs(jogador)
 
     return acabou
 
@@ -82,16 +108,16 @@ def JogadorVez(jogador, criaturas):
         # Estas mensagens serão impressas no início do turno do jogador e toda vez que ele quiser retornar e 
         # escolher outra ação
         if retorno == 1:
-            print(f'\n{jogador.nome} - Classe: {jogador.classe} - ' + Fore.RED + 'HP' + Style.RESET_ALL +
-            f' {jogador.hp}/{jogador.maxHp} - ' + Fore.BLUE + 'Mana' + Style.RESET_ALL +
-            f' {jogador.mana}/{jogador.maxMana}')
+            print('')
+            imprimir.ImprimirJogador(jogador)
 
             print('\nEscolha sua Ação:')
             print('[1] Atacar')
             print('[2] Defender')
-            print('[3] Usar Consumível')
-            print('[4] Habilidade')
-            print('[5] Correr\n')
+            print('[3] Consumível')
+            print('[4] Habilidades')
+            print('[5] Equipamentos')
+            print('[6] Correr\n')
 
             retorno = 0
         
@@ -99,12 +125,7 @@ def JogadorVez(jogador, criaturas):
         elif retorno == 2:
             return retorno
 
-        op = int(input('> '))
-
-        ##################
-        if op == 0:
-            os._exit(0)
-        ##################
+        op = utils.LerNumero('> ')
 
         # Atacar
         if op == 1:
@@ -113,7 +134,8 @@ def JogadorVez(jogador, criaturas):
 
             # Jogador não escolheu retornar 
             if alvo != -1:
-                dano = utils.UsarHabilidadeAlvoUnico(jogador, criaturas[alvo], atacar)
+                print('')
+                dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], atacar)
                 print(f'Você atacou e causou {dano} de dano à {criaturas[alvo].nome}.')
                 break
             
@@ -123,20 +145,20 @@ def JogadorVez(jogador, criaturas):
 
         # Defender
         elif op == 2:
-            defendendo = efeito.Efeito("Defendendo", 50, 50, 1, 100)
+            defendendo = efeito.Efeito("Defendendo", 50, 1, 1, 100)
             jogador.buffs.append(defendendo)
-            print('Você está defendendo.')
+            print('\nVocê está defendendo.')
             break
 
         # Usar um item consumível do inventário
         elif op == 3:
-
-            if jogador_acoes.ContarConsumiveis(jogador.inventario) > 0:
+            if jogador.ContarItens("Consumivel") > 0:
             
                 indice = jogador_acoes.EscolherConsumivel(jogador)
 
                 # Jogador não escolheu retornar 
                 if indice != -1:
+                    print('')
                     jogador_acoes.UsarConsumivel(jogador, indice, criaturas)
                     break
                 
@@ -149,32 +171,51 @@ def JogadorVez(jogador, criaturas):
 
         # Usar uma Habilidade
         elif op == 4:
-
             if len(jogador.habilidades) > 1:
                 indice = jogador_acoes.EscolherHabilidade(jogador)
-                escolha = jogador.habilidades[indice]
 
                 # Jogador não escolheu retornar 
-                if indice != 0:
+                if indice != -1:
+
+                    escolha = jogador.habilidades[indice]
 
                     # Habilidade de alvo único
                     if escolha.alvo == "inimigo":
                         alvo = jogador_acoes.EscolherAlvo(criaturas)
-                        dano = utils.UsarHabilidadeAlvoUnico(jogador, criaturas[alvo], escolha)
-                        print(f'Você utilizou {escolha.nome} e causou {dano} de dano à {criaturas[alvo].nome}.')
+                        print(f'\nVocê utilizou {escolha.nome}.')
+                        dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], escolha)
+                        print(f'Você causou {dano} de dano à {criaturas[alvo].nome}.')
+                    
+                    # Habilidade que alveja a si próprio
+                    elif escolha.alvo == "proprio":
+                        print(f'\nVocê utilizou {escolha.nome}.')
+                        usar_habilidade.AlvoProprio(jogador, escolha)
                     
                     break
                 
-                # Jogador escolheu retornar 
+                # Jogador escolheu retornar
                 else:
                     retorno = 1
 
             else:
                 print('Você não tem habilidades.')
         
-        # Correr
+        # Trocar Equipamentos
         elif op == 5:
+            print('')
+            troca = menu_equipamentos.MenuEquipamentos(jogador)
+            print('')
 
+            # Nenhuma troca de equipamento realizada: jogador escolheu retornar
+            if troca == 0:
+                retorno = 1
+
+            # Troca de equipamento realizada
+            else:
+                break
+
+        # Correr
+        elif op == 6:
             # Criatura de maior nível
             maior_nivel = 0
             for c in criaturas:
@@ -201,7 +242,7 @@ def JogadorVez(jogador, criaturas):
             print('[1] Sim, tentar escapar.\n')
 
             while True:
-                escolha = int(input('> '))
+                escolha = utils.LerNumero('> ')
 
                 if escolha == 0 or escolha == 1:
                     break
@@ -215,10 +256,40 @@ def JogadorVez(jogador, criaturas):
                 tentativa = random.randint(1, 100)
 
                 if tentativa <= chance:
-                    print('Você escapou da batalha com sucesso!')
+                    print('\nVocê conseguiu escapar da batalha.')
                     retorno = 2
                 
                 else:
-                    print('Você não conseguiu escapar.')
+                    print('\nVocê não conseguiu escapar da batalha.')
                     retorno = 3
                     break
+
+def CriaturaInimigaVez(criatura, jogador, criaturas):
+    """
+    Controla as ações que a criatura pode fazer.
+    """
+    acao = criatura.EscolherAcao(jogador)
+
+    # Ataque normal
+    if acao[0] == "atacar":
+        dano = usar_habilidade.AlvoUnico(criatura, jogador, acao[1])
+        print(f'{criatura.nome} te atacou e deu {dano} de dano!')
+    
+    # Usando uma Habilidade
+    elif acao[0] == "habilidade":
+
+        # Habilidade de alvo único
+        if acao[1].alvo == "inimigo":
+            print(f'{criatura.nome} usou {acao[1].nome}!')
+            dano = usar_habilidade.AlvoUnico(criatura, jogador, acao[1])
+            print(f'Você recebeu {dano} de dano.')
+        
+        # Habilidade que alveja a si próprio
+        if acao[1].alvo == "proprio":
+            print(f'{criatura.nome} usou {acao[1].nome}!')
+            usar_habilidade.AlvoProprio(criatura, acao[1])
+
+    # Passou o turno
+    elif acao[0] == "passar":
+        print(acao[1])
+        

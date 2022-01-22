@@ -42,3 +42,34 @@ class Habilidade():
 
         # Efeitos secundários que a Habilidade irá causar
         self.efeitos = efeitos
+
+    def ClonarHabilidade(self):
+        """
+        Cria e retorna uma nova habilidade que possui os atributos com os mesmos valores desta.
+        """
+
+        nome = self.nome
+        descricao = self.descricao
+        tipo = self.tipo
+        alvo = self.alvo
+        passiva_ativa = self.passiva_ativa
+        valor = self.valor
+        recarga = self.recarga
+        recarga_atual = self.recarga_atual
+        
+        custo = []
+        for c in self.custo:
+            custo.append(c)
+
+        modificadores = []
+        for m in self.modificadores:
+            modificadores.append(m)
+        
+        efeitos = []
+        for e in self.efeitos:
+            efeitos.append(e)
+
+        habilidade_2 = Habilidade(nome, descricao, tipo, alvo, passiva_ativa, valor, custo, recarga, recarga_atual, 
+            modificadores, efeitos)
+
+        return habilidade_2
