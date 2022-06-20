@@ -10,7 +10,8 @@ def PocaoCuraPequena(quantidade, preco):
     """
 
     pocao_efeito = [efeito.Efeito("Cura HP % ou valor", [25, 5], 0, -1, 100)]
-    pocao = item.Item(pocao_efeito, [], preco, quantidade, "Poção de Cura Pequena", genero = "F",
+    pocao = item.Item(pocao_efeito, [], preco, quantidade, "Poção de Cura Pequena",
+        singular_plural = "singular", genero = "F",
         descricao = "Cura 25% do HP máximo ou 5 de HP, o que for maior.")
     
     return ("Consumivel", pocao)
@@ -22,7 +23,8 @@ def PocaoManaPequena(quantidade, preco):
     """
 
     pocao_efeito = [efeito.Efeito("Cura Mana % ou valor", [25, 5], 0, -1, 100)]
-    pocao = item.Item(pocao_efeito, [], preco, quantidade, "Poção de Mana Pequena", genero = "F",
+    pocao = item.Item(pocao_efeito, [], preco, quantidade, "Poção de Mana Pequena",
+        singular_plural = "singular", genero = "F",
         descricao = "Cura 25% da Mana máxima ou 5 de Mana, o que for maior.")
 
     return ("Consumivel", pocao)
@@ -34,7 +36,8 @@ def Antidoto(quantidade, preco):
     """
 
     antidoto_efeito = [efeito.Efeito("Cura Veneno", 0, 0, -1, 100)]
-    antidoto = item.Item(antidoto_efeito, [], preco, quantidade, "Antídoto", genero = "M",
+    antidoto = item.Item(antidoto_efeito, [], preco, quantidade, "Antídoto",
+        singular_plural = "singular", genero = "M",
         descricao = "Cura o debuff de envenenamento.")
     
     return ("Consumivel", antidoto)
@@ -46,7 +49,8 @@ def BombaInferior(quantidade, preco):
     """
 
     bomba_efeito = [efeito.Efeito("Dano todos inimigos", 5, 0, -1, 100)]
-    bomba = item.Item(bomba_efeito, [], preco, quantidade, "Bomba Inferior", genero = "F",
+    bomba = item.Item(bomba_efeito, [], preco, quantidade, "Bomba Inferior",
+        singular_plural = "singular", genero = "F",
         descricao = "Dá 5 de dano em todos os inimigos.")
     
     return ("Consumivel", bomba)

@@ -59,9 +59,31 @@ def ImprimirEfeitos(criatura):
 
     # Debuffs presentes na criatura
     if criatura.EfeitoPresente("debuff", "Veneno") != -1:
-        mensagem += ' - ' + Fore.GREEN + 'ENVENENADO' + Style.RESET_ALL
+
+        if criatura.singular_plural == "singular":
+            if criatura.genero == "M":
+                mensagem += ' - ' + Fore.GREEN + 'ENVENENADO' + Style.RESET_ALL
+            elif criatura.genero == "F":
+                mensagem += ' - ' + Fore.GREEN + 'ENVENENADA' + Style.RESET_ALL
+
+        elif criatura.singular_plural == "plural":
+            if criatura.genero == "M":
+                mensagem += ' - ' + Fore.GREEN + 'ENVENENADOS' + Style.RESET_ALL
+            elif criatura.genero == "F":
+                mensagem += ' - ' + Fore.GREEN + 'ENVENENADAS' + Style.RESET_ALL
 
     if criatura.EfeitoPresente("debuff", "Atordoamento") != -1:
-        mensagem += ' - ATORDOADO'
+
+        if criatura.singular_plural == "singular":
+            if criatura.genero == "M":
+                mensagem += ' - ATORDOADO'
+            elif criatura.genero == "F":
+                mensagem += ' - ATORDOADA'
+
+        elif criatura.singular_plural == "plural":
+            if criatura.genero == "M":
+                mensagem += ' - ATORDOADOS'
+            elif criatura.genero == "F":
+                mensagem += ' - ATORDOADAS'
     
     print(mensagem)

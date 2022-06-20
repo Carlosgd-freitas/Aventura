@@ -37,7 +37,16 @@ def MenuExplorar(jogador, area):
 
         # Sair do Jogo
         if op == 0:
-            os._exit(0)
+            print('\nDeseja sair do jogo?')
+            print('[0] Não, retornar ao jogo.')
+            print('[1] Sim, fechar o jogo.')
+
+            sair = utils.LerNumeroIntervalo('> ', 0, 1)
+
+            if sair == 0:
+                retorno = 1
+            else:
+                os._exit(0)
         
         # Explorar a Área
         elif op == 1:
@@ -67,8 +76,7 @@ def MenuExplorar(jogador, area):
             if explorar_flag == 0:
                 print('Uma batalha se iniciou!\n')
 
-                encontro_numero = random.choice(area.encontros)
-                inimigos = area.RetornarEncontro(jogador, encontro_numero)
+                inimigos = area.RetornarEncontro(jogador)
                 resultado = batalha.BatalhaPrinicipal(jogador, inimigos)
 
                 # Resultado da Batalha

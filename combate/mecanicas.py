@@ -126,7 +126,18 @@ def InicioTurno(criatura):
 
         if criatura.debuffs[indice].duracao != 0:
             consciente = 0
-            print(f'{criatura.nome} está atordoado e não pode agir!')
+            
+            if criatura.singular_plural == "singular":
+                if criatura.genero == "M":
+                    print(f'{criatura.nome} está atordoado e não pode agir!')
+                elif criatura.genero == "F":
+                    print(f'{criatura.nome} está atordoada e não pode agir!')
+
+            elif criatura.singular_plural == "plural":
+                if criatura.genero == "M":
+                    print(f'{criatura.nome} estão atordoados e não podem agir!')
+                elif criatura.genero == "F":
+                    print(f'{criatura.nome} estão atordoadas e não podem agir!')
 
     return consciente
 
@@ -178,7 +189,17 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
             criatura.debuffs.remove(veneno)
 
             if verbose == 1:
-                print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
+                if criatura.singular_plural == "singular":
+                    if criatura.genero == "M":
+                        print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
+                    elif criatura.genero == "F":
+                        print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
+
+                elif criatura.singular_plural == "plural":
+                    if criatura.genero == "M":
+                        print(f'{criatura.nome} não estão mais ' + Fore.GREEN + 'envenenados' + Style.RESET_ALL + '.')
+                    elif criatura.genero == "F":
+                        print(f'{criatura.nome} não estão mais ' + Fore.GREEN + 'envenenadas' + Style.RESET_ALL + '.')
         
         decaiu = 1
     
@@ -192,7 +213,17 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
             criatura.debuffs.remove(atordoamento)
 
             if verbose == 1:
-                print(f'{criatura.nome} não está mais atordoado.')
+                if criatura.singular_plural == "singular":
+                    if criatura.genero == "M":
+                        print(f'{criatura.nome} não está mais atordoado.')
+                    elif criatura.genero == "F":
+                        print(f'{criatura.nome} não está mais atordoada.')
+
+                elif criatura.singular_plural == "plural":
+                    if criatura.genero == "M":
+                        print(f'{criatura.nome} não estão mais atordoados.')
+                    elif criatura.genero == "F":
+                        print(f'{criatura.nome} não estão mais atordoadas.')
         
         decaiu = 1
     
@@ -244,7 +275,18 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None):
 
     for c in lista_criaturas:
         if c.hp <= 0:
-            print(f'{c.nome} foi derrotado!')
+
+            if c.singular_plural == "singular":
+                if c.genero == "M":
+                    print(f'{c.nome} foi derrotado!')
+                elif c.genero == "F":
+                    print(f'{c.nome} foi derrotada!')
+
+            elif c.singular_plural == "plural":
+                if c.genero == "M":
+                    print(f'{c.nome} foram derrotados!')
+                elif c.genero == "F":
+                    print(f'{c.nome} foram derrotadas!')
 
             # Adicionando os espólios gerados à lista de espólios passada por parâmetro
             espolios_gerados = GerarEspolios(c)

@@ -38,7 +38,16 @@ def MenuInicial():
         op = utils.LerNumero('> ')
 
         if op == 0:
-            os._exit(0)
+            print('\nDeseja sair do jogo?')
+            print('[0] Não, retornar ao jogo.')
+            print('[1] Sim, fechar o jogo.')
+
+            sair = utils.LerNumeroIntervalo('> ', 0, 1)
+
+            if sair == 0:
+                retorno = 1
+            else:
+                os._exit(0)
         
         ########
         elif op == 2:

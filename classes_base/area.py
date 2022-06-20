@@ -27,18 +27,9 @@ class Area():
         self.estalagem_preco = estalagem_preco
 
     @abstractmethod
-    def DefinirEncontros(self, jogador):
-        """
-        Retorna uma lista de números inteiros inimigas baseada no nível jogador, onde cada um corresponde à um
-        grupo de criaturas que pode ser encontrado pela área.
-        """
-
-        pass
-
-    @abstractmethod
     def RetornarEncontro(self, jogador, numero):
         """
-        Retorna uma lista de criaturas inimigas baseada no jogador e no número inteiro passados como parâmetro.
+        Retorna uma lista de criaturas inimigas.
         """
 
         pass

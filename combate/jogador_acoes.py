@@ -77,7 +77,12 @@ def EscolherConsumivel(jogador):
         
         # Antídoto sem estar envenenado
         elif jogador.EfeitoPresente("debuff", "Veneno") == -1 and inventario[escolha][1].nome == "Antídoto":
-            print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
+
+            if jogador.genero == "M":
+                print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
+            elif jogador.genero == "F":
+                print('Você não está ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
+
             escolha = -1
     
     return escolha
@@ -93,6 +98,7 @@ def UsarConsumivel(jogador, indice, criaturas):
     """
 
     item = jogador.inventario[indice][1]
+    artigo = item.RetornarArtigo()
 
     # Processando os buffs que o item concede
     for buff in item.buffs:
@@ -103,14 +109,14 @@ def UsarConsumivel(jogador, indice, criaturas):
         # Cura o HP em um valor definido
         if buff.nome == "Cura HP":
             jogador.hp += buff.valor
-            mensagem = f'A {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
             sobrecura_hp = 1
         
         # Cura o HP com base no HP máximo
         elif buff.nome == "Cura HP %":
             valor = math.floor(jogador.maxHp * (buff.valor / 100))
             jogador.hp += valor
-            mensagem = f'A {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
             sobrecura_hp = 1
         
         # Cura o HP com base no HP máximo ou em um valor definido, o que for maior
@@ -124,20 +130,20 @@ def UsarConsumivel(jogador, indice, criaturas):
                 valor = valor2
 
             jogador.hp += valor
-            mensagem = f'A {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
             sobrecura_hp = 1
         
         # Cura a Mana em um valor definido
         elif buff.nome == "Cura Mana":
             jogador.mana += buff.valor
-            mensagem = f'A {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
             sobrecura_mana = 1
         
         # Cura a Mana com base na Mana máxima
         elif buff.nome == "Cura Mana %":
             valor = math.floor(jogador.maxMana * (buff.valor / 100))
             jogador.mana += valor
-            mensagem = f'A {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
             sobrecura_mana = 1
         
         # Cura a Mana com base na Mana máxima ou em um valor definido, o que for maior
@@ -151,14 +157,14 @@ def UsarConsumivel(jogador, indice, criaturas):
                 valor = valor2
 
             jogador.mana += valor
-            mensagem = f'A {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
             sobrecura_mana = 1
         
         # Cura debuff de envenenamento
         elif buff.nome == "Cura Veneno":
             debuff_indice = jogador.EfeitoPresente("debuff", "Veneno")
             jogador.debuffs.remove(jogador.debuffs[debuff_indice])
-            mensagem = f'O {item.nome} curou seu ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} curou seu ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '.'
         
         # Dá dano em todos os inimigos
         elif buff.nome == "Dano todos inimigos":
@@ -176,7 +182,7 @@ def UsarConsumivel(jogador, indice, criaturas):
                     dano = 0
 
                 c.hp -= dano
-                mensagem = f'A {item.nome} infligiu {dano} de dano em {c.nome}.'
+                mensagem = f'{artigo} {item.nome} infligiu {dano} de dano em {c.nome}.'
 
                 if c.hp < 0:
                     c.hp = 0
@@ -184,11 +190,11 @@ def UsarConsumivel(jogador, indice, criaturas):
         # Caso o HP ou Mana estrapole o valor máximo
         if sobrecura_hp == 1 and jogador.hp >= jogador.maxHp:
             jogador.hp = jogador.maxHp
-            mensagem = f'A {item.nome} maximizou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} maximizou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
             
         elif sobrecura_mana == 1 and jogador.mana >= jogador.maxMana:
             jogador.mana = jogador.maxMana
-            mensagem = f'A {item.nome} maximizou sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} maximizou sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
         
         print(mensagem)
 

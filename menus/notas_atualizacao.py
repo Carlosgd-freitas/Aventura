@@ -126,11 +126,13 @@ class NotasAtualizacao():
 
         self.titulo('----------------------------------- Alpha Versão 0.0.3 -----------------------------------')
         print('\nJogabilidade')
+        self.positivo('O índice do turno e os inimigos em batalha agora são impressos a cada início de turno.')
         
         print('\nOutros')
         self.positivo('Tela de Créditos Adicionada.')
         self.positivo("Campos 'singular/plural' e 'gênero' adicionados aos componentes do jogo, deixando a "+
             "impressão de mensagens mais consistente.")
+        self.positivo('Adicionada uma confirmação para sair do jogo.')
         self.positivo('Falas de NPCs possuem um delay durante sua impressão.')
 
     def titulo(string):

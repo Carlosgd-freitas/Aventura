@@ -24,3 +24,20 @@ class Base():
         self.velocidade = velocidade
         self.singular_plural = singular_plural
         self.genero = genero
+
+    def RetornarArtigo(self):
+        """
+        Retorna o artigo apropriado para o nome do componente em questão, com a primeira letra em maiúsculo.
+        """
+
+        if self.singular_plural == "singular":
+            if self.genero == "M":
+                return "O"
+            elif self.genero == "F":
+                return "A"
+
+        elif self.singular_plural == "plural":
+            if self.genero == "M":
+                return "Os"
+            elif self.genero == "F":
+                return "As"

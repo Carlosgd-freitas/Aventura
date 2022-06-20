@@ -29,7 +29,10 @@ def InvocarCriaturas(invocador, habilidade, lista_criaturas):
 
             lista_criaturas.append(invocacao)
         
-        print(f'{invocador.nome} se subdividiu em {quantidade} {invocado}!')
-    
+        if quantidade > 1:
+            print(f'{invocador.nome} se subdividiu em {quantidade} {invocado}s!')
+        else:
+            print(f'{invocador.nome} se subdividiu em {quantidade} {invocado}!')
+
     return lista_criaturas
     

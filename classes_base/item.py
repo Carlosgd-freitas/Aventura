@@ -23,7 +23,7 @@ class Item(basico.Base):
         self.quantidade = quantidade
 
         # Caso uma quantidade for especificada no construtor, mas não se o item é singular ou plural, a operação
-        # de set do último será feita automaticamente -> Código Utilizado na criação de itens
+        # de set do último será feita automaticamente
         if quantidade > 0 and singular_plural == "default":
             singular_plural = utils.QuantidadeEmSingularPlural(quantidade)
 

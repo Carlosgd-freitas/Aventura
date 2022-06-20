@@ -144,6 +144,18 @@ def MenuDesequipar(jogador, lugar, verbose = 1):
                 jogador.equipados[0] = vazio
                 vazio_2 = equipamentos.Vazio()
                 jogador.equipados[1] = vazio_2
+            
+            if item[1].singular_plural == "singular":
+                if item[1].genero == "M":
+                    print(f'{item[1].nome} foi desequipado.\n')
+                elif item[1].genero == "F":
+                    print(f'{item[1].nome} foi desequipada.\n')
+
+            elif item[1].singular_plural == "plural":
+                if item[1].genero == "M":
+                    print(f'{item[1].nome} foram desequipados.\n')
+                elif item[1].genero == "F":
+                    print(f'{item[1].nome} foram desequipadas.\n')
 
             return 1, item[1].nome
 
@@ -168,6 +180,18 @@ def MenuDesequipar(jogador, lugar, verbose = 1):
         vazio = equipamentos.Vazio()
         jogador.AdicionarAoInventario(item)
         jogador.equipados[lugar - 1] = vazio
+
+        if item[1].singular_plural == "singular":
+            if item[1].genero == "M":
+                print(f'{item[1].nome} foi desequipado.\n')
+            elif item[1].genero == "F":
+                print(f'{item[1].nome} foi desequipada.\n')
+
+        elif item[1].singular_plural == "plural":
+            if item[1].genero == "M":
+                print(f'{item[1].nome} foram desequipados.\n')
+            elif item[1].genero == "F":
+                print(f'{item[1].nome} foram desequipadas.\n')
 
         return 1, item[1].nome
     
@@ -194,7 +218,17 @@ def ClonarEquipar(jogador, lugar, item, lugar_adicional = None, verbose = 0):
 
     # Imprimindo a mensagem se a verbose for igual à 1
     if verbose == 1:
-        print(f'{item_clone[1].nome} foi equipado.\n')
+        if item_clone[1].singular_plural == "singular":
+            if item_clone[1].genero == "M":
+                print(f'{item_clone[1].nome} foi equipado.\n')
+            elif item_clone[1].genero == "F":
+                print(f'{item_clone[1].nome} foi equipada.\n')
+
+        elif item_clone[1].singular_plural == "plural":
+            if item_clone[1].genero == "M":
+                print(f'{item_clone[1].nome} foram equipados.\n')
+            elif item_clone[1].genero == "F":
+                print(f'{item_clone[1].nome} foram equipadas.\n')
 
     # Reduzindo a quantidade e possivelmente removendo o item do inventário
     item[1].quantidade -= 1

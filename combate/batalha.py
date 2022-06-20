@@ -18,6 +18,7 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
     #  1 -> o jogador venceu
     #  2 -> o jogador escapou da batalha
     acabou = 0
+    turno = 1
     espolios = []
 
     while acabou == 0:
@@ -40,13 +41,29 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
             
             # Jogador sofreu uma emboscada e age por último no primeiro turno
             else:
-                print('Você foi emboscado!')
+
+                if jogador.genero == "M":
+                    print('Você foi emboscado!')
+                elif jogador.genero == "F":
+                    print('Você foi emboscada!')
+
                 for c in criaturas:
                     ordem.append(c)
                 ordem.sort(key = lambda x: x.velocidade)
                 ordem.append(jogador)
 
                 emboscada = 0
+            
+            # Imprimindo o índice do turno
+            print(Fore.BLACK + Back.WHITE + "> Turno " + str(turno) + " <" + Style.RESET_ALL)
+            print('')
+
+            # Imprimindo os inimigos
+            print('Inimigos em batalha:')
+            indice_criatura = 1
+            for c in criaturas:
+                imprimir.ImprimirCriatura(indice_criatura, c)
+                indice_criatura += 1
 
             for c in ordem:
                 consciente = mecanicas.InicioTurno(c)
@@ -71,6 +88,8 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
                 # Jogador tentou escapar mas não conseguiu
                 if acabou != 2:
                     acabou = 0
+            
+            turno += 1
 
     # Jogador recebe os espólios da batalha caso tenha vencido
     if acabou == 1:
@@ -137,7 +156,19 @@ def JogadorVez(jogador, criaturas):
             if alvo != -1:
                 print('')
                 dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], atacar)
-                print(f'Você atacou e causou {dano} de dano à {criaturas[alvo].nome}.')
+
+                if criaturas[alvo].singular_plural == "singular":
+                    if criaturas[alvo].genero == "M":
+                        print(f'Você atacou e causou {dano} de dano ao {criaturas[alvo].nome}.')
+                    elif criaturas[alvo].genero == "F":
+                        print(f'Você atacou e causou {dano} de dano à {criaturas[alvo].nome}.')
+
+                elif criaturas[alvo].singular_plural == "plural":
+                    if criaturas[alvo].genero == "M":
+                        print(f'Você atacou e causou {dano} de dano aos {criaturas[alvo].nome}.')
+                    elif criaturas[alvo].genero == "F":
+                        print(f'Você atacou e causou {dano} de dano às {criaturas[alvo].nome}.')
+
                 break
             
             # Jogador escolheu retornar 
@@ -185,7 +216,18 @@ def JogadorVez(jogador, criaturas):
                         alvo = jogador_acoes.EscolherAlvo(criaturas)
                         print(f'\nVocê utilizou {escolha.nome}.')
                         dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], escolha)
-                        print(f'Você causou {dano} de dano à {criaturas[alvo].nome}.')
+
+                        if criaturas[alvo].singular_plural == "singular":
+                            if criaturas[alvo].genero == "M":
+                                print(f'Você causou {dano} de dano ao {criaturas[alvo].nome}.')
+                            elif criaturas[alvo].genero == "F":
+                                print(f'Você causou {dano} de dano à {criaturas[alvo].nome}.')
+
+                        elif criaturas[alvo].singular_plural == "plural":
+                            if criaturas[alvo].genero == "M":
+                                print(f'Você causou {dano} de dano aos {criaturas[alvo].nome}.')
+                            elif criaturas[alvo].genero == "F":
+                                print(f'Você causou {dano} de dano às {criaturas[alvo].nome}.')
                     
                     # Habilidade que alveja a si próprio
                     elif escolha.alvo == "proprio":
