@@ -7,7 +7,7 @@ sys.path.append("..")
 from habilidades import ativas_alvo_unico
 from itens import consumiveis, equipamentos
 
-def CriarNovoGuerreiro(nome = "default"):
+def CriarNovoGuerreiro(nome = "default", genero = "default"):
     """
     Cria um jogador de nível 1 da classe Guerreiro.
     """
@@ -23,6 +23,8 @@ def CriarNovoGuerreiro(nome = "default"):
     defesa = 0
     magia = 0
     velocidade = 1
+
+    singular_plural = "singular"
 
     # Habilidade inicial
     habilidades = []
@@ -62,7 +64,7 @@ def CriarNovoGuerreiro(nome = "default"):
     inventario.append(pocao)
 
     j = jogador.Jogador(nome, classe, nivel, experiencia, ouro, maxHp, maxHp, maxMana, maxMana, ataque, defesa,
-        magia, velocidade, habilidades, equipados, inventario)
+        magia, velocidade, habilidades, equipados, inventario, singular_plural, genero)
     return j
 
 def SubirNivelGuerreiro(jogador):

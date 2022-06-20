@@ -5,7 +5,7 @@ class Habilidade():
 
     def __init__(self, nome = "default", descricao = "default", tipo = "default", alvo = "default",
                 passiva_ativa = "default", valor = 0, custo = [], recarga = 0, recarga_atual = 0, 
-                modificadores = [], efeitos = []):
+                modificadores = [], efeitos = [], singular_plural = "default", genero = "default"):
         """
         Inicializador da classe.
         """
@@ -43,6 +43,12 @@ class Habilidade():
         # Efeitos secundários que a Habilidade irá causar
         self.efeitos = efeitos
 
+        # Se o nome da habilidade é em singular ou plural
+        self.singular_plural = singular_plural
+
+        # Se o nome da habilidade é masculino ou feminino
+        self.genero = genero
+
     def ClonarHabilidade(self):
         """
         Cria e retorna uma nova habilidade que possui os atributos com os mesmos valores desta.
@@ -56,6 +62,8 @@ class Habilidade():
         valor = self.valor
         recarga = self.recarga
         recarga_atual = self.recarga_atual
+        singular_plural = self.singular_plural
+        genero = self.genero
         
         custo = []
         for c in self.custo:
@@ -70,6 +78,6 @@ class Habilidade():
             efeitos.append(e)
 
         habilidade_2 = Habilidade(nome, descricao, tipo, alvo, passiva_ativa, valor, custo, recarga, recarga_atual, 
-            modificadores, efeitos)
+            modificadores, efeitos, singular_plural, genero)
 
         return habilidade_2

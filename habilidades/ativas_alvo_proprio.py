@@ -32,6 +32,6 @@ def EscudoMagico():
 
     escudo = habilidade.Habilidade("Escudo Mágico", "O usuário utiliza a mana de uma maneira defensiva ao " +
         "concentrá-la em volta de seu corpo.", "Normal", "proprio", "ativa", 0, [("Mana", 2)], 4, 4,
-        [("magia", 50)], [aumento])
+        [("magia", 50)], [aumento], "singular", "M")
 
     return escudo

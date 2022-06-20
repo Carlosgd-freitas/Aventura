@@ -71,8 +71,9 @@ class Slime(criatura.Criatura):
 
         # Criando a Criatura
         super(Slime, self).__init__([], [], habilidades, esp, "Slime", tipo = "Normal", maxHp = maxHp, hp = maxHp, 
-            maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia, velocidade = velocidade,
-            nivel = nivel, experiencia = experiencia,
+            maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia,
+            velocidade = velocidade, nivel = nivel, experiencia = experiencia, singular_plural = "singular",
+            genero = "M",
             descricao = "Um monstro verde e gelatinoso que utiliza seu interior ácido para matar suas vítimas lentamente.")
 
     def EscolherAcao(self, jogador = None):

@@ -25,11 +25,13 @@ def MenuInicial():
             print(f"  / _ \ \ \ / / / _ \ | '_ \  | __| | | | | | '__| / _` |")
             print(f" / ___ \ \ V / |  __/ | | | | | |_  | |_| | | |   | (_| |")
             print(f"/_/   \_\ \_/   \___| |_| |_|  \__|  \__,_| |_|    \__,_|\n")
-            print(f"      por Carlos Gabriel de Freitas - Alpha v0.0.2\n")        
+            print(f"      por Carlos Gabriel de Freitas - Alpha v0.0.3\n")        
 
             print('[1] Novo Jogo')
             print(Fore.RED + '[2] Carregar Jogo' + Style.RESET_ALL)
-            print('[3] Notas de Atualização\n')
+            print('[3] Notas de Atualização')
+            print('[4] Créditos')
+            print('')
             print('[0] Sair')
             retorno = 0
 
@@ -44,11 +46,14 @@ def MenuInicial():
         ########
 
         elif op == 3:
-            notas.exibir(notas)
+            notas.menuNotas(notas)
+            retorno = 1
+        
+        elif op == 4:
+            creditos()
             retorno = 1
 
-        ######## if op >= 1 or op == 2:
-        if op == 1:
+        if op == 1: #or op == 2
             break
     
     if op == 1:
@@ -69,24 +74,57 @@ def NovoSaveFile():
 
     ##################################################################
 
+    # Criação do Personagem
     nome = input('\nDigite o seu nome: ')
 
+    print('\nEscolha o seu gênero: ')
+    print('[1] Masculino')
+    print('[2] Feminino\n')
+    genero = utils.LerNumeroIntervalo('> ', 1, 2)
+
     print('\nEscolha a sua classe: ')
-    print('[1] Guerreiro')
-    print('[2] Mago\n')
+    if genero == 1:
+        print('[1] Guerreiro')
+        print('[2] Mago\n')
+    
+    else:
+        print('[1] Guerreira')
+        print('[2] Maga\n')
+    classe = utils.LerNumeroIntervalo('> ', 1, 2)
 
     j = None
-    while True:
-        op = utils.LerNumero('> ')
 
-        if op == 1:
-            j = guerreiro.CriarNovoGuerreiro(nome)
-            break
-    
-        elif op == 2:
-            j = mago.CriarNovoMago(nome)
-            break
+    if classe == 1:
+        j = guerreiro.CriarNovoGuerreiro(nome, genero)
+
+    elif classe == 2:
+        j = mago.CriarNovoMago(nome, genero)
 
     menu_equipamentos.EquipadosGanhos(j)
     area = area_1.Area_1(j, 15)
     menu_explorar.MenuExplorar(j, area)
+
+def creditos():
+    """
+    Imprime os créditos do jogo.
+    """
+    print('|---------------------|')
+    print('|      CRÉDITOS       |')
+    print('|---------------------|')
+    print('|     PROGRAMAÇÃO     |')
+    print('|     OmegaDagger     |')
+    print('|---------------------|')
+    print('|       TESTERS       |')
+    print('|        Hidan        |')
+    print('|      Macenario      |')
+    print('|     marcusvsf.77    |')
+    print('|        Reis         |')
+    print('|       vfalva        |')
+    print('|       Wolfhar       |')
+    print('|     Zé Pretinho     |')
+    print('|---------------------|')
+    print('| Obrigado por jogar! |')
+    print('|---------------------|')
+    
+    input('Aperte [ENTER] para sair.')
+    print('')

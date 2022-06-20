@@ -75,7 +75,8 @@ class SlimeGigante(criatura.Criatura):
         # Criando a Criatura
         super(SlimeGigante, self).__init__([], [], habilidades, esp, "Slime Gigante", tipo = "Normal", maxHp = maxHp,
             hp = maxHp, maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia,
-            velocidade = velocidade, nivel = nivel, experiencia = experiencia,
+            velocidade = velocidade, nivel = nivel, experiencia = experiencia, singular_plural = "singular",
+            genero = "M",
             descricao = "A versão gigante de um Slime comum. Com um surpreso aumento em sua inteligência, em " +
             "situações de extremo perigo, esta criatura se divide em duas para aumentar suas chances de sobreviver.")
 

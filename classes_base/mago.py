@@ -7,7 +7,7 @@ sys.path.append("..")
 from habilidades import ativas_alvo_unico, ativas_alvo_proprio
 from itens import consumiveis, equipamentos
 
-def CriarNovoMago(nome = "default"):
+def CriarNovoMago(nome = "default", genero = "default"):
     """
     Cria um jogador de nível 1 da classe Mago.
     """
@@ -23,6 +23,8 @@ def CriarNovoMago(nome = "default"):
     defesa = 0
     magia = 1
     velocidade = 1
+
+    singular_plural = "singular"
 
     # Habilidades iniciais
     habilidades = []
@@ -63,7 +65,7 @@ def CriarNovoMago(nome = "default"):
     inventario.append(pocao_mana)
 
     j = jogador.Jogador(nome, classe, nivel, experiencia, ouro, maxHp, maxHp, maxMana, maxMana, ataque, defesa,
-        magia, velocidade, habilidades, equipados, inventario)
+        magia, velocidade, habilidades, equipados, inventario, singular_plural, genero)
     return j
 
 def SubirNivelMago(jogador):

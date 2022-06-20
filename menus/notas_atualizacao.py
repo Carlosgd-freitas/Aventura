@@ -1,15 +1,82 @@
 from colorama import Fore, Back, Style
+from classes_base import utils
 
 class NotasAtualizacao():
     """
-    Exibe o que foi adicionado, removido ou balanceado nas versões lançadas do jogo.
+    Classe utilizada para documentar e imprimir as versões do jogo.
     """
-    def exibir(self):
+    
+    def menuNotas(self):
         """
-        Exibe as notas de atualização.
+        Exibe a nota de atualização da versão atual e imprime outras versões do jogo.
         """
 
-        self.titulo('\n----------------------------------- Alpha Versão 0.0.1 -----------------------------------')
+        # Imprimindo até 2 versões
+        pagina = 0
+        anterior = 0
+        proximo = 0
+        nao_repetir = 0
+        op = -1
+
+        while True:
+
+            # Evitando a repetição de impressões da mesma versão
+            if nao_repetir == 1:
+                nao_repetir = 0
+
+            else:
+                # Imprimindo Versão Atual
+                if pagina == 0:
+                    self.alphaV003(self)
+                    print('')
+                
+                # Imprimindo Outras Versões
+                elif pagina == 1:
+                    self.alphaV002(self)
+                    print('')
+                    self.alphaV001(self)
+                    print('')
+
+                # Opções do menu
+                if pagina != 0:
+                    anterior = 1
+                    print('[1] Anterior')
+                else:
+                    anterior = 0
+                    print(Fore.RED + '[1] Anterior' + Style.RESET_ALL + '')
+
+                if pagina != 1:
+                    proximo = 1
+                    print('[2] Próximo\n')
+                else:
+                    proximo = 0
+                    print(Fore.RED + '[2] Próximo' + Style.RESET_ALL + '\n')
+                
+                print('[0] Retornar ao menu anterior')
+
+            op = utils.LerNumeroIntervalo('> ', 0, 2)
+
+            if op == 0:
+                print('')
+                break
+            
+            elif op == 1 and anterior == 1:
+                print('')
+                pagina -= 1
+            
+            elif op == 2 and proximo == 1:
+                print('')
+                pagina += 1
+            
+            elif op == 1 or op == 2:
+                nao_repetir = 1
+
+    def alphaV001(self):
+        """
+        Notas de atualização referente à versão Alpha 0.0.1.
+        """
+    
+        self.titulo('----------------------------------- Alpha Versão 0.0.1 -----------------------------------')
         print('\nJogabilidade')
         self.positivo('Jogadores podem atacar, defender, usar consumíveis, usar habilidades e correr em batalha.')
         self.positivo('Classes Guerreiro e Mago adicionadas.\n')
@@ -22,7 +89,12 @@ class NotasAtualizacao():
 
         print('Itens')
         self.positivo('Espada Enferrujada e Cajado de Iniciante adicionados.')
-        self.positivo('Poção de Cura Pequena e Poção de Mana Pequena adicionadas.\n')
+        self.positivo('Poção de Cura Pequena e Poção de Mana Pequena adicionadas.')
+
+    def alphaV002(self):
+        """
+        Notas de atualização referente à versão Alpha 0.0.2.
+        """
 
         self.titulo('----------------------------------- Alpha Versão 0.0.2 -----------------------------------')
         print('\nJogabilidade')
@@ -45,10 +117,21 @@ class NotasAtualizacao():
         self.positivo('Espada e Cajado de Aprendiz adicionados.')
         self.positivo('Broquel de Madeira, Chapéu de Couro, Peitoral de Couro, Robe de Algodão e Botas de couro ' +
             'adicionados.')
-        self.positivo('Antídoto e Bomba Inferior adicionados.\n')
+        self.positivo('Antídoto e Bomba Inferior adicionados.')
+    
+    def alphaV003(self):
+        """
+        Notas de atualização referente à versão Alpha 0.0.3.
+        """
 
-        input('Pressione [ENTER] para sair.')
-        return
+        self.titulo('----------------------------------- Alpha Versão 0.0.3 -----------------------------------')
+        print('\nJogabilidade')
+        
+        print('\nOutros')
+        self.positivo('Tela de Créditos Adicionada.')
+        self.positivo("Campos 'singular/plural' e 'gênero' adicionados aos componentes do jogo, deixando a "+
+            "impressão de mensagens mais consistente.")
+        self.positivo('Falas de NPCs possuem um delay durante sua impressão.')
 
     def titulo(string):
         """

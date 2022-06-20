@@ -3,6 +3,7 @@ from colorama import init
 
 from classes_base.criatura import *
 from classes_base.item import *
+from classes_base.utils import * ##
 from menus.inicial import *
 
 # Lembrete: Quando uma nova arma for criada e ela for de um tipo que não é "Normal", ela deve alterar o tipo
@@ -19,5 +20,9 @@ from menus.inicial import *
 # Inicialização do colorama
 random.seed()
 init()
+
+# Printando uma frase com delay nas letras:
+ImprimirComDelay("isso aqui é um teste, lol!\n", 0.04)
+############################################
 
 MenuInicial()

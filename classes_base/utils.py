@@ -1,3 +1,4 @@
+import time
 from colorama import Fore, Back, Style
 
 def LerNumero(string):
@@ -17,6 +18,20 @@ def LerNumero(string):
             quebrar = 1
         except:
             quebrar = 0
+    
+    return value
+
+def LerNumeroIntervalo(string, low, high):
+    """
+    Lê e retorna um número da entrada que esteja dentro do intervalo [low, high]. Se a entrada não for um
+    número, ou não estiver dentro do intervalo [low, high], a função continuará em Loop.
+    """
+
+    while True:
+
+        value = LerNumero(string)
+        if value >= low and value <= high:
+            break
     
     return value
 
@@ -46,3 +61,22 @@ def ImprimirTipo(tipo):
         print(Fore.MAGENTA + 'Trevas' + Style.RESET_ALL, end = '')
     elif tipo == 'Luz':
         print(Fore.YELLOW + 'Luz' + Style.RESET_ALL, end = '')
+
+def ImprimirComDelay(string, delay = 0.04):
+    """
+    Imprime cada letra de uma string após um delay definido em milisegundos. O valor padrão do delay é de 0.04ms.
+    """
+
+    for letra in string:
+        print(letra, end = '')
+        time.sleep(delay)
+
+def QuantidadeEmSingularPlural(quantidade):
+    """
+    Retorna a string 'singular' se a quantidade passada por parâmetro for igual a 1 e 'plural' caso contrário.
+    """
+    if quantidade == 1:
+        return "singular"
+    else:
+        return "plural"
+

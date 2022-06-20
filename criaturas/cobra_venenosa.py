@@ -73,6 +73,7 @@ class CobraVenenosa(criatura.Criatura):
         super(CobraVenenosa, self).__init__([], [], habilidades, esp, "Cobra Venenosa", tipo = "Terrestre",
             maxHp = maxHp, hp = maxHp, maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa,
             magia = magia, velocidade = velocidade, nivel = nivel, experiencia = experiencia,
+            singular_plural = "singular", genero = "F",
             descricao = "Uma cobra com grandes presas e um padrão de manchas típico de uma espécie venenosa.")
 
     def EscolherAcao(self, jogador = None):

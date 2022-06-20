@@ -64,7 +64,8 @@ class Tortuga(criatura.Criatura):
         # Criando a Criatura
         super(Tortuga, self).__init__([], [], habilidades, esp, "Tortuga", tipo = "Terrestre", maxHp = maxHp,
             hp = maxHp, maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia,
-            velocidade = velocidade, nivel = nivel, experiencia = experiencia,
+            velocidade = velocidade, nivel = nivel, experiencia = experiencia, singular_plural = "singular",
+            genero = "F",
             descricao = "Um réptil grande que possui pouca capacidade ofensiva e que esconde em seu casco quando " +
             "se sente ameaçada.")
 

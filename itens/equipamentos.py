@@ -11,7 +11,7 @@ def Vazio():
     """
 
     vazio = item.Item(preco = 0, quantidade = 1, nome = "Item Vazio",
-    descricao = "Esse texto não é pra aparecer durante o jogo kkkkk")
+        descricao = "Esse texto não é pra aparecer durante o jogo kkkkk")
     
     return ("Item Vazio", vazio)
 
@@ -23,7 +23,8 @@ def EspadaEnferrujada(quantidade, preco):
     """
 
     espada = item.Item([], [], preco, quantidade, "Espada Enferrujada", nivel = 1, tipo = "Normal", ataque = 1,
-    descricao = "Uma espada velha que se enferrujou com o tempo.")
+        genero = "F",
+        descricao = "Uma espada velha que se enferrujou com o tempo.")
     
     return ("Uma Mão", espada)
 
@@ -34,8 +35,8 @@ def Espada(quantidade, preco):
     * Requerimento: Nível 2
     """
 
-    espada = item.Item([], [], preco, quantidade, "Espada", nivel = 2, tipo = "Normal", ataque = 2,
-    descricao = "Uma espada de aço de fácil manuseio.")
+    espada = item.Item([], [], preco, quantidade, "Espada", nivel = 2, tipo = "Normal", ataque = 2, genero = "F",
+        descricao = "Uma espada de aço de fácil manuseio.")
     
     return ("Uma Mão", espada)
 
@@ -46,9 +47,10 @@ def CajadoIniciante(quantidade, preco):
     * 1 de Magia
     """
 
-    cajado = item.Item([], [], preco, quantidade, "Cajado de Iniciante", nivel = 1, tipo = "Normal", magia = 1, 
-    descricao = "Um cajado de madeira imbuído com uma pequena quantidade de mana. Este tipo de cajado " +
-    "é normalmente utilizado por iniciantes da magia.")
+    cajado = item.Item([], [], preco, quantidade, "Cajado de Iniciante", nivel = 1, tipo = "Normal", magia = 1,
+        genero = "M",
+        descricao = "Um cajado de madeira imbuído com uma pequena quantidade de mana. Este tipo de cajado " +
+        "é normalmente utilizado por iniciantes da magia.")
 
     return ("Duas Mãos", cajado)
 
@@ -59,9 +61,10 @@ def CajadoAprendiz(quantidade, preco):
     * Requerimento: Nível 2
     """
 
-    cajado = item.Item([], [], preco, quantidade, "Cajado de Aprendiz", nivel = 2, tipo = "Normal", magia = 2, 
-    descricao = "Um cajado de madeira que possui uma pequena pedra azul que funciona como um catalisador de "+
-    "mana.")
+    cajado = item.Item([], [], preco, quantidade, "Cajado de Aprendiz", nivel = 2, tipo = "Normal", magia = 2,
+        genero = "M",
+        descricao = "Um cajado de madeira que possui uma pequena pedra azul que funciona como um catalisador de "+
+        "mana.")
 
     return ("Duas Mãos", cajado)
 
@@ -74,7 +77,8 @@ def BroquelMadeira(quantidade, preco):
     """
 
     broquel = item.Item([], [], preco, quantidade, "Broquel de Madeira", nivel = 2, tipo = "Normal", defesa = 1,
-    descricao = "Um broquel de madeira que pode te ajudar a resistir alguns ataques.")
+        genero = "M",
+        descricao = "Um broquel de madeira que pode te ajudar a resistir alguns ataques.")
     
     return ("Uma Mão", broquel)
 
@@ -87,7 +91,8 @@ def ChapeuCouro(quantidade, preco):
     """
 
     chapeu = item.Item([], [], preco, quantidade, "Chapéu de Couro", nivel = 1, tipo = "Normal", hp = 2, maxHp = 2,
-    descricao = "Um chapéu de couro bovino que oferece o mínimo de proteção.")
+        genero = "M",
+        descricao = "Um chapéu de couro bovino que oferece o mínimo de proteção.")
     
     return ("Cabeça", chapeu)
 
@@ -100,7 +105,8 @@ def PeitoralCouro(quantidade, preco):
     """
 
     peitoral = item.Item([], [], preco, quantidade, "Peitoral de Couro", nivel = 3, tipo = "Normal", hp = 5,
-    maxHp = 5, descricao = "Um peitoral de couro bovino que protege contra ataques frontais.")
+        maxHp = 5, genero = "M",
+        descricao = "Um peitoral de couro bovino que protege contra ataques frontais.")
     
     return ("Peitoral", peitoral)
 
@@ -114,8 +120,8 @@ def RobeAlgodao(quantidade, preco):
     """
 
     robe = item.Item([], [], preco, quantidade, "Robe de Algodão", nivel = 3, tipo = "Normal", mana = 5,
-    maxMana = 5, velocidade = 1, descricao = "Um robe confortável feito de algodão para ajudar o fluxo de mana" +
-    " a correr pelo seu corpo.")
+        maxMana = 5, velocidade = 1, genero = "M",
+        descricao = "Um robe confortável feito de algodão para ajudar o fluxo de mana a correr pelo seu corpo.")
     
     return ("Peitoral", robe)
 
@@ -128,6 +134,7 @@ def BotasCouro(quantidade, preco):
     """
 
     botas = item.Item([], [], preco, quantidade, "Botas de Couro", nivel = 3, tipo = "Normal", velocidade = 1,
-    descricao = "Um par de botas de couro bovino para proteger seus pés de pequenas adversidades do terreno.")
+        singular_plural = "plural", genero = "F",
+        descricao = "Um par de botas de couro bovino para proteger seus pés de pequenas adversidades do terreno.")
     
     return ("Pés", botas)
