@@ -8,9 +8,10 @@ sys.path.append("..")
 from classes_base import efeito, utils
 from menus import menu_equipamentos
 
-def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
+def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
     """
-    Recebe o jogador e uma lista de criaturas inimigas e emula uma batalha.
+    Recebe uma lista de aliados, onde a primeira posição da lista é o jogador, e uma lista de inimigos, e
+    emula uma batalha.
     """
     
     # -1 -> o jogador perdeu
@@ -20,13 +21,14 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
     acabou = 0
     turno = 1
     espolios = []
+    jogador = aliados[0]
 
     while acabou == 0:
 
         if jogador.hp <= 0:
             acabou = -1
 
-        elif len(criaturas) == 0:
+        elif len(inimigos) == 0:
             acabou = 1
 
         else:
@@ -34,8 +36,9 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
             
             # A ordem dos turnos é atualizada normalmente
             if emboscada == 0:
-                ordem.append(jogador)
-                for c in criaturas:
+                for c in aliados:
+                    ordem.append(c)
+                for c in inimigos:
                     ordem.append(c)
                 ordem.sort(key = lambda x: x.velocidade)
             
@@ -47,21 +50,25 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
                 elif jogador.genero == "F":
                     print('Você foi emboscada!')
 
-                for c in criaturas:
+                for c in inimigos:
                     ordem.append(c)
                 ordem.sort(key = lambda x: x.velocidade)
-                ordem.append(jogador)
+
+                aliados.sort(key = lambda x: x.velocidade)
+                for c in aliados:
+                    ordem.append(c)
 
                 emboscada = 0
             
             # Imprimindo o índice do turno
+            print('')
             print(Fore.BLACK + Back.WHITE + "> Turno " + str(turno) + " <" + Style.RESET_ALL)
             print('')
 
             # Imprimindo os inimigos
             print('Inimigos em batalha:')
             indice_criatura = 1
-            for c in criaturas:
+            for c in inimigos:
                 imprimir.ImprimirCriatura(indice_criatura, c)
                 indice_criatura += 1
 
@@ -69,21 +76,32 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
                 consciente = mecanicas.InicioTurno(c)
                 mecanicas.DecairBuffsDebuffs(c)
                 mecanicas.AcrescentarRecargas(c)
-                mecanicas.AbaterCriaturas(criaturas, espolios)
+                mecanicas.AbaterCriaturas(inimigos, espolios)
 
                 # Vez do Jogador
                 if c == jogador and jogador.hp > 0 and consciente == 1:
-                    acabou = JogadorVez(jogador, criaturas)
+                    acabou = JogadorVez(jogador, inimigos)
 
-                    mecanicas.AbaterCriaturas(criaturas, espolios)
+                    mecanicas.AbaterCriaturas(inimigos, espolios)
 
-                # Vez da Criatura
-                elif c.hp > 0 and jogador.hp > 0 and acabou != 2 and consciente == 1:
-                   
-                    morreu = mecanicas.AbaterCriaturas(criaturas, espolios, c)
+                # Vez de um inimigo ou aliado
+                elif c != jogador and c.hp > 0 and jogador.hp > 0 and acabou != 2 and consciente == 1:
 
-                    if morreu == 0:
-                        CriaturaInimigaVez(c, jogador, criaturas)
+                    morreu = 0
+
+                    # Vez de um aliado
+                    if c in aliados:
+                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, gerar_espolios = False)
+
+                        if morreu == 0:
+                            CriaturaVez(c, aliados, inimigos, jogador)
+                    
+                    # Vez de um inimigo
+                    elif c in inimigos:
+                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c)
+
+                        if morreu == 0:
+                            CriaturaVez(c, inimigos, aliados, jogador)   
 
                 # Jogador tentou escapar mas não conseguiu
                 if acabou != 2:
@@ -94,20 +112,30 @@ def BatalhaPrinicipal(jogador, criaturas, emboscada = 0):
     # Jogador recebe os espólios da batalha caso tenha vencido
     if acabou == 1:
         print('Você venceu!')
+
+        # Abatendo criaturas aliadas no fim da batalha
+        for c in aliados:
+            if c != jogador:
+                aliados.remove(c)
+
         print('\nEspólios:')
 
-        for e in espolios:
-            if e[0] == "Ouro":
-                jogador.ouro += e[1].quantidade
-                print(f'Você ganhou {e[1].quantidade} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + '.')
+        if not espolios:
+            print('Nenhum espólio foi ganho.')
 
-            elif e[0] == "Experiencia":
-                jogador.experiencia += e[1].quantidade
-                print(f'Você ganhou {e[1].quantidade} de experiência.')
-            
-            else:
-                jogador.AdicionarAoInventario(e)
-                print(f'Você ganhou {e[1].quantidade} {e[1].nome}.')
+        else:
+            for e in espolios:
+                if e[0] == "Ouro":
+                    jogador.ouro += e[1].quantidade
+                    print(f'Você ganhou {e[1].quantidade} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + '.')
+
+                elif e[0] == "Experiencia":
+                    jogador.experiencia += e[1].quantidade
+                    print(f'Você ganhou {e[1].quantidade} de experiência.')
+                
+                else:
+                    jogador.AdicionarAoInventario(e)
+                    print(f'Você ganhou {e[1].quantidade} {e[1].nome}.')
         
         print('')
     
@@ -217,17 +245,18 @@ def JogadorVez(jogador, criaturas):
                         print(f'\nVocê utilizou {escolha.nome}.')
                         dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], escolha)
 
-                        if criaturas[alvo].singular_plural == "singular":
-                            if criaturas[alvo].genero == "M":
-                                print(f'Você causou {dano} de dano ao {criaturas[alvo].nome}.')
-                            elif criaturas[alvo].genero == "F":
-                                print(f'Você causou {dano} de dano à {criaturas[alvo].nome}.')
+                        if not escolha.nao_causa_dano:
+                            if criaturas[alvo].singular_plural == "singular":
+                                if criaturas[alvo].genero == "M":
+                                    print(f'Você causou {dano} de dano ao {criaturas[alvo].nome}.')
+                                elif criaturas[alvo].genero == "F":
+                                    print(f'Você causou {dano} de dano à {criaturas[alvo].nome}.')
 
-                        elif criaturas[alvo].singular_plural == "plural":
-                            if criaturas[alvo].genero == "M":
-                                print(f'Você causou {dano} de dano aos {criaturas[alvo].nome}.')
-                            elif criaturas[alvo].genero == "F":
-                                print(f'Você causou {dano} de dano às {criaturas[alvo].nome}.')
+                            elif criaturas[alvo].singular_plural == "plural":
+                                if criaturas[alvo].genero == "M":
+                                    print(f'Você causou {dano} de dano aos {criaturas[alvo].nome}.')
+                                elif criaturas[alvo].genero == "F":
+                                    print(f'Você causou {dano} de dano às {criaturas[alvo].nome}.')
                     
                     # Habilidade que alveja a si próprio
                     elif escolha.alvo == "proprio":
@@ -307,32 +336,56 @@ def JogadorVez(jogador, criaturas):
                     retorno = 3
                     break
 
-def CriaturaInimigaVez(criatura, jogador, criaturas):
+def CriaturaVez(criatura, aliados, inimigos, jogador):
     """
-    Controla as ações que a criatura pode fazer.
+    Controla as ações que uma criatura não-controlável pelo jogador pode fazer.
+
+    Parâmetros:
+    * criatura: criatura cuja ação será controlada;
+    * aliados: aliados da criatura em questão;
+    * inimigos: inimigos da criatura em questão;
+    * jogador: objeto do jogador;
     """
-    acao = criatura.EscolherAcao(jogador)
+
+    # acao será uma tupla: (tipo da ação, habilidade que será usada, alvo(s) da habilidade)
+    acao = criatura.EscolherAcao(aliados, inimigos, jogador)
 
     # Ataque normal
     if acao[0] == "atacar":
-        dano = usar_habilidade.AlvoUnico(criatura, jogador, acao[1])
-        print(f'{criatura.nome} te atacou e deu {dano} de dano!')
+        dano = usar_habilidade.AlvoUnico(criatura, acao[2], acao[1])
+        print(f'{criatura.nome} atacou {acao[2].nome} e deu {dano} de dano!')
     
     # Usando uma Habilidade
     elif acao[0] == "habilidade":
 
+        print(f'{criatura.nome} usou {acao[1].nome}!')
+
         # Habilidade de alvo único
         if acao[1].alvo == "inimigo":
-            print(f'{criatura.nome} usou {acao[1].nome}!')
-            dano = usar_habilidade.AlvoUnico(criatura, jogador, acao[1])
-            print(f'Você recebeu {dano} de dano.')
+            dano = usar_habilidade.AlvoUnico(criatura, acao[2], acao[1])
+
+            if not acao[1].nao_causa_dano:
+                print(f'{acao[2].nome} recebeu {dano} de dano.')
         
         # Habilidade que alveja a si próprio
         if acao[1].alvo == "proprio":
-            print(f'{criatura.nome} usou {acao[1].nome}!')
             usar_habilidade.AlvoProprio(criatura, acao[1])
+        
+        if acao[1].alvo == "multiplos":
+            danos = usar_habilidade.AlvoMultiplo(criatura, acao[2], acao[1])
+
+            if not acao[1].nao_causa_dano:
+                i = 0
+                for a in acao[2]:
+                    print(f'{a.nome} recebeu {danos[i]} de dano.')
+                    i += 1
 
     # Passou o turno
     elif acao[0] == "passar":
         print(acao[1])
+
+    # Correu da batalha
+    elif acao[0] == "correr":
+        print(acao[1])
+        aliados.remove(criatura)
         

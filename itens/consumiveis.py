@@ -3,6 +3,19 @@ import sys
 sys.path.append("..")
 from classes_base import efeito, item
 
+def ErvaCurativa(quantidade, preco):
+    """
+    Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:
+    * Curam 3 de hp
+    """
+
+    erva_efeito = [efeito.Efeito("Cura HP", 3, 0, -1, 100)]
+    erva = item.Item(erva_efeito, [], preco, quantidade, "Erva Curativa",
+        singular_plural = "singular", genero = "F",
+        descricao = "Cura 3 de HP.")
+    
+    return ("Consumivel", erva)
+
 def PocaoCuraPequena(quantidade, preco):
     """
     Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:

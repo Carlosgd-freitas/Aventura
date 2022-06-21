@@ -7,7 +7,7 @@ from . import menu_equipamentos, menu_habilidades, menu_inventario
 
 sys.path.append("..")
 
-from classes_base import utils
+from classes_base import utils, efeito
 from combate import batalha
 
 def MenuExplorar(jogador, area):
@@ -74,10 +74,11 @@ def MenuExplorar(jogador, area):
             
             # Batalha
             if explorar_flag == 0:
-                print('Uma batalha se iniciou!\n')
+                print('Uma batalha se iniciou!')
 
                 inimigos = area.RetornarEncontro(jogador)
-                resultado = batalha.BatalhaPrinicipal(jogador, inimigos)
+                aliados = [jogador]
+                resultado = batalha.BatalhaPrinicipal(aliados, inimigos)
 
                 # Resultado da Batalha
                 if resultado == 1:

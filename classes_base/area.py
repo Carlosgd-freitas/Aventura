@@ -343,11 +343,11 @@ class Area():
         porcentagem_media = (porcentagem_hp + porcentagem_mana) / 2
         chance_emboscada = 100 - porcentagem_media
 
-        # Impedindo valores absurdos
-        if chance_emboscada < 0:
-            chance_emboscada = 0
-        elif chance_emboscada > 100:
-            chance_emboscada = 100
+        # Impedindo valores absurdos e colocando uma chance mínima de emboscagem (15%)
+        if chance_emboscada < 15.00:
+            chance_emboscada = 15.00
+        elif chance_emboscada > 100.00:
+            chance_emboscada = 100.00
 
         # Imprimindo Opções
         if jogador.ouro >= self.estalagem_preco:

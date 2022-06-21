@@ -76,15 +76,17 @@ class CobraVenenosa(criatura.Criatura):
             singular_plural = "singular", genero = "F",
             descricao = "Uma cobra com grandes presas e um padrão de manchas típico de uma espécie venenosa.")
 
-    def EscolherAcao(self, jogador = None):
+    def EscolherAcao(self, aliados, inimigos, jogador):
         """
         Qual ação a criatura irá tomar.
         """
+        alvo_inimigo = random.choice(inimigos)
+
         # Picada Venenosa -> 80% de chance da Cobra Venenosa usar em um alvo não-envenenado
-        if jogador.EfeitoPresente("debuff", "Veneno") == -1 and self.mana >= 3 and super().ChecarRecarga(self.habilidades[1]):
+        if alvo_inimigo.EfeitoPresente("debuff", "Veneno") == -1 and self.mana >= 3 and super().ChecarRecarga(self.habilidades[1]):
             chance = random.randint(1, 100)
             if chance <= 80:
-                return ("habilidade", self.habilidades[1])
+                return ("habilidade", self.habilidades[1], alvo_inimigo)
 
         # Atacar
-        return ("atacar", self.habilidades[0])
+        return ("atacar", self.habilidades[0], alvo_inimigo)

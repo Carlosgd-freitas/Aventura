@@ -12,6 +12,6 @@ def Regeneracao(valor):
     """
 
     regeneracao = habilidade.Habilidade("Regeneração", "Recupera parte do HP no início do turno.", "Normal",
-    "proprio", "passiva", valor, [], 0, 0, [("magia", 50)], [], "singular", "F")
+    "proprio", "passiva", valor, [], 0, 0, [("magia", 50)], [], "singular", "F", nao_causa_dano = True)
     
     return regeneracao

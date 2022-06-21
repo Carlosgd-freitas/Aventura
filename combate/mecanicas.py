@@ -12,6 +12,10 @@ def CalcularDano(atacante, alvo, habilidade):
     """
     Calcula e retorna o dano que um atacante irá infligir em um alvo ao utilizar uma habilidade.
     """
+    # Se a habilidade não causa dano
+    if habilidade.nao_causa_dano == True:
+        return 0
+
     # Valor inicial
     dano = habilidade.valor
 
@@ -241,6 +245,21 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
                 print(f'O aumento de defesa de {criatura.nome} terminou.')
         
         decaiu = 1
+    
+    # Diminuição de Defesa
+    if criatura.EfeitoPresente("debuff", "Diminuição Defesa") != -1:
+        indice = criatura.EfeitoPresente("debuff", "Diminuição Defesa")
+        diminuicao = criatura.debuffs[indice]
+        diminuicao.duracao -= diminuicao.decaimento
+
+        if diminuicao.duracao <= 0 and criatura.hp > 0:
+            criatura.defesa += criatura.debuffs[indice].valor
+            criatura.debuffs.remove(diminuicao)
+
+            if verbose == 1:
+                print(f'A diminuição de defesa de {criatura.nome} terminou.')
+        
+        decaiu = 1
 
     return decaiu
 
@@ -264,7 +283,7 @@ def GerarEspolios(criatura):
 
     return lista_espolios
 
-def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None):
+def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espolios = True):
     """
     Remove quaisquer criaturas que possuam 0 ou menos de HP da lista de criaturas. Retorna dois parâmetros:
     * 1 caso a criatura for removida da lista de criaturas, ou 0 caso contrário (criatura != None)
@@ -289,9 +308,10 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None):
                     print(f'{c.nome} foram derrotadas!')
 
             # Adicionando os espólios gerados à lista de espólios passada por parâmetro
-            espolios_gerados = GerarEspolios(c)
-            for e in espolios_gerados:
-                lista_espolios.append(e)
+            if gerar_espolios:
+                espolios_gerados = GerarEspolios(c)
+                for e in espolios_gerados:
+                    lista_espolios.append(e)
 
             # Criatura passada por parâmetro foi derrotada
             if criatura is not None and c == criatura:

@@ -76,15 +76,17 @@ class Slime(criatura.Criatura):
             genero = "M",
             descricao = "Um monstro verde e gelatinoso que utiliza seu interior ácido para matar suas vítimas lentamente.")
 
-    def EscolherAcao(self, jogador = None):
+    def EscolherAcao(self, aliados, inimigos, jogador):
         """
         Qual ação a criatura irá tomar.
         """
+        alvo_inimigo = random.choice(inimigos)
+
         # Cuspe Ácido -> 75% de chance do Slime usar
         if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[2]):
             chance = random.randint(1, 100)
             if chance <= 75:
-                return ("habilidade", self.habilidades[2])
+                return ("habilidade", self.habilidades[2], alvo_inimigo)
 
         # Atacar
-        return ("atacar", self.habilidades[0])
+        return ("atacar", self.habilidades[0], alvo_inimigo)

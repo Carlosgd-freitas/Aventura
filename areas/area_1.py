@@ -4,7 +4,7 @@ import random
 sys.path.append("..")
 from classes_base import area
 from itens import consumiveis, equipamentos
-from criaturas import slime, cobra_venenosa, slime_gigante, tortuga
+from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora
 
 class Area_1(area.Area):
     """
@@ -82,7 +82,7 @@ class Area_1(area.Area):
             pass # adicionar um slime metálico
 
         while peso_restante > 0:
-            indice = random.randint(1, 8) # random.randint(1, 10)
+            indice = random.randint(1, 10)
 
             # 1/10 de chance: Slime no nível do jogador
             if indice == 1 and peso_restante >= 1:
@@ -132,16 +132,16 @@ class Area_1(area.Area):
                 inimigos.append(inimigo)
                 peso_restante -= 3
             
-            # # 1/10 de chance: Ervágora no nível do jogador
-            # elif indice == 9 and peso_restante >= 1:
-            #     inimigo = ervagora.Ervagora(jogador.nivel)
-            #     inimigos.append(inimigo)
-            #     peso_restante -= 1
+            # 1/10 de chance: Ervágora no nível do jogador
+            elif indice == 9 and peso_restante >= 1:
+                inimigo = ervagora.Ervagora(jogador.nivel)
+                inimigos.append(inimigo)
+                peso_restante -= 1
 
-            # # 1/10 de chance: Ervágora um nível abaixo do jogador
-            # elif indice == 10 and peso_restante >= 1 and jogador.nivel > 1:
-            #     inimigo = ervagora.Ervagora(jogador.nivel - 1)
-            #     inimigos.append(inimigo)
-            #     peso_restante -= 1
+            # 1/10 de chance: Ervágora um nível abaixo do jogador
+            elif indice == 10 and peso_restante >= 1 and jogador.nivel > 1:
+                inimigo = ervagora.Ervagora(jogador.nivel - 1)
+                inimigos.append(inimigo)
+                peso_restante -= 1
         
         return inimigos

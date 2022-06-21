@@ -69,17 +69,19 @@ class Tortuga(criatura.Criatura):
             descricao = "Um réptil grande que possui pouca capacidade ofensiva e que esconde em seu casco quando " +
             "se sente ameaçada.")
 
-    def EscolherAcao(self, jogador = None):
+    def EscolherAcao(self, aliados, inimigos, jogador):
         """
         Qual ação a criatura irá tomar.
         """
+        alvo_inimigo = random.choice(inimigos)
+
         # Entrar no Casco -> Se a Tortuga não estiver defendendo e estiver com HP <= 25%
         if super().EfeitoPresente("buff", "Defendendo") == -1 and self.hp <= (self.maxHp * 0.25) and super().ChecarRecarga(self.habilidades[1]):
-            return ("habilidade", self.habilidades[1])
+            return ("habilidade", self.habilidades[1], None)
 
         # Passar o Turno -> Se a Tortuga estiver defendendo
         elif super().EfeitoPresente("buff", "Defendendo") != -1:
-            return ("passar", "A Tortuga está dentro de seu casco.")
+            return ("passar", "A Tortuga está dentro de seu casco.", None)
 
         # Atacar
-        return ("atacar", self.habilidades[0])
+        return ("atacar", self.habilidades[0], alvo_inimigo)

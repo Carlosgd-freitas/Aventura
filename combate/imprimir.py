@@ -56,6 +56,9 @@ def ImprimirEfeitos(criatura):
     
     if criatura.EfeitoPresente("buff", "Aumento Defesa") != -1:
         mensagem += ' - DEFESA' + Fore.GREEN + '+' + Style.RESET_ALL
+    
+    if criatura.EfeitoPresente("debuff", "Diminuição Defesa") != -1:
+        mensagem += ' - DEFESA' + Fore.RED + '-' + Style.RESET_ALL
 
     # Debuffs presentes na criatura
     if criatura.EfeitoPresente("debuff", "Veneno") != -1:

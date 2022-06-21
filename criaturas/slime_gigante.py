@@ -80,16 +80,18 @@ class SlimeGigante(criatura.Criatura):
             descricao = "A versão gigante de um Slime comum. Com um surpreso aumento em sua inteligência, em " +
             "situações de extremo perigo, esta criatura se divide em duas para aumentar suas chances de sobreviver.")
 
-    def EscolherAcao(self, jogador = None):
+    def EscolherAcao(self, aliados, inimigos, jogador):
         """
         Qual ação a criatura irá tomar.
         """
+        alvo_inimigo = random.choice(inimigos)
+
         # Cuspe Ácido -> 75% de chance do Slime Gigante usar
         if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[2]):
             chance = random.randint(1, 100)
             if chance <= 75:
-                return ("habilidade", self.habilidades[2])
+                return ("habilidade", self.habilidades[2], alvo_inimigo)
 
         # Atacar
-        return ("atacar", self.habilidades[0])
+        return ("atacar", self.habilidades[0], alvo_inimigo)
         
