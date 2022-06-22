@@ -84,14 +84,7 @@ def MenuExplorar(jogador, area):
                 if resultado == 1:
 
                     # Tentativa de subir de nível
-                    subiu = 0
-                    while True:
-                        subiu = jogador.SubirNivel()
-
-                        if subiu == 1:
-                            area.DefinirEncontros(jogador) # Atualizando os encontros de inimigos possíveis
-                        else:
-                            break
+                    subiu = jogador.SubirNivel()
                     
                     print('Você retoma seu fôlego e segue em sua Aventura.')
 

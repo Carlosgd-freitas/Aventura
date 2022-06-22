@@ -18,7 +18,7 @@ def GritoEstremecedor(mana, recarga, modificador_magia):
 
     grito = habilidade.Habilidade("Grito Estremecedor", "O usuário grita tão forte que prejudica temporariamente a" +
         "audição de seus inimigos, diminuindo suas defesas.", "Normal", "multiplos", "ativa", 0, [("Mana", mana)], 
-        recarga, recarga, [("magia", modificador_magia)], [diminuicao], "singular", "M", nao_causa_dano = True)
+        recarga, recarga, [("magia", modificador_magia)], [diminuicao], "singular", "M", True, 0.0, 1.0)
 
     return grito
 

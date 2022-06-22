@@ -24,6 +24,8 @@ class Tortuga(criatura.Criatura):
         velocidade = 1
         experiencia = 0
         ouro = 0
+        chance_critico = 5.0
+        multiplicador_critico = 2.0
 
         # Aumentado os atributos por nivel
         i = 1
@@ -65,9 +67,9 @@ class Tortuga(criatura.Criatura):
         super(Tortuga, self).__init__([], [], habilidades, esp, "Tortuga", tipo = "Terrestre", maxHp = maxHp,
             hp = maxHp, maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia,
             velocidade = velocidade, nivel = nivel, experiencia = experiencia, singular_plural = "singular",
-            genero = "F",
-            descricao = "Um réptil grande que possui pouca capacidade ofensiva e que esconde em seu casco quando " +
-            "se sente ameaçada.")
+            genero = "F", chance_critico = chance_critico, multiplicador_critico = multiplicador_critico,
+            descricao = "Um grande réptil que possui pouca capacidade ofensiva e que esconde em seu casco quando " +
+            "se sente ameaçado.")
 
     def EscolherAcao(self, aliados, inimigos, jogador):
         """

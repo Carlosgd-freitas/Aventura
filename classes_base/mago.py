@@ -27,6 +27,8 @@ def CriarNovoMago(nome = "default", genero = "default"):
     defesa = 0
     magia = 1
     velocidade = 1
+    chance_critico = 5.0
+    multiplicador_critico = 1.2
 
     singular_plural = "singular"
 
@@ -69,7 +71,8 @@ def CriarNovoMago(nome = "default", genero = "default"):
     inventario.append(pocao_mana)
 
     j = jogador.Jogador(nome, classe, nivel, experiencia, ouro, maxHp, maxHp, maxMana, maxMana, ataque, defesa,
-        magia, velocidade, habilidades, equipados, inventario, singular_plural, genero)
+        magia, velocidade, habilidades, equipados, inventario, singular_plural, genero, chance_critico,
+        multiplicador_critico)
     return j
 
 def SubirNivelMago(jogador):

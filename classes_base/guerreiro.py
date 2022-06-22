@@ -27,6 +27,8 @@ def CriarNovoGuerreiro(nome = "default", genero = "default"):
     defesa = 0
     magia = 0
     velocidade = 1
+    chance_critico = 5.0
+    multiplicador_critico = 1.5
 
     singular_plural = "singular"
 
@@ -68,7 +70,8 @@ def CriarNovoGuerreiro(nome = "default", genero = "default"):
     inventario.append(pocao)
 
     j = jogador.Jogador(nome, classe, nivel, experiencia, ouro, maxHp, maxHp, maxMana, maxMana, ataque, defesa,
-        magia, velocidade, habilidades, equipados, inventario, singular_plural, genero)
+        magia, velocidade, habilidades, equipados, inventario, singular_plural, genero, chance_critico,
+        multiplicador_critico)
     return j
 
 def SubirNivelGuerreiro(jogador):

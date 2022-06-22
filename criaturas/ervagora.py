@@ -24,6 +24,8 @@ class Ervagora(criatura.Criatura):
         velocidade = 1
         experiencia = 0
         ouro = 0
+        chance_critico = 0.0
+        multiplicador_critico = 1.0
 
         # Aumentado os atributos por nivel
         i = 1
@@ -59,7 +61,7 @@ class Ervagora(criatura.Criatura):
         super(Ervagora, self).__init__([], [], habilidades, esp, "Ervágora", tipo = "Terrestre", maxHp = maxHp,
             hp = maxHp, maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia,
             velocidade = velocidade, nivel = nivel, experiencia = experiencia, singular_plural = "singular",
-            genero = "F",
+            genero = "F", chance_critico = chance_critico, multiplicador_critico = multiplicador_critico,
             descricao = "Uma planta ambulante que possui um rosto em seu fruto e utiliza suas raízes para correr" +
             " das batalhas. É facilmente caçada por alquimistas e bruxas por possuir poder mágico em suas folhas" +
             ", embora seja mais fraco que sua parente mais conhecida, a Mandrágora.")

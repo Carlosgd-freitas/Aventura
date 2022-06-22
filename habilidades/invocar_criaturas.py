@@ -12,6 +12,6 @@ def Subdivisao(criatura_nome, quantidade):
 
     invocar = efeito.Efeito("Invocar:" + str(quantidade) + ":" + criatura_nome, 50, 0, -1, 100)
     subdivisao = habilidade.Habilidade("Subdivisão", "Ao ser derrotado, essa criatura invoca duas versões menores " +
-    "de si mesma.", "Normal", "invocacao", "passiva", 0, [], 0, 0, [], [invocar], "singular", "F")
+    "de si mesma.", "Normal", "invocacao", "passiva", 0, [], 0, 0, [], [invocar], "singular", "F", False, 0.0, 1.0)
 
     return subdivisao

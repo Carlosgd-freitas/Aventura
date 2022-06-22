@@ -91,6 +91,12 @@ def CalcularDano(atacante, alvo, habilidade):
     if dano < 0:
         dano = 0
 
+    # Acerto Crítico
+    critico = random.randint(0, 10000)
+    if critico <= (atacante.chance_critico * 100):
+        dano = math.ceil(dano * atacante.multiplicador_critico)
+        print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+
     return dano
 
 def InicioTurno(criatura):

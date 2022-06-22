@@ -128,6 +128,7 @@ class NotasAtualizacao():
         print('\nJogabilidade')
         self.positivo('O índice do turno e os inimigos em batalha agora são impressos a cada início de turno.')
         self.positivo('Jogadores podem usar alguns itens consumíveis de seu inventário enquanto estão fora de batalha.')
+        self.positivo('Ataques e habilidades que causam dano podem causar acertos críticos.')
 
         print('\nInimigos')
         self.positivo('Ervágora adicionada.')

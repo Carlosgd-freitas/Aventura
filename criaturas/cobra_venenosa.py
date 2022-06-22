@@ -26,6 +26,8 @@ class CobraVenenosa(criatura.Criatura):
         experiencia = 1
         ouro = 1
         envenenamento_chance = 10
+        chance_critico = 5.0
+        multiplicador_critico = 1.5
 
         # Aumentado os atributos por nivel
         i = 1
@@ -73,7 +75,8 @@ class CobraVenenosa(criatura.Criatura):
         super(CobraVenenosa, self).__init__([], [], habilidades, esp, "Cobra Venenosa", tipo = "Terrestre",
             maxHp = maxHp, hp = maxHp, maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa,
             magia = magia, velocidade = velocidade, nivel = nivel, experiencia = experiencia,
-            singular_plural = "singular", genero = "F",
+            singular_plural = "singular", genero = "F", chance_critico = chance_critico,
+            multiplicador_critico = multiplicador_critico,
             descricao = "Uma cobra com grandes presas e um padrão de manchas típico de uma espécie venenosa.")
 
     def EscolherAcao(self, aliados, inimigos, jogador):

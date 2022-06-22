@@ -8,7 +8,8 @@ class Jogador(criatura.Criatura):
     """
     def __init__(self, nome = "default", classe = "default", nivel = 0, experiencia = 0, ouro = 0, maxHp = 0,
         hp = 0, maxMana = 0, mana  = 0, ataque  = 0, defesa  = 0, magia  = 0, velocidade  = 0, habilidades = [],
-        equipados = [], inventario  = [], singular_plural = "default", genero = "default"):
+        equipados = [], inventario  = [], singular_plural = "default", genero = "default", chance_critico = 0.0,
+        multiplicador_critico = 1.0):
         """
         Cria um jogador novo.
         """
@@ -25,7 +26,8 @@ class Jogador(criatura.Criatura):
         self.equipados = equipados
 
         super(Jogador, self).__init__([], [], habilidades, [], nome, "default", "Normal", nivel, experiencia,
-            maxHp, hp, maxMana, mana, ataque, defesa, magia, velocidade, singular_plural, genero)
+            maxHp, hp, maxMana, mana, ataque, defesa, magia, velocidade, singular_plural, genero, chance_critico,
+            multiplicador_critico)
 
     def AdicionarAoInventario(self, novo_item):
         """
@@ -85,6 +87,8 @@ class Jogador(criatura.Criatura):
         print(f'DEFESA: {self.defesa}')
         print(f'MAGIA: {self.magia}')
         print(f'VELOCIDADE: {self.velocidade}')
+        print('CHANCE DE ACERTO CRÍTICO: {:.2f}'.format(self.chance_critico) + '%')
+        print('MULTIPLICADOR DE ACERTO CRÍTICO: {:.2f}'.format(self.multiplicador_critico) + 'x')
 
     def SubirNivel(self):
         """
@@ -103,9 +107,9 @@ class Jogador(criatura.Criatura):
 
             print(f'\nVocê subiu para o nível {self.nivel}!')
 
-            if self.classe == "Guerreiro":
+            if self.classe == "Guerreiro" or self.classe == "Guerreira":
                 subiu = guerreiro.SubirNivelGuerreiro(self)
-            elif self.classe == "Mago":
+            elif self.classe == "Mago" or self.classe == "Maga":
                 subiu = mago.SubirNivelMago(self)
             
             subiu = 1

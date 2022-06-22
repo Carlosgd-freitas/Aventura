@@ -15,7 +15,7 @@ def Envenenamento(veneno, turnos, chance):
     veneno = efeito.Efeito("Veneno", veneno, 1, turnos, chance)
     envenenamento = habilidade.Habilidade("Envenenamento", "Sempre que um ataque normal é efetuado, há " +
     f"{chance}% de chance de envenenar o alvo.", "Terrestre", "inimigo", "passiva", 0, [], 0, 0, [], [veneno],
-    "singular", "M")
+    "singular", "M", False, 0.0, 1.0)
     
     return envenenamento
     

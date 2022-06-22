@@ -25,6 +25,8 @@ class SlimeGigante(criatura.Criatura):
         experiencia = 1
         regen = 0
         ouro = 1
+        chance_critico = 0.0
+        multiplicador_critico = 1.0
 
         # Aumentado os atributos por nivel
         i = 1
@@ -76,7 +78,7 @@ class SlimeGigante(criatura.Criatura):
         super(SlimeGigante, self).__init__([], [], habilidades, esp, "Slime Gigante", tipo = "Normal", maxHp = maxHp,
             hp = maxHp, maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia,
             velocidade = velocidade, nivel = nivel, experiencia = experiencia, singular_plural = "singular",
-            genero = "M",
+            genero = "M", chance_critico = chance_critico, multiplicador_critico = multiplicador_critico,
             descricao = "A versão gigante de um Slime comum. Com um surpreso aumento em sua inteligência, em " +
             "situações de extremo perigo, esta criatura se divide em duas para aumentar suas chances de sobreviver.")
 

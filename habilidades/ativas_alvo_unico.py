@@ -12,7 +12,7 @@ def Atacar(tipo):
     """
 
     atacar = habilidade.Habilidade("Atacar", "Um ataque normal.", tipo, "inimigo", "ativa", 0, [], 0, 0,
-        [("ataque", 100)], [])
+        [("ataque", 100)], [], "default", "default", False, 0.0, 1.0)
 
     return atacar
 
@@ -28,7 +28,7 @@ def ProjetilMana():
 
     projetil = habilidade.Habilidade("Projétil de Mana", "Concentra e dispara uma pequena quantidade de " + 
     "mana, causando dano igual à sua magia.", "Normal", "inimigo", "ativa", 0,
-    [("Mana", 2)], 1, 1, [("magia", 100)], [], "singular", "M")
+    [("Mana", 2)], 1, 1, [("magia", 100)], [], "singular", "M", False, 0.0, 1.0)
 
     return projetil
 
@@ -45,7 +45,8 @@ def CuspeAcido(ataque):
 
     perfurante = efeito.Efeito("Perfurante %", 50, 0, -1, 100)
     cuspe = habilidade.Habilidade("Cuspe Ácido", "Um cuspe ácido que ignora 50% da defesa do alvo.", "Normal",
-    "inimigo", "ativa", ataque, [("Mana", 4)], 2, 2, [("magia", 50)], [perfurante], "singular", "M")
+    "inimigo", "ativa", ataque, [("Mana", 4)], 2, 2, [("magia", 50)], [perfurante], "singular", "M", False, 0.0,
+    1.0)
     
     return cuspe
 
@@ -63,7 +64,7 @@ def AtaqueVenenoso(veneno, turnos, mana, recarga):
     veneno = efeito.Efeito("Veneno", veneno, 1, turnos, 100)
     ataque = habilidade.Habilidade("Ataque Venenoso", "Um ataque que tem 100% de chance de envenenar o alvo.",
     "Terrestre", "inimigo", "ativa", 0, [("Mana", mana)], recarga, recarga, [("ataque", 100)], [veneno],
-    "singular", "M")
+    "singular", "M", False, 0.0, 1.0)
     
     return ataque
 
@@ -81,6 +82,6 @@ def ImpactoAtordoante(atordoamento_turnos, chance, tipo, mana, recarga):
     atordoamento = efeito.Efeito("Atordoamento", 0, 1, atordoamento_turnos, chance)
     impacto = habilidade.Habilidade("Impacto Atordoante", f"Um ataque concussivo que tem {chance}% de chance de " +
         f"deixar o alvo atordoado por {atordoamento_turnos} turnos.", tipo, "inimigo", "ativa", 0, [("Mana", mana)],
-        recarga, recarga, [("ataque", 120)], [atordoamento], "singular", "M")
+        recarga, recarga, [("ataque", 120)], [atordoamento], "singular", "M", False, 0.0, 1.0)
 
     return impacto

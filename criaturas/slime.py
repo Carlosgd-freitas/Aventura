@@ -25,6 +25,8 @@ class Slime(criatura.Criatura):
         experiencia = 0
         regen = 0
         ouro = 0
+        chance_critico = 0.0
+        multiplicador_critico = 1.0
 
         # Aumentado os atributos por nivel
         i = 1
@@ -73,8 +75,9 @@ class Slime(criatura.Criatura):
         super(Slime, self).__init__([], [], habilidades, esp, "Slime", tipo = "Normal", maxHp = maxHp, hp = maxHp, 
             maxMana = maxMana, mana = maxMana, ataque = ataque, defesa = defesa, magia = magia,
             velocidade = velocidade, nivel = nivel, experiencia = experiencia, singular_plural = "singular",
-            genero = "M",
-            descricao = "Um monstro verde e gelatinoso que utiliza seu interior ácido para matar suas vítimas lentamente.")
+            genero = "M", chance_critico = chance_critico, multiplicador_critico = multiplicador_critico,
+            descricao = "Um monstro verde e gelatinoso que utiliza seu interior ácido para matar suas vítimas " +
+            "lentamente.")
 
     def EscolherAcao(self, aliados, inimigos, jogador):
         """

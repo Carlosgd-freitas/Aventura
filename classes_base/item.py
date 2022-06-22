@@ -6,7 +6,8 @@ class Item(basico.Base):
     """
     def __init__(self, buffs = [], debuffs = [], preco = 0, quantidade = 0, nome = "default", descricao = "default",
                 tipo = "default", nivel = 0, experiencia = 0, maxHp = 0, hp = 0,  maxMana = 0, mana = 0, ataque = 0,
-                defesa = 0, magia = 0, velocidade = 0, singular_plural = "default", genero = "default"):
+                defesa = 0, magia = 0, velocidade = 0, singular_plural = "default", genero = "default",
+                chance_critico = 0.0, multiplicador_critico = 1.0):
         """
         Inicializador da classe.
         """
@@ -28,7 +29,7 @@ class Item(basico.Base):
             singular_plural = utils.QuantidadeEmSingularPlural(quantidade)
 
         super(Item, self).__init__(nome, descricao, tipo, nivel, experiencia, maxHp, hp, maxMana, mana,
-                                        ataque, defesa, magia, velocidade, singular_plural, genero)
+            ataque, defesa, magia, velocidade, singular_plural, genero, chance_critico, multiplicador_critico)
 
     def ClonarItem(self):
         """
@@ -37,19 +38,25 @@ class Item(basico.Base):
 
         preco = self.preco
         quantidade = self.quantidade
+
         nome = self.nome
         descricao = self.descricao
         tipo = self.tipo
         nivel = self.nivel
         experiencia = self.experiencia
+
         maxHp = self.maxHp
         hp = self.hp
         maxMana = self.maxMana
         mana = self.mana
+
         ataque = self.ataque
         defesa = self.defesa
         magia = self.magia
         velocidade = self.velocidade
+        chance_critico = self.chance_critico
+        multiplicador_critico = self.multiplicador_critico
+
         singular_plural = self.singular_plural
         genero = self.genero
         
@@ -64,6 +71,7 @@ class Item(basico.Base):
             debuffs.append(d_2)
 
         item_2 = Item(buffs, debuffs, preco, quantidade, nome, descricao, tipo, nivel, experiencia, maxHp, hp,
-            maxMana, mana, ataque, defesa, magia, velocidade, singular_plural, genero)
+            maxMana, mana, ataque, defesa, magia, velocidade, singular_plural, genero, chance_critico,
+            multiplicador_critico)
 
         return item_2

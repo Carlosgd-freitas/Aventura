@@ -6,7 +6,7 @@ class Habilidade():
     def __init__(self, nome = "default", descricao = "default", tipo = "default", alvo = "default",
                 passiva_ativa = "default", valor = 0, custo = [], recarga = 0, recarga_atual = 0, 
                 modificadores = [], efeitos = [], singular_plural = "default", genero = "default",
-                nao_causa_dano = False):
+                nao_causa_dano = False, chance_critico = 0.0, multiplicador_critico = 1.0):
         """
         Inicializador da classe.
         """
@@ -53,6 +53,12 @@ class Habilidade():
         # Se a habilidade causa dano ou não
         self.nao_causa_dano = nao_causa_dano
 
+        # Chance da habilidade causar um crítico
+        self.chance_critico = chance_critico
+
+        # Multiplicador do crítico que irá afetar a habilidade
+        self.multiplicador_critico = multiplicador_critico
+
     def ClonarHabilidade(self):
         """
         Cria e retorna uma nova habilidade que possui os atributos com os mesmos valores desta.
@@ -64,11 +70,16 @@ class Habilidade():
         alvo = self.alvo
         passiva_ativa = self.passiva_ativa
         valor = self.valor
+        nao_causa_dano = self.nao_causa_dano
+
         recarga = self.recarga
         recarga_atual = self.recarga_atual
+
         singular_plural = self.singular_plural
         genero = self.genero
-        nao_causa_dano = self.nao_causa_dano
+
+        chance_critico = self.chance_critico
+        multiplicador_critico = self.multiplicador_critico
         
         custo = []
         for c in self.custo:
@@ -83,6 +94,6 @@ class Habilidade():
             efeitos.append(e)
 
         habilidade_2 = Habilidade(nome, descricao, tipo, alvo, passiva_ativa, valor, custo, recarga, recarga_atual, 
-            modificadores, efeitos, singular_plural, genero, nao_causa_dano)
+            modificadores, efeitos, singular_plural, genero, nao_causa_dano, chance_critico, multiplicador_critico)
 
         return habilidade_2
