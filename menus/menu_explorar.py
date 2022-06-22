@@ -12,7 +12,7 @@ from combate import batalha
 
 def MenuExplorar(jogador, area):
     """
-    Emula a exploração de uma área pelo jogador.
+    Emula a exploração de uma área pelo jogador. Retorna -1 quando o jogador perde o jogo.
     """
 
     chance_loja = 0
@@ -96,8 +96,8 @@ def MenuExplorar(jogador, area):
                     print("   | | |_ |  / _` | | '_ ` _ \   / _ \  | |  | | \ \ / / / _ \ | '__|  ")
                     print("   | |__| | | (_| | | | | | | | |  __/  | |__| |  \ V / |  __/ | |     ")
                     print("    \_____|  \__,_| |_| |_| |_|  \___|   \____/    \_/   \___| |_|     ")                                                            
-                    input('\nPressione [ENTER] para fechar o jogo.')
-                    os._exit(0)
+                    input('\nPressione [ENTER] para retornar ao menu principal.')
+                    return -1
 
             retorno = 1
 

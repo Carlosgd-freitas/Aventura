@@ -49,8 +49,13 @@ def MenuInicial():
             else:
                 os._exit(0)
         
+        if op == 1:
+            NovoSaveFile()
+            retorno = 1
+
         ########
         elif op == 2:
+            # ContinuarJogo()
             print('Esta funcionalidade ainda não está presente.')
         ########
 
@@ -61,14 +66,6 @@ def MenuInicial():
         elif op == 4:
             creditos()
             retorno = 1
-
-        if op == 1: #or op == 2
-            break
-    
-    if op == 1:
-        NovoSaveFile()
-    # elif op == 2:
-    #     ContinuarJogo()
 
 def NovoSaveFile():
     """
@@ -113,7 +110,10 @@ def NovoSaveFile():
 
     menu_equipamentos.EquipadosGanhos(j)
     area = area_1.Area_1(j, 15)
-    menu_explorar.MenuExplorar(j, area)
+    retorno = menu_explorar.MenuExplorar(j, area)
+
+    if retorno == -1:
+        return
 
 def creditos():
     """

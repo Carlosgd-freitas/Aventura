@@ -134,11 +134,12 @@ class NotasAtualizacao():
         self.positivo('Ervágora adicionada.')
         
         print('\nOutros')
-        self.positivo('Tela de Créditos Adicionada.')
+        self.positivo('Tela de créditos Adicionada.')
         self.positivo("Campos 'singular/plural' e 'gênero' adicionados aos componentes do jogo, deixando a "+
             "impressão de mensagens mais consistente.")
         self.positivo('Adicionada uma confirmação para sair do jogo.')
         self.positivo('Falas de NPCs possuem um delay durante sua impressão.')
+        self.positivo('Perder o jogo agora retorna o jogador para o menu principal em vez de fechá-lo.')
 
     def titulo(string):
         """

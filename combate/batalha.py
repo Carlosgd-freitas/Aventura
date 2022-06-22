@@ -27,9 +27,11 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
 
         if jogador.hp <= 0:
             acabou = -1
+            break
 
         elif len(inimigos) == 0:
             acabou = 1
+            break
 
         else:
             ordem = []
@@ -78,6 +80,10 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
                 mecanicas.AcrescentarRecargas(c)
                 mecanicas.AbaterCriaturas(inimigos, espolios)
 
+                if jogador.hp <= 0:
+                    acabou = -1
+                    break
+
                 # Vez do Jogador
                 if c == jogador and jogador.hp > 0 and consciente == 1:
                     acabou = JogadorVez(jogador, inimigos)
@@ -85,7 +91,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
                     mecanicas.AbaterCriaturas(inimigos, espolios)
 
                 # Vez de um inimigo ou aliado
-                elif c != jogador and c.hp > 0 and jogador.hp > 0 and acabou != 2 and consciente == 1:
+                elif c != jogador and c.hp > 0 and jogador.hp > 0 and acabou == 0 and consciente == 1:
 
                     morreu = 0
 
@@ -101,7 +107,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
                         morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c)
 
                         if morreu == 0:
-                            CriaturaVez(c, inimigos, aliados, jogador)   
+                            CriaturaVez(c, inimigos, aliados, jogador)
 
                 # Jogador tentou escapar mas não conseguiu
                 if acabou != 2:
@@ -139,8 +145,9 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
         
         print('')
     
-    mecanicas.TerminarBuffsDebuffs(jogador)
-    mecanicas.AcrescentarRecargasMaximo(jogador)
+    if acabou == 1 or acabou == 2:
+        mecanicas.TerminarBuffsDebuffs(jogador)
+        mecanicas.AcrescentarRecargasMaximo(jogador)
 
     return acabou
 
