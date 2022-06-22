@@ -12,7 +12,11 @@ def CriarNovoMago(nome = "default", genero = "default"):
     Cria um jogador de nível 1 da classe Mago.
     """
 
-    classe = "Mago"
+    if genero == "M":
+        classe = "Mago"
+    elif genero == "F":
+        classe = "Maga"
+
     nivel = 1
     experiencia = 0
     ouro = 5

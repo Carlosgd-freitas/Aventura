@@ -93,10 +93,12 @@ def NovoSaveFile():
 
     print('\nEscolha a sua classe: ')
     if genero == 1:
+        genero = "M"
         print('[1] Guerreiro')
         print('[2] Mago\n')
     
     else:
+        genero = "F"
         print('[1] Guerreira')
         print('[2] Maga\n')
     classe = utils.LerNumeroIntervalo('> ', 1, 2)

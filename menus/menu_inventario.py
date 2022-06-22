@@ -4,6 +4,7 @@ from colorama import Fore, Back, Style
 
 sys.path.append("..")
 from classes_base import utils
+from combate import jogador_acoes
 
 def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
     """
@@ -98,13 +99,14 @@ def MenuInventario(jogador):
         else:
             print(Fore.RED + '[2] Próximo' + Style.RESET_ALL)
 
-        print('[3] Jogar item fora\n')
+        print('[3] Usar item')
+        print('[4] Jogar item fora\n')
         print('[0] Retornar ao menu anterior')
 
         while True:
             op = utils.LerNumero('> ')
 
-            if (op == 0) or (op == 1 and anterior == 1) or (op == 2 and proximo == 1) or (op == 3):
+            if (op == 0) or (op == 1 and anterior == 1) or (op == 2 and proximo == 1) or (op == 3) or (op == 4):
                 break
         
         # Retornando ao menu anterior
@@ -118,9 +120,9 @@ def MenuInventario(jogador):
         # Imprimir até 10 próximos itens
         elif op == 2 and proximo == 1:
             pagina += 1
-        
-        # Jogar item fora
-        elif op == 3:
+
+        # Usar item ou jogar item fora
+        elif op == 3 or op == 4:
             
             escolha = 1
             pergunta = 1
@@ -131,7 +133,10 @@ def MenuInventario(jogador):
             while escolha != 0:
 
                 if pergunta == 1:
-                    print('\nQual item deseja jogar fora?')
+                    if op == 3:
+                        print('\nQual item deseja usar?')
+                    if op == 4:
+                        print('\nQual item deseja jogar fora?')
                     pergunta = 0
 
                 escolha = utils.LerNumero('> ')
@@ -142,31 +147,50 @@ def MenuInventario(jogador):
 
                 # Procedendo
                 elif escolha >= menor_indice and escolha <= maior_indice:
+
                     item_escolhido = jogador.inventario[escolha-1]
 
-                    print('\nQuantos deste item deseja jogar fora?')
-                    
-                    while True:
+                    if op == 3:
+                        if item_escolhido[1].nome == "Erva Curativa" or \
+                            item_escolhido[1].nome == "Poção de Cura Pequena" or \
+                            item_escolhido[1].nome == "Poção de Mana Pequena" or \
+                            item_escolhido[1].nome == "Antídoto":
+                            valido = jogador_acoes.ValidaUsoConsumivel(jogador, item_escolhido)
 
-                        escolha_quantidade = utils.LerNumero('> ')
+                            if valido != -1:
+                                jogador_acoes.UsarConsumivel(jogador, escolha-1)
 
-                        if escolha_quantidade == 0:
-                            break
-
-                        elif escolha_quantidade > 0 and escolha_quantidade <= item_escolhido[1].quantidade:
-                            item_escolhido[1].quantidade -= escolha_quantidade
-
-                            if item_escolhido[1].quantidade <= 0:
-                                jogador.inventario.remove(item_escolhido)
-
-                            break
-
-                    # Operação foi cancelada
-                    if escolha_quantidade == 0:
-                        pergunta = 1
-
-                    else:
+                        else:
+                            print('Este item não pode ser utilizado.')
+                        
+                        print('')
                         break
+
+                    if op == 4:
+
+                        print('\nQuantos deste item deseja jogar fora?')
+                    
+                        while True:
+
+                            escolha_quantidade = utils.LerNumero('> ')
+
+                            if escolha_quantidade == 0:
+                                break
+
+                            elif escolha_quantidade > 0 and escolha_quantidade <= item_escolhido[1].quantidade:
+                                item_escolhido[1].quantidade -= escolha_quantidade
+
+                                if item_escolhido[1].quantidade <= 0:
+                                    jogador.inventario.remove(item_escolhido)
+
+                                break
+
+                        # Operação foi cancelada
+                        if escolha_quantidade == 0:
+                            pergunta = 1
+
+                        else:
+                            break
         
             # Checando se a página tinha 1 item sobrando, e ele foi removido
             tentativa_ultima_pagina = len(jogador.inventario)
@@ -180,5 +204,5 @@ def MenuInventario(jogador):
 
             # Se o jogador jogou todos os itens fora
             if len(jogador.inventario) == 0:
-                print('Você não possui itens no inventário.\n')
+                print('Você não tem itens em seu inventário.')
                 return

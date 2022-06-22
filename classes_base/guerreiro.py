@@ -12,7 +12,11 @@ def CriarNovoGuerreiro(nome = "default", genero = "default"):
     Cria um jogador de nível 1 da classe Guerreiro.
     """
 
-    classe = "Guerreiro"
+    if genero == "M":
+        classe = "Guerreiro"
+    elif genero == "F":
+        classe = "Guerreira"
+
     nivel = 1
     experiencia = 0
     ouro = 5

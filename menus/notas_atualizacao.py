@@ -127,6 +127,7 @@ class NotasAtualizacao():
         self.titulo('----------------------------------- Alpha Versão 0.0.3 -----------------------------------')
         print('\nJogabilidade')
         self.positivo('O índice do turno e os inimigos em batalha agora são impressos a cada início de turno.')
+        self.positivo('Jogadores podem usar alguns itens consumíveis de seu inventário enquanto estão fora de batalha.')
 
         print('\nInimigos')
         self.positivo('Ervágora adicionada.')

@@ -116,13 +116,23 @@ def MenuExplorar(jogador, area):
         # Inventário do Jogador
         elif op == 3:
             print('')
-            menu_inventario.MenuInventario(jogador)
+
+            if not jogador.inventario:
+                print('Você não tem itens em seu inventário.')
+            else:
+                menu_inventario.MenuInventario(jogador)
+
             retorno = 1
         
         # Habilidades do Jogador
         elif op == 4:
             print('')
-            menu_habilidades.MenuHabilidades(jogador)
+
+            if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
+                print('Você não tem habilidades.')
+            else:
+                menu_habilidades.MenuHabilidades(jogador)
+
             retorno = 1
 
         # Equipamentos do Jogador

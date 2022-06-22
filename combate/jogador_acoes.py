@@ -65,29 +65,39 @@ def EscolherConsumivel(jogador):
     
     # Impedindo alguns itens de serem utilizados em algumas situações
     if escolha != -1:
-        # Poções de cura com o hp cheio
-        if jogador.hp == jogador.maxHp and inventario[escolha][1].nome == "Poção de Cura Pequena":
-            print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.')
-            escolha = -1
-        
-        # Poções de mana com a mana cheia
-        elif jogador.mana == jogador.maxMana and inventario[escolha][1].nome == "Poção de Mana Pequena":
-            print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' já está maximizada.')
-            escolha = -1
-        
-        # Antídoto sem estar envenenado
-        elif jogador.EfeitoPresente("debuff", "Veneno") == -1 and inventario[escolha][1].nome == "Antídoto":
-
-            if jogador.genero == "M":
-                print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
-            elif jogador.genero == "F":
-                print('Você não está ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
-
-            escolha = -1
+        escolha = ValidaUsoConsumivel(jogador, inventario[escolha])
     
     return escolha
 
-def UsarConsumivel(jogador, indice, criaturas):
+def ValidaUsoConsumivel(jogador, item):
+    """
+    Retorna 1 se o item consumível pode ser utilizado normalmente ou -1 caso contrário.
+    """
+    valido = 1
+
+    # Poções de cura com o hp cheio
+    if jogador.hp == jogador.maxHp and item[1].nome == "Poção de Cura Pequena":
+        print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.')
+        valido = -1
+    
+    # Poções de mana com a mana cheia
+    elif jogador.mana == jogador.maxMana and item[1].nome == "Poção de Mana Pequena":
+        print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' já está maximizada.')
+        valido = -1
+    
+    # Antídoto sem estar envenenado
+    elif jogador.EfeitoPresente("debuff", "Veneno") == -1 and item[1].nome == "Antídoto":
+
+        if jogador.genero == "M":
+            print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
+        elif jogador.genero == "F":
+            print('Você não está ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
+
+        valido = -1
+    
+    return valido
+
+def UsarConsumivel(jogador, indice, criaturas = None):
     """
     Utiliza uma item consumível do inventário do jogador.
 
@@ -109,7 +119,7 @@ def UsarConsumivel(jogador, indice, criaturas):
         # Cura o HP em um valor definido
         if buff.nome == "Cura HP":
             jogador.hp += buff.valor
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} recuperou {buff.valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
             sobrecura_hp = 1
         
         # Cura o HP com base no HP máximo
@@ -136,7 +146,7 @@ def UsarConsumivel(jogador, indice, criaturas):
         # Cura a Mana em um valor definido
         elif buff.nome == "Cura Mana":
             jogador.mana += buff.valor
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+            mensagem = f'{artigo} {item.nome} recuperou {buff.valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
             sobrecura_mana = 1
         
         # Cura a Mana com base na Mana máxima
