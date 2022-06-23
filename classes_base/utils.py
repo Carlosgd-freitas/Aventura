@@ -22,6 +22,26 @@ def LerNumero(string):
     
     return value
 
+def LerNumeroReal(string):
+    """
+    Lê e retorna um número real da entrada. Se a entrada não for um número real, a função continuará em Loop.
+    """
+
+    quebrar = 0
+    while True:
+
+        if quebrar == 1:
+            break
+        quebrar = 0
+
+        try:
+            value = float(input(string))
+            quebrar = 1
+        except:
+            quebrar = 0
+    
+    return value
+
 def LerNumeroIntervalo(string, low, high):
     """
     Lê e retorna um número da entrada que esteja dentro do intervalo [low, high]. Se a entrada não for um
@@ -31,6 +51,20 @@ def LerNumeroIntervalo(string, low, high):
     while True:
 
         value = LerNumero(string)
+        if value >= low and value <= high:
+            break
+    
+    return value
+
+def LerNumeroRealIntervalo(string, low, high):
+    """
+    Lê e retorna um número real da entrada que esteja dentro do intervalo [low, high]. Se a entrada não for um
+    número real, ou não estiver dentro do intervalo [low, high], a função continuará em Loop.
+    """
+
+    while True:
+
+        value = LerNumeroReal(string)
         if value >= low and value <= high:
             break
     

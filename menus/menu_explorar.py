@@ -10,7 +10,7 @@ sys.path.append("..")
 from classes_base import utils, efeito
 from combate import batalha
 
-def MenuExplorar(jogador, area):
+def MenuExplorar(jogador, area, conf):
     """
     Emula a exploração de uma área pelo jogador. Retorna -1 quando o jogador perde o jogo.
     """
@@ -37,14 +37,18 @@ def MenuExplorar(jogador, area):
 
         # Sair do Jogo
         if op == 0:
-            print('\nDeseja sair do jogo?')
-            print('[0] Não, retornar ao jogo.')
-            print('[1] Sim, fechar o jogo.')
+            if conf.confirmacao_sair:
+                print('\nDeseja sair do jogo?')
+                print('[0] Não, retornar ao jogo.')
+                print('[1] Sim, fechar o jogo.')
 
-            sair = utils.LerNumeroIntervalo('> ', 0, 1)
+                sair = utils.LerNumeroIntervalo('> ', 0, 1)
 
-            if sair == 0:
-                retorno = 1
+                if sair == 0:
+                    retorno = 1
+                else:
+                    os._exit(0)
+            
             else:
                 os._exit(0)
         

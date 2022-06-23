@@ -2,11 +2,11 @@ import os
 import sys
 from colorama import Fore, Back, Style
 
-from . import notas_atualizacao, menu_explorar, menu_equipamentos
+from . import notas_atualizacao, menu_explorar, menu_equipamentos, menu_configuracoes
 
 sys.path.append("..")
 
-from classes_base import guerreiro, mago, utils
+from classes_base import guerreiro, mago, utils, configuracao
 from areas import area_1
 
 def MenuInicial():
@@ -15,6 +15,8 @@ def MenuInicial():
     """
 
     notas = notas_atualizacao.NotasAtualizacao
+    conf = configuracao.Configuracao()
+
     retorno = 1
 
     while True:
@@ -31,6 +33,7 @@ def MenuInicial():
             print(Fore.RED + '[2] Carregar Jogo' + Style.RESET_ALL)
             print('[3] Notas de Atualização')
             print('[4] Créditos')
+            print('[5] Configurações')
             print('')
             print('[0] Sair')
             retorno = 0
@@ -38,19 +41,23 @@ def MenuInicial():
         op = utils.LerNumero('> ')
 
         if op == 0:
-            print('\nDeseja sair do jogo?')
-            print('[0] Não, retornar ao jogo.')
-            print('[1] Sim, fechar o jogo.')
+            if conf.confirmacao_sair:
+                print('\nDeseja sair do jogo?')
+                print('[0] Não, retornar ao jogo.')
+                print('[1] Sim, fechar o jogo.')
 
-            sair = utils.LerNumeroIntervalo('> ', 0, 1)
+                sair = utils.LerNumeroIntervalo('> ', 0, 1)
 
-            if sair == 0:
-                retorno = 1
+                if sair == 0:
+                    retorno = 1
+                else:
+                    os._exit(0)
+            
             else:
                 os._exit(0)
         
         if op == 1:
-            NovoSaveFile()
+            NovoSaveFile(conf)
             retorno = 1
 
         ########
@@ -66,8 +73,13 @@ def MenuInicial():
         elif op == 4:
             creditos()
             retorno = 1
+        
+        elif op == 5:
+            print('')
+            menu_configuracoes.MenuConfiguracoes(conf)
+            retorno = 1
 
-def NovoSaveFile():
+def NovoSaveFile(conf):
     """
     Criando um novo Save File.
     """
@@ -110,7 +122,7 @@ def NovoSaveFile():
 
     menu_equipamentos.EquipadosGanhos(j)
     area = area_1.Area_1(j, 15)
-    retorno = menu_explorar.MenuExplorar(j, area)
+    retorno = menu_explorar.MenuExplorar(j, area, conf)
 
     if retorno == -1:
         return
@@ -119,23 +131,59 @@ def creditos():
     """
     Imprime os créditos do jogo.
     """
-    print('|---------------------|')
-    print('|      CRÉDITOS       |')
-    print('|---------------------|')
-    print('|     PROGRAMAÇÃO     |')
-    print('|     OmegaDagger     |')
-    print('|---------------------|')
-    print('|       TESTERS       |')
-    print('|        Hidan        |')
-    print('|      Macenario      |')
-    print('|     marcusvsf.77    |')
-    print('|        Reis         |')
-    print('|       vfalva        |')
-    print('|       Wolfhar       |')
-    print('|     Zé Pretinho     |')
-    print('|---------------------|')
-    print('| Obrigado por jogar! |')
-    print('|---------------------|')
+    utils.ImprimirComDelay('|---------------------|\n', 0.01)
+    utils.ImprimirComDelay('|      ', 0.01)
+    utils.ImprimirComDelay('CRÉDITOS', 0.03)
+    utils.ImprimirComDelay('       |\n', 0.01)
+    utils.ImprimirComDelay('|---------------------|\n', 0.01)
+
+    utils.ImprimirComDelay('|     ', 0.01)
+    utils.ImprimirComDelay('PROGRAMAÇÃO', 0.03)
+    utils.ImprimirComDelay('     |\n', 0.01)
+
+    utils.ImprimirComDelay('|     ', 0.01)
+    utils.ImprimirComDelay('Omega', 0.1)
+    utils.ImprimirComDelay('     |\n', 0.01)
+
+    utils.ImprimirComDelay('|---------------------|\n', 0.01)
+
+    utils.ImprimirComDelay('|       ', 0.01)
+    utils.ImprimirComDelay('TESTERS', 0.03)
+    utils.ImprimirComDelay('       |\n', 0.01)
+
+    utils.ImprimirComDelay('|        ', 0.01)
+    utils.ImprimirComDelay('Hidan', 0.03)
+    utils.ImprimirComDelay('        |\n', 0.01)
+
+    utils.ImprimirComDelay('|      ', 0.01)
+    utils.ImprimirComDelay('Macenario', 0.03)
+    utils.ImprimirComDelay('      |\n', 0.01)
+
+    utils.ImprimirComDelay('|     ', 0.01)
+    utils.ImprimirComDelay('marcusvsf.77', 0.03)
+    utils.ImprimirComDelay('    |\n', 0.01)
+
+    utils.ImprimirComDelay('|        ', 0.01)
+    utils.ImprimirComDelay('Reis', 0.03)
+    utils.ImprimirComDelay('         |\n', 0.01)
+
+    utils.ImprimirComDelay('|       ', 0.01)
+    utils.ImprimirComDelay('vfalva', 0.03)
+    utils.ImprimirComDelay('        |\n', 0.01)
+
+    utils.ImprimirComDelay('|       ', 0.01)
+    utils.ImprimirComDelay('Wolfhar', 0.03)
+    utils.ImprimirComDelay('       |\n', 0.01)
+
+    utils.ImprimirComDelay('|     ', 0.01)
+    utils.ImprimirComDelay('Zé Pretinho', 0.03)
+    utils.ImprimirComDelay('     |\n', 0.01)
+
+    utils.ImprimirComDelay('|---------------------|\n', 0.01)
+    utils.ImprimirComDelay('| ', 0.01)
+    utils.ImprimirComDelay('Obrigado por jogar!', 0.03)
+    utils.ImprimirComDelay(' |\n', 0.01)
+    utils.ImprimirComDelay('|---------------------|\n', 0.01)
     
     input('Aperte [ENTER] para sair.')
     print('')

@@ -141,6 +141,7 @@ class NotasAtualizacao():
         
         print('\nOutros')
         self.positivo('Tela de créditos adicionada.')
+        self.positivo('Tela de configurações adicionada.')
         self.positivo("Campos 'singular/plural' e 'gênero' adicionados aos componentes do jogo, deixando a "+
             "impressão de mensagens mais consistente.")
         self.positivo('Adicionada uma confirmação para sair do jogo.')
