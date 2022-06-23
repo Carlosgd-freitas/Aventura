@@ -349,7 +349,7 @@ def GerarEspolios(criatura):
 
     return lista_espolios
 
-def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espolios = True):
+def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espolios = True, nomes = None, nomes_zerados = None):
     """
     Remove quaisquer criaturas que possuam 0 ou menos de HP da lista de criaturas. Retorna dois parâmetros:
     * 1 caso a criatura for removida da lista de criaturas, ou 0 caso contrário (criatura != None)
@@ -386,7 +386,7 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
             # Habilidades que ativam quando a criatura é derrotada
             for h in c.habilidades:
                 if h.nome == "Subdivisão":
-                    lista_criaturas = invocar_criaturas.InvocarCriaturas(c, h, lista_criaturas)
+                    lista_criaturas = invocar_criaturas.InvocarCriaturas(c, h, lista_criaturas, nomes, nomes_zerados)
 
             lista_criaturas.remove(c)
     

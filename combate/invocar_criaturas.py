@@ -2,13 +2,16 @@ import sys
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
+from classes_base import utils
 from criaturas import slime
 
-def InvocarCriaturas(invocador, habilidade, lista_criaturas):
+def InvocarCriaturas(invocador, habilidade, lista_criaturas, nomes, nomes_zerados):
     """
     Uma criatura invocadora adiciona criaturas à lista de criaturas ao utilizar uma habilidade. Então, a lista de
     criaturas é retornada.
     """
+
+    lista_invocados = []
 
     efeito = habilidade.efeitos[0]
     efeito = efeito.nome.split(":") # ["Invocar", "2", "Slime"]
@@ -27,12 +30,18 @@ def InvocarCriaturas(invocador, habilidade, lista_criaturas):
             if invocado == "Slime":
                 invocacao = slime.Slime(nivel)
 
-            lista_criaturas.append(invocacao)
+            lista_invocados.append(invocacao)
         
         if quantidade > 1:
             print(f'{invocador.nome} se subdividiu em {quantidade} {invocado}s!')
         else:
             print(f'{invocador.nome} se subdividiu em {quantidade} {invocado}!')
+    
+    nomes, nomes_zerados = utils.ContarNomes(nomes, nomes_zerados, lista_invocados, modifica_nomes_zerados = False)
+    utils.NomesUnicos(nomes, nomes_zerados, lista_invocados)
+
+    for c in lista_invocados:
+        lista_criaturas.append(c)
 
     return lista_criaturas
     

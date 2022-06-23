@@ -1,5 +1,5 @@
-from re import I
 import time
+import copy
 from colorama import Fore, Back, Style
 
 def LerNumero(string, tipo = "int"):
@@ -122,3 +122,79 @@ def MenorAtributo(criaturas, atributo):
         i += 1
     
     return menor_indice
+
+def NumeroEmSufixo(numero):
+    """
+    Recebe um número inteiro e retorna um sufixo para garantir o nome único das criaturas.
+    """
+
+    if numero == 1:
+        return 'A'
+    elif numero == 2:
+        return 'B'
+    elif numero == 3:
+        return 'C'
+    elif numero == 4:
+        return 'D'
+    elif numero == 5:
+        return 'E'
+    elif numero == 6:
+        return 'F'
+    elif numero == 7:
+        return 'G'
+    elif numero == 8:
+        return 'H'
+    elif numero == 9:
+        return 'I'
+    elif numero == 10:
+        return 'J'
+
+def ContarNomes(nomes, nomes_zerados, criaturas, modifica_nomes_zerados = True):
+    """
+    Armazena no dicionário "nomes" quantas criaturas presentes na lista 'criaturas' possuem o mesmo nome, para
+    cada nome único. No caso onde há apenas uma criatura com um determinado nome, sua entrada no dicionário terá
+    o valor 0. O dicionário "nomes_zerados" possui o valor 0 para todos os nomes.
+    """
+    
+    # Contando o número de criaturas com o mesmo nome
+    for c in criaturas:
+        nome = c.nome
+        nomes[nome] = nomes.get(nome, 0) + 1
+
+        if modifica_nomes_zerados:
+            nomes_zerados[nome] = 0
+    
+    # Deixando apenas os número das criaturas com o mesmo nome
+    for c in criaturas:
+        nome = c.nome
+
+        if nomes[nome] == 1:
+            nomes[nome] = 0
+
+    return nomes, nomes_zerados
+
+def NomesUnicos(nomes, nomes_zerados, criaturas, criaturas2 = None):
+    """
+    Recebe dois dicionário "nomes", compostos pela função ContarNomes(), e duas listas de criaturas, uma para as
+    aliadas e outra para as inimigas. Coloca um sufixo de uma letra ('A', 'B', 'C'...) após o nome das criaturas
+    que possuam o mesmo nome.
+    """
+
+    todas_criaturas = []
+    for c in criaturas:
+        todas_criaturas.append(c)
+    if criaturas2:
+        for c in criaturas2:
+            todas_criaturas.append(c)
+
+    for c in todas_criaturas:
+        nome = c.nome
+
+        if nomes[nome] > 0:
+            # Convertendo o valor numérico em uma letra
+            sufixo = nomes_zerados[nome] + 1
+            sufixo = NumeroEmSufixo(sufixo)
+            nomes_zerados[nome] += 1
+
+            nome += ' ' + sufixo
+            c.nome = nome

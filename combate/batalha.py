@@ -23,6 +23,13 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
     espolios = []
     jogador = aliados[0]
 
+    # Garantindo nomes únicos
+    nomes = {}
+    nomes_zerados = {}
+    nomes, nomes_zerados = utils.ContarNomes(nomes, nomes_zerados, aliados)
+    nomes, nomes_zerados = utils.ContarNomes(nomes, nomes_zerados, inimigos)
+    utils.NomesUnicos(nomes, nomes_zerados, aliados, inimigos)
+
     while acabou == 0:
 
         if jogador.hp <= 0:
@@ -78,7 +85,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
                 consciente = mecanicas.InicioTurno(c)
                 mecanicas.DecairBuffsDebuffs(c)
                 mecanicas.AcrescentarRecargas(c)
-                mecanicas.AbaterCriaturas(inimigos, espolios)
+                mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados)
 
                 if jogador.hp <= 0:
                     acabou = -1
@@ -88,7 +95,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
                 if c == jogador and jogador.hp > 0 and consciente == 1:
                     acabou = JogadorVez(jogador, inimigos)
 
-                    mecanicas.AbaterCriaturas(inimigos, espolios)
+                    mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados)
 
                 # Vez de um inimigo ou aliado
                 elif c != jogador and c.hp > 0 and jogador.hp > 0 and acabou == 0 and consciente == 1:
@@ -97,14 +104,14 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
 
                     # Vez de um aliado
                     if c in aliados:
-                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, gerar_espolios = False)
+                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, gerar_espolios = False, nomes = nomes, nomes_zerados = nomes_zerados)
 
                         if morreu == 0:
                             CriaturaVez(c, aliados, inimigos, jogador)
                     
                     # Vez de um inimigo
                     elif c in inimigos:
-                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c)
+                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, nomes = nomes, nomes_zerados = nomes_zerados)
 
                         if morreu == 0:
                             CriaturaVez(c, inimigos, aliados, jogador)

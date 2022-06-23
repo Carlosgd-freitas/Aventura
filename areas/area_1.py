@@ -78,14 +78,18 @@ class Area_1(area.Area):
         # Ervágora
 
         # Possíveis inimigos raros a serem encontrados na área 1:
-        # Slime Metálico
+        # Slime de Mel
 
         # Inimigo Raro: 5% de chance de ser encontrado
         if random.randint(1, 100) <= 5:
-            pass # adicionar um slime metálico
+            pass # adicionar um slime de Mel
 
         while peso_restante > 0:
             indice = random.randint(1, 10)
+
+            # 10 é o número máximo de inimigos que o jogador irá enfrentar de uma vez
+            if len(inimigos) >= 10:
+                break
 
             # 1/10 de chance: Slime no nível do jogador
             if indice == 1 and peso_restante >= 1:
@@ -124,7 +128,7 @@ class Area_1(area.Area):
                 peso_restante -= 2
             
             # 1/10 de chance: Slime Gigante no nível do jogador
-            elif indice == 7 and peso_restante >= 3:
+            elif indice == 7 and peso_restante >= 3 and jogador.nivel > 1:
                 inimigo = slime_gigante.SlimeGigante(jogador.nivel)
                 inimigos.append(inimigo)
                 peso_restante -= 3
