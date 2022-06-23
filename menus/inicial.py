@@ -141,9 +141,9 @@ def creditos():
     utils.ImprimirComDelay('PROGRAMAÇÃO', 0.03)
     utils.ImprimirComDelay('     |\n', 0.01)
 
-    utils.ImprimirComDelay('|     ', 0.01)
+    utils.ImprimirComDelay('|        ', 0.01)
     utils.ImprimirComDelay('Omega', 0.1)
-    utils.ImprimirComDelay('     |\n', 0.01)
+    utils.ImprimirComDelay('        |\n', 0.01)
 
     utils.ImprimirComDelay('|---------------------|\n', 0.01)
 
