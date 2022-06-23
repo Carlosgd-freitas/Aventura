@@ -2,29 +2,11 @@ from re import I
 import time
 from colorama import Fore, Back, Style
 
-def LerNumero(string):
+def LerNumero(string, tipo = "int"):
     """
-    Lê e retorna um número da entrada. Se a entrada não for um número, a função continuará em Loop.
-    """
-
-    quebrar = 0
-    while True:
-
-        if quebrar == 1:
-            break
-        quebrar = 0
-
-        try:
-            value = int(input(string))
-            quebrar = 1
-        except:
-            quebrar = 0
-    
-    return value
-
-def LerNumeroReal(string):
-    """
-    Lê e retorna um número real da entrada. Se a entrada não for um número real, a função continuará em Loop.
+    Lê e retorna um número da entrada. Se a entrada não for um número, a função continuará em Loop. O parâmetro
+    'tipo' define que as operações serão realizadas com números inteiros por padrão, e para realizá-las com números
+    reais, basta mudá-lo para 'float'.
     """
 
     quebrar = 0
@@ -35,36 +17,27 @@ def LerNumeroReal(string):
         quebrar = 0
 
         try:
-            value = float(input(string))
+            if tipo == "int":
+                value = int(input(string))
+            elif tipo == "float":
+                value = float(input(string))
             quebrar = 1
         except:
             quebrar = 0
     
     return value
 
-def LerNumeroIntervalo(string, low, high):
+def LerNumeroIntervalo(string, low, high, tipo = "int"):
     """
     Lê e retorna um número da entrada que esteja dentro do intervalo [low, high]. Se a entrada não for um
-    número, ou não estiver dentro do intervalo [low, high], a função continuará em Loop.
+    número, ou não estiver dentro do intervalo [low, high], a função continuará em Loop. O parâmetro 'tipo'
+    define que as operações serão realizadas com números inteiros por padrão, e para realizá-las com números
+    reais, basta mudá-lo para 'float'.
     """
 
     while True:
 
-        value = LerNumero(string)
-        if value >= low and value <= high:
-            break
-    
-    return value
-
-def LerNumeroRealIntervalo(string, low, high):
-    """
-    Lê e retorna um número real da entrada que esteja dentro do intervalo [low, high]. Se a entrada não for um
-    número real, ou não estiver dentro do intervalo [low, high], a função continuará em Loop.
-    """
-
-    while True:
-
-        value = LerNumeroReal(string)
+        value = LerNumero(string, tipo)
         if value >= low and value <= high:
             break
     

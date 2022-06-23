@@ -29,6 +29,9 @@ class Area_1(area.Area):
         bomba_inferior = consumiveis.BombaInferior(2, 6)
         loja_itens.append(bomba_inferior)
 
+        bomba_grudenta_inferior = consumiveis.BombaGrudentaInferior(2, 8)
+        loja_itens.append(bomba_grudenta_inferior)
+
         antidoto = consumiveis.Antidoto(10, 3)
         loja_itens.append(antidoto)
 

@@ -41,11 +41,9 @@ def MenuConfiguracoes(conf):
         
         elif op == 2:
             print('\nDigite um número real entre 0 e 1. Quanto mais baixo o número, mais rápida será as falas dos NPCs.')
-            conf.npc_fala_delay = utils.LerNumeroRealIntervalo('> Nova Velocidade: ', 0, 1)
+            conf.npc_fala_delay = utils.LerNumeroIntervalo('> Nova Velocidade: ', 0, 1, 'float')
 
             print('Configuração [2] alterada!')
             retorno = 1
 
         print('')
-
-    

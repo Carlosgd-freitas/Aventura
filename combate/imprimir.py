@@ -92,4 +92,7 @@ def ImprimirEfeitos(criatura):
             elif criatura.genero == "F":
                 mensagem += ' - ATORDOADAS'
     
+    if criatura.EfeitoPresente("debuff", "Lentidão") != -1:
+        mensagem += ' - LENTIDÃO' + Style.RESET_ALL
+    
     print(mensagem)

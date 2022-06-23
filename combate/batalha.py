@@ -42,7 +42,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
                     ordem.append(c)
                 for c in inimigos:
                     ordem.append(c)
-                ordem.sort(key = lambda x: x.velocidade)
+                ordem.sort(key = lambda x: x.velocidade, reverse = True)
             
             # Jogador sofreu uma emboscada e age por último no primeiro turno
             else:
@@ -54,9 +54,9 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
 
                 for c in inimigos:
                     ordem.append(c)
-                ordem.sort(key = lambda x: x.velocidade)
+                ordem.sort(key = lambda x: x.velocidade, reverse = True)
 
-                aliados.sort(key = lambda x: x.velocidade)
+                aliados.sort(key = lambda x: x.velocidade, reverse = True)
                 for c in aliados:
                     ordem.append(c)
 

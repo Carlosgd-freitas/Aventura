@@ -150,6 +150,27 @@ def AplicarEfeitos(usuario, alvo, habilidade):
             alvo.debuffs.append(atordoamento)
             print(f'{usuario.nome} atordoou {alvo.nome}!')
             alvo.CombinarEfeito("Atordoamento")
+        
+        elif e.nome == "Lentidão" and chance <= e.chance:
+            debuff_ja_presente = alvo.EfeitoPresente("debuff", "Lentidão")
+
+            lentidao = e.ClonarEfeito()
+            lentidao.valor = alvo.velocidade
+            alvo.velocidade = 0
+            alvo.debuffs.append(lentidao)
+
+            if debuff_ja_presente == -1:
+                if lentidao.duracao > 1:
+                    print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por {lentidao.duracao} turnos.')
+                else:
+                    print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por {lentidao.duracao} turno.')
+            else:
+                if lentidao.duracao > 1:
+                    print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por mais {lentidao.duracao} turnos.')
+                else:
+                    print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por mais {lentidao.duracao} turno.')
+
+            alvo.CombinarEfeito("Lentidão")
 
         elif e.nome == "Diminuição Defesa" and chance <= e.chance:
             diminuicao = e.ClonarEfeito()

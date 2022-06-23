@@ -133,14 +133,15 @@ class Criatura(basico.Base):
         Caso contrário, será retornado 0.
 
         Debuffs:
-        * Veneno: maior valor e duração e menor decaimento
+        * Veneno: maior valor e maior duração
         * Atordoamento: maior duração
+        * Lentidão: soma das durações
         """
 
         combinou = 0
 
         # Definindo a lista de efeitos
-        if efeito_nome == "Veneno" or efeito_nome == "Atordoamento":
+        if efeito_nome == "Veneno" or efeito_nome == "Atordoamento" or efeito_nome == "Lentidão":
             lista_efeitos = self.debuffs
             primeiro_indice = self.EfeitoPresente("debuff", efeito_nome)
         else:
@@ -162,12 +163,12 @@ class Criatura(basico.Base):
                         if e.valor > lista_efeitos[primeiro_indice].valor:
                             lista_efeitos[primeiro_indice].valor = e.valor
                     
-                    if e.duracao > lista_efeitos[primeiro_indice].duracao:
-                        lista_efeitos[primeiro_indice].duracao = e.duracao
+                    if efeito_nome == "Veneno" or efeito_nome == "Atordoamento":
+                        if e.duracao > lista_efeitos[primeiro_indice].duracao:
+                            lista_efeitos[primeiro_indice].duracao = e.duracao
                     
-                    if efeito_nome == "Veneno":
-                        if e.decaimento < lista_efeitos[primeiro_indice].decaimento:
-                            lista_efeitos[primeiro_indice].decaimento = e.decaimento
+                    elif efeito_nome == "Lentidão":
+                        lista_efeitos[primeiro_indice].duracao += (e.duracao - 1)
 
                     # Removendo efeitos com nome <efeito_nome> duplicados
                     lista_efeitos.remove(e)

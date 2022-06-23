@@ -100,14 +100,14 @@ def ValidaUsoConsumivel(jogador, item):
     
     return valido
 
-def UsarConsumivel(jogador, indice, criaturas = None):
+def UsarConsumivel(jogador, indice, inimigos):
     """
     Utiliza uma item consumível do inventário do jogador.
 
     Parâmetros:
         - jogador: jogador que irá utilizar o item consumível;
         - indice: índice do item no inventário;
-        - criaturas: lista de criaturas inimigas atualmente em combate;
+        - inimigos: lista de criaturas inimigas atualmente em combate.
     """
 
     item = jogador.inventario[indice][1]
@@ -193,27 +193,6 @@ def UsarConsumivel(jogador, indice, criaturas = None):
             debuff_indice = jogador.EfeitoPresente("debuff", "Veneno")
             jogador.debuffs.remove(jogador.debuffs[debuff_indice])
             mensagem = f'{artigo} {item.nome} curou seu ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '.'
-        
-        # Dá dano em todos os inimigos
-        elif buff.nome == "Dano todos inimigos":
-            for c in criaturas:
-                dano = buff.valor - c.defesa
-
-                # Checando se o alvo está defendendo
-                if c.EfeitoPresente("buff", "Defendendo") != -1:
-                    indice = c.EfeitoPresente("buff", "Defendendo")
-                    valor = c.buffs[indice].valor
-                    dano *= (valor / 100)
-                
-                dano = math.floor(dano)
-                if dano < 0:
-                    dano = 0
-
-                c.hp -= dano
-                mensagem = f'{artigo} {item.nome} infligiu {dano} de dano em {c.nome}.'
-
-                if c.hp < 0:
-                    c.hp = 0
 
         # Caso o HP ou Mana estrapole o valor máximo
         if sobrecura_hp == 1 and jogador.hp >= jogador.maxHp:
@@ -236,6 +215,59 @@ def UsarConsumivel(jogador, indice, criaturas = None):
                 mensagem += ' turno.'
 
             print(mensagem)
+    
+    # Processando dano e os debuffs que o item concede
+    for debuff in item.debuffs:
+
+        # Dá dano em todos os inimigos
+        if debuff.nome == "Dano todos inimigos":
+            for c in inimigos:
+                dano = debuff.valor - c.defesa
+
+                # Checando se o alvo está defendendo
+                if c.EfeitoPresente("buff", "Defendendo") != -1:
+                    indice = c.EfeitoPresente("buff", "Defendendo")
+                    valor = c.buffs[indice].valor
+                    dano *= (valor / 100)
+                
+                dano = math.floor(dano)
+                if dano < 0:
+                    dano = 0
+
+                c.hp -= dano
+                mensagem = f'{artigo} {item.nome} infligiu {dano} de dano em {c.nome}.'
+
+                if c.hp < 0:
+                    c.hp = 0
+                
+                print(mensagem)
+        
+        # Aplica lentidão
+        elif debuff.nome == "Lentidão todos inimigos":
+            for c in inimigos:
+
+                debuff_ja_presente = c.EfeitoPresente("debuff", "Lentidão")
+
+                if debuff_ja_presente == -1:
+                    if debuff.duracao > 1:
+                        mensagem = f'{artigo} {item.nome} infligiu Lentidão em {c.nome} por {debuff.duracao} turnos.'
+                    else:
+                        mensagem = f'{artigo} {item.nome} infligiu Lentidão em {c.nome} por {debuff.duracao} turno.'
+                
+                else:
+                    if debuff.duracao > 1:
+                        mensagem = f'{artigo} {item.nome} infligiu Lentidão em {c.nome} por mais {debuff.duracao} turnos.'
+                    else:
+                        mensagem = f'{artigo} {item.nome} infligiu Lentidão em {c.nome} por mais {debuff.duracao} turno.'
+
+                lentidao = debuff.ClonarEfeito()
+                lentidao.nome = "Lentidão"
+                lentidao.valor = c.velocidade
+                c.velocidade = 0
+                c.debuffs.append(lentidao)
+        
+                print(mensagem)
+                c.CombinarEfeito("Lentidão")
 
     # Contabilizando a usagem do item
     item.quantidade -= 1

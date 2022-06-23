@@ -124,6 +124,7 @@ def InicioTurno(criatura):
     # Aplicando efeitos de debuff
     criatura.CombinarEfeito("Veneno")
     criatura.CombinarEfeito("Atordoamento")
+    criatura.CombinarEfeito("Lentidão")
 
     if criatura.EfeitoPresente("debuff", "Veneno") != -1 and criatura.hp > 0:
         indice = criatura.EfeitoPresente("debuff", "Veneno")
@@ -298,6 +299,16 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
                         elif criatura.genero == "F":
                             print(f'{criatura.nome} não estão mais atordoadas.')
     
+        # Lentidão
+        elif debuff.nome == "Lentidão":
+
+            if debuff.duracao <= -1 and criatura.hp > 0:
+                criatura.velocidade += debuff.valor
+                efeitos_expirados.append(indice)
+
+                if verbose == 1:
+                    print(f'{criatura.nome} não está mais sob o efeito de Lentidão.')
+
         # Diminuição de Defesa
         elif debuff.nome == "Diminuição Defesa":
 
@@ -313,7 +324,7 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
     # Removendo Debuffs expirados
     indice = 0
     for i in efeitos_expirados:
-        criatura.buffs.pop(i - indice)
+        criatura.debuffs.pop(i - indice)
         indice += 1
 
     return decaiu

@@ -137,7 +137,7 @@ class NotasAtualizacao():
         self.positivo('Grito Estremecedor, Cuspe de Mel e Cura Inferior adicionados.')
 
         print('\nItens')
-        self.positivo('Erva Curativa e Mel de Abelhóide adicionados.')
+        self.positivo('Erva Curativa, Mel de Abelhóide e Bomba Grudenta Inferior adicionados.')
         
         print('\nOutros')
         self.positivo('Tela de créditos adicionada.')
