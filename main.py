@@ -22,7 +22,7 @@ random.seed()
 init()
 
 # Printando uma frase com delay nas letras:
-ImprimirComDelay("isso aqui é um teste, lol!\n", 0.04)
+# ImprimirComDelay("isso aqui é um teste, lol!\n", 0.04)
 ############################################
 
 MenuInicial()

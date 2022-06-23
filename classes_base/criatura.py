@@ -58,6 +58,58 @@ class Criatura(basico.Base):
 
         return valor
     
+    def ContarEfeitos(self, buff_debuff, efeito_nome):
+        """
+        Retorna os índices dos efeitos de buff ou debuff que a criatura está sob que tenha o mesmo nome do
+        passado por parâmetro.
+        """
+
+        lista_indices = []
+        lista_efeitos = None
+
+        if buff_debuff == "buff":
+            lista_efeitos = self.buffs
+        else:
+            lista_efeitos = self.debuffs
+
+        indice = 0
+        for e in lista_efeitos:
+            if e.nome == efeito_nome:
+                lista_indices.append(indice)
+            indice += 1
+
+        return lista_indices
+    
+    def MaiorEfeito(self, buff_debuff, efeito_nome, criterio):
+        """
+        Retorna o índice e o valor do maior critério (decaimento, duracao, etc.) dentre os buffs ou debuffs que
+        a criatura está sob que tenha o mesmo nome do passado por parâmetro.
+        """
+
+        maior = -9999999
+        lista_efeitos = None
+
+        if buff_debuff == "buff":
+            lista_efeitos = self.buffs
+        else:
+            lista_efeitos = self.debuffs
+
+        indice = 0
+        for e in lista_efeitos:
+            if e.nome == efeito_nome:
+                if criterio == "valor" and e.valor > maior:
+                    maior = e.valor
+
+                elif criterio == "decaimento" and e.decaimento > maior:
+                    maior = e.decaimento
+
+                elif criterio == "duracao" and e.duracao > maior:
+                    maior = e.duracao
+            
+            indice += 1
+
+        return indice, maior
+    
     def HabilidadePresente(self, habilidade_nome):
         """
         Retorna o índice da lista de habilidades correspondente ao nome da habilidade passado por parâmetro se
@@ -78,8 +130,7 @@ class Criatura(basico.Base):
     def CombinarEfeito(self, efeito_nome):
         """
         Se a criatura estiver sob mais de um efeito de <efeito_nome>, eles serão combinados e será retornado 1.
-        Caso contrário, será retornado 0. Além disto, é retornado o valor, duração e decaimento após o resultado
-        da combinação, que serão 0 caso não haja combinação.
+        Caso contrário, será retornado 0.
 
         Debuffs:
         * Veneno: maior valor e duração e menor decaimento

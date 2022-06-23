@@ -46,3 +46,21 @@ class Base():
                 return "Os"
             elif self.genero == "F":
                 return "As"
+    
+    def RetornarContracaoPor(self):
+        """
+        Retorna a contração da preposição 'por' + o artigo referente ao nome do componente em questão, com
+        a primeira letra em maiúsculo.
+        """
+
+        if self.singular_plural == "singular":
+            if self.genero == "M":
+                return "Pelo"
+            elif self.genero == "F":
+                return "Pela"
+
+        elif self.singular_plural == "plural":
+            if self.genero == "M":
+                return "Pelos"
+            elif self.genero == "F":
+                return "Pelas"

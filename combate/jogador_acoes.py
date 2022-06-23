@@ -34,13 +34,12 @@ def EscolherConsumivel(jogador):
     ao item escolhido.
     """
 
-    inventario = jogador.inventario
     indice_print = 1
     indice_item = 0
     relacao = [(0, -1)]
 
     print('\nEscolha qual consumível deseja usar:')
-    for item in inventario:
+    for item in jogador.inventario:
 
         if item[0] == "Consumivel":
             print(f'[{indice_print}] {item[1].nome} - Quantidade: {item[1].quantidade}')
@@ -65,8 +64,11 @@ def EscolherConsumivel(jogador):
     
     # Impedindo alguns itens de serem utilizados em algumas situações
     if escolha != -1:
-        escolha = ValidaUsoConsumivel(jogador, inventario[escolha])
-    
+        valido = ValidaUsoConsumivel(jogador, jogador.inventario[escolha])
+
+        if valido == -1:
+            escolha = -1
+
     return escolha
 
 def ValidaUsoConsumivel(jogador, item):
@@ -75,8 +77,9 @@ def ValidaUsoConsumivel(jogador, item):
     """
     valido = 1
 
-    # Poções de cura com o hp cheio
-    if jogador.hp == jogador.maxHp and item[1].nome == "Poção de Cura Pequena":
+    # Poções de cura, Erva Curativa ou Mel de Abelhóide com o hp cheio
+    if jogador.hp == jogador.maxHp and (item[1].nome == "Poção de Cura Pequena" or \
+        item[1].nome == "Erva Curativa" or item[1].nome == "Mel de Abelhóide"):
         print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.')
         valido = -1
     
@@ -109,12 +112,14 @@ def UsarConsumivel(jogador, indice, criaturas = None):
 
     item = jogador.inventario[indice][1]
     artigo = item.RetornarArtigo()
+    contracao_por = item.RetornarContracaoPor().lower()
 
     # Processando os buffs que o item concede
     for buff in item.buffs:
 
         sobrecura_hp = 0
         sobrecura_mana = 0
+        regeneracao_hp = 0
 
         # Cura o HP em um valor definido
         if buff.nome == "Cura HP":
@@ -143,6 +148,19 @@ def UsarConsumivel(jogador, indice, criaturas = None):
             mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
             sobrecura_hp = 1
         
+        # Regenera o HP em um valor definido durante vários turnos
+        elif buff.nome == "Regeneração HP":
+
+            jogador.hp += buff.valor
+            mensagem = f'{artigo} {item.nome} recuperou {buff.valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+
+            regen = buff.ClonarEfeito()
+            regen.duracao -= regen.decaimento
+            jogador.buffs.append(regen)
+
+            sobrecura_hp = 1
+            regeneracao_hp = 1
+
         # Cura a Mana em um valor definido
         elif buff.nome == "Cura Mana":
             jogador.mana += buff.valor
@@ -202,11 +220,22 @@ def UsarConsumivel(jogador, indice, criaturas = None):
             jogador.hp = jogador.maxHp
             mensagem = f'{artigo} {item.nome} maximizou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
             
-        elif sobrecura_mana == 1 and jogador.mana >= jogador.maxMana:
+        if sobrecura_mana == 1 and jogador.mana >= jogador.maxMana:
             jogador.mana = jogador.maxMana
             mensagem = f'{artigo} {item.nome} maximizou sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
         
         print(mensagem)
+
+        # Mensagem extra ao usar itens que concedem regeneração
+        if regeneracao_hp == 1:
+            mensagem = 'A regeneração de ' + Fore.RED + 'HP' + Style.RESET_ALL
+            mensagem += f' concedida {contracao_por} {item.nome} irá durar mais {buff.duracao - 1}'
+            if buff.duracao - 1 > 1:
+                mensagem += ' turnos.'
+            else:
+                mensagem += ' turno.'
+
+            print(mensagem)
 
     # Contabilizando a usagem do item
     item.quantidade -= 1

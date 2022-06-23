@@ -131,10 +131,16 @@ class NotasAtualizacao():
         self.positivo('Ataques e habilidades que causam dano podem causar acertos críticos.')
 
         print('\nInimigos')
-        self.positivo('Ervágora adicionada.')
+        self.positivo('Ervágora e Slime de Mel adicionados.')
+
+        print('\nHabilidades')
+        self.positivo('Grito Estremecedor, Cuspe de Mel e Cura Inferior adicionados.')
+
+        print('\nItens')
+        self.positivo('Erva Curativa e Mel de Abelhóide adicionados.')
         
         print('\nOutros')
-        self.positivo('Tela de créditos Adicionada.')
+        self.positivo('Tela de créditos adicionada.')
         self.positivo("Campos 'singular/plural' e 'gênero' adicionados aos componentes do jogo, deixando a "+
             "impressão de mensagens mais consistente.")
         self.positivo('Adicionada uma confirmação para sair do jogo.')

@@ -16,6 +16,19 @@ def ErvaCurativa(quantidade, preco):
     
     return ("Consumivel", erva)
 
+def MelAbelhoide(quantidade, preco):
+    """
+    Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:
+    * Regenera 2 de hp por 3 turnos
+    """
+
+    mel_efeito = [efeito.Efeito("Regeneração HP", 2, 1, 3, 100)]
+    mel = item.Item(mel_efeito, [], preco, quantidade, "Mel de Abelhóide",
+        singular_plural = "singular", genero = "M",
+        descricao = "Regenera 2 de HP por 3 turnos.")
+    
+    return ("Consumivel", mel)
+
 def PocaoCuraPequena(quantidade, preco):
     """
     Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:

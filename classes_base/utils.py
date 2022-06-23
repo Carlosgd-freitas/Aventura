@@ -1,3 +1,4 @@
+from re import I
 import time
 from colorama import Fore, Back, Style
 
@@ -80,3 +81,37 @@ def QuantidadeEmSingularPlural(quantidade):
     else:
         return "plural"
 
+def MenorAtributo(criaturas, atributo):
+    """
+    Recebe uma lista de criaturas e um atributo e retorna o índice da criatura com o menor valor referente ao
+    atributo passado dentre todas as criaturas.
+
+    Valores possíveis para o atributo: 'hp', 'mana', 'ataque', 'defesa', 'magia' e 'velocidade'.
+    """
+    menor_valor = 9999999
+    menor_indice = -1
+
+    i = 0
+    for c in criaturas:
+        if atributo == "hp" and c.hp < menor_valor:
+            menor_valor = c.hp
+            menor_indice = i
+        elif atributo == "mana" and c.mana < menor_valor:
+            menor_valor = c.mana
+            menor_indice = i
+        elif atributo == "ataque" and c.ataque < menor_valor:
+            menor_valor = c.ataque
+            menor_indice = i
+        elif atributo == "defesa" and c.defesa < menor_valor:
+            menor_valor = c.defesa
+            menor_indice = i
+        elif atributo == "magia" and c.magia < menor_valor:
+            menor_valor = c.magia
+            menor_indice = i
+        elif atributo == "velocidade" and c.velocidade < menor_valor:
+            menor_valor = c.velocidade
+            menor_indice = i
+
+        i += 1
+    
+    return menor_indice

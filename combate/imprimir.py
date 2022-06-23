@@ -55,12 +55,15 @@ def ImprimirEfeitos(criatura):
         mensagem += ' - DEFENDENDO'
     
     if criatura.EfeitoPresente("buff", "Aumento Defesa") != -1:
-        mensagem += ' - DEFESA' + Fore.GREEN + '+' + Style.RESET_ALL
+        mensagem += ' - DEF' + Fore.GREEN + '+' + Style.RESET_ALL
     
-    if criatura.EfeitoPresente("debuff", "Diminuição Defesa") != -1:
-        mensagem += ' - DEFESA' + Fore.RED + '-' + Style.RESET_ALL
+    if criatura.EfeitoPresente("buff", "Regeneração HP") != -1:
+        mensagem += ' - REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL
 
     # Debuffs presentes na criatura
+    if criatura.EfeitoPresente("debuff", "Diminuição Defesa") != -1:
+        mensagem += ' - DEF' + Fore.RED + '-' + Style.RESET_ALL
+
     if criatura.EfeitoPresente("debuff", "Veneno") != -1:
 
         if criatura.singular_plural == "singular":
