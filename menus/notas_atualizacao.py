@@ -126,7 +126,8 @@ class NotasAtualizacao():
 
         self.titulo('----------------------------------- Alpha Versão 0.0.3 -----------------------------------')
         print('\nJogabilidade')
-        self.positivo('O índice do turno e os inimigos em batalha agora são impressos a cada início de turno.')
+        self.positivo('O índice do turno agora é impresso a cada início de turno.')
+        self.positivo('Os inimigos em batalha agora são impressos no início da vez do jogador.')
         self.positivo('Jogadores podem usar alguns itens consumíveis de seu inventário enquanto estão fora de batalha.')
         self.positivo('Ataques e habilidades que causam dano podem causar acertos críticos.')
         self.positivo("Em batalha, criaturas com o mesmo nome agora aparecerão com nomes únicos. (Ex.: 'Slime A', 'Slime B'...)")

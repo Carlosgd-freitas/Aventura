@@ -4,7 +4,7 @@ import random
 sys.path.append("..")
 from classes_base import area
 from itens import consumiveis, equipamentos
-from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora
+from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel
 
 class Area_1(area.Area):
     """
@@ -80,9 +80,11 @@ class Area_1(area.Area):
         # Possíveis inimigos raros a serem encontrados na área 1:
         # Slime de Mel
 
-        # Inimigo Raro: 5% de chance de ser encontrado
+        # Slime de Mel no nível do jogador: 5% de chance de ser encontrado
         if random.randint(1, 100) <= 5:
-            pass # adicionar um slime de Mel
+            inimigo = slime_mel.SlimeMel(jogador.nivel)
+            inimigos.append(inimigo)
+            peso_restante -= 3
 
         while peso_restante > 0:
             indice = random.randint(1, 10)

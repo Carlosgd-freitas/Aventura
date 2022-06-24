@@ -85,3 +85,41 @@ def ImpactoAtordoante(atordoamento_turnos, chance, tipo, mana, recarga):
         recarga, recarga, [("ataque", 120)], [atordoamento], "singular", "M", False, 0.0, 1.0)
 
     return impacto
+
+def CuspeMel(mana, recarga, efeitos_turnos):
+    """
+    Habilidade ativa que cospe mel e reduz a defesa do alvo e aplica lentidão, mas não causa dano.
+    * Alvo: Único inimigo
+    * Tipo: Normal
+    * Custo: <mana>
+    * Recarga: <recarga> Turnos
+    * Modificadores: 50% da magia
+    * Efeitos: Diminui a defesa do alvo e aplica lentidão por <efeitos_turnos> Turnos
+    """
+
+    diminuicao = efeito.Efeito("Diminuição Defesa", 0, 1, efeitos_turnos, 100)
+    lentidao = efeito.Efeito("Lentidão", 0, 1, efeitos_turnos, 100)
+
+    cuspe = habilidade.Habilidade("Cuspe de Mel", "Um cuspe de Mel que reduz a defesa do alvo e aplica lentidão.",
+    "Normal", "inimigo", "ativa", 0, [("Mana", mana)], recarga, recarga, [("magia", 50)], [diminuicao, lentidao],
+    "singular", "M", True, 0.0, 1.0)
+    
+    return cuspe
+
+def CuraInferior(mana, recarga):
+    """
+    Habilidade ativa que cura o hp do alvo.
+    * Alvo: Único aliado
+    * Tipo: Normal
+    * Custo: <mana>
+    * Recarga: <recarga> Turnos
+    * Efeitos: Cura o hp do alvo em 20% de seu hp máximo.
+    """
+
+    cura_efeito = efeito.Efeito("Cura HP %", 20, 0, -1, 100)
+
+    cura = habilidade.Habilidade("Cura Inferior", "Utiliza magia para curar o alvo em 20% de sua vida máxima.",
+    "Normal", "aliado", "ativa", 0, [("Mana", mana)], recarga, recarga, [], [cura_efeito], "singular", "F", True,
+    0.0, 1.0)
+    
+    return cura

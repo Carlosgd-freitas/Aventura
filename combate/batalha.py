@@ -74,13 +74,6 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
             print(Fore.BLACK + Back.WHITE + "> Turno " + str(turno) + " <" + Style.RESET_ALL)
             print('')
 
-            # Imprimindo os inimigos
-            print('Inimigos em batalha:')
-            indice_criatura = 1
-            for c in inimigos:
-                imprimir.ImprimirCriatura(indice_criatura, c)
-                indice_criatura += 1
-
             for c in ordem:
                 consciente = mecanicas.InicioTurno(c)
                 mecanicas.DecairBuffsDebuffs(c)
@@ -93,6 +86,14 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
 
                 # Vez do Jogador
                 if c == jogador and jogador.hp > 0 and consciente == 1:
+                    
+                    # Imprimindo os inimigos
+                    print('\nInimigos em batalha:')
+                    indice_criatura = 1
+                    for c in inimigos:
+                        imprimir.ImprimirCriatura(indice_criatura, c)
+                        indice_criatura += 1
+
                     acabou = JogadorVez(jogador, inimigos)
 
                     mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados)
@@ -375,7 +376,7 @@ def CriaturaVez(criatura, aliados, inimigos, jogador):
         print(f'{criatura.nome} usou {acao[1].nome}!')
 
         # Habilidade de alvo único
-        if acao[1].alvo == "inimigo":
+        if acao[1].alvo == "inimigo" or acao[1].alvo == "aliado":
             dano = usar_habilidade.AlvoUnico(criatura, acao[2], acao[1])
 
             if not acao[1].nao_causa_dano:

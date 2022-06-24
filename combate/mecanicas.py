@@ -302,7 +302,7 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
         # Lentidão
         elif debuff.nome == "Lentidão":
 
-            if debuff.duracao <= -1 and criatura.hp > 0:
+            if debuff.duracao <= 0 and criatura.hp > 0:
                 criatura.velocidade += debuff.valor
                 efeitos_expirados.append(indice)
 

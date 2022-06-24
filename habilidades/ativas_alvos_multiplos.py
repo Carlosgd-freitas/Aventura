@@ -5,7 +5,7 @@ from classes_base import habilidade, efeito
 
 def GritoEstremecedor(mana, recarga, modificador_magia):
     """
-    Habilidade ativa onde o usuário grita e diminui a defesa de todos os inimigos.
+    Habilidade ativa onde o usuário grita e diminui a defesa de todos os inimigos por 2 turnos.
     * Alvo: Múltiplos inimigos
     * Tipo: Normal
     * Custo: <mana> de Mana

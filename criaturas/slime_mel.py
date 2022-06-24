@@ -57,7 +57,7 @@ class SlimeMel(criatura.Criatura):
         atacar = ativas_alvo_unico.Atacar("Normal")
         habilidades.append(atacar)
 
-        cuspe = ativas_alvo_unico.CuspeDeMel()
+        cuspe = ativas_alvo_unico.CuspeMel(4, 4, 3)
         habilidades.append(cuspe)
 
         if nivel >= 3:
@@ -65,7 +65,7 @@ class SlimeMel(criatura.Criatura):
             habilidades.append(regeneracao)
         
         if nivel >= 5:
-            cura = ativas_alvo_unico.CuraInferior()
+            cura = ativas_alvo_unico.CuraInferior(4, 2)
             habilidades.append(cura)
             
         # Espolios da Criatura
@@ -93,13 +93,13 @@ class SlimeMel(criatura.Criatura):
         alvo_aliado = aliados[indice]
 
         # Cuspe De Mel -> 75% de chance do Slime de Mel usar
-        if self.mana >=  and super().ChecarRecarga(self.habilidades[1]):
+        if self.mana >= 3 and super().ChecarRecarga(self.habilidades[1]):
             chance = random.randint(1, 100)
             if chance <= 75:
                 return ("habilidade", self.habilidades[1], alvo_inimigo)
 
-        # Cura Inferior -> 50% de chance do Slime de Mel usar no aliado ferido com menos HP atual
-        if self.nivel >= 5 and self.mana >=  and super().ChecarRecarga(self.habilidades[3]) and \
+        # Cura Inferior -> 50% de chance do Slime de Mel usar no aliado ferido com o menor HP atual
+        if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[3]) and \
             (alvo_aliado.hp < alvo_aliado.maxHp):
             chance = random.randint(1, 100)
             if chance <= 50:
@@ -107,4 +107,3 @@ class SlimeMel(criatura.Criatura):
 
         # Atacar
         return ("atacar", self.habilidades[0], alvo_inimigo)
-        

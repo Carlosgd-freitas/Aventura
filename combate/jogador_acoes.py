@@ -100,7 +100,7 @@ def ValidaUsoConsumivel(jogador, item):
     
     return valido
 
-def UsarConsumivel(jogador, indice, inimigos):
+def UsarConsumivel(jogador, indice, inimigos = None):
     """
     Utiliza uma item consumível do inventário do jogador.
 
@@ -111,164 +111,19 @@ def UsarConsumivel(jogador, indice, inimigos):
     """
 
     item = jogador.inventario[indice][1]
-    artigo = item.RetornarArtigo()
-    contracao_por = item.RetornarContracaoPor().lower()
 
     # Processando os buffs que o item concede
     for buff in item.buffs:
-
-        sobrecura_hp = 0
-        sobrecura_mana = 0
-        regeneracao_hp = 0
-
-        # Cura o HP em um valor definido
-        if buff.nome == "Cura HP":
-            jogador.hp += buff.valor
-            mensagem = f'{artigo} {item.nome} recuperou {buff.valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
-            sobrecura_hp = 1
-        
-        # Cura o HP com base no HP máximo
-        elif buff.nome == "Cura HP %":
-            valor = math.floor(jogador.maxHp * (buff.valor / 100))
-            jogador.hp += valor
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
-            sobrecura_hp = 1
-        
-        # Cura o HP com base no HP máximo ou em um valor definido, o que for maior
-        elif buff.nome == "Cura HP % ou valor":
-            valor1 = math.floor(jogador.maxHp * (buff.valor[0] / 100))
-            valor2 = buff.valor[1]
-
-            if valor1 > valor2:
-                valor = valor1
-            else:
-                valor = valor2
-
-            jogador.hp += valor
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
-            sobrecura_hp = 1
-        
-        # Regenera o HP em um valor definido durante vários turnos
-        elif buff.nome == "Regeneração HP":
-
-            jogador.hp += buff.valor
-            mensagem = f'{artigo} {item.nome} recuperou {buff.valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
-
-            regen = buff.ClonarEfeito()
-            regen.duracao -= regen.decaimento
-            jogador.buffs.append(regen)
-
-            sobrecura_hp = 1
-            regeneracao_hp = 1
-
-        # Cura a Mana em um valor definido
-        elif buff.nome == "Cura Mana":
-            jogador.mana += buff.valor
-            mensagem = f'{artigo} {item.nome} recuperou {buff.valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
-            sobrecura_mana = 1
-        
-        # Cura a Mana com base na Mana máxima
-        elif buff.nome == "Cura Mana %":
-            valor = math.floor(jogador.maxMana * (buff.valor / 100))
-            jogador.mana += valor
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
-            sobrecura_mana = 1
-        
-        # Cura a Mana com base na Mana máxima ou em um valor definido, o que for maior
-        elif buff.nome == "Cura Mana % ou valor":
-            valor1 = math.floor(jogador.maxMana * (buff.valor[0] / 100))
-            valor2 = buff.valor[1]
-
-            if valor1 > valor2:
-                valor = valor1
-            else:
-                valor = valor2
-
-            jogador.mana += valor
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
-            sobrecura_mana = 1
-        
-        # Cura debuff de envenenamento
-        elif buff.nome == "Cura Veneno":
-            debuff_indice = jogador.EfeitoPresente("debuff", "Veneno")
-            jogador.debuffs.remove(jogador.debuffs[debuff_indice])
-            mensagem = f'{artigo} {item.nome} curou seu ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '.'
-
-        # Caso o HP ou Mana estrapole o valor máximo
-        if sobrecura_hp == 1 and jogador.hp >= jogador.maxHp:
-            jogador.hp = jogador.maxHp
-            mensagem = f'{artigo} {item.nome} maximizou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
-            
-        if sobrecura_mana == 1 and jogador.mana >= jogador.maxMana:
-            jogador.mana = jogador.maxMana
-            mensagem = f'{artigo} {item.nome} maximizou sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
-        
-        print(mensagem)
-
-        # Mensagem extra ao usar itens que concedem regeneração
-        if regeneracao_hp == 1:
-            mensagem = 'A regeneração de ' + Fore.RED + 'HP' + Style.RESET_ALL
-            mensagem += f' concedida {contracao_por} {item.nome} irá durar mais {buff.duracao - 1}'
-            if buff.duracao - 1 > 1:
-                mensagem += ' turnos.'
-            else:
-                mensagem += ' turno.'
-
-            print(mensagem)
+        utils.ProcessarEfeito(jogador, buff, jogador, item = item)
     
     # Processando dano e os debuffs que o item concede
     for debuff in item.debuffs:
 
-        # Dá dano em todos os inimigos
-        if debuff.nome == "Dano todos inimigos":
+        # Debuffs que afetam todos os inimigos
+        if debuff.nome == "Dano todos inimigos" or debuff.nome == "Lentidão todos inimigos":
             for c in inimigos:
-                dano = debuff.valor - c.defesa
-
-                # Checando se o alvo está defendendo
-                if c.EfeitoPresente("buff", "Defendendo") != -1:
-                    indice = c.EfeitoPresente("buff", "Defendendo")
-                    valor = c.buffs[indice].valor
-                    dano *= (valor / 100)
+                utils.ProcessarEfeito(jogador, debuff, c, item = item)
                 
-                dano = math.floor(dano)
-                if dano < 0:
-                    dano = 0
-
-                c.hp -= dano
-                mensagem = f'{artigo} {item.nome} infligiu {dano} de dano em {c.nome}.'
-
-                if c.hp < 0:
-                    c.hp = 0
-                
-                print(mensagem)
-        
-        # Aplica lentidão
-        elif debuff.nome == "Lentidão todos inimigos":
-            for c in inimigos:
-
-                debuff_ja_presente = c.EfeitoPresente("debuff", "Lentidão")
-
-                if debuff_ja_presente == -1:
-                    if debuff.duracao > 1:
-                        mensagem = f'{artigo} {item.nome} infligiu Lentidão em {c.nome} por {debuff.duracao} turnos.'
-                    else:
-                        mensagem = f'{artigo} {item.nome} infligiu Lentidão em {c.nome} por {debuff.duracao} turno.'
-                
-                else:
-                    if debuff.duracao > 1:
-                        mensagem = f'{artigo} {item.nome} infligiu Lentidão em {c.nome} por mais {debuff.duracao} turnos.'
-                    else:
-                        mensagem = f'{artigo} {item.nome} infligiu Lentidão em {c.nome} por mais {debuff.duracao} turno.'
-
-                lentidao = debuff.ClonarEfeito()
-                lentidao.nome = "Lentidão"
-                lentidao.valor = c.velocidade
-                c.velocidade = 0
-                c.debuffs.append(lentidao)
-        
-                print(mensagem)
-                c.CombinarEfeito("Lentidão")
-
     # Contabilizando a usagem do item
     item.quantidade -= 1
     if item.quantidade == 0:
