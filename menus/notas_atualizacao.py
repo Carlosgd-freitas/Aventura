@@ -132,6 +132,11 @@ class NotasAtualizacao():
         self.positivo('Ataques e habilidades que causam dano podem causar acertos críticos.')
         self.positivo("Em batalha, criaturas com o mesmo nome agora aparecerão com nomes únicos. (Ex.: 'Slime A', 'Slime B'...)")
 
+        print('\nLojas e Estalagens')
+        self.positivo('Jogadores agora só encotrarão lojas e estalagens dentro de vilas ou cidades.\n')
+        self.positivo('Lojas e estalagens agora contam com NPCs únicos que falam com o jogador.')
+        self.positivo('NPCs podem dar dicas e explicar algumas mecânicas do jogo para o jogador.')
+
         print('\nInimigos')
         self.positivo('Ervágora e Slime de Mel adicionados.')
 

@@ -15,7 +15,6 @@ def MenuExplorar(jogador, area, conf):
     Emula a exploração de uma área pelo jogador. Retorna -1 quando o jogador perde o jogo.
     """
 
-    chance_loja = 0
     chance_descanso = 0
     explorar_flag = 0
     retorno = 1
@@ -29,6 +28,13 @@ def MenuExplorar(jogador, area, conf):
             print('[3] Inventário')
             print('[4] Habilidades')
             print('[5] Equipamentos')
+
+            if area.nome == "Planície de Slimes":
+                if area.conhece_vila == False:
+                    print('[6] Encontrar a vila mais próxima')
+                elif area.conhece_vila == True:
+                    print('[6] Ir até a Vila Pwikutt')
+
             print('\n[0] Sair\n')
             
             retorno = 0
@@ -56,25 +62,18 @@ def MenuExplorar(jogador, area, conf):
         elif op == 1:
 
             explorar_flag = 0
-
-            # Loja encontrada
-            chance = random.randint(1, 100)
-            if chance <= chance_loja and jogador.ouro > area.PrecoItemMaisBarato():
-                area.Loja(jogador)
-                chance_loja = 0
-                explorar_flag = 1
-            elif explorar_flag == 0:
-                chance_loja += 10
             
             # Evento: Descanso
             chance = random.randint(1, 100)
             if explorar_flag == 0 and chance <= chance_descanso and \
-            (jogador.hp < jogador.maxHp or jogador.mana < jogador.maxMana):
-                area.EventoDescanso(jogador)
+                (jogador.hp < jogador.maxHp or jogador.mana < jogador.maxMana):
+
+                resultado = area.EventoDescanso(jogador)
                 chance_descanso = 0
                 explorar_flag = 1
+
             elif explorar_flag == 0:
-                chance_descanso += 10
+                chance_descanso += 15
             
             # Batalha
             if explorar_flag == 0:
@@ -84,24 +83,24 @@ def MenuExplorar(jogador, area, conf):
                 aliados = [jogador]
                 resultado = batalha.BatalhaPrinicipal(aliados, inimigos)
 
-                # Resultado da Batalha
-                if resultado == 1:
+            # Resultado de uma Batalha
+            if resultado == 1:
 
-                    # Tentativa de subir de nível
-                    subiu = jogador.SubirNivel()
-                    
-                    print('Você retoma seu fôlego e segue em sua Aventura.')
+                # Tentativa de subir de nível
+                subiu = jogador.SubirNivel()
+                
+                print('Você retoma seu fôlego e segue em sua Aventura.')
 
-                elif resultado == -1:
-                    print('\nO último ataque foi grave demais. Sua consciência vai se esvaindo e você colapsa no chão.')
-                    print("     _____                                ____                         ")
-                    print("    / ____|                              / __ \                        ")
-                    print("   | |  __    __ _   _ __ ___     ___   | |  | | __   __  ___   _ __   ")
-                    print("   | | |_ |  / _` | | '_ ` _ \   / _ \  | |  | | \ \ / / / _ \ | '__|  ")
-                    print("   | |__| | | (_| | | | | | | | |  __/  | |__| |  \ V / |  __/ | |     ")
-                    print("    \_____|  \__,_| |_| |_| |_|  \___|   \____/    \_/   \___| |_|     ")                                                            
-                    input('\nPressione [ENTER] para retornar ao menu principal.')
-                    return -1
+            elif resultado == -1:
+                print('\nO último ataque foi grave demais. Sua consciência vai se esvaindo e você colapsa no chão.')
+                print("     _____                                ____                         ")
+                print("    / ____|                              / __ \                        ")
+                print("   | |  __    __ _   _ __ ___     ___   | |  | | __   __  ___   _ __   ")
+                print("   | | |_ |  / _` | | '_ ` _ \   / _ \  | |  | | \ \ / / / _ \ | '__|  ")
+                print("   | |__| | | (_| | | | | | | | |  __/  | |__| |  \ V / |  __/ | |     ")
+                print("    \_____|  \__,_| |_| |_| |_|  \___|   \____/    \_/   \___| |_|     ")                                                            
+                input('\nPressione [ENTER] para retornar ao menu principal.')
+                return -1
 
             retorno = 1
 
@@ -136,4 +135,10 @@ def MenuExplorar(jogador, area, conf):
         elif op == 5:
             print('')
             menu_equipamentos.MenuEquipamentos(jogador)
+            retorno = 1
+        
+        # Ir até a Vila/Cidade
+        elif op == 6:
+            print('')
+            area.MenuVila(jogador, conf)
             retorno = 1

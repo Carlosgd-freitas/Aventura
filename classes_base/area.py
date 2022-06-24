@@ -13,47 +13,56 @@ class Area():
     Esta classe é utilizada para áreas presentes no jogo.
     """
 
-    def __init__(self, nome = "default", loja_itens = [], estalagem_preco = 9999999):
+    def __init__(self, nome = "default", lojas_itens = [], estalagem_preco = 9999999):
         """
         Inicializador da classe.
         """
         # Nome da Área
         self.nome = nome
 
-        # Itens disponíveis para venda na loja da área
-        self.loja_itens = loja_itens
+        # Cada elemento da lista 'lojas_itens' é uma lista que contém os itens disponíveis para a venda
+        # nas respectivas lojas da área
+        self.lojas_itens = lojas_itens
         
         # Preço da estalagem na primeira opção do evento de descanso
         self.estalagem_preco = estalagem_preco
 
     @abstractmethod
-    def RetornarEncontro(self, jogador, numero):
+    def RetornarEncontro(self, jogador):
         """
         Retorna uma lista de criaturas inimigas.
         """
 
         pass
 
-    def PrecoItemMaisBarato(self):
+    @abstractmethod
+    def MenuVila(self, jogador):
+        """
+        Menu referente ao que o jogador pode fazer quando está presente na vila/cidade da área.
+        """
+
+        pass
+
+    def PrecoItemMaisBarato(self, loja_itens):
         """
         Retorna o preço do item mais barato que se encontra na loja.
         """
 
         menor = 9999999
 
-        for item in self.loja_itens:
+        for item in loja_itens:
             if item[1].preco < menor:
                 menor = item[1].preco
 
         return menor
 
-    def LojaMenu(self, jogador, venda_compra):
+    def LojaMenu(self, jogador, loja_itens, venda_compra):
         """
         Menu de compra/venda de itens na loja da área.
         """
 
         if venda_compra == "Compra":
-            vendedor = self.loja_itens
+            vendedor = loja_itens
 
         elif venda_compra == "Venda":
             vendedor = jogador.inventario
@@ -279,12 +288,10 @@ class Area():
         
         self.loja_itens.append(novo_item)
 
-    def Loja(self, jogador):
+    def Loja(self, jogador, loja_itens):
         """
-        Menu principal da loja presente na área.
+        Menu principal de uma loja presente na área.
         """
-
-        print('Ao explorar a área, você se depara com uma pequena loja e decide entrar nela.\n')
 
         retorno = 1
 
@@ -307,33 +314,38 @@ class Area():
 
             # Comprar itens
             elif escolha == 1:
-                self.LojaMenu(jogador, "Compra")
+                self.LojaMenu(jogador, loja_itens, "Compra")
                 retorno = 1
             
             # Vender itens
             elif escolha == 2:
-                self.LojaMenu(jogador, "Venda")
+                self.LojaMenu(jogador, loja_itens, "Venda")
                 retorno = 1
+
+    @abstractmethod
+    def Estalagem(self, jogador):
+        """
+        Menu principal de uma estalagem presente na área.
+        """
+
+        pass
 
     def EventoDescanso(self, jogador):
         """
-        Ofereçe 3 opções ao jogador:
-        * Gastar ouro (definido pelo atributo estalagem_preco) e recuperar todo o HP e Mana;
+        Ofereçe 2 opções ao jogador:
         * Ter chance de ser atacado e recuperar parte do HP e Mana;
         * Ignorar o evento.
 
         A função retorna:
-        * -1, caso o jogador tenha escolhido a segunda opção, sofrido uma emboscada e perdido a batalha;
-        * 2, caso o jogador tenha escolhido a segunda opção, sofrido uma emboscada e fugido da batalha.
+        * -1, caso o jogador tenha escolhido a primeira opção, sofrido uma emboscada e perdido a batalha;
+        * 2, caso o jogador tenha escolhido a primeira opção, sofrido uma emboscada e fugido da batalha.
         * 1, caso contrário.
         """
 
-        print('Após alguns bons minutos sem ser atacado, você teve a idéia de descansar e recuperar suas' +
-        ' energias. Você pode evitar qualquer combate e procurar a estalagem\nmais próxima, gastando ouro para se' +
-        ' recuperar completamente, mas com certeza que não será atacado. Você também pode juntar alguns' +
-        ' materiais e fazer uma clareira\npor onde você se encontra, se recuperando parcialmente mas mas com chance' +
-        ' de ser emboscado por criaturas inimigas se ficar distraído. Ou dá só pra ignorar esse\npensamento e' +
-        ' continuar batalhando. O que você escolhe?\n')
+        print('\nApós alguns bons minutos sem ser atacado, você teve a idéia de descansar e recuperar suas' +
+        ' energias. Você pode fazer uma clareira por onde você se encontra, \nse recuperando parcialmente mas' +
+        ' com chance de ser emboscado por criaturas inimigas se ficar distraído. Também dá pra só ignorar esse' +
+        ' pensamento e continuar\nbatalhando. O que você escolhe?\n')
 
         resultado = 1
 
@@ -343,18 +355,14 @@ class Area():
         porcentagem_media = (porcentagem_hp + porcentagem_mana) / 2
         chance_emboscada = 100 - porcentagem_media
 
-        # Impedindo valores absurdos e colocando uma chance mínima de emboscagem (15%)
-        if chance_emboscada < 15.00:
-            chance_emboscada = 15.00
+        # Impedindo valores absurdos e colocando uma chance mínima de emboscagem (25%)
+        if chance_emboscada < 25.00:
+            chance_emboscada = 25.00
         elif chance_emboscada > 100.00:
             chance_emboscada = 100.00
 
         # Imprimindo Opções
-        if jogador.ouro >= self.estalagem_preco:
-            print('[1] Procurar uma estalagem - ' + Fore.YELLOW + 'Preço' + Style.RESET_ALL + f':  {self.estalagem_preco}')
-        else:
-            print(Fore.RED + f'[1] Procurar uma estalagem - Preço: {self.estalagem_preco}' + Style.RESET_ALL)
-        print('[2] Fazer uma clareira - Chance de sofrer emboscada: ' + '{:.2f}'.format(chance_emboscada) + '%')
+        print('[1] Fazer uma clareira - Chance de sofrer emboscada: {:.2f}'.format(chance_emboscada) + '%')
         print('[0] Continuar batalhando\n')
 
         # Escolha do jogador
@@ -364,19 +372,8 @@ class Area():
             if op == 0:
                 break
 
-            # Estalagem
-            elif op == 1 and jogador.ouro >= self.estalagem_preco:
-                jogador.ouro -= self.estalagem_preco
-                jogador.hp = jogador.maxHp
-                jogador.mana = jogador.maxMana
-
-                mensagem = f'Você gastou {self.estalagem_preco} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + ' e '
-                mensagem += f'recuperou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' e ' + Fore.BLUE + 'Mana' + Style.RESET_ALL
-                print(mensagem + ' completamente.')
-                break
-
             # Clareira
-            elif op == 2:
+            elif op == 1:
                 # Recuperar 5 de hp ou 25% do hp máximo, o que for maior
                 valor = 5
                 if math.floor(jogador.maxHp * 0.25) > valor:
@@ -405,11 +402,10 @@ class Area():
                 chance = random.randint(1, 100)
 
                 if chance <= chance_emboscada:
-                    encontro_numero = random.choice(self.encontros)
-                    inimigos = self.RetornarEncontro(jogador, encontro_numero)
-
-                    resultado = batalha.BatalhaPrinicipal(jogador, inimigos, emboscada = 1)
-                    
+                    inimigos = self.RetornarEncontro(jogador)
+                    aliados = [jogador]
+                    resultado = batalha.BatalhaPrinicipal(aliados, inimigos, emboscada = 1)
+                
                 break
 
         return resultado

@@ -121,7 +121,7 @@ def NovoSaveFile(conf):
         j = mago.CriarNovoMago(nome, genero)
 
     menu_equipamentos.EquipadosGanhos(j)
-    area = area_1.Area_1(j, 15)
+    area = area_1.Area_1(15)
     retorno = menu_explorar.MenuExplorar(j, area, conf)
 
     if retorno == -1:

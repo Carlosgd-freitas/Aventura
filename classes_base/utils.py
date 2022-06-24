@@ -72,9 +72,9 @@ def ImprimirTipo(tipo):
     elif tipo == 'Luz':
         print(Fore.YELLOW + 'Luz' + Style.RESET_ALL, end = '')
 
-def ImprimirComDelay(string, delay = 0.04):
+def ImprimirComDelay(string, delay):
     """
-    Imprime cada letra de uma string após um delay definido em milisegundos. O valor padrão do delay é de 0.04ms.
+    Imprime cada letra de uma string após um delay definido em segundos.
     """
 
     for letra in string:

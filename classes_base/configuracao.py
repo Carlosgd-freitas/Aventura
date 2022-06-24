@@ -8,4 +8,4 @@ class Configuracao():
         Inicializador da classe.
         """
         self.confirmacao_sair = True
-        self.npc_fala_delay = 0.04
+        self.npc_fala_delay = 0.03
