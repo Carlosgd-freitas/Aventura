@@ -122,6 +122,17 @@ def NovoSaveFile(conf):
 
     menu_equipamentos.EquipadosGanhos(j)
     area = area_1.Area_1(15)
+
+    utils.ImprimirComDelay('\nOlha. Na falta de um começo pra um enredo revolucionário, nunca antes visto em um RPG ' +
+        'com tema medieval, vamos com um genérico mesmo. Ou vários. Você pode ter o\nsonho de se tornar o maior ' +
+        'aventureiro do mundo ou está com uma sede de sangue e busca matar monstros para se saciar. Talvez você ' +
+        'planeje juntar todo o ouro que\nconseguir e investir em uma franquia de estalagens e bares, ou ainda você ' +
+        'queira explorar cada floresta e caverna que este mundo tem a oferecer. Talvez ainda,\nvocê acabe sua jornada ' +
+        'enfrentando seres de poder que você sequer consegue imaginar. Escolha o começo de história que mais te '+
+        'agrada.\n', conf.npc_fala_delay)
+    utils.ImprimirComDelay('Mas o que está consolidado mesmo.\n',conf.npc_fala_delay)
+    utils.ImprimirComDelay('É que você partiu em uma Aventura.\n',conf.npc_fala_delay)
+
     retorno = menu_explorar.MenuExplorar(j, area, conf)
 
     if retorno == -1:
