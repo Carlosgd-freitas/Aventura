@@ -58,8 +58,11 @@ class Area():
 
     def LojaMenu(self, jogador, loja_itens, venda_compra):
         """
-        Menu de compra/venda de itens na loja da área.
+        Menu de compra/venda de itens na loja da área. Retorna 1 se o jogador comoprou ou vendeu algo
+        e 0 caso contrário.
         """
+
+        operacao_realizada = 0
 
         if venda_compra == "Compra":
             vendedor = loja_itens
@@ -68,7 +71,7 @@ class Area():
             vendedor = jogador.inventario
 
         else:
-            return
+            return operacao_realizada
 
         while True:
 
@@ -215,9 +218,9 @@ class Area():
                     print(f'Descrição: {item[1].descricao}') # Descrição
 
                     if venda_compra == "Compra":
-                        print(f'\nQuantas {item[1].nome} deseja comprar?')
+                        print(f'\nDeseja comprar quanto de {item[1].nome}?')
                     else:
-                        print(f'\nQuantas {item[1].nome} deseja vender?')
+                        print(f'\nDeseja vender quanto de {item[1].nome}?')
 
                     # Jogador escolhendo a quantidade do item que quer vender
                     while True:
@@ -244,6 +247,8 @@ class Area():
                                 jogador.inventario.remove(item)
 
                             print(f'Você vendeu {escolha_quantidade} {item_vendido[1].nome}.')
+
+                            operacao_realizada = 1
                     
                         # Compra -> Jogador tem ouro suficiente
                         elif venda_compra == "Compra" and jogador.ouro >= escolha_quantidade * item[1].preco:
@@ -261,6 +266,8 @@ class Area():
                                 self.loja_itens.remove(item)
 
                             print(f'Você comprou {escolha_quantidade} {item_comprado[1].nome}.')
+
+                            operacao_realizada = 1
                         
                         # Compra -> Jogador não tem ouro suficiente
                         else:
@@ -273,6 +280,8 @@ class Area():
             else:
                 print('Não há mais itens que você possa vender.')
                 break
+        
+        return operacao_realizada
     
     def AdicionarAoEstoque(self, novo_item):
         """
@@ -290,10 +299,13 @@ class Area():
 
     def Loja(self, jogador, loja_itens):
         """
-        Menu principal de uma loja presente na área.
+        Menu principal de uma loja presente na área. Retorna 1 se o jogador comoprou ou vendeu algo
+        e 0 caso contrário.
         """
 
         retorno = 1
+        operacao_temporaria = 0
+        operacao_realizada = 0
 
         while True:
             
@@ -314,13 +326,19 @@ class Area():
 
             # Comprar itens
             elif escolha == 1:
-                self.LojaMenu(jogador, loja_itens, "Compra")
+                operacao_temporaria = self.LojaMenu(jogador, loja_itens, "Compra")
+                if operacao_temporaria == 1:
+                    operacao_realizada = 1
                 retorno = 1
             
             # Vender itens
             elif escolha == 2:
-                self.LojaMenu(jogador, loja_itens, "Venda")
+                operacao_temporaria = self.LojaMenu(jogador, loja_itens, "Venda")
+                if operacao_temporaria == 1:
+                    operacao_realizada = 1
                 retorno = 1
+        
+        return operacao_realizada
 
     @abstractmethod
     def Estalagem(self, jogador):

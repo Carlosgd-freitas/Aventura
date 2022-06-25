@@ -24,6 +24,8 @@ class Area_1(area.Area):
         self.conhece_vendedor_pocoes = False
         self.conhece_vendedor_armamentos = False
         self.conhece_estalagem = False
+        self.primeira_compra_pocoes = False
+        self.primeira_compra_armamentos = False
 
         # Itens disponíveis para venda na loja do Vendedor de Poções da área 1
         loja_pocoes_itens = []
@@ -206,10 +208,12 @@ class Area_1(area.Area):
             
             op = utils.LerNumeroIntervalo('> ', 0, 3)
 
+            # Voltar a Explorar
             if op == 0:
                 print('Você retorna até a Planície para continuar explorando.')
                 break
 
+            # Loja de Poções
             if op == 1:
 
                 if self.conhece_vendedor_pocoes == False:
@@ -228,12 +232,23 @@ class Area_1(area.Area):
                     utils.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Veio se prevenir com algumas das minhas ' +
                         'poções?\n', conf.npc_fala_delay)
 
-                self.Loja(jogador, self.lojas_itens[0])
+                operacao_realizada = self.Loja(jogador, self.lojas_itens[0])
+
+                # Primeira compra de poções realizada nesta loja
+                if operacao_realizada == 1 and self.primeira_compra_pocoes == False:
+
+                    utils.ImprimirComDelay('Maelia: Minhas poções vão ajudar na sua aventura, pode ter certeza!\n', conf.npc_fala_delay)
+                    utils.ImprimirComDelay('Maelia: No entanto, você não vai conseguir agir enquanto bebe uma delas, ' +
+                        'então faça isso quando tiver certeza que não vai morrer pros ataques dos seus inimigos.\n', conf.npc_fala_delay)
+                    utils.ImprimirComDelay('Maelia: Ou quando não estiver lutando, isso também serve.\n', conf.npc_fala_delay)
+
+                    self.primeira_compra_pocoes = True
 
                 utils.ImprimirComDelay(f'Maelia: Até mais, {jogador.nome}! Volte sempre!\n', conf.npc_fala_delay)
 
                 retorno = 1
             
+            # Loja de Armamentos
             elif op == 2:
 
                 if self.conhece_vendedor_armamentos == False:
@@ -258,12 +273,26 @@ class Area_1(area.Area):
                     elif jogador.genero == 'F':
                         utils.ImprimirComDelay(f'Scolf: Eaí moça! Vamo comprar uns equipamento novo?\n', conf.npc_fala_delay)
 
-                self.Loja(jogador, self.lojas_itens[1])
+                operacao_realizada = self.Loja(jogador, self.lojas_itens[1])
+
+                # Primeira compra de armamentos realizada nesta loja
+                if operacao_realizada == 1 and self.primeira_compra_armamentos == False:
+
+                    if jogador.genero == 'M':
+                        utils.ImprimirComDelay(f'Scolf: Boa escolha, rapaz.\n', conf.npc_fala_delay)
+                    elif jogador.genero == 'F':
+                        utils.ImprimirComDelay(f'Scolf: Boa escolha, moça.\n', conf.npc_fala_delay)
+                    
+                    utils.ImprimirComDelay(f'Scolf: Mas presta atenção nos níveis dos equipamento que cê comprar. ' +
+                        'Cê não vai conseguir equipar se ocê tiver um nível menor que o do equipamento, ein?\n', conf.npc_fala_delay)
+
+                    self.primeira_compra_armamentos = True
 
                 utils.ImprimirComDelay(f'Scolf: Té mais, {jogador.nome}!\n', conf.npc_fala_delay)
 
                 retorno = 1
             
+            # Estalagem
             elif op == 3:
 
                 if self.conhece_estalagem == False:

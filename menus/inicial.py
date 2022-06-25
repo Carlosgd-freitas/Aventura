@@ -174,10 +174,6 @@ def creditos():
     utils.ImprimirComDelay('marcusvsf.77', 0.03)
     utils.ImprimirComDelay('    |\n', 0.01)
 
-    utils.ImprimirComDelay('|        ', 0.01)
-    utils.ImprimirComDelay('Reis', 0.03)
-    utils.ImprimirComDelay('         |\n', 0.01)
-
     utils.ImprimirComDelay('|       ', 0.01)
     utils.ImprimirComDelay('vfalva', 0.03)
     utils.ImprimirComDelay('        |\n', 0.01)
