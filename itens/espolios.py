@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from classes_base import item, utils
+from classes_base import item
 
 def Ouro(quantidade):
     """
@@ -55,3 +55,14 @@ def CarapacaTortuga(quantidade, preco):
         descricao = "A parte resistente do casco de uma Tortuga.")
 
     return ("Material", casco)
+
+def RubiFogo(quantidade, preco):
+    """
+    Cria <quantidade> de Rubis de Fogo, com preço igual à <preco>.
+    """
+
+    rubi = item.Item(nome = "Rubi de Fogo", quantidade = quantidade, preco = preco,
+        singular_plural = "singular", genero = "M",
+        descricao = "Uma pedra preciosa vermelha, útil para ferreiros, que emana magia do tipo Fogo.")
+
+    return ("Material", rubi)

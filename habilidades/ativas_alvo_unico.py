@@ -34,7 +34,7 @@ def ProjetilMana():
 
 def CuspeAcido(ataque):
     """
-    Habilidade ativa que cospe ácido e ignora defesa do alvo.
+    Habilidade ativa que cospe ácido e ignora a defesa do alvo.
     * Alvo: Único inimigo
     * Tipo: Normal
     * Custo: 4 de Mana
@@ -123,3 +123,20 @@ def CuraInferior(mana, recarga):
     0.0, 1.0)
     
     return cura
+
+def RaioFogo(magia, mana, recarga):
+    """
+    Habilidade ativa que atira um raio de fogo e ignora completamente a defesa do alvo.
+    * Alvo: Único inimigo
+    * Tipo: Fogo
+    * Custo: <mana> de Mana
+    * Recarga: <recarga> Turnos
+    * Efeitos: Ignora 100% da defesa do alvo (Perfurante)
+    """
+
+    perfurante = efeito.Efeito("Perfurante %", 100, 0, -1, 100)
+    raio = habilidade.Habilidade("Raio de Fogo", "Um raio de fogo que ignora completamente a defesa do alvo.",
+    "Fogo", "inimigo", "ativa", magia, [("Mana", mana)], recarga, recarga, [], [perfurante], "singular", "M",
+    False, 0.0, 1.0)
+    
+    return raio

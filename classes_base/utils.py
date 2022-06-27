@@ -1,7 +1,6 @@
 import time
 import random
 import math
-import copy
 from colorama import Fore, Back, Style
 
 def LerNumero(string, tipo = "int"):

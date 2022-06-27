@@ -3,7 +3,7 @@ import random
 import sys
 from colorama import Fore, Back, Style
 
-from . import invocar_criaturas
+from . import invocar_criaturas, batalha_chefao
 
 sys.path.append("..")
 from itens import espolios
@@ -68,6 +68,12 @@ def CalcularDano(atacante, alvo, habilidade):
 
         dano /= 2
     
+    # Acerto Crítico
+    critico = random.randint(0, 10000)
+    if critico <= (atacante.chance_critico * 100):
+        dano = math.ceil(dano * atacante.multiplicador_critico)
+        print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+
     # Checando se a habilidade é perfurante e diminuindo o dano pela defesa do alvo
     defesa = alvo.defesa
 
@@ -75,9 +81,9 @@ def CalcularDano(atacante, alvo, habilidade):
         if e.nome == "Perfurante %":
             tentativa = random.randint(1, 100)
             if tentativa <= e.chance:
-                defesa *= (e.valor / 100)
+                defesa *= (1 - (e.valor / 100))
             break
-
+    
     dano -= defesa
 
     # Checando se o alvo está defendendo
@@ -90,12 +96,6 @@ def CalcularDano(atacante, alvo, habilidade):
     dano = math.floor(dano)
     if dano < 0:
         dano = 0
-
-    # Acerto Crítico
-    critico = random.randint(0, 10000)
-    if critico <= (atacante.chance_critico * 100):
-        dano = math.ceil(dano * atacante.multiplicador_critico)
-        print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
 
     return dano
 
@@ -369,7 +369,7 @@ def GerarEspolios(criatura):
 
     return lista_espolios
 
-def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espolios = True, nomes = None, nomes_zerados = None):
+def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espolios = True, nomes = None, nomes_zerados = None, conf = None, chefao = 0):
     """
     Remove quaisquer criaturas que possuam 0 ou menos de HP da lista de criaturas. Retorna dois parâmetros:
     * 1 caso a criatura for removida da lista de criaturas, ou 0 caso contrário (criatura != None)
@@ -377,21 +377,28 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
     """
 
     morreu = 0
+    indice = 0
+    criaturas_derrotadas = []
 
     for c in lista_criaturas:
         if c.hp <= 0:
 
-            if c.singular_plural == "singular":
-                if c.genero == "M":
-                    print(f'{c.nome} foi derrotado!')
-                elif c.genero == "F":
-                    print(f'{c.nome} foi derrotada!')
+            if chefao == 0:
+                if c.singular_plural == "singular":
+                    if c.genero == "M":
+                        print(f'{c.nome} foi derrotado!')
+                    elif c.genero == "F":
+                        print(f'{c.nome} foi derrotada!')
 
-            elif c.singular_plural == "plural":
-                if c.genero == "M":
-                    print(f'{c.nome} foram derrotados!')
-                elif c.genero == "F":
-                    print(f'{c.nome} foram derrotadas!')
+                elif c.singular_plural == "plural":
+                    if c.genero == "M":
+                        print(f'{c.nome} foram derrotados!')
+                    elif c.genero == "F":
+                        print(f'{c.nome} foram derrotadas!')
+            
+            elif chefao != 0:
+                batalha_chefao.DialogoChefaoDerrotado(chefao, lista_criaturas, c, conf)
+                batalha_chefao.ChefaoDerrotado(chefao, lista_criaturas, c, conf)
 
             # Adicionando os espólios gerados à lista de espólios passada por parâmetro
             if gerar_espolios:
@@ -408,8 +415,16 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
                 if h.nome == "Subdivisão":
                     lista_criaturas = invocar_criaturas.InvocarCriaturas(c, h, lista_criaturas, nomes, nomes_zerados)
 
-            lista_criaturas.remove(c)
+            criaturas_derrotadas.append(indice)
+        
+        indice += 1
     
+    # Removendo criaturas derrotadas
+    indice = 0
+    for i in criaturas_derrotadas:
+        lista_criaturas.pop(i - indice)
+        indice += 1
+
     # Compactando lista de espólios
     indice_1 = 0
     for espolio_1 in lista_espolios:

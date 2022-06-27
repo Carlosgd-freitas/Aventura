@@ -8,7 +8,7 @@ from itens import espolios
 
 class Larry(criatura.Criatura):
     """
-    Classe para a chefão da primeira área Larry.
+    Classe para um chefão da primeira área Larry.
     """
 
     def __init__(self, nivel):

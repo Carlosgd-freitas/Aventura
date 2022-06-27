@@ -85,7 +85,7 @@ class NotasAtualizacao():
         self.positivo('Slime adicionado.\n')
 
         print('Habilidades')
-        self.positivo('Projétil de Mana, Regeneração e Cuspe Ácido adicionados.\n')
+        self.positivo('Projétil de Mana, Regeneração e Cuspe Ácido adicionadas.\n')
 
         print('Itens')
         self.positivo('Espada Enferrujada e Cajado de Iniciante adicionados.')
@@ -111,7 +111,7 @@ class NotasAtualizacao():
 
         print('Habilidades')
         self.positivo('Picada Venenosa, Envenenamento, Subdivisão, Esconder no Casco, Impacto Atordoante e ' +
-            'Escudo Mágico adicionados.\n')
+            'Escudo Mágico adicionadas.\n')
         
         print('Itens')
         self.positivo('Espada e Cajado de Aprendiz adicionados.')
@@ -142,7 +142,7 @@ class NotasAtualizacao():
         self.positivo('Chefão da primeira área adicionado.')
 
         print('\nHabilidades')
-        self.positivo('Grito Estremecedor, Cuspe de Mel e Cura Inferior adicionados.')
+        self.positivo('Grito Estremecedor, Cuspe de Mel e Cura Inferior adicionadas.')
 
         print('\nItens')
         self.positivo('Erva Curativa, Mel de Abelhóide e Bomba Grudenta Inferior adicionados.')

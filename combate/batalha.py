@@ -1,4 +1,3 @@
-import os
 import random
 import sys
 from colorama import Fore, Back, Style
@@ -82,7 +81,8 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
                 consciente = mecanicas.InicioTurno(c)
                 mecanicas.DecairBuffsDebuffs(c)
                 mecanicas.AcrescentarRecargas(c)
-                mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados)
+                mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
+                    conf = conf, chefao = chefao)
 
                 if jogador.hp <= 0:
                     acabou = -1
@@ -100,7 +100,8 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
 
                     acabou = JogadorVez(jogador, inimigos, correr)
 
-                    mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados)
+                    mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
+                        conf = conf, chefao = chefao)
 
                 # Vez de um inimigo ou aliado
                 elif c != jogador and c.hp > 0 and jogador.hp > 0 and acabou == 0 and consciente == 1:
@@ -109,14 +110,16 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
 
                     # Vez de um aliado
                     if c in aliados:
-                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, gerar_espolios = False, nomes = nomes, nomes_zerados = nomes_zerados)
+                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, gerar_espolios = False,
+                            nomes = nomes, nomes_zerados = nomes_zerados, conf = conf, chefao = chefao)
 
                         if morreu == 0:
                             CriaturaVez(c, aliados, inimigos, jogador)
                     
                     # Vez de um inimigo
                     elif c in inimigos:
-                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, nomes = nomes, nomes_zerados = nomes_zerados)
+                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, nomes = nomes,
+                            nomes_zerados = nomes_zerados, conf = conf, chefao = chefao)
 
                         if morreu == 0:
                             CriaturaVez(c, inimigos, aliados, jogador)

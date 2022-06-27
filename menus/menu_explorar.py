@@ -1,13 +1,12 @@
 import os
 import sys
 import random
-from colorama import Fore, Back, Style
 
 from . import menu_equipamentos, menu_habilidades, menu_inventario
 
 sys.path.append("..")
 
-from classes_base import utils, efeito
+from classes_base import utils
 from combate import batalha
 
 def MenuExplorar(jogador, area, conf):

@@ -1,4 +1,3 @@
-import math
 import sys
 from colorama import Fore, Back, Style
 

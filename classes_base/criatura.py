@@ -1,4 +1,3 @@
-import math
 from . import basico
 
 class Criatura(basico.Base):

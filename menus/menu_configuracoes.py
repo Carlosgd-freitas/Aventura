@@ -2,7 +2,6 @@ import sys
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
-
 from classes_base import utils
 
 def MenuConfiguracoes(conf):
@@ -26,8 +25,8 @@ def MenuConfiguracoes(conf):
             else:
                 print(Fore.RED + 'DESLIGADO' + Style.RESET_ALL)
             
-            # Opção de ligar/desligar a confirmação ao fechar o jogo
-            print(f'[2] Velocidade da fala dos NPCs: {conf.npc_fala_delay}')
+            # Velocidade da fala de narração e NPCs
+            print(f'[2] Velocidade da fala de narração e NPCs: {conf.npc_fala_delay}')
 
             print('\n[0] Salvar configurações e voltar para o menu principal\n')
 
@@ -43,6 +42,7 @@ def MenuConfiguracoes(conf):
             print('\nDigite um número real entre 0 e 0.5. Quanto mais baixo o número, mais rápida será as falas dos NPCs.')
             conf.npc_fala_delay = utils.LerNumeroIntervalo('> Nova Velocidade: ', 0, 0.5, 'float')
 
+            utils.ImprimirComDelay('Este é um exemplo de como as falas de narração e NPCs serão impressas.\n', conf.npc_fala_delay)
             print('Configuração [2] alterada!')
             retorno = 1
 

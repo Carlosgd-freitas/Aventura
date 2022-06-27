@@ -5,7 +5,7 @@ from colorama import Fore, Back, Style
 sys.path.append("..")
 from classes_base import area, utils
 from itens import consumiveis, equipamentos
-from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry
+from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
 from combate import batalha
 
 class Area_1(area.Area):
@@ -73,10 +73,10 @@ class Area_1(area.Area):
         loja_armamentos_itens.append(botas_couro)
 
         # Consumíveis
-        bomba_inferior = consumiveis.BombaInferior(2, 6)
+        bomba_inferior = consumiveis.BombaInferior(3, 6)
         loja_armamentos_itens.append(bomba_inferior)
 
-        bomba_grudenta_inferior = consumiveis.BombaGrudentaInferior(2, 8)
+        bomba_grudenta_inferior = consumiveis.BombaGrudentaInferior(5, 6)
         loja_armamentos_itens.append(bomba_grudenta_inferior)
 
         # Armazenando os itens das lojas
@@ -209,8 +209,8 @@ class Area_1(area.Area):
             inimigo = larry.Larry(jogador.nivel)
             inimigo.nome = "Slime"
             inimigos.append(inimigo)
-            # inimigo = cristal_atacante.CristalAtacante(jogador.nivel, chefao = True) # pode ser reaproveitado dps como um inimigo na lore
-            # inimigos.append(inimigo)
+            inimigo = cristal_atacante.CristalAtacante(jogador.nivel, chefao = True)
+            inimigos.append(inimigo)
             aliados = [jogador]
             resultado = batalha.BatalhaPrinicipal(aliados, inimigos, conf = conf, correr = False, chefao = 1)
 

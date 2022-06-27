@@ -5,7 +5,6 @@ from colorama import Fore, Back, Style
 from . import notas_atualizacao, menu_explorar, menu_equipamentos, menu_configuracoes
 
 sys.path.append("..")
-
 from classes_base import guerreiro, mago, utils, configuracao
 from areas import area_1
 

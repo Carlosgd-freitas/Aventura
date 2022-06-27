@@ -1,7 +1,4 @@
-import math
-import random
 import sys
-from colorama import Fore, Back, Style
 
 from . import mecanicas
 sys.path.append("..")
