@@ -111,8 +111,8 @@ class Area_1(area.Area):
         while peso_restante > 0:
             indice = random.randint(1, 10)
 
-            # 10 é o número máximo de inimigos que o jogador irá enfrentar de uma vez
-            if len(inimigos) >= 10:
+            # 4 é o número máximo de inimigos que o jogador irá enfrentar de uma vez
+            if len(inimigos) >= 4:
                 break
 
             # 1/10 de chance: Slime no nível do jogador
@@ -158,7 +158,7 @@ class Area_1(area.Area):
                 peso_restante -= 3
 
             # 1/10 de chance: Slime Gigante um nível abaixo do jogador
-            elif indice == 8 and peso_restante >= 3 and jogador.nivel > 1:
+            elif indice == 8 and peso_restante >= 3 and jogador.nivel > 2:
                 inimigo = slime_gigante.SlimeGigante(jogador.nivel - 1)
                 inimigos.append(inimigo)
                 peso_restante -= 3
@@ -202,7 +202,7 @@ class Area_1(area.Area):
         op = utils.LerNumeroIntervalo('> ', 0, 1)
 
         if op == 0:
-            return
+            return 1
         
         elif op == 1:
             inimigos = []

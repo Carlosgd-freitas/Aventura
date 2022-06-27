@@ -149,6 +149,7 @@ def MenuExplorar(jogador, area, conf):
             print('')
             resultado = area.EncontroChefe(jogador, conf)
 
+            # Chefão derrotado
             if area.chefao_derrotado == True:
                 utils.ImprimirComDelay('Você chegou ao final desta versão do jogo, parabéns! Você agora será '+
                 'retornado ao menu de exploração, com sua vida e mana maximizadas,\ne pode continuar jogando. O ' +
@@ -159,5 +160,10 @@ def MenuExplorar(jogador, area, conf):
 
                 retorno = 1
             
+            # Jogador decidiu não enfrentar o chefão
+            elif area.chefao_derrotado == False and resultado == 1:
+                retorno = 1
+            
+            # Jogador morreu para o chefão
             elif resultado == -1:
                 return -1

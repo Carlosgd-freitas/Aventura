@@ -191,6 +191,11 @@ def NomesUnicos(nomes, nomes_zerados, criaturas, criaturas2 = None):
     for c in todas_criaturas:
         nome = c.nome
 
+        # Criatura não tinha seu nome no dicionário
+        if (not (nome in nomes)) or (not (nome in nomes_zerados)):
+            nomes[nome] = nomes.get(nome, 0) + 1
+            nomes_zerados[nome] = 0
+
         if nomes[nome] > 0:
             # Convertendo o valor numérico em uma letra
             sufixo = nomes_zerados[nome] + 1
