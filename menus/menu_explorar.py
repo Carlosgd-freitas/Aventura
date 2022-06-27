@@ -34,6 +34,8 @@ def MenuExplorar(jogador, area, conf):
                     print('[6] Encontrar a vila mais próxima')
                 elif area.conhece_vila == True:
                     print('[6] Ir até a Vila Pwikutt')
+            
+                print('[7] Ir em direção à Floresta')
 
             print('\n[0] Sair\n')
             
@@ -142,3 +144,21 @@ def MenuExplorar(jogador, area, conf):
             print('')
             area.MenuVila(jogador, conf)
             retorno = 1
+
+        # Ir em direção à Floresta
+        elif op == 7:
+            print('')
+            resultado = area.EncontroChefe(jogador, conf)
+
+            if area.chefao_derrotado == True:
+                utils.ImprimirComDelay('Você chegou ao final desta versão do jogo, parabéns! Você agora será '+
+                'retornado ao menu de exploração, com sua vida e mana maximizadas,\ne pode continuar jogando. O ' +
+                'chefão também estará vivo novamente, se quiser enfrentá-lo. Obrigado por jogar!\n', conf.npc_fala_delay)
+            
+                jogador.hp = jogador.maxHp
+                jogador.mana = jogador.maxMana
+
+                retorno = 1
+            
+            elif resultado == -1:
+                return -1

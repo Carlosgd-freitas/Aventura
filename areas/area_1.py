@@ -5,7 +5,8 @@ from colorama import Fore, Back, Style
 sys.path.append("..")
 from classes_base import area, utils
 from itens import consumiveis, equipamentos
-from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel
+from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry
+from combate import batalha
 
 class Area_1(area.Area):
     """
@@ -17,8 +18,10 @@ class Area_1(area.Area):
         Inicializador da classe.
         """
 
-        # Flags relacionadas ao jogador e a vila
+        # Flags relacionadas ao jogador e a área
         self.conhece_vila = False
+        self.chefao_encontrado = False
+        self.chefao_derrotado = False
 
         # Flags para os diálogos entre o jogador e NPCs
         self.conhece_vendedor_pocoes = False
@@ -173,6 +176,59 @@ class Area_1(area.Area):
                 peso_restante -= 1
         
         return inimigos
+
+    def EncontroChefe(self, jogador, conf):
+        """
+        Gerencia o encontro com o chefão da área.
+        """
+
+        if self.chefao_encontrado == False:
+            utils.ImprimirComDelay('Caminhando em direção à floresta, você percebe uma coisa incomum. Um cristal ' +
+            'de médio porte, vermelho, e que flutua a mais ou menos um metro do chão, está\neliminando todas as ' +
+            'criaturas que chegam perto dele com um Raio de Fogo, enquanto também se move lentamente em direção a ' +
+            'floresta. O cristal possui várias\ninscrições rúnicas encravadas em si, e aparenta estar danificado.\n\n', conf.npc_fala_delay)
+            utils.ImprimirComDelay('Observando melhor, o cristal está atacando criaturas que chegam próximas à um '+
+            'slime que o acompanha. Este slime possui um óculos de ourives em seu interior,\ndaqueles com várias ' +
+            'lentes, que utilizam para examinar pedras preciosas, praticamente intacto. O slime percebe sua presença, ' +
+            'e rapidamente se move até uma\ndistância de mais ou menos cinco metros de você. Ele aparenta saber que se ' +
+            'você tentar atacá-lo, o cristal irá tentar te vaporizar, e caso não consiga, será\numa batalha 2 contra 1, ' +
+            'o favorecendo de qualquer jeito.\n\n', conf.npc_fala_delay)
+
+            self.chefao_encontrado = True
+
+        print('Enfrentar o Slime perspicaz e o Cristal Vermelho? (Nível Recomendado: 5)')
+        print('[1] Sim, enfrentá-los.')
+        print('[0] Não, retornar a exploração na planície.')
+        op = utils.LerNumeroIntervalo('> ', 0, 1)
+
+        if op == 0:
+            return
+        
+        elif op == 1:
+            inimigos = []
+            inimigo = larry.Larry(jogador.nivel)
+            inimigo.nome = "Slime"
+            inimigos.append(inimigo)
+            # inimigo = cristal_atacante.CristalAtacante(jogador.nivel, chefao = True) # pode ser reaproveitado dps como um inimigo na lore
+            # inimigos.append(inimigo)
+            aliados = [jogador]
+            resultado = batalha.BatalhaPrinicipal(aliados, inimigos, conf = conf, correr = False, chefao = 1)
+
+            if resultado == 1:
+                subiu = jogador.SubirNivel() # Tentativa de subir de nível
+                self.chefao_derrotado = True
+            
+            elif resultado == -1:
+                print('\nO último ataque foi grave demais. Sua consciência vai se esvaindo e você colapsa no chão.')
+                print("     _____                                ____                         ")
+                print("    / ____|                              / __ \                        ")
+                print("   | |  __    __ _   _ __ ___     ___   | |  | | __   __  ___   _ __   ")
+                print("   | | |_ |  / _` | | '_ ` _ \   / _ \  | |  | | \ \ / / / _ \ | '__|  ")
+                print("   | |__| | | (_| | | | | | | | |  __/  | |__| |  \ V / |  __/ | |     ")
+                print("    \_____|  \__,_| |_| |_| |_|  \___|   \____/    \_/   \___| |_|     ")                                                            
+                input('\nPressione [ENTER] para retornar ao menu principal.\n')
+            
+            return resultado
 
     def MenuVila(self, jogador, conf):
         """

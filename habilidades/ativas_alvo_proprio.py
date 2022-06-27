@@ -36,3 +36,23 @@ def EscudoMagico():
         [("magia", 50)], [aumento], "singular", "M", True, 0.0, 1.0)
 
     return escudo
+
+def Focar(valor_velocidade, valor_chance_critico, efeitos_turnos, mana, recarga):
+    """
+    Habilidade ativa onde a criatura aumenta sua velocidade em <valor_velocidade> e chance de acerto crítico em
+    <valor_chance_critico> por <efeitos_turnos> turnos.
+    * Alvo: Próprio
+    * Tipo: Normal
+    * Custo: <mana> de Mana
+    * Recarga: <recarga> Turnos
+    """
+
+    aumento_velocidade = efeito.Efeito("Aumento Velocidade", valor_velocidade, 1, efeitos_turnos, 100)
+    aumento_chance_critico = efeito.Efeito("Aumento Chance Crítico", valor_chance_critico, 1, efeitos_turnos, 100)
+
+    focar = habilidade.Habilidade("Focar", "A criatura aumenta seu foco em combate, se tornando mais veloz e " +
+    f"aumentando sua chance de acerto crítico por {str(efeitos_turnos)} turnos.", "Normal", "proprio", "ativa", 0,
+    [("Mana", mana)], recarga, recarga, [], [aumento_velocidade, aumento_chance_critico], "default", "default",
+    True, 0.0, 1.0)
+
+    return focar

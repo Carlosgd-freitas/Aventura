@@ -209,6 +209,26 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
                 if verbose == 1:
                     print(f'O aumento de defesa de {criatura.nome} terminou.')
         
+        # Aumento de Velocidade
+        elif buff.nome == "Aumento Velocidade":
+
+            if buff.duracao <= 0 and criatura.hp > 0:
+                criatura.velocidade -= buff.valor
+                efeitos_expirados.append(indice)
+
+                if verbose == 1:
+                    print(f'O aumento de velocidade de {criatura.nome} terminou.')
+        
+        # Aumento de Chance de Crítico
+        elif buff.nome == "Aumento Chance Crítico":
+
+            if buff.duracao <= 0 and criatura.hp > 0:
+                criatura.chance_critico -= buff.valor
+                efeitos_expirados.append(indice)
+
+                if verbose == 1:
+                    print(f'O aumento de chance de crítico de {criatura.nome} terminou.')
+
         # Regeneração HP
         elif buff.nome == "Regeneração HP":
 

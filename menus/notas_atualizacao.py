@@ -139,6 +139,7 @@ class NotasAtualizacao():
 
         print('\nInimigos')
         self.positivo('Ervágora e Slime de Mel adicionados.')
+        self.positivo('Chefão da primeira área adicionado.')
 
         print('\nHabilidades')
         self.positivo('Grito Estremecedor, Cuspe de Mel e Cura Inferior adicionados.')

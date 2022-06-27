@@ -54,15 +54,39 @@ def ImprimirEfeitos(criatura):
     if criatura.EfeitoPresente("buff", "Defendendo") != -1:
         mensagem += ' - DEFENDENDO'
     
+    if criatura.EfeitoPresente("buff", "Aumento Ataque") != -1:
+        mensagem += ' - ATQ' + Fore.GREEN + '+' + Style.RESET_ALL
+
     if criatura.EfeitoPresente("buff", "Aumento Defesa") != -1:
         mensagem += ' - DEF' + Fore.GREEN + '+' + Style.RESET_ALL
+    
+    if criatura.EfeitoPresente("buff", "Aumento Magia") != -1:
+        mensagem += ' - MAG' + Fore.GREEN + '+' + Style.RESET_ALL
+
+    if criatura.EfeitoPresente("buff", "Aumento Velocidade") != -1:
+        mensagem += ' - VEL' + Fore.GREEN + '+' + Style.RESET_ALL
+    
+    if criatura.EfeitoPresente("buff", "Aumento Chance Crítico") != -1:
+        mensagem += ' - CRIT%' + Fore.GREEN + '+' + Style.RESET_ALL
     
     if criatura.EfeitoPresente("buff", "Regeneração HP") != -1:
         mensagem += ' - REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL
 
     # Debuffs presentes na criatura
+    if criatura.EfeitoPresente("debuff", "Diminuição Ataque") != -1:
+        mensagem += ' - ATQ' + Fore.RED + '-' + Style.RESET_ALL
+    
     if criatura.EfeitoPresente("debuff", "Diminuição Defesa") != -1:
         mensagem += ' - DEF' + Fore.RED + '-' + Style.RESET_ALL
+    
+    if criatura.EfeitoPresente("debuff", "Diminuição Magia") != -1:
+        mensagem += ' - MAG' + Fore.RED + '-' + Style.RESET_ALL
+    
+    if criatura.EfeitoPresente("debuff", "Diminuição Velocidade") != -1:
+        mensagem += ' - VEL' + Fore.RED + '-' + Style.RESET_ALL
+    
+    if criatura.EfeitoPresente("debuff", "Diminuição Chance Crítico") != -1:
+        mensagem += ' - CRIT%' + Fore.RED + '-' + Style.RESET_ALL
 
     if criatura.EfeitoPresente("debuff", "Veneno") != -1:
 

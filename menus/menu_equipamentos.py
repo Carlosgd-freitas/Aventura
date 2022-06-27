@@ -66,9 +66,7 @@ def EquipadosGanhos(jogador):
 
         else:
             jogador.maxHp += e[1].maxHp
-            jogador.hp += e[1].hp
             jogador.maxMana += e[1].maxMana
-            jogador.mana += e[1].mana
 
             jogador.ataque += e[1].ataque
             jogador.defesa += e[1].defesa
@@ -90,9 +88,7 @@ def EquipadosPerdas(jogador):
 
         else:
             jogador.maxHp -= e[1].maxHp
-            jogador.hp -= e[1].hp
             jogador.maxMana -= e[1].maxMana
-            jogador.mana -= e[1].mana
 
             jogador.ataque -= e[1].ataque
             jogador.defesa -= e[1].defesa

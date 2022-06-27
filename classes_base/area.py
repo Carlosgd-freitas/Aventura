@@ -36,6 +36,14 @@ class Area():
         pass
 
     @abstractmethod
+    def EncontroChefe(self, jogador, conf):
+        """
+        Gerencia o encontro com o chefão da área.
+        """
+
+        pass
+
+    @abstractmethod
     def MenuVila(self, jogador):
         """
         Menu referente ao que o jogador pode fazer quando está presente na vila/cidade da área.

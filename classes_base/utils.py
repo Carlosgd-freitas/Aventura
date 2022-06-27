@@ -356,7 +356,9 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
         alvo.buffs.append(defendendo)
         print(f'{alvo.nome} está defendendo.')
     
-    elif efeito.nome == "Aumento Defesa" and chance <= efeito.chance:
+    elif (efeito.nome == "Aumento Defesa" or efeito.nome == "Aumento Velocidade" or
+        efeito.nome == "Aumento Chance Crítico") and chance <= efeito.chance:
+
         aumento = efeito.ClonarEfeito()
 
         valor_aumento = efeito.valor # Valor Base
@@ -369,19 +371,50 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
         valor_aumento = math.floor(valor_aumento)
         aumento.valor = valor_aumento
 
-        # Se a criatura já está sob o efeito de aumento de defesa
-        if alvo.EfeitoPresente("buff", "Aumento Defesa") != -1:
-            indice = alvo.EfeitoPresente("buff", "Aumento Defesa")
-            alvo.defesa += math.floor(0.25 * alvo.buffs[indice].valor)
-            alvo.buffs[indice].duracao += 1
-            alvo.buffs[indice].valor += math.floor(0.25 * alvo.buffs[indice].valor)
-            print(f'{alvo.nome} teve seu aumento de defesa melhorado em 25% e a duração do efeito extendida em 1 turno.')
+        if efeito.nome == "Aumento Defesa":
+            # Se a criatura já está sob o efeito de aumento de defesa
+            if alvo.EfeitoPresente("buff", "Aumento Defesa") != -1:
+                indice = alvo.EfeitoPresente("buff", "Aumento Defesa")
+                alvo.defesa += math.floor(0.25 * alvo.buffs[indice].valor)
+                alvo.buffs[indice].duracao += 1
+                alvo.buffs[indice].valor += math.floor(0.25 * alvo.buffs[indice].valor)
+                print(f'{alvo.nome} teve seu aumento de defesa melhorado em 25% e a duração do efeito extendida em 1 turno.')
 
-        # Se a criatura não está sob o efeito de aumento de defesa
-        else:
-            alvo.buffs.append(aumento)
-            alvo.defesa += valor_aumento
-            print(f'{alvo.nome} aumentou sua defesa em {valor_aumento} por {efeito.duracao} turnos.')
+            # Se a criatura não está sob o efeito de aumento de defesa
+            else:
+                alvo.buffs.append(aumento)
+                alvo.defesa += valor_aumento
+                print(f'{alvo.nome} aumentou sua defesa em {valor_aumento} por {efeito.duracao} turnos.')
+        
+        elif efeito.nome == "Aumento Velocidade":
+            # Se a criatura já está sob o efeito de aumento de velocidade
+            if alvo.EfeitoPresente("buff", "Aumento Velocidade") != -1:
+                indice = alvo.EfeitoPresente("buff", "Aumento Velocidade")
+                alvo.velocidade += math.floor(0.25 * alvo.buffs[indice].valor)
+                alvo.buffs[indice].duracao += 1
+                alvo.buffs[indice].valor += math.floor(0.25 * alvo.buffs[indice].valor)
+                print(f'{alvo.nome} teve seu aumento de velocidade melhorado em 25% e a duração do efeito extendida em 1 turno.')
+
+            # Se a criatura não está sob o efeito de aumento de velocidade
+            else:
+                alvo.buffs.append(aumento)
+                alvo.velocidade += valor_aumento
+                print(f'{alvo.nome} aumentou sua velocidade em {valor_aumento} por {efeito.duracao} turnos.')
+        
+        elif efeito.nome == "Aumento Chance Crítico":
+            # Se a criatura já está sob o efeito de aumento de chance de crítico
+            if alvo.EfeitoPresente("buff", "Aumento Chance Crítico") != -1:
+                indice = alvo.EfeitoPresente("buff", "Aumento Chance Crítico")
+                alvo.chance_critico += math.floor(0.25 * alvo.buffs[indice].valor)
+                alvo.buffs[indice].duracao += 1
+                alvo.buffs[indice].valor += math.floor(0.25 * alvo.buffs[indice].valor)
+                print(f'{alvo.nome} teve seu aumento de chance de crítico melhorado em 25% e a duração do efeito extendida em 1 turno.')
+
+            # Se a criatura não está sob o efeito de aumento de chance de crítico
+            else:
+                alvo.buffs.append(aumento)
+                alvo.chance_critico += valor_aumento
+                print(f'{alvo.nome} aumentou sua chance de crítico em {valor_aumento}% por {efeito.duracao} turnos.')
 
     # Habilidade: Efeitos de Debuff
     elif efeito.nome == "Veneno" and chance <= efeito.chance:

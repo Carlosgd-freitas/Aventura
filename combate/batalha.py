@@ -8,10 +8,13 @@ sys.path.append("..")
 from classes_base import efeito, utils
 from menus import menu_equipamentos
 
-def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
+def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = True, chefao = 0):
     """
     Recebe uma lista de aliados, onde a primeira posição da lista é o jogador, e uma lista de inimigos, e
-    emula uma batalha.
+    emula uma batalha. Retorna:
+    * -1, se o jogador perdeu
+    *  1, se o jogador venceu
+    *  2, se o jogador escapou da batalha
     """
     
     # -1 -> o jogador perdeu
@@ -19,6 +22,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
     #  1 -> o jogador venceu
     #  2 -> o jogador escapou da batalha
     acabou = 0
+
     turno = 1
     espolios = []
     jogador = aliados[0]
@@ -94,7 +98,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
                         imprimir.ImprimirCriatura(indice_criatura, c)
                         indice_criatura += 1
 
-                    acabou = JogadorVez(jogador, inimigos)
+                    acabou = JogadorVez(jogador, inimigos, correr)
 
                     mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados)
 
@@ -159,7 +163,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0):
 
     return acabou
 
-def JogadorVez(jogador, criaturas):
+def JogadorVez(jogador, criaturas, correr = True):
     """
     Controla as ações que o jogador pode fazer. A função retornará o valor 2 se o jogador tiver escapado da
     batalha com sucesso.
@@ -180,7 +184,13 @@ def JogadorVez(jogador, criaturas):
             print('[3] Consumível')
             print('[4] Habilidades')
             print('[5] Equipamentos')
-            print('[6] Correr\n')
+
+            if correr == True:
+                print('[6] Correr')
+            elif correr == False:
+                print(Fore.RED + '[6] Correr' + Style.RESET_ALL)
+            
+            print('')
 
             retorno = 0
         
@@ -303,53 +313,60 @@ def JogadorVez(jogador, criaturas):
 
         # Correr
         elif op == 6:
-            # Criatura de maior nível
-            maior_nivel = 0
-            for c in criaturas:
-                if c.nivel > maior_nivel:
-                    maior_nivel = c.nivel
-            
-            # Calculando a chance de escapar do combate
-            chance = 50
-            if jogador.nivel > maior_nivel:
-                chance += (jogador.nivel - maior_nivel) * 10
-            
-            else:
-                chance -= (maior_nivel - jogador.nivel) * 10
-            
-            # Impedindo o extrapolamento da chance de correr
-            if chance > 100:
-                chance = 100
-            elif chance < 0:
-                chance = 0
-            
-            # Escolha do jogador
-            print(f'Você tem {chance}% de chance de correr dessa batalha. Prosseguir?')
-            print('[0] Não, voltar ao combate.')
-            print('[1] Sim, tentar escapar.\n')
 
-            while True:
-                escolha = utils.LerNumero('> ')
-
-                if escolha == 0 or escolha == 1:
-                    break
-
-            # Jogador decidiu não escapar
-            if escolha == 0:
+            # Jogador não pode correr da batalha
+            if correr == False:
+                print('Você não pode correr desta batalha.')
                 retorno = 1
             
-            # Jogador decidiu escapar
-            elif escolha == 1:
-                tentativa = random.randint(1, 100)
-
-                if tentativa <= chance:
-                    print('\nVocê conseguiu escapar da batalha.')
-                    retorno = 2
+            else:
+                # Criatura de maior nível
+                maior_nivel = 0
+                for c in criaturas:
+                    if c.nivel > maior_nivel:
+                        maior_nivel = c.nivel
+                
+                # Calculando a chance de escapar do combate
+                chance = 50
+                if jogador.nivel > maior_nivel:
+                    chance += (jogador.nivel - maior_nivel) * 10
                 
                 else:
-                    print('\nVocê não conseguiu escapar da batalha.')
-                    retorno = 3
-                    break
+                    chance -= (maior_nivel - jogador.nivel) * 10
+                
+                # Impedindo o extrapolamento da chance de correr
+                if chance > 100:
+                    chance = 100
+                elif chance < 0:
+                    chance = 0
+                
+                # Escolha do jogador
+                print(f'Você tem {chance}% de chance de correr dessa batalha. Prosseguir?')
+                print('[0] Não, voltar ao combate.')
+                print('[1] Sim, tentar escapar.\n')
+
+                while True:
+                    escolha = utils.LerNumero('> ')
+
+                    if escolha == 0 or escolha == 1:
+                        break
+
+                # Jogador decidiu não escapar
+                if escolha == 0:
+                    retorno = 1
+                
+                # Jogador decidiu escapar
+                elif escolha == 1:
+                    tentativa = random.randint(1, 100)
+
+                    if tentativa <= chance:
+                        print('\nVocê conseguiu escapar da batalha.')
+                        retorno = 2
+                    
+                    else:
+                        print('\nVocê não conseguiu escapar da batalha.')
+                        retorno = 3
+                        break
 
 def CriaturaVez(criatura, aliados, inimigos, jogador):
     """
