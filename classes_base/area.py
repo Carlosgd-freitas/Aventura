@@ -247,7 +247,7 @@ class Area():
 
                             item_vendido[1].preco = (item_vendido[1].preco * 2) + 1
                             item_vendido[1].quantidade = escolha_quantidade
-                            self.AdicionarAoEstoque(item_vendido)
+                            self.AdicionarAoEstoque(item_vendido, loja_itens)
 
                             jogador.ouro += escolha_quantidade * item[1].preco
                             item[1].quantidade -= escolha_quantidade
@@ -271,7 +271,7 @@ class Area():
 
                             item[1].quantidade -= escolha_quantidade
                             if item[1].quantidade == 0:
-                                self.loja_itens.remove(item)
+                                loja_itens.remove(item)
 
                             print(f'Você comprou {escolha_quantidade} {item_comprado[1].nome}.')
 
@@ -291,19 +291,19 @@ class Area():
         
         return operacao_realizada
     
-    def AdicionarAoEstoque(self, novo_item):
+    def AdicionarAoEstoque(self, novo_item, loja_itens):
         """
         Recebe uma tupla (X, Y), onde X é a classificação do item ("Consumível", "Material", etc.) e Y é o item em
         si e, caso o item já esteja presente no estoque da loja da área (loja_itens), sua quantidade é aumentada,
         e caso contrário, ele é adicionado normalmente ao estoque.
         """
 
-        for item in self.loja_itens:
+        for item in loja_itens:
             if item[1].nome == novo_item[1].nome:
                 item[1].quantidade += novo_item[1].quantidade
                 return
         
-        self.loja_itens.append(novo_item)
+        loja_itens.append(novo_item)
 
     def Loja(self, jogador, loja_itens):
         """
