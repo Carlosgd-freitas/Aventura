@@ -2,14 +2,12 @@
 
 Um jogo de RPG baseado em texto feito do zero na linguagem Python.
 
-<img align="center" alt="Tamanho" height="30" width="124" src="https://github-size-badge.herokuapp.com/Carlosgd-freitas/Aventura.svg"/>
-
 <ins>Donwloads:<ins>
 <div style="display: inline_block">
-<a href="https://github.com/Carlosgd-freitas/Aventura/blob/main/" download="Aventura.exe" title="Aventura.exe">
+<a href="https://github.com/Carlosgd-freitas/Aventura/" download="Aventura.exe" title="Aventura.exe">
   <img align="center" alt="Windows" height="30" width="100" src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white"/>
 </a>
-<a href="https://github.com/Carlosgd-freitas/Aventura/blob/main/" download="Aventura" title="Aventura">
+<a href="https://github.com/Carlosgd-freitas/Aventura/" download="Aventura" title="Aventura">
   <img align="center" alt="Linux" height="30" width="100" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"/>
 </a>
 </div>
