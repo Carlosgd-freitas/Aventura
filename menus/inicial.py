@@ -141,55 +141,71 @@ def creditos():
     """
     Imprime os créditos do jogo.
     """
-    utils.ImprimirComDelay('|---------------------|\n', 0.01)
-    utils.ImprimirComDelay('|      ', 0.01)
+    utils.ImprimirComDelay('+--------------------------+\n', 0.01)
+    utils.ImprimirComDelay('|         ', 0.01)
     utils.ImprimirComDelay('CRÉDITOS', 0.03)
-    utils.ImprimirComDelay('       |\n', 0.01)
-    utils.ImprimirComDelay('|---------------------|\n', 0.01)
+    utils.ImprimirComDelay('         |\n', 0.01)
+    utils.ImprimirComDelay('|--------------------------|\n', 0.01)
 
-    utils.ImprimirComDelay('|     ', 0.01)
+    utils.ImprimirComDelay('|        ', 0.01)
     utils.ImprimirComDelay('PROGRAMAÇÃO', 0.03)
-    utils.ImprimirComDelay('     |\n', 0.01)
+    utils.ImprimirComDelay('       |\n', 0.01)
 
-    utils.ImprimirComDelay('|        ', 0.01)
-    utils.ImprimirComDelay('Omega', 0.1)
-    utils.ImprimirComDelay('        |\n', 0.01)
+    utils.ImprimirComDelay('|  ', 0.01)
+    utils.ImprimirComDelay('Carlos \"Omega\" Freitas', 0.1)
+    utils.ImprimirComDelay('  |\n', 0.01)
 
-    utils.ImprimirComDelay('|---------------------|\n', 0.01)
+    utils.ImprimirComDelay('|--------------------------|\n', 0.01)
 
-    utils.ImprimirComDelay('|       ', 0.01)
+    utils.ImprimirComDelay('|          ', 0.01)
     utils.ImprimirComDelay('TESTERS', 0.03)
+    utils.ImprimirComDelay('         |\n', 0.01)
+
+    utils.ImprimirComDelay('|          ', 0.01)
+    utils.ImprimirComDelay('05iinet', 0.03)
+    utils.ImprimirComDelay('         |\n', 0.01)
+
+    utils.ImprimirComDelay('|         ', 0.01)
+    utils.ImprimirComDelay("AsSleepT'", 0.03)
+    utils.ImprimirComDelay('        |\n', 0.01)
+
+    utils.ImprimirComDelay('|           ', 0.01)
+    utils.ImprimirComDelay('Hidan', 0.03)
+    utils.ImprimirComDelay('          |\n', 0.01)
+
+    utils.ImprimirComDelay('|         ', 0.01)
+    utils.ImprimirComDelay('Macenario', 0.03)
+    utils.ImprimirComDelay('        |\n', 0.01)
+
+    utils.ImprimirComDelay('|       ', 0.01)
+    utils.ImprimirComDelay('marcusvsf.77', 0.03)
     utils.ImprimirComDelay('       |\n', 0.01)
+
+    utils.ImprimirComDelay('|         ', 0.01)
+    utils.ImprimirComDelay('Rivotril', 0.03)
+    utils.ImprimirComDelay('         |\n', 0.01)
+
+    utils.ImprimirComDelay('|       ', 0.01)
+    utils.ImprimirComDelay('ShinjiMimura', 0.03)
+    utils.ImprimirComDelay('       |\n', 0.01)
+
+    utils.ImprimirComDelay('|          ', 0.01)
+    utils.ImprimirComDelay('vfalva', 0.03)
+    utils.ImprimirComDelay('          |\n', 0.01)
+
+    utils.ImprimirComDelay('|          ', 0.01)
+    utils.ImprimirComDelay('Wolfhar', 0.03)
+    utils.ImprimirComDelay('         |\n', 0.01)
 
     utils.ImprimirComDelay('|        ', 0.01)
-    utils.ImprimirComDelay('Hidan', 0.03)
-    utils.ImprimirComDelay('        |\n', 0.01)
-
-    utils.ImprimirComDelay('|      ', 0.01)
-    utils.ImprimirComDelay('Macenario', 0.03)
-    utils.ImprimirComDelay('      |\n', 0.01)
-
-    utils.ImprimirComDelay('|     ', 0.01)
-    utils.ImprimirComDelay('marcusvsf.77', 0.03)
-    utils.ImprimirComDelay('    |\n', 0.01)
-
-    utils.ImprimirComDelay('|       ', 0.01)
-    utils.ImprimirComDelay('vfalva', 0.03)
-    utils.ImprimirComDelay('        |\n', 0.01)
-
-    utils.ImprimirComDelay('|       ', 0.01)
-    utils.ImprimirComDelay('Wolfhar', 0.03)
+    utils.ImprimirComDelay('Zé Pretinho', 0.03)
     utils.ImprimirComDelay('       |\n', 0.01)
 
-    utils.ImprimirComDelay('|     ', 0.01)
-    utils.ImprimirComDelay('Zé Pretinho', 0.03)
-    utils.ImprimirComDelay('     |\n', 0.01)
-
-    utils.ImprimirComDelay('|---------------------|\n', 0.01)
-    utils.ImprimirComDelay('| ', 0.01)
+    utils.ImprimirComDelay('|--------------------------|\n', 0.01)
+    utils.ImprimirComDelay('|    ', 0.01)
     utils.ImprimirComDelay('Obrigado por jogar!', 0.03)
-    utils.ImprimirComDelay(' |\n', 0.01)
-    utils.ImprimirComDelay('|---------------------|\n', 0.01)
+    utils.ImprimirComDelay('   |\n', 0.01)
+    utils.ImprimirComDelay('+--------------------------+\n', 0.01)
     
     input('Aperte [ENTER] para sair.')
     print('')

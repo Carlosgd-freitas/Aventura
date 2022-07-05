@@ -1,7 +1,17 @@
 # Aventura
+
 Um jogo de RPG baseado em texto feito do zero na linguagem Python.
 
+<div style="display: inline_block">
+<img align="center" alt="Windows" height="30" width="100" src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white"/>
+<img align="center" alt="Linux" height="30" width="100" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"/>
+<img align="center" alt="Tamanho" height="30" width="124" src="https://github-size-badge.herokuapp.com/Carlosgd-freitas/Aventura.svg"/>
+</div>
+
+***
+
 ### Organização do Repositório
+
 A pasta _[areas](https://github.com/Carlosgd-freitas/Aventura/tree/main/areas)_ contém as áreas pelas quais o jogador se encontra, assim como os eventos que podem acontecer nelas.
 
 A pasta _[classes_base](https://github.com/Carlosgd-freitas/Aventura/tree/main/classes_base)_ contém as classes básicas, utilizadas para criar efeitos, itens e habilidades, por exemplo.
@@ -16,10 +26,24 @@ A pasta _[itens](https://github.com/Carlosgd-freitas/Aventura/tree/main/itens)_ 
 
 A pasta _[menus](https://github.com/Carlosgd-freitas/Aventura/tree/main/menus)_ contém os menus relacionados à habilidades, inventário, equipamentos, etc.
 
-### Compilando o Código
-Para compilar e executar o código, basta executar o comando ```python3 main.py``` (ou ```python main.py```). Caso você não modifique o código do jogo, não renomeie as pastas ou os arquivos para que o código compile e o jogo execute corretamente.
+***
 
 ### Executando o Jogo
-No Windows, basta dar um clique duplo no executável **Aventura.exe**. O Windows pode alertar que o jogo é um malware já que ele não contém um certificado de segurança. Apenas ignore ou desabilite esse alerta para executar o jogo.
 
-No Linux, basta executar o comando ```./Aventura.exe``` no diretório em que o arquivo se encontra.
+No Windows, dê um clique duplo no executável **Aventura.exe**. O Windows pode alertar que o jogo é um malware já que ele não contém um certificado de segurança. Apenas ignore ou desabilite esse alerta para executar o jogo.
+
+No Linux, execute o comando ```chmod +x main``` para tornar o arquivo executável, e então, o comando ```./main``` para executar o jogo.
+
+***
+
+### Compilando o Código
+
+Para compilar e executar o código, siga os passos descritos a seguir:
+
+1. Instale o Python 3, cujo download, processo de instalação e demais informações podem ser vistas em https://www.python.org.
+2. Instale um gerenciador de pacotes, como o pip, cujas informações podem ser vistas em https://pypi.org/project/pip/.
+3. Instale o pacote ```colorama```: ```pip install colorama```
+4. Execute o comando ```python3 main.py``` (ou ```python main.py```).
+
+**Obs.:** Caso você não modifique o código do jogo, não renomeie as pastas ou os arquivos para que o código compile e o jogo execute corretamente.
+

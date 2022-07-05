@@ -1,0 +1,111 @@
+===== Alpha v0.0.4 =====
+
+> Programação
+* Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
+* Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
+* Opção de ir para o menu principal enquanto joga (irá salvar o jogo)
+* Remover todos os pycaches do repositório e colocar eles num .gitignore
+
+> Jogabilidade
+* Veneno persiste após batalha
+* Possibilidade de acessar status, inventario, habilidades e equipamento da vila (msm coisa pra dungeon)
+	- essas opções tem q ser remapeadas pra letras
+	- opções de números vão ser opções específicas pra área (1,6 e 7 na planicie/1,2 e 3 na vila)
+	- imprimir um /n entre essses 2 conjuntos de opções
+	- permanecer o /n entre o último conjunto de opções e a opção de sair do jogo (0)
+* Opção de mudar o mapeamento das teclas
+* Jogador pode ser emboscado ao ir até a vila/cidade
+* Chance de encontrar um vendedor ambulante enquanto explora a área
+* Monstros dropam experiencia e ouro baseados em um range
+* Permitir o uso de itens q dão regen do inventário
+* Opção de Salvar e Carregar o Save File / os dados serão salvos em um dicionário, e o dicionário em um arquivo binário
+	- jogo deve salvar automaticamente toda vez que você vai pra vila / opção na configuração
+* Habilidades de heal podem critar
+* Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
+* Sistema de criação (crafting) / comprar e aprender receitas de criação
+* Jogador pode upar até o nível 10
+* Dungeon na área 1 - Colméia de Abelhóides
+* Mago é uma classe bloqueada de início e deve ser desbloqueada
+* Sistema de conquistas (achievements)
+	- Apicultor: Derrote a Rainha Abelhóide
+	- Caçador de Anomalias: Derrote Larry e o Cristal Atacante
+	- Mago: Mate 5 inimigos usando uma habilidade ativa
+	- Ladino: Cause 10 acertos críticos
+
+> Bugs
+* Na emboscada da clareira, os inimigos estão sempre dando 0 de dano
+
+> Inimigos
+* Larva de Abelhóide / Normal
+* Abelhóide / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
+* Abelhóide Curandeira / Vento / Vingança - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
+* Abelhóide Guerreiro / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
+* Chefão: Rainha Abelhóide / Vento / Vingança - 1 de Ataque - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
+
+> Itens
+* Elixires pequenos de ataque, magia, defesa, velocidade - aumenta em um valor fixo o atributo por 5 turnos
+* Amuleto Anti-Veneno (+75% de chance de não sofrer envenenamento)
+* Poção de Regeneração de Vida Pequena (regen 10% da vida máxima por 3 turnos)
+* Robe de Seda
+
+> Habilidades
+* Vingança / Passiva / Ganha X de um atributo (ataque/magia) se um inimigo de uma raça (Slime, Tortuga, etc.) morrer, até o fim da batalha
+* Invocar Abelhóide
+* Disparo Elétrico / Ativa / Vento / Pouco dano em vários inimigos
+* Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
+* Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme o mago sobe de nível
+* novo Escudo Mágico irá fazer a criatura ganhar um shield que fica em cima do HP, tipo em MOBA
+
+> O De Sempre
+* Tirar imports desnecessários de todos os arquivos.
+* Rever readme.md e notas de atualização.
+* Gerar os executáveis para Windows e Linux.
+
+===== Alpha v0.0.? =====
+
+> Programação
+* Se há mais criaturas na party do jogador, permitir que ele use consumiveis nos aliados também
+
+> Jogabilidade
+* Larry dropa um item chave ao ser derrotado, seu óculos de ourives
+* Bestiário
+	- Inimigos ainda não encontrados aparecerão como "???"
+	- Inimigos comuns precisam ser derrotados 1 vez para apareçerem seus nomes e descrição
+	- Inimigos comuns precisam ser derrotados 5 vezes para apareçerem seus loots, experiencia e gold dropados
+	- Inimigos comuns precisam ser derrotados 10 vezes para apareçerem suas habilidades e se admitem contratos de invocações (qual nível)
+	- Inimigos raros e chefões precisam derrotados apenas 1 vez pra aparecer tudo
+* Modo Difícil
+* Área 2 - Floresta [alguma coisa] / Cobras Venenosas / Tortugas
+* Sistema de missões (quests)
+	- quest para um morador isolado na floresta, que irá desbloquear o item "Contrato de Invocação Inferior"
+* Atributos novos: Esquiva, Bloqueio
+
+> Classes
+* Ladino
+* Arqueiro
+
+> Inimigos
+* Slime Metálico / Terrestre / Baixo HP / Resistência Metálica / Cuspe de Mercúrio
+* Urso / Normal
+* Lobo Cinzento / Normal
+* Lobo Cinzento Alfa / Normal
+* Raro: Lobo vermelho / Fogo / Mordida de Fogo
+* Goblin Ladrão / Trevas / Saquear / Correr
+
+> Itens
+* Arcos
+* Facas / Adagas
+
+> Habilidades
+* Resistência Metálica / Passiva / Danos sofridos são reduzidos em X, mas causam ao menos 1 de dano
+* Cuspe de Mercúrio / Ativa / Fogo / Dano + Def- + Slow + burn em um inimigo
+* Mordida de Fogo / Ativa / Fogo / Dano + burn em um inimigo
+* Saquear / Ativa / Trevas / Rouba X de gold do jogador / Gold é recuperado se quem usou for morto
+* Invocar Ervágora
+* Invocar Lobo Cinzento
+* Invocar Lobo Vermelho
+
+> O De Sempre
+* Tirar imports desnecessários de todos os arquivos.
+* Rever readme.md e notas de atualização.
+* Gerar os executáveis para Windows e Linux.
