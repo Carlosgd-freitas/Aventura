@@ -4,7 +4,6 @@
 * Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
 * Opção de ir para o menu principal enquanto joga (irá salvar o jogo)
-* Remover todos os pycaches do repositório e colocar eles num .gitignore
 
 > Jogabilidade
 * Veneno persiste após batalha

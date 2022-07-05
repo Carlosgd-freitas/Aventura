@@ -3,9 +3,14 @@
 Um jogo de RPG baseado em texto feito do zero na linguagem Python.
 
 <div style="display: inline_block">
-<img align="center" alt="Windows" height="30" width="100" src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white"/>
-<img align="center" alt="Linux" height="30" width="100" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"/>
 <img align="center" alt="Tamanho" height="30" width="124" src="https://github-size-badge.herokuapp.com/Carlosgd-freitas/Aventura.svg"/>
+</div>
+
+<ins>Downloads:</ins>
+
+<div style="display: inline_block">
+<img align="center" alt="Windows" height="30" width="100" src="https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" href="Aventura.exe" download/>
+<img align="center" alt="Linux" height="30" width="100" src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" href="Aventura" download/>
 </div>
 
 ***
