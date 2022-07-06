@@ -36,7 +36,7 @@ A pasta _[menus](https://github.com/Carlosgd-freitas/Aventura/tree/main/menus)_ 
 
 No Windows, dê um clique duplo no executável **Aventura.exe**. O Windows pode alertar que o jogo é um malware já que ele não contém um certificado de segurança. Apenas ignore ou desabilite esse alerta para executar o jogo.
 
-No Linux, execute o comando ```chmod +x main``` para tornar o arquivo executável, e então, o comando ```./main``` para executar o jogo.
+No Linux, execute o comando ```chmod +x Aventura``` para tornar o arquivo executável, e então, o comando ```./Aventura``` para executar o jogo.
 
 ***
 
