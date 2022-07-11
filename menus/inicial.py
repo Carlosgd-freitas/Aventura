@@ -8,13 +8,16 @@ sys.path.append("..")
 from classes_base import guerreiro, mago, utils, configuracao
 from areas import area_1
 
-def MenuInicial():
+def MenuInicial(conf, caminhos):
     """
     Primeiro menu visto ao inicializar o jogo.
+
+    Parâmetros:
+    - conf: configurações do usuário relativas ao jogo;
+    - caminhos: dicionário contendo o caminho de diversas pastas e arquivos.
     """
 
     notas = notas_atualizacao.NotasAtualizacao
-    conf = configuracao.Configuracao()
 
     retorno = 1
 
@@ -75,7 +78,7 @@ def MenuInicial():
         
         elif op == 5:
             print('')
-            menu_configuracoes.MenuConfiguracoes(conf)
+            menu_configuracoes.MenuConfiguracoes(conf, caminhos)
             retorno = 1
 
 def NovoSaveFile(conf):

@@ -1,17 +1,23 @@
 import sys
+import pickle
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from classes_base import utils
+from classes_base import utils, configuracao
 
-def MenuConfiguracoes(conf):
+def MenuConfiguracoes(conf, caminhos):
     """
     Menu de gerenciamento das configurações preferenciais do jogador.
+
+    Parâmetros:
+    - conf: configurações do usuário relativas ao jogo;
+    - caminhos: dicionário contendo o caminho de diversas pastas e arquivos.
     """
 
     retorno = 1
     op = -1
 
+    # Visualizando e alterando configurações
     while op != 0:
         if retorno == 1:
             retorno = 0
@@ -47,3 +53,7 @@ def MenuConfiguracoes(conf):
             retorno = 1
 
         print('')
+
+    # Salvando configurações
+    caminho_conf = caminhos['conf']
+    configuracao.SalvarConfiguracao(conf, caminho_conf)

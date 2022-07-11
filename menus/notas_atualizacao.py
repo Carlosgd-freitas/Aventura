@@ -18,6 +18,8 @@ class NotasAtualizacao():
         nao_repetir = 0
         op = -1
 
+        print('')
+
         while True:
 
             # Evitando a repetição de impressões da mesma versão
@@ -27,11 +29,15 @@ class NotasAtualizacao():
             else:
                 # Imprimindo Versão Atual
                 if pagina == 0:
-                    self.alphaV003(self)
+                    self.alphaV004(self)
                     print('')
                 
                 # Imprimindo Outras Versões
-                elif pagina == 1:
+                if pagina == 1:
+                    self.alphaV003(self)
+                    print('')
+                    
+                elif pagina == 2:
                     self.alphaV002(self)
                     print('')
                     self.alphaV001(self)
@@ -45,7 +51,7 @@ class NotasAtualizacao():
                     anterior = 0
                     print(Fore.RED + '[1] Anterior' + Style.RESET_ALL + '')
 
-                if pagina != 1:
+                if pagina != 2:
                     proximo = 1
                     print('[2] Próximo\n')
                 else:
@@ -119,6 +125,15 @@ class NotasAtualizacao():
             'adicionados.')
         self.positivo('Antídoto e Bomba Inferior adicionados.')
     
+    def alphaV004(self):
+        """
+        Notas de atualização referente à versão Alpha 0.0.4.
+        """
+
+        self.titulo('----------------------------------- Alpha Versão 0.0.4 -----------------------------------')
+        print('\nOutros')
+        self.positivo('As configurações agora são salvas e permanecem com as alterações feitas pelos jogadores.')
+
     def alphaV003(self):
         """
         Notas de atualização referente à versão Alpha 0.0.3.

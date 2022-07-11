@@ -20,6 +20,7 @@
 * Quando um personagem é criado, uma outra função deve popular seu inventário e equipamentos com os itens iniciais, e não na própria classe
 * Opção de Salvar e Carregar o Save File / os dados serão salvos em um dicionário, e o dicionário em um arquivo binário
 	- jogo deve salvar automaticamente toda vez que você vai pra vila / opção na configuração
+	- campo "valido": só procede com a operação se este campo for lido corretamente
 * Habilidades de heal podem critar
 * Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
 * Sistema de criação (crafting) / comprar e aprender receitas de criação
