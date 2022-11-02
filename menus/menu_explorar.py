@@ -5,13 +5,22 @@ import random
 from . import menu_equipamentos, menu_habilidades, menu_inventario
 
 sys.path.append("..")
-
-from classes_base import utils
+from classes_base import saver, utils
 from combate import batalha
 
-def MenuExplorar(jogador, area, conf):
+def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
     """
     Emula a exploração de uma área pelo jogador. Retorna -1 quando o jogador perde o jogo.
+
+    Parâmetros:
+    - jogador: objeto do jogador;
+    - area: area em que o jogador está;
+    - conf: configurações do usuário relativas ao jogo;
+    - caminhos: caminho relativo a pasta que contém os saves;
+    
+    Parâmetros opcionais:
+    - pre_selecionado: caso não seja None, a lista de ações não será impressa e ação que possuir o mesmo índice [X]
+    será escolhida e executada. O Valor padrão é None.
     """
 
     chance_descanso = 0
@@ -20,30 +29,84 @@ def MenuExplorar(jogador, area, conf):
 
     while True:
 
+        # Opção pré-selecionada
+        if pre_selecionado is not None:
+            retorno = 0
+
+        # Imprimindo as ações que o jogador pode tomar
         if retorno == 1:
             print('\nEscolha sua Ação:')
+            print('[S] Status')
+            print('[I] Inventário')
+            print('[H] Habilidades')
+            print('[E] Equipamentos')
+            print('[P] Salvar Jogo\n')
+
             print('[1] Explorar')
-            print('[2] Status')
-            print('[3] Inventário')
-            print('[4] Habilidades')
-            print('[5] Equipamentos')
 
             if area.nome == "Planície de Slimes":
                 if area.conhece_vila == False:
-                    print('[6] Encontrar a vila mais próxima')
+                    print('[2] Encontrar a vila mais próxima')
                 elif area.conhece_vila == True:
-                    print('[6] Ir até a Vila Pwikutt')
+                    print('[2] Ir até a Vila Pwikutt')
             
-                print('[7] Ir em direção à Floresta')
+                print('[3] Ir em direção à Floresta\n')
 
-            print('\n[0] Sair\n')
+            print('[0] Sair\n')
             
             retorno = 0
 
-        op = utils.LerNumero('> ')
+        # Opção pré-selecionada
+        if pre_selecionado is not None:
+            op = pre_selecionado
+
+        # Jogador digita sua ação
+        else:
+            op = input('> ')
+            if op.isdecimal():
+                op = int(op)
+
+        # Status do Jogador
+        if op == 'S' or op == 's':
+            jogador.ImprimirStatus()
+            retorno = 1
+        
+        # Inventário do Jogador
+        elif op == 'I' or op == 'i':
+            print('')
+
+            if not jogador.inventario:
+                print('Você não tem itens em seu inventário.')
+            else:
+                menu_inventario.MenuInventario(jogador)
+
+            retorno = 1
+        
+        # Habilidades do Jogador
+        elif op == 'H' or op == 'h':
+            print('')
+
+            if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
+                print('Você não tem habilidades.')
+            else:
+                menu_habilidades.MenuHabilidades(jogador)
+
+            retorno = 1
+
+        # Equipamentos do Jogador
+        elif op == 'E' or op == 'e':
+            print('')
+            menu_equipamentos.MenuEquipamentos(jogador)
+            retorno = 1
+
+        # Salvar o Jogo
+        elif op == 'P' or op == 'p':
+            print('')
+            saver.Salvar(caminhos['saves'], jogador, area, area.nome)
+            retorno = 1
 
         # Sair do Jogo
-        if op == 0:
+        elif op == 0:
             if conf.confirmacao_sair:
                 print('\nDeseja sair do jogo?')
                 print('[0] Não, retornar ao jogo.')
@@ -104,48 +167,18 @@ def MenuExplorar(jogador, area, conf):
                 return -1
 
             retorno = 1
-
-        # Status do Jogador
-        elif op == 2:
-            jogador.ImprimirStatus()
-            retorno = 1
-        
-        # Inventário do Jogador
-        elif op == 3:
-            print('')
-
-            if not jogador.inventario:
-                print('Você não tem itens em seu inventário.')
-            else:
-                menu_inventario.MenuInventario(jogador)
-
-            retorno = 1
-        
-        # Habilidades do Jogador
-        elif op == 4:
-            print('')
-
-            if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
-                print('Você não tem habilidades.')
-            else:
-                menu_habilidades.MenuHabilidades(jogador)
-
-            retorno = 1
-
-        # Equipamentos do Jogador
-        elif op == 5:
-            print('')
-            menu_equipamentos.MenuEquipamentos(jogador)
-            retorno = 1
         
         # Ir até a Vila/Cidade
-        elif op == 6:
-            print('')
-            area.MenuVila(jogador, conf)
+        elif op == 2:
+            if pre_selecionado is None:
+                print('')
+                area.MenuVila(jogador, conf, caminhos)
+            else:
+                area.MenuVila(jogador, conf, caminhos, True)
             retorno = 1
 
         # Ir em direção à Floresta
-        elif op == 7:
+        elif op == 3:
             print('')
             resultado = area.EncontroChefe(jogador, conf)
 
@@ -167,3 +200,5 @@ def MenuExplorar(jogador, area, conf):
             # Jogador morreu para o chefão
             elif resultado == -1:
                 return -1
+        
+        pre_selecionado = None

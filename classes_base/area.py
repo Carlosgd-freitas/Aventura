@@ -44,7 +44,7 @@ class Area():
         pass
 
     @abstractmethod
-    def MenuVila(self, jogador):
+    def MenuVila(self, jogador, caminhos):
         """
         Menu referente ao que o jogador pode fazer quando está presente na vila/cidade da área.
         """

@@ -5,7 +5,7 @@ from colorama import Fore, Back, Style
 from . import notas_atualizacao, menu_explorar, menu_equipamentos, menu_configuracoes
 
 sys.path.append("..")
-from classes_base import guerreiro, mago, utils, configuracao
+from classes_base import guerreiro, mago, utils, configuracao, saver
 from areas import area_1
 
 def MenuInicial(conf, caminhos):
@@ -32,7 +32,7 @@ def MenuInicial(conf, caminhos):
             print(f"      por Carlos Gabriel de Freitas - Alpha v0.0.3\n")        
 
             print('[1] Novo Jogo')
-            print(Fore.RED + '[2] Carregar Jogo' + Style.RESET_ALL)
+            print('[2] Carregar Jogo')
             print('[3] Notas de Atualização')
             print('[4] Créditos')
             print('[5] Configurações')
@@ -59,14 +59,12 @@ def MenuInicial(conf, caminhos):
                 os._exit(0)
         
         if op == 1:
-            NovoSaveFile(conf)
+            NovoJogo(conf, caminhos)
             retorno = 1
 
-        ########
         elif op == 2:
-            # ContinuarJogo()
-            print('Esta funcionalidade ainda não está presente.')
-        ########
+            ContinuarJogo(conf, caminhos)
+            retorno = 1
 
         elif op == 3:
             notas.menuNotas(notas)
@@ -81,18 +79,10 @@ def MenuInicial(conf, caminhos):
             menu_configuracoes.MenuConfiguracoes(conf, caminhos)
             retorno = 1
 
-def NovoSaveFile(conf):
+def NovoJogo(conf, caminhos):
     """
-    Criando um novo Save File.
+    Criando um novo jogo.
     """
-    # nome = input('Digite o nome do Save File: ')
-    # f = open(nome + '.bin', 'wb')
-
-
-
-    # f.close()
-
-    ##################################################################
 
     # Criação do Personagem
     nome = input('\nDigite o seu nome: ')
@@ -135,10 +125,47 @@ def NovoSaveFile(conf):
     utils.ImprimirComDelay('Mas o que está consolidado mesmo.\n',conf.npc_fala_delay)
     utils.ImprimirComDelay('É que você partiu em uma Aventura.\n',conf.npc_fala_delay)
 
-    retorno = menu_explorar.MenuExplorar(j, area, conf)
+    retorno = menu_explorar.MenuExplorar(j, area, conf, caminhos)
 
     if retorno == -1:
         return
+
+def ContinuarJogo(conf, caminhos):
+    """
+    Carregando um jogo salvo.
+    """
+    print('')
+
+    caminho_saves = caminhos['saves']
+    saves = saver.ListarSaves(caminho_saves)
+    n_saves = len(saves)
+
+    if n_saves == 0:
+        utils.MensagemSistema('Não há arquivos de jogos salvos.')
+        print('')
+        return
+
+    op = utils.LerNumeroIntervalo('Digite o índice correspondente a um jogo salvo: ', 0, n_saves)
+
+    if op != 0:
+        nome = saves[op - 1]
+        caminho_save = os.path.join(caminho_saves, nome)
+        save = saver.Carregar(caminho_save)
+
+        j = save['jogador']
+        area = save['area']
+        local = save['local']
+
+        # Jogo foi salvo na parte principal de uma área
+        if local == "Planície de Slimes":
+            retorno = menu_explorar.MenuExplorar(j, area, conf, caminhos)
+
+        # Jogo foi salvo em uma parte específica de uma área
+        elif local == "Vila Pwikutt":
+            retorno = menu_explorar.MenuExplorar(j, area, conf, caminhos, pre_selecionado = 2)
+
+        if retorno == -1:
+            return
 
 def creditos():
     """
@@ -183,10 +210,6 @@ def creditos():
     utils.ImprimirComDelay('|       ', 0.01)
     utils.ImprimirComDelay('marcusvsf.77', 0.03)
     utils.ImprimirComDelay('       |\n', 0.01)
-
-    utils.ImprimirComDelay('|         ', 0.01)
-    utils.ImprimirComDelay('Rivotril', 0.03)
-    utils.ImprimirComDelay('         |\n', 0.01)
 
     utils.ImprimirComDelay('|       ', 0.01)
     utils.ImprimirComDelay('ShinjiMimura', 0.03)

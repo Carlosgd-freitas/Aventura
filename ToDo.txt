@@ -3,24 +3,17 @@
 > Programação
 * Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
-* Opção de ir para o menu principal enquanto joga (irá salvar o jogo)
+* Save automático: Opção de ir para o menu principal enquanto joga (irá salvar o jogo)
 
 > Jogabilidade
 * Veneno persiste após batalha
-* Possibilidade de acessar status, inventario, habilidades e equipamento da vila (msm coisa pra dungeon)
-	- essas opções tem q ser remapeadas pra letras
-	- opções de números vão ser opções específicas pra área (1,6 e 7 na planicie/1,2 e 3 na vila)
-	- imprimir um /n entre essses 2 conjuntos de opções
-	- permanecer o /n entre o último conjunto de opções e a opção de sair do jogo (0)
+* Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
 * Opção de mudar o mapeamento das teclas
 * Jogador pode ser emboscado ao ir até a vila/cidade
 * Chance de encontrar um vendedor ambulante enquanto explora a área
 * Monstros dropam experiencia e ouro baseados em um range
 * Permitir o uso de itens q dão regen do inventário
 * Quando um personagem é criado, uma outra função deve popular seu inventário e equipamentos com os itens iniciais, e não na própria classe
-* Opção de Salvar e Carregar o Save File / os dados serão salvos em um dicionário, e o dicionário em um arquivo binário
-	- jogo deve salvar automaticamente toda vez que você vai pra vila / opção na configuração
-	- campo "valido": só procede com a operação se este campo for lido corretamente
 * Habilidades de heal podem critar
 * Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
 * Sistema de criação (crafting) / comprar e aprender receitas de criação
@@ -66,6 +59,7 @@
 
 > Programação
 * Se há mais criaturas na party do jogador, permitir que ele use consumiveis nos aliados também
+* Jogo retorna ao menu principal quando erros acontecem em vez de fechar
 
 > Jogabilidade
 * Larry dropa um item chave ao ser derrotado, seu óculos de ourives

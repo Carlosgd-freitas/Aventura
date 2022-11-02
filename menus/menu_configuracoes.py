@@ -41,7 +41,7 @@ def MenuConfiguracoes(conf, caminhos):
 
         if op == 1:
             conf.confirmacao_sair = not conf.confirmacao_sair
-            print('Configuração [1] alterada!')
+            utils.MensagemSistema('Configuração [1] foi alterada.', modo = 'print')
             retorno = 1
         
         elif op == 2:
@@ -49,7 +49,7 @@ def MenuConfiguracoes(conf, caminhos):
             conf.npc_fala_delay = utils.LerNumeroIntervalo('> Nova Velocidade: ', 0, 0.5, 'float')
 
             utils.ImprimirComDelay('Este é um exemplo de como as falas de narração e NPCs serão impressas.\n', conf.npc_fala_delay)
-            print('Configuração [2] alterada!')
+            utils.MensagemSistema('Configuração [2] foi alterada.', modo = 'print')
             retorno = 1
 
         print('')

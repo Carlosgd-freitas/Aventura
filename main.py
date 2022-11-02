@@ -5,7 +5,7 @@ import os
 import pickle
 from colorama import init
 
-from classes_base import configuracao
+from classes_base import configuracao, utils
 from menus.inicial import *
 
 # Lembrete: Quando uma nova arma for criada e ela for de um tipo que não é "Normal", ela deve alterar o tipo
@@ -33,6 +33,9 @@ caminhos['bin'] = caminho_bin
 caminho_conf = os.path.join(caminho_bin, 'conf')
 caminhos['conf'] = caminho_conf
 
+caminho_saves = os.path.join(caminho_main, 'saves')
+caminhos['saves'] = caminho_saves
+
 # Configurações do Usuário
 conf = None
 
@@ -58,12 +61,16 @@ else:
             conf = dados['conf']
         
         else:
-            input('ERRO: As configurações não puderam ser carregadas corretamente.')
+            utils.MensagemErro('As configurações não puderam ser carregadas corretamente.')
             os._exit(0)
     
     else:
-        input('ERRO: As configurações não puderam ser carregadas corretamente.')
+        utils.MensagemErro('As configurações não puderam ser carregadas corretamente.')
         os._exit(0)
+
+# Se o diretório "saves" ainda não foi criado
+if(os.path.exists(caminho_saves) == False):
+    os.mkdir(caminho_saves)
 
 # Menu inicial do jogo
 MenuInicial(conf, caminhos)

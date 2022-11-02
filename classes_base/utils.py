@@ -3,6 +3,42 @@ import random
 import math
 from colorama import Fore, Back, Style
 
+def MensagemErro(string, modo = 'input'):
+    """
+    Imprime '[ERRO]' em vermelho, negrito e fundo preto, seguido de um espaço e uma string na cor padrão.
+    
+    Parâmetros:
+    - string: a string que será impressa.
+
+    Parâmetros opcionais:
+    - modo: caso seja 'input', o jogo irá esperar o usuário apertar [ENTER] antes de prosseguir, e caso seja
+    'print', esta espera não ocorrerá. O valor padrão é 'input'.
+    """
+    print(Style.BRIGHT + Back.BLACK + Fore.RED + '[ERRO]' + Style.RESET_ALL, end = '')
+
+    if modo == 'input':
+        input(' ' + string)
+    else:
+        print(' ' + string)
+
+def MensagemSistema(string, modo = 'input'):
+    """
+    Imprime '[SISTEMA]' em branco, negrito e fundo preto, seguido de um espaço e uma string na cor padrão.
+
+    Parâmetros:
+    - string: a string que será impressa.
+
+    Parâmetros opcionais:
+    - modo: caso seja 'input', o jogo irá esperar o usuário apertar [ENTER] antes de prosseguir, e caso seja
+    'print', esta espera não ocorrerá. O valor padrão é 'input'.
+    """
+    print(Style.BRIGHT + Back.BLACK + Fore.WHITE + '[SISTEMA]' + Style.RESET_ALL, end = '')
+
+    if modo == 'input':
+        input(' ' + string)
+    else:
+        print(' ' + string)
+
 def LerNumero(string, tipo = "int"):
     """
     Lê e retorna um número da entrada. Se a entrada não for um número, a função continuará em Loop. O parâmetro

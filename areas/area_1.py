@@ -3,10 +3,11 @@ import random
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from classes_base import area, utils
+from classes_base import area, saver, utils
 from itens import consumiveis, equipamentos
 from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
 from combate import batalha
+from menus import menu_equipamentos, menu_habilidades, menu_inventario
 
 class Area_1(area.Area):
     """
@@ -230,39 +231,101 @@ class Area_1(area.Area):
             
             return resultado
 
-    def MenuVila(self, jogador, conf):
+    def MenuVila(self, jogador, conf, caminhos, save_carregado = False):
         """
         Menu referente ao que o jogador pode fazer quando está presente na vila/cidade da área.
+
+        Parâmetros:
+        - jogador: objeto do jogador;
+        - conf: configurações do usuário relativas ao jogo;
+        - caminhos: caminho relativo a pasta que contém os saves;
+
+        Parâmetros opcionais:
+        - save_carregado: True se um jogo que foi salvo dentro desta vila está sendo carregado e False caso
+        contrário. O Valor padrão é False.;
         """
 
-        # Jogador vai até a vila pela primeira vez
-        if self.conhece_vila == False:
-            utils.ImprimirComDelay('A procura pela vila mais próxima não demorou tanto, afinal de contas você está ' +
-                'em uma planície. Você chutaria que esta vila tem umas poucas centenas de habitantes,\ne devido ao ' +
-                'baixo perigo oferecido pelos monstros da região, os habitantes da vila estão seguros.', conf.npc_fala_delay)
-            utils.ImprimirComDelay(" 'Bem-Vindo à Vila Pwikutt', diz uma placa de metal situada na\nentrada da vila. " +
-                'Os habitantes são bem-educados e pareçem estar acostumados com a chegada de aventureiros. Dando uma ' +
-                'pequena volta pela vila, uma loja de armamentos,\numa loja de poções e uma estalagem são os locais ' +
-                'que lhe chamaram a atenção.\n', conf.npc_fala_delay)
-            self.conhece_vila = True
-        
-        # Vezes subsequentes
-        else:
-            utils.ImprimirComDelay('Você chega na Vila Pwikutt.\n', conf.npc_fala_delay)
+        if save_carregado == True:
+            pass
 
+        else:
+            # Jogador vai até a vila pela primeira vez
+            if self.conhece_vila == False:
+                utils.ImprimirComDelay('A procura pela vila mais próxima não demorou tanto, afinal de contas você está ' +
+                    'em uma planície. Você chutaria que esta vila tem umas poucas centenas de habitantes,\ne devido ao ' +
+                    'baixo perigo oferecido pelos monstros da região, os habitantes da vila estão seguros.', conf.npc_fala_delay)
+                utils.ImprimirComDelay(" 'Bem-Vindo à Vila Pwikutt', diz uma placa de metal situada na\nentrada da vila. " +
+                    'Os habitantes são bem-educados e pareçem estar acostumados com a chegada de aventureiros. Dando uma ' +
+                    'pequena volta pela vila, uma loja de armamentos,\numa loja de poções e uma estalagem são os locais ' +
+                    'que lhe chamaram a atenção.\n', conf.npc_fala_delay)
+                self.conhece_vila = True
+            
+            # Vezes subsequentes
+            else:
+                utils.ImprimirComDelay('Você chega na Vila Pwikutt.\n', conf.npc_fala_delay)
+
+        save_carregado = False
         retorno = 1
         
         while True:
             if retorno == 1:
-                print('\n[1] Ir até a Loja de Poções')
-                print('[2] Ir até a Loja de Armamentos')
-                print('[3] Ir até a Estalagem')
+                print('\nEscolha sua Ação:')
+                print('[S] Status')
+                print('[I] Inventário')
+                print('[H] Habilidades')
+                print('[E] Equipamentos')
+                print('[P] Salvar Jogo\n')
 
-                print('\n[0] Voltar a Explorar')
+                print('[1] Ir até a Loja de Poções')
+                print('[2] Ir até a Loja de Armamentos')
+                print('[3] Ir até a Estalagem\n')
+
+                print('[0] Voltar a Explorar\n')
 
                 retorno = 0
             
-            op = utils.LerNumeroIntervalo('> ', 0, 3)
+            op = input('> ')
+            if op.isdecimal():
+                op = int(op)
+            
+            # Status do Jogador
+            if op == 'S' or op == 's':
+                jogador.ImprimirStatus()
+                retorno = 1
+            
+            # Inventário do Jogador
+            elif op == 'I' or op == 'i':
+                print('')
+
+                if not jogador.inventario:
+                    print('Você não tem itens em seu inventário.')
+                else:
+                    menu_inventario.MenuInventario(jogador)
+
+                retorno = 1
+            
+            # Habilidades do Jogador
+            elif op == 'H' or op == 'h':
+                print('')
+
+                if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
+                    print('Você não tem habilidades.')
+                else:
+                    menu_habilidades.MenuHabilidades(jogador)
+
+                retorno = 1
+
+            # Equipamentos do Jogador
+            elif op == 'E' or op == 'e':
+                print('')
+                menu_equipamentos.MenuEquipamentos(jogador)
+                retorno = 1
+
+            # Salvar o Jogo
+            elif op == 'P' or op == 'p':
+                print('')
+                saver.Salvar(caminhos['saves'], jogador, self, "Vila Pwikutt")
+                retorno = 1
 
             # Voltar a Explorar
             if op == 0:

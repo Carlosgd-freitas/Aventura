@@ -124,15 +124,6 @@ class NotasAtualizacao():
         self.positivo('Broquel de Madeira, Chapéu de Couro, Peitoral de Couro, Robe de Algodão e Botas de couro ' +
             'adicionados.')
         self.positivo('Antídoto e Bomba Inferior adicionados.')
-    
-    def alphaV004(self):
-        """
-        Notas de atualização referente à versão Alpha 0.0.4.
-        """
-
-        self.titulo('----------------------------------- Alpha Versão 0.0.4 -----------------------------------')
-        print('\nOutros')
-        self.positivo('As configurações agora são salvas e permanecem com as alterações feitas pelos jogadores.')
 
     def alphaV003(self):
         """
@@ -170,6 +161,20 @@ class NotasAtualizacao():
         self.positivo('Adicionada uma confirmação para sair do jogo.')
         self.positivo('Falas de NPCs possuem um delay durante sua impressão.')
         self.positivo('Perder o jogo agora retorna o jogador para o menu principal em vez de fechá-lo.')
+    
+    def alphaV004(self):
+        """
+        Notas de atualização referente à versão Alpha 0.0.4.
+        """
+
+        self.titulo('----------------------------------- Alpha Versão 0.0.4 -----------------------------------')
+        print('\nJogabilidade')
+        self.positivo('Um jogo agora pode ser salvo e carregado manualmente.')
+        self.positivo('O jogador agora pode acessar seu status, inventário, habilidades e equipamento quando ' +
+            'estiver em uma vila.')
+
+        print('\nOutros')
+        self.positivo('As configurações agora são salvas e permanecem com as alterações feitas pelos jogadores.')
 
     def titulo(string):
         """
