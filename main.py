@@ -72,5 +72,8 @@ else:
 if(os.path.exists(caminho_saves) == False):
     os.mkdir(caminho_saves)
 
+# Atualizando o arquivo de configurações
+conf.Atualizar()
+
 # Menu inicial do jogo
 MenuInicial(conf, caminhos)

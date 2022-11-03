@@ -3,17 +3,17 @@
 > Programação
 * Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
-* Save automático: Opção de ir para o menu principal enquanto joga (irá salvar o jogo)
+* README.md deve explicar que as pastas saves e bin serão criadas.
+* Função de reconhecer e executar ações básicas (status, inventário...)
+* Quando um personagem é criado, uma outra função deve popular seu inventário e equipamentos com os itens iniciais, e não na própria classe
 
 > Jogabilidade
 * Veneno persiste após batalha
 * Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
-* Opção de mudar o mapeamento das teclas
 * Jogador pode ser emboscado ao ir até a vila/cidade
 * Chance de encontrar um vendedor ambulante enquanto explora a área
 * Monstros dropam experiencia e ouro baseados em um range
 * Permitir o uso de itens q dão regen do inventário
-* Quando um personagem é criado, uma outra função deve popular seu inventário e equipamentos com os itens iniciais, e não na própria classe
 * Habilidades de heal podem critar
 * Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
 * Sistema de criação (crafting) / comprar e aprender receitas de criação

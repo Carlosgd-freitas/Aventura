@@ -3,7 +3,7 @@ import random
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from classes_base import area, saver, utils
+from classes_base import area, saver, configuracao, utils
 from itens import consumiveis, equipamentos
 from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
 from combate import batalha
@@ -270,13 +270,9 @@ class Area_1(area.Area):
         while True:
             if retorno == 1:
                 print('\nEscolha sua Ação:')
-                print('[S] Status')
-                print('[I] Inventário')
-                print('[H] Habilidades')
-                print('[E] Equipamentos')
-                print('[P] Salvar Jogo\n')
+                conf.ImprimirAcoes()
 
-                print('[1] Ir até a Loja de Poções')
+                print('\n[1] Ir até a Loja de Poções')
                 print('[2] Ir até a Loja de Armamentos')
                 print('[3] Ir até a Estalagem\n')
 
@@ -289,12 +285,12 @@ class Area_1(area.Area):
                 op = int(op)
             
             # Status do Jogador
-            if op == 'S' or op == 's':
+            if configuracao.CompararAcao(op, conf.tecla_status):
                 jogador.ImprimirStatus()
                 retorno = 1
             
             # Inventário do Jogador
-            elif op == 'I' or op == 'i':
+            elif configuracao.CompararAcao(op, conf.tecla_inventario):
                 print('')
 
                 if not jogador.inventario:
@@ -305,7 +301,7 @@ class Area_1(area.Area):
                 retorno = 1
             
             # Habilidades do Jogador
-            elif op == 'H' or op == 'h':
+            elif configuracao.CompararAcao(op, conf.tecla_habilidades):
                 print('')
 
                 if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
@@ -316,13 +312,13 @@ class Area_1(area.Area):
                 retorno = 1
 
             # Equipamentos do Jogador
-            elif op == 'E' or op == 'e':
+            elif configuracao.CompararAcao(op, conf.tecla_equipamentos):
                 print('')
                 menu_equipamentos.MenuEquipamentos(jogador)
                 retorno = 1
 
             # Salvar o Jogo
-            elif op == 'P' or op == 'p':
+            elif configuracao.CompararAcao(op, conf.tecla_salvar_jogo):
                 print('')
                 saver.Salvar(caminhos['saves'], jogador, self, "Vila Pwikutt")
                 retorno = 1

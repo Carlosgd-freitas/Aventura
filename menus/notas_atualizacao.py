@@ -169,12 +169,14 @@ class NotasAtualizacao():
 
         self.titulo('----------------------------------- Alpha Versão 0.0.4 -----------------------------------')
         print('\nJogabilidade')
-        self.positivo('Um jogo agora pode ser salvo e carregado manualmente.')
-        self.positivo('O jogador agora pode acessar seu status, inventário, habilidades e equipamento quando ' +
+        self.positivo('Um jogo pode ser salvo e carregado manualmente.')
+        self.positivo("O jogo, por padrão, salva automaticamente quando a ação 'Sair do Jogo' é escolhida.")
+        self.positivo('O jogador pode acessar seu status, inventário, habilidades e equipamento quando ' +
             'estiver em uma vila.')
 
         print('\nOutros')
-        self.positivo('As configurações agora são salvas e permanecem com as alterações feitas pelos jogadores.')
+        self.positivo('As configurações são salvas e permanecem com as alterações feitas pelos jogadores.')
+        self.positivo('O mapeamento das teclas de algumas ações pode ser alterado.')
 
     def titulo(string):
         """

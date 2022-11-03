@@ -5,7 +5,7 @@ import random
 from . import menu_equipamentos, menu_habilidades, menu_inventario
 
 sys.path.append("..")
-from classes_base import saver, utils
+from classes_base import saver, configuracao, utils
 from combate import batalha
 
 def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
@@ -36,13 +36,9 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
         # Imprimindo as ações que o jogador pode tomar
         if retorno == 1:
             print('\nEscolha sua Ação:')
-            print('[S] Status')
-            print('[I] Inventário')
-            print('[H] Habilidades')
-            print('[E] Equipamentos')
-            print('[P] Salvar Jogo\n')
+            conf.ImprimirAcoes()
 
-            print('[1] Explorar')
+            print('\n[1] Explorar')
 
             if area.nome == "Planície de Slimes":
                 if area.conhece_vila == False:
@@ -52,7 +48,7 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
             
                 print('[3] Ir em direção à Floresta\n')
 
-            print('[0] Sair\n')
+            print('[0] Sair do Jogo\n')
             
             retorno = 0
 
@@ -67,12 +63,12 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
                 op = int(op)
 
         # Status do Jogador
-        if op == 'S' or op == 's':
+        if configuracao.CompararAcao(op, conf.tecla_status):
             jogador.ImprimirStatus()
             retorno = 1
         
         # Inventário do Jogador
-        elif op == 'I' or op == 'i':
+        elif configuracao.CompararAcao(op, conf.tecla_inventario):
             print('')
 
             if not jogador.inventario:
@@ -83,7 +79,7 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
             retorno = 1
         
         # Habilidades do Jogador
-        elif op == 'H' or op == 'h':
+        elif configuracao.CompararAcao(op, conf.tecla_habilidades):
             print('')
 
             if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
@@ -94,13 +90,13 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
             retorno = 1
 
         # Equipamentos do Jogador
-        elif op == 'E' or op == 'e':
+        elif configuracao.CompararAcao(op, conf.tecla_equipamentos):
             print('')
             menu_equipamentos.MenuEquipamentos(jogador)
             retorno = 1
 
         # Salvar o Jogo
-        elif op == 'P' or op == 'p':
+        elif configuracao.CompararAcao(op, conf.tecla_salvar_jogo):
             print('')
             saver.Salvar(caminhos['saves'], jogador, area, area.nome)
             retorno = 1
@@ -117,9 +113,13 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
                 if sair == 0:
                     retorno = 1
                 else:
+                    if conf.salvar_sair == True:
+                        saver.Salvar(caminhos['saves'], jogador, area, area.nome)
                     os._exit(0)
             
             else:
+                if conf.salvar_sair == True:
+                    saver.Salvar(caminhos['saves'], jogador, area, area.nome)
                 os._exit(0)
         
         # Explorar a Área
