@@ -3,11 +3,11 @@ import random
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
+from base.jogador import ReconhecerAcaoBasica
 from base import area, saver, configuracao, imprimir, utils
 from itens import consumiveis, equipamentos
 from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
 from combate import batalha
-from menus import menu_equipamentos, menu_habilidades, menu_inventario
 
 class Area_1(area.Area):
     """
@@ -269,7 +269,8 @@ class Area_1(area.Area):
         
         while True:
             if retorno == 1:
-                print('\nEscolha sua Ação:')
+                imprimir.ImprimirLocal("Vila Pwikutt")
+                print('Escolha sua Ação:')
                 conf.ImprimirAcoes()
 
                 print('\n[1] Ir até a Loja de Poções')
@@ -284,37 +285,8 @@ class Area_1(area.Area):
             if op.isdecimal():
                 op = int(op)
             
-            # Status do Jogador
-            if configuracao.CompararAcao(op, conf.tecla_status):
-                jogador.ImprimirStatus()
-                retorno = 1
-            
-            # Inventário do Jogador
-            elif configuracao.CompararAcao(op, conf.tecla_inventario):
-                print('')
-
-                if not jogador.inventario:
-                    print('Você não tem itens em seu inventário.')
-                else:
-                    menu_inventario.MenuInventario(jogador)
-
-                retorno = 1
-            
-            # Habilidades do Jogador
-            elif configuracao.CompararAcao(op, conf.tecla_habilidades):
-                print('')
-
-                if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
-                    print('Você não tem habilidades.')
-                else:
-                    menu_habilidades.MenuHabilidades(jogador)
-
-                retorno = 1
-
-            # Equipamentos do Jogador
-            elif configuracao.CompararAcao(op, conf.tecla_equipamentos):
-                print('')
-                menu_equipamentos.MenuEquipamentos(jogador)
+            # Status, Inventário, Habilidades, Equipamentos
+            if ReconhecerAcaoBasica(op, jogador, conf):
                 retorno = 1
 
             # Salvar o Jogo
@@ -324,12 +296,12 @@ class Area_1(area.Area):
                 retorno = 1
 
             # Voltar a Explorar
-            if op == 0:
+            elif op == 0:
                 print('Você retorna até a Planície para continuar explorando.')
                 break
 
             # Loja de Poções
-            if op == 1:
+            elif op == 1:
 
                 if self.conhece_vendedor_pocoes == False:
                     if jogador.genero == 'M':

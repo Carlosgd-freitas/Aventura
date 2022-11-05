@@ -1,11 +1,11 @@
 import os
 import sys
 import random
-
-from . import menu_equipamentos, menu_habilidades, menu_inventario
+from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from base import saver, configuracao, imprimir, utils
+from base.jogador import ReconhecerAcaoBasica
+from base import configuracao, saver, imprimir, utils
 from combate import batalha
 
 def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
@@ -35,7 +35,8 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
 
         # Imprimindo as ações que o jogador pode tomar
         if retorno == 1:
-            print('\nEscolha sua Ação:')
+            imprimir.ImprimirLocal(area.nome)
+            print('Escolha sua Ação:')
             conf.ImprimirAcoes()
 
             print('\n[1] Explorar')
@@ -62,39 +63,10 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
             if op.isdecimal():
                 op = int(op)
 
-        # Status do Jogador
-        if configuracao.CompararAcao(op, conf.tecla_status):
-            jogador.ImprimirStatus()
+        # Status, Inventário, Habilidades, Equipamentos
+        if ReconhecerAcaoBasica(op, jogador, conf):
             retorno = 1
         
-        # Inventário do Jogador
-        elif configuracao.CompararAcao(op, conf.tecla_inventario):
-            print('')
-
-            if not jogador.inventario:
-                print('Você não tem itens em seu inventário.')
-            else:
-                menu_inventario.MenuInventario(jogador)
-
-            retorno = 1
-        
-        # Habilidades do Jogador
-        elif configuracao.CompararAcao(op, conf.tecla_habilidades):
-            print('')
-
-            if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
-                print('Você não tem habilidades.')
-            else:
-                menu_habilidades.MenuHabilidades(jogador)
-
-            retorno = 1
-
-        # Equipamentos do Jogador
-        elif configuracao.CompararAcao(op, conf.tecla_equipamentos):
-            print('')
-            menu_equipamentos.MenuEquipamentos(jogador)
-            retorno = 1
-
         # Salvar o Jogo
         elif configuracao.CompararAcao(op, conf.tecla_salvar_jogo):
             print('')

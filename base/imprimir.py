@@ -12,6 +12,24 @@ def ImprimirComDelay(string, delay):
         print(letra, end = '')
         time.sleep(delay)
 
+def ImprimirLocal(nome):
+    """
+    Imprime '== Local: X ==', onde X é o nome de um local a ser impresso em negrito.
+
+    Parâmetros:
+    - nome: nome do local a ser impresso.
+    """
+    print('\n== Local: ', end = '')
+    print(Style.BRIGHT, end = '')
+
+    if nome == "Planície de Slimes":
+        print(Fore.GREEN + Back.BLACK + 'Planície de Slimes', end = '')
+    elif nome == "Vila Pwikutt":
+        print(Fore.WHITE + Back.BLACK + 'Vila Pwikutt', end = '')
+
+    print(Style.RESET_ALL, end = '')
+    print(' ==')
+
 ### Impressão de classes ###
 
 def ImprimirTipo(tipo):

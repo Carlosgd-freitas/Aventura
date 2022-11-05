@@ -1,6 +1,11 @@
+import sys
 from colorama import Fore, Back, Style
 
 from . import criatura, guerreiro, mago
+
+sys.path.append("..")
+from base import configuracao
+from menus import menu_inventario, menu_habilidades, menu_equipamentos
 
 class Jogador(criatura.Criatura):
     """
@@ -173,3 +178,50 @@ class Jogador(criatura.Criatura):
             nova_lista.append(item_clonado)
 
         return nova_lista
+
+def ReconhecerAcaoBasica(acao, jogador, conf):
+    """
+    Compara uma ação tomada pelo jogador fora de combate e a executa caso ela seja uma das ações básicas:
+    status, inventário, habilidades ou equipamentos. Caso uma das ações básicas seja executada, retorna True,
+    e caso contrário, retorna False.
+
+    Parâmetros:
+    - acao: ação do jogador a ser comparada;
+    - jogador: objeto do jogador;
+    - conf: configurações do usuário relativas ao jogo;
+    """
+
+    # Status do Jogador
+    if configuracao.CompararAcao(acao, conf.tecla_status):
+        jogador.ImprimirStatus()
+        return True
+    
+    # Inventário do Jogador
+    elif configuracao.CompararAcao(acao, conf.tecla_inventario):
+        print('')
+
+        if not jogador.inventario:
+            print('Você não tem itens em seu inventário.')
+        else:
+            menu_inventario.MenuInventario(jogador)
+
+        return True
+    
+    # Habilidades do Jogador
+    elif configuracao.CompararAcao(acao, conf.tecla_habilidades):
+        print('')
+
+        if len(jogador.habilidades) == 1: # Jogador só possui a habilidade "Atacar"
+            print('Você não tem habilidades.')
+        else:
+            menu_habilidades.MenuHabilidades(jogador)
+
+        return True
+
+    # Equipamentos do Jogador
+    elif configuracao.CompararAcao(acao, conf.tecla_equipamentos):
+        print('')
+        menu_equipamentos.MenuEquipamentos(jogador)
+        return True
+    
+    return False

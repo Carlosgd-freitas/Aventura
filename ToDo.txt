@@ -1,7 +1,5 @@
 ===== Alpha v0.0.4 =====
 
-* Função de reconhecer e executar ações básicas (status, inventário...)
-
 > Programação
 * Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
@@ -17,6 +15,7 @@
 * Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
 * Sistema de criação (crafting) / comprar e aprender receitas de criação
 * Jogador pode upar até o nível 10
+	- se existir experiencia suficiente, o jogador pode upar vários níveis de uma vez
 * Dungeon na área 1 - Colméia de Abelhóides
 * Mago é uma classe bloqueada de início e deve ser desbloqueada
 * Sistema de conquistas (achievements)
@@ -24,6 +23,7 @@
 	- Caçador de Anomalias: Derrote Larry e o Cristal Atacante
 	- Mago: Mate 5 inimigos usando uma habilidade ativa
 	- Ladino: Cause 10 acertos críticos
+* Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
 > Bugs
 * Na emboscada da clareira, os inimigos estão sempre dando 0 de dano

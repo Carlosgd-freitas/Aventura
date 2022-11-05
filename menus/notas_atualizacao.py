@@ -173,6 +173,8 @@ class NotasAtualizacao():
         self.positivo("O jogo, por padrão, salva automaticamente quando a ação 'Sair do Jogo' é escolhida.")
         self.positivo('O jogador pode acessar seu status, inventário, habilidades e equipamento quando ' +
             'estiver em uma vila.')
+        self.positivo('O local em que o jogador está é impresso antes das ações disponíveis quando este está ' +
+            'fora de combate.')
 
         print('\nOutros')
         self.positivo('As configurações são salvas e permanecem com as alterações feitas pelos jogadores.')
