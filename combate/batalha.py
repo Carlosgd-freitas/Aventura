@@ -2,9 +2,9 @@ import random
 import sys
 from colorama import Fore, Back, Style
 
-from . import jogador_acoes, mecanicas, imprimir, usar_habilidade
+from . import jogador_acoes, mecanicas, usar_habilidade
 sys.path.append("..")
-from classes_base import efeito, utils
+from base import efeito, imprimir, utils
 from menus import menu_equipamentos
 
 def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = True, chefao = 0):

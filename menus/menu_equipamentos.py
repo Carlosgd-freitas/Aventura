@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from classes_base import utils
+from base import imprimir, utils
 from itens import equipamentos
 
 def ImprimirEquipamento(item):
@@ -13,7 +13,7 @@ def ImprimirEquipamento(item):
         mensagem = f'{item[1].nome}'.ljust(45, ' ')
         mensagem += ' | Nível: {:2d} | Tipo: '.format(item[1].nivel)
         print(mensagem, end = '')
-        utils.ImprimirTipo(item[1].tipo)
+        imprimir.ImprimirTipo(item[1].tipo)
         print('')
     else:
         print('----------')
@@ -274,7 +274,7 @@ def MenuEquipar(jogador, lugar):
             (item[1].nivel <= jogador.nivel):
 
             print(f'[{print_indice}] {item[1].nome} - Nível: {item[1].nivel} - Tipo: ', end = '')
-            utils.ImprimirTipo(item[1].tipo)
+            imprimir.ImprimirTipo(item[1].tipo)
             print('')
             relacao.append((print_indice, item_indice))
             print_indice += 1
@@ -282,7 +282,7 @@ def MenuEquipar(jogador, lugar):
         elif (item[0] == classificacao) and (item[1].nivel <= jogador.nivel):
             
             print(f'[{print_indice}] {item[1].nome} - Nível: {item[1].nivel} - Tipo: ', end = '')
-            utils.ImprimirTipo(item[1].tipo)
+            imprimir.ImprimirTipo(item[1].tipo)
             print('')
             relacao.append((print_indice, item_indice))
             print_indice += 1

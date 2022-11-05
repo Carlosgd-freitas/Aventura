@@ -5,7 +5,7 @@ import os
 import pickle
 from colorama import init
 
-from classes_base import configuracao, utils
+from base import configuracao, imprimir
 from menus.inicial import *
 
 # Lembrete: Quando uma nova arma for criada e ela for de um tipo que não é "Normal", ela deve alterar o tipo
@@ -61,11 +61,11 @@ else:
             conf = dados['conf']
         
         else:
-            utils.MensagemErro('As configurações não puderam ser carregadas corretamente.')
+            imprimir.MensagemErro('As configurações não puderam ser carregadas corretamente.')
             os._exit(0)
     
     else:
-        utils.MensagemErro('As configurações não puderam ser carregadas corretamente.')
+        imprimir.MensagemErro('As configurações não puderam ser carregadas corretamente.')
         os._exit(0)
 
 # Se o diretório "saves" ainda não foi criado

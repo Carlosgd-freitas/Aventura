@@ -18,7 +18,7 @@ Um jogo de RPG baseado em texto feito do zero na linguagem Python.
 
 A pasta _[areas](https://github.com/Carlosgd-freitas/Aventura/tree/main/areas)_ contém as áreas pelas quais o jogador se encontra, assim como os eventos que podem acontecer nelas.
 
-A pasta _[classes_base](https://github.com/Carlosgd-freitas/Aventura/tree/main/classes_base)_ contém as classes básicas, utilizadas para criar efeitos, itens e habilidades, por exemplo.
+A pasta _[base](https://github.com/Carlosgd-freitas/Aventura/tree/main/base)_ contém classes e funções básicas, utilizadas no sistema de configurações do jogo e para criar itens, por exemplo.
 
 A pasta _[combate](https://github.com/Carlosgd-freitas/Aventura/tree/main/combate)_ contém funções relacionadas ao sistema de combate.
 
@@ -28,7 +28,7 @@ A pasta _[habilidades](https://github.com/Carlosgd-freitas/Aventura/tree/main/ha
 
 A pasta _[itens](https://github.com/Carlosgd-freitas/Aventura/tree/main/itens)_ contém os itens consumíveis, equipamentos, e espólios de inimigos derrotados.
 
-A pasta _[menus](https://github.com/Carlosgd-freitas/Aventura/tree/main/menus)_ contém os menus relacionados à habilidades, inventário, equipamentos, etc.
+A pasta _[menus](https://github.com/Carlosgd-freitas/Aventura/tree/main/menus)_ contém os menus relacionados a habilidades, inventário, equipamentos, etc.
 
 ***
 
@@ -37,6 +37,8 @@ A pasta _[menus](https://github.com/Carlosgd-freitas/Aventura/tree/main/menus)_ 
 No Windows, dê um clique duplo no executável **Aventura.exe**. O Windows pode alertar que o jogo é um malware já que ele não contém um certificado de segurança. Apenas ignore ou desabilite esse alerta para executar o jogo.
 
 No Linux, execute o comando ```chmod +x Aventura``` para tornar o arquivo executável, e então, o comando ```./Aventura``` para executar o jogo.
+
+Ao executar o jogo pela primeira vez, os diretórios ```bin``` e ```saves``` serão criados. O diretório ```bin``` conterá arquivos binários utilizados por alguns sistemas do jogo (como o de configuração). Já o diretório ```saves``` conterá os arquivos dos jogos salvos pelo jogador.
 
 ***
 

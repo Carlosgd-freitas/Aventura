@@ -1,5 +1,5 @@
 from colorama import Fore, Back, Style
-from classes_base import utils
+from base import utils
 
 class NotasAtualizacao():
     """

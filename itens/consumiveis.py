@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from classes_base import efeito, item
+from base import efeito, item
 
 def ErvaCurativa(quantidade, preco):
     """

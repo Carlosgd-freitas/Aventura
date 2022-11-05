@@ -90,9 +90,11 @@ def SubirNivelMago(jogador):
 
         jogador.magia += 1
 
-        # Aumentando o custo do Projétil de Mana
-        indice =  jogador.HabilidadePresente("Projétil de Mana")
-        jogador.habilidades[indice].custo = [("Mana", jogador.nivel + 1)]
+        # A cada 2 níveis: Aumentando o custo do Projétil de Mana
+        if jogador.nivel % 2 == 0:
+            indice =  jogador.HabilidadePresente("Projétil de Mana")
+            custo = jogador.habilidades[indice].RetornarCusto("Mana")
+            jogador.habilidades[indice].AlterarCusto("Mana", custo + 1)
 
         print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo aumentou em 2.')
         print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima aumentou em 3.')

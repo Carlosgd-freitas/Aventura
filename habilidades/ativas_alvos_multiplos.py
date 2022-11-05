@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from classes_base import habilidade, efeito
+from base import habilidade, efeito
 
 def GritoEstremecedor(mana, recarga, modificador_magia):
     """

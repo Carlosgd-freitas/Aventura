@@ -3,7 +3,7 @@ import sys
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from classes_base import utils
+from base import imprimir, utils
 from combate import jogador_acoes
 
 def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
@@ -52,7 +52,7 @@ def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
         if flag_consumivel == 0:
             mensagem += f' - Nível: {item[1].nivel} - Tipo: '
             print(mensagem, end = '')
-            utils.ImprimirTipo(item[1].tipo)
+            imprimir.ImprimirTipo(item[1].tipo)
             print('')
 
         else:

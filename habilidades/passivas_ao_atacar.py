@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from classes_base import efeito, habilidade
+from base import efeito, habilidade
 
 def Envenenamento(veneno, turnos, chance):
     """

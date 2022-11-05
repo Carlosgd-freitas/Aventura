@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from classes_base import utils
+from base import utils
 from criaturas import slime
 
 def InvocarCriaturas(invocador, habilidade, lista_criaturas, nomes, nomes_zerados):

@@ -5,7 +5,7 @@ import random
 from . import menu_equipamentos, menu_habilidades, menu_inventario
 
 sys.path.append("..")
-from classes_base import saver, configuracao, utils
+from base import saver, configuracao, imprimir, utils
 from combate import batalha
 
 def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
@@ -184,7 +184,7 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
 
             # Chefão derrotado
             if area.chefao_derrotado == True:
-                utils.ImprimirComDelay('Você chegou ao final desta versão do jogo, parabéns! Você agora será '+
+                imprimir.ImprimirComDelay('Você chegou ao final desta versão do jogo, parabéns! Você agora será '+
                 'retornado ao menu de exploração, com sua vida e mana maximizadas,\ne pode continuar jogando. O ' +
                 'chefão também estará vivo novamente, se quiser enfrentá-lo. Obrigado por jogar!\n', conf.npc_fala_delay)
             

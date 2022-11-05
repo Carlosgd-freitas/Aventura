@@ -2,7 +2,7 @@ import sys
 
 from . import mecanicas
 sys.path.append("..")
-from classes_base import utils
+from base import utils
 
 def AlvoUnico(atacante, alvo, habilidade):
     """

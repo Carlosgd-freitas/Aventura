@@ -4,7 +4,7 @@ import sys
 from abc import abstractmethod
 from colorama import Fore, Back, Style
 
-from . import utils
+from . import imprimir, utils
 sys.path.append("..")
 from combate import batalha
 
@@ -140,7 +140,7 @@ class Area():
                         # Nível e Tipo
                         mensagem += ' | Nível: {:2d} | Tipo: '.format(item[1].nivel)
                         print(mensagem, end = '')
-                        utils.ImprimirTipo(item[1].tipo)
+                        imprimir.ImprimirTipo(item[1].tipo)
                         print('')
 
                         # Atributos concedidos pelo item

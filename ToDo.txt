@@ -1,11 +1,10 @@
 ===== Alpha v0.0.4 =====
 
+* Função de reconhecer e executar ações básicas (status, inventário...)
+
 > Programação
 * Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
-* README.md deve explicar que as pastas saves e bin serão criadas.
-* Função de reconhecer e executar ações básicas (status, inventário...)
-* Quando um personagem é criado, uma outra função deve popular seu inventário e equipamentos com os itens iniciais, e não na própria classe
 
 > Jogabilidade
 * Veneno persiste após batalha

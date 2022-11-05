@@ -3,7 +3,7 @@ import math
 import sys
 
 sys.path.append("..")
-from classes_base import criatura
+from base import criatura
 from habilidades import ativas_alvo_unico, passivas_ao_atacar
 from itens import espolios
 

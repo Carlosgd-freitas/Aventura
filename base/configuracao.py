@@ -1,6 +1,6 @@
 import pickle
 from colorama import Fore, Back, Style
-from . import utils
+from . import imprimir
 
 class Configuracao():
     """
@@ -123,7 +123,7 @@ def DefinirConfiguracaoValor(conf, c):
         valor = input()
 
         if (len(valor) > 1) or (not valor.isalpha()):
-            utils.MensagemErro('Apenas uma tecla, não numérica, pode ser definida como uma ação do jogador.')
+            imprimir.MensagemErro('Apenas uma tecla, não numérica, pode ser definida como uma ação do jogador.')
 
         else:
 
@@ -132,7 +132,7 @@ def DefinirConfiguracaoValor(conf, c):
                 (CompararAcao(valor, conf.tecla_habilidades) and conf.tecla_habilidades != c) or \
                 (CompararAcao(valor, conf.tecla_equipamentos) and conf.tecla_equipamentos != c) or \
                 (CompararAcao(valor, conf.tecla_salvar_jogo) and conf.tecla_salvar_jogo != c):
-                utils.MensagemErro('Outra ação já foi definida com esta tecla.')
+                imprimir.MensagemErro('Outra ação já foi definida com esta tecla.')
 
             else:
                 if conf.tecla_status == c:

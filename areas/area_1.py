@@ -3,7 +3,7 @@ import random
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from classes_base import area, saver, configuracao, utils
+from base import area, saver, configuracao, imprimir, utils
 from itens import consumiveis, equipamentos
 from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
 from combate import batalha
@@ -184,11 +184,11 @@ class Area_1(area.Area):
         """
 
         if self.chefao_encontrado == False:
-            utils.ImprimirComDelay('Caminhando em direção à floresta, você percebe uma coisa incomum. Um cristal ' +
+            imprimir.ImprimirComDelay('Caminhando em direção à floresta, você percebe uma coisa incomum. Um cristal ' +
             'de médio porte, vermelho, e que flutua a mais ou menos um metro do chão, está\neliminando todas as ' +
             'criaturas que chegam perto dele com um Raio de Fogo, enquanto também se move lentamente em direção a ' +
             'floresta. O cristal possui várias\ninscrições rúnicas encravadas em si, e aparenta estar danificado.\n\n', conf.npc_fala_delay)
-            utils.ImprimirComDelay('Observando melhor, o cristal está atacando criaturas que chegam próximas à um '+
+            imprimir.ImprimirComDelay('Observando melhor, o cristal está atacando criaturas que chegam próximas à um '+
             'slime que o acompanha. Este slime possui um óculos de ourives em seu interior,\ndaqueles com várias ' +
             'lentes, que utilizam para examinar pedras preciosas, praticamente intacto. O slime percebe sua presença, ' +
             'e rapidamente se move até uma\ndistância de mais ou menos cinco metros de você. Ele aparenta saber que se ' +
@@ -251,10 +251,10 @@ class Area_1(area.Area):
         else:
             # Jogador vai até a vila pela primeira vez
             if self.conhece_vila == False:
-                utils.ImprimirComDelay('A procura pela vila mais próxima não demorou tanto, afinal de contas você está ' +
+                imprimir.ImprimirComDelay('A procura pela vila mais próxima não demorou tanto, afinal de contas você está ' +
                     'em uma planície. Você chutaria que esta vila tem umas poucas centenas de habitantes,\ne devido ao ' +
                     'baixo perigo oferecido pelos monstros da região, os habitantes da vila estão seguros.', conf.npc_fala_delay)
-                utils.ImprimirComDelay(" 'Bem-Vindo à Vila Pwikutt', diz uma placa de metal situada na\nentrada da vila. " +
+                imprimir.ImprimirComDelay(" 'Bem-Vindo à Vila Pwikutt', diz uma placa de metal situada na\nentrada da vila. " +
                     'Os habitantes são bem-educados e pareçem estar acostumados com a chegada de aventureiros. Dando uma ' +
                     'pequena volta pela vila, uma loja de armamentos,\numa loja de poções e uma estalagem são os locais ' +
                     'que lhe chamaram a atenção.\n', conf.npc_fala_delay)
@@ -262,7 +262,7 @@ class Area_1(area.Area):
             
             # Vezes subsequentes
             else:
-                utils.ImprimirComDelay('Você chega na Vila Pwikutt.\n', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay('Você chega na Vila Pwikutt.\n', conf.npc_fala_delay)
 
         save_carregado = False
         retorno = 1
@@ -333,18 +333,18 @@ class Area_1(area.Area):
 
                 if self.conhece_vendedor_pocoes == False:
                     if jogador.genero == 'M':
-                        utils.ImprimirComDelay('???: Olá! Você deve ser novo por aqui.\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Olá! Você deve ser novo por aqui.\n', conf.npc_fala_delay)
                     elif jogador.genero == 'F':
-                        utils.ImprimirComDelay('???: Olá! Você deve ser nova por aqui.\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Olá! Você deve ser nova por aqui.\n', conf.npc_fala_delay)
 
-                    utils.ImprimirComDelay('???: Me chamo Maelia, sou a dona dessa loja de poções.\n', conf.npc_fala_delay)
-                    utils.ImprimirComDelay('Maelia: É melhor dar uma estocada em algumas poções, elas podem salvar a ' +
+                    imprimir.ImprimirComDelay('???: Me chamo Maelia, sou a dona dessa loja de poções.\n', conf.npc_fala_delay)
+                    imprimir.ImprimirComDelay('Maelia: É melhor dar uma estocada em algumas poções, elas podem salvar a ' +
                         'sua vida em situações perigosas!\n', conf.npc_fala_delay)
                     
                     self.conhece_vendedor_pocoes = True
                 
                 else:
-                    utils.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Veio se prevenir com algumas das minhas ' +
+                    imprimir.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Veio se prevenir com algumas das minhas ' +
                         'poções?\n', conf.npc_fala_delay)
 
                 operacao_realizada = self.Loja(jogador, self.lojas_itens[0])
@@ -352,14 +352,14 @@ class Area_1(area.Area):
                 # Primeira compra de poções realizada nesta loja
                 if operacao_realizada == 1 and self.primeira_compra_pocoes == False:
 
-                    utils.ImprimirComDelay('Maelia: Minhas poções vão ajudar na sua aventura, pode ter certeza!\n', conf.npc_fala_delay)
-                    utils.ImprimirComDelay('Maelia: No entanto, você não vai conseguir agir enquanto bebe uma delas, ' +
+                    imprimir.ImprimirComDelay('Maelia: Minhas poções vão ajudar na sua aventura, pode ter certeza!\n', conf.npc_fala_delay)
+                    imprimir.ImprimirComDelay('Maelia: No entanto, você não vai conseguir agir enquanto bebe uma delas, ' +
                         'então faça isso quando tiver certeza que não vai morrer pros ataques dos seus inimigos.\n', conf.npc_fala_delay)
-                    utils.ImprimirComDelay('Maelia: Ou quando não estiver lutando, isso também serve.\n', conf.npc_fala_delay)
+                    imprimir.ImprimirComDelay('Maelia: Ou quando não estiver lutando, isso também serve.\n', conf.npc_fala_delay)
 
                     self.primeira_compra_pocoes = True
 
-                utils.ImprimirComDelay(f'Maelia: Até mais, {jogador.nome}! Volte sempre!\n', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay(f'Maelia: Até mais, {jogador.nome}! Volte sempre!\n', conf.npc_fala_delay)
 
                 retorno = 1
             
@@ -368,25 +368,25 @@ class Area_1(area.Area):
 
                 if self.conhece_vendedor_armamentos == False:
                     if jogador.genero == 'M':
-                        utils.ImprimirComDelay('???: Eaí rapaz, como vai essa vida de aventureiro novato?\n', conf.npc_fala_delay)
-                        utils.ImprimirComDelay(f'{jogador.nome}: Como sabe que eu sou um aventureiro novato?\n', conf.npc_fala_delay)
-                        utils.ImprimirComDelay('???: Só um novato se aventura com esse nível de equipamento que cê tá usando. Hahahaha!\n', conf.npc_fala_delay)
-                        utils.ImprimirComDelay('???: Me chamo Scolf, rapaz! Prazer em conhecer ocê.\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Eaí rapaz, como vai essa vida de aventureiro novato?\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay(f'{jogador.nome}: Como sabe que eu sou um aventureiro novato?\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Só um novato se aventura com esse nível de equipamento que cê tá usando. Hahahaha!\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Me chamo Scolf, rapaz! Prazer em conhecer ocê.\n', conf.npc_fala_delay)
                         
                     elif jogador.genero == 'F':
-                        utils.ImprimirComDelay('???: Eaí moça, como vai essa vida de aventureira novata?\n', conf.npc_fala_delay)
-                        utils.ImprimirComDelay(f'{jogador.nome}: Como sabe que eu sou uma aventureira novata?\n', conf.npc_fala_delay)
-                        utils.ImprimirComDelay('???: Só uma novata se aventura com esse nível de equipamento que cê tá usando. Hahahaha!\n', conf.npc_fala_delay)
-                        utils.ImprimirComDelay('???: Me chamo Scolf, moça! Prazer em conhecer ocê.\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Eaí moça, como vai essa vida de aventureira novata?\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay(f'{jogador.nome}: Como sabe que eu sou uma aventureira novata?\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Só uma novata se aventura com esse nível de equipamento que cê tá usando. Hahahaha!\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Me chamo Scolf, moça! Prazer em conhecer ocê.\n', conf.npc_fala_delay)
                     
-                    utils.ImprimirComDelay('Scolf: Fica a vontade aí na minha loja, se precisar é só me chamar.\n', conf.npc_fala_delay)
+                    imprimir.ImprimirComDelay('Scolf: Fica a vontade aí na minha loja, se precisar é só me chamar.\n', conf.npc_fala_delay)
                     self.conhece_vendedor_armamentos = True
                 
                 else:
                     if jogador.genero == 'M':
-                        utils.ImprimirComDelay(f'Scolf: Eaí rapaz! Vamo comprar uns equipamento novo?\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay(f'Scolf: Eaí rapaz! Vamo comprar uns equipamento novo?\n', conf.npc_fala_delay)
                     elif jogador.genero == 'F':
-                        utils.ImprimirComDelay(f'Scolf: Eaí moça! Vamo comprar uns equipamento novo?\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay(f'Scolf: Eaí moça! Vamo comprar uns equipamento novo?\n', conf.npc_fala_delay)
 
                 operacao_realizada = self.Loja(jogador, self.lojas_itens[1])
 
@@ -394,16 +394,16 @@ class Area_1(area.Area):
                 if operacao_realizada == 1 and self.primeira_compra_armamentos == False:
 
                     if jogador.genero == 'M':
-                        utils.ImprimirComDelay(f'Scolf: Boa escolha, rapaz.\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay(f'Scolf: Boa escolha, rapaz.\n', conf.npc_fala_delay)
                     elif jogador.genero == 'F':
-                        utils.ImprimirComDelay(f'Scolf: Boa escolha, moça.\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay(f'Scolf: Boa escolha, moça.\n', conf.npc_fala_delay)
                     
-                    utils.ImprimirComDelay(f'Scolf: Mas presta atenção nos níveis dos equipamento que cê comprar. ' +
+                    imprimir.ImprimirComDelay(f'Scolf: Mas presta atenção nos níveis dos equipamento que cê comprar. ' +
                         'Cê não vai conseguir equipar se ocê tiver um nível menor que o do equipamento, ein?\n', conf.npc_fala_delay)
 
                     self.primeira_compra_armamentos = True
 
-                utils.ImprimirComDelay(f'Scolf: Té mais, {jogador.nome}!\n', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay(f'Scolf: Té mais, {jogador.nome}!\n', conf.npc_fala_delay)
 
                 retorno = 1
             
@@ -412,30 +412,30 @@ class Area_1(area.Area):
 
                 if self.conhece_estalagem == False:
                     if jogador.genero == 'M':
-                        utils.ImprimirComDelay('???: Olá aventureiro! Cansado da viagem né?\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Olá aventureiro! Cansado da viagem né?\n', conf.npc_fala_delay)
                     elif jogador.genero == 'F':
-                        utils.ImprimirComDelay('???: Olá aventureira! Cansada da viagem né?\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Olá aventureira! Cansada da viagem né?\n', conf.npc_fala_delay)
 
-                    utils.ImprimirComDelay('???: Meu nome é Ruwick Pwikutt, bisneto do velho Pwikutt, fundador desta ' +
+                    imprimir.ImprimirComDelay('???: Meu nome é Ruwick Pwikutt, bisneto do velho Pwikutt, fundador desta ' +
                         'vila. E claro, atual dono desta estalagem.\n', conf.npc_fala_delay)
-                    utils.ImprimirComDelay('Ruwick: Descansar aqui vai recuperar suas energias por completo. E isso ' +
+                    imprimir.ImprimirComDelay('Ruwick: Descansar aqui vai recuperar suas energias por completo. E isso ' +
                         'inclui sua magia também! Seus fluxos de mana vão estar novinhos em folha!\n', conf.npc_fala_delay)
                     
                     self.conhece_estalagem = True
                 
                 else:
                     if jogador.genero == 'M':
-                        utils.ImprimirComDelay(f'Ruwick: Cansado da viagem, {jogador.nome}? Faça uma pausa!\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay(f'Ruwick: Cansado da viagem, {jogador.nome}? Faça uma pausa!\n', conf.npc_fala_delay)
                     elif jogador.genero == 'F':
-                        utils.ImprimirComDelay(f'Ruwick: Cansada da viagem, {jogador.nome}? Faça uma pausa!\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay(f'Ruwick: Cansada da viagem, {jogador.nome}? Faça uma pausa!\n', conf.npc_fala_delay)
 
                 self.Estalagem(jogador, conf)
 
-                utils.ImprimirComDelay(f'Ruwick: Boa sorte em sua aventura, {jogador.nome}!\n', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay(f'Ruwick: Boa sorte em sua aventura, {jogador.nome}!\n', conf.npc_fala_delay)
 
                 retorno = 1
 
-        utils.ImprimirComDelay('', conf.npc_fala_delay)
+        imprimir.ImprimirComDelay('', conf.npc_fala_delay)
 
     def Estalagem(self, jogador, conf):
         """
@@ -457,12 +457,12 @@ class Area_1(area.Area):
 
             # Jogador está com vida e mana maximizados
             if jogador.hp == jogador.maxHp and jogador.mana == jogador.maxMana:
-                utils.ImprimirComDelay(f'Ruwick: Pareçe que você já está descansado! Permitir sua estadia aqui ' + 
+                imprimir.ImprimirComDelay(f'Ruwick: Pareçe que você já está descansado! Permitir sua estadia aqui ' + 
                     'seria um roubo do seu ', conf.npc_fala_delay)
                 print(Fore.YELLOW, end = '')
-                utils.ImprimirComDelay('ouro', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay('ouro', conf.npc_fala_delay)
                 print(Style.RESET_ALL, end = '')
-                utils.ImprimirComDelay('!\n', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay('!\n', conf.npc_fala_delay)
 
             # Jogador descansa na estalagem
             elif jogador.ouro >= self.estalagem_preco:
@@ -476,8 +476,8 @@ class Area_1(area.Area):
 
             # Jogador não tem ouro suficiente pra descansar na estalagem
             elif op == 1:
-                utils.ImprimirComDelay(f'Ruwick: Desculpe, mas pareçe que você não tem ', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay(f'Ruwick: Desculpe, mas pareçe que você não tem ', conf.npc_fala_delay)
                 print(Fore.YELLOW, end = '')
-                utils.ImprimirComDelay('ouro', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay('ouro', conf.npc_fala_delay)
                 print(Style.RESET_ALL, end = '')
-                utils.ImprimirComDelay(f' o suficiente para descansar aqui.\n', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay(f' o suficiente para descansar aqui.\n', conf.npc_fala_delay)

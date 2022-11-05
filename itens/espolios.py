@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from classes_base import item
+from base import item
 
 def Ouro(quantidade):
     """

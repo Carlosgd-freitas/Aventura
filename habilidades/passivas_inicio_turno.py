@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from classes_base import habilidade
+from base import habilidade
 
 def Regeneracao(valor):
     """

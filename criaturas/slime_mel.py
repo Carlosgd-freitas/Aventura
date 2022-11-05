@@ -2,7 +2,7 @@ import random
 import sys
 
 sys.path.append("..")
-from classes_base import criatura, utils
+from base import criatura, utils
 from habilidades import ativas_alvo_unico, passivas_inicio_turno
 from itens import espolios, consumiveis
 

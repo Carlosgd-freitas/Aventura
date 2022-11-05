@@ -1,6 +1,6 @@
 import os
 import pickle
-from . import utils
+from . import imprimir
 
 def Salvar(caminho, jogador, area, local):
     """
@@ -22,7 +22,7 @@ def Salvar(caminho, jogador, area, local):
     f = open(caminho_save, 'wb')
     f.write(pickle.dumps(save))
     f.close()
-    utils.MensagemSistema('O jogo foi salvo com sucesso.')
+    imprimir.MensagemSistema('O jogo foi salvo com sucesso.')
 
 def Carregar(caminho):
     """
@@ -42,7 +42,7 @@ def Carregar(caminho):
             return save
 
         else:
-            utils.MensagemErro('O arquivo não pode ser carregado corretamente.')
+            imprimir.MensagemErro('O arquivo não pode ser carregado corretamente.')
             os._exit(0)
 
 def ListarSaves(caminho):

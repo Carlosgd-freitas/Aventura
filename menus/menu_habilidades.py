@@ -3,7 +3,7 @@ import sys
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from classes_base import utils
+from base import imprimir, utils
 
 def ImprimirHabilidades(criatura, habilidade_indice, impressoes_por_pagina):
     """
@@ -26,7 +26,7 @@ def ImprimirHabilidades(criatura, habilidade_indice, impressoes_por_pagina):
         # Nome e tipo da Habilidade
         mensagem = f'{habilidade.nome} - Tipo: '
         print(mensagem, end = '')
-        utils.ImprimirTipo(habilidade.tipo)
+        imprimir.ImprimirTipo(habilidade.tipo)
 
         mensagem = ''
 

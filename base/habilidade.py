@@ -97,3 +97,41 @@ class Habilidade():
             modificadores, efeitos, singular_plural, genero, nao_causa_dano, chance_critico, multiplicador_critico)
 
         return habilidade_2
+
+    def RetornarCusto(self, recurso):
+        """
+        Retorna o custo de algum recurso ao usar a habilidade.
+
+        Parâmetros:
+        - recurso: um recurso gasto ao usar uma habilidade, como 'Mana' ou 'Vida'.
+        """
+
+        for c in self.custo:
+            if c[0] == recurso:
+                return c[1]
+        
+        return 0
+
+    def AlterarCusto(self, recurso, valor):
+        """
+        Altera o custo de algum recurso já presente ao usar a habilidade. Não adiciona recursos novos no custo
+        da habilidade.
+
+        Parâmetros:
+        - recurso: um recurso gasto ao usar uma habilidade, como 'Mana' ou 'Vida';
+        - valor: o novo custo do recurso.
+        """
+
+        novo = (recurso, valor)
+        indice = 0
+        existe = 0
+        
+        for c in self.custo:
+            if c[0] == recurso:
+                self.custo.pop(indice)
+                existe = 1
+                break
+            indice += 1
+        
+        if existe == 1:
+            self.custo.insert(indice, novo)

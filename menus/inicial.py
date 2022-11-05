@@ -5,7 +5,7 @@ from colorama import Fore, Back, Style
 from . import notas_atualizacao, menu_explorar, menu_equipamentos, menu_configuracoes
 
 sys.path.append("..")
-from classes_base import guerreiro, mago, utils, configuracao, saver
+from base import guerreiro, mago, imprimir, utils, saver
 from areas import area_1
 
 def MenuInicial(conf, caminhos):
@@ -115,16 +115,16 @@ def NovoJogo(conf, caminhos):
     menu_equipamentos.EquipadosGanhos(j)
     area = area_1.Area_1(15)
 
-    utils.ImprimirComDelay('\nOlha. Na falta de um começo pra um enredo revolucionário, nunca antes visto em um RPG ' +
+    imprimir.ImprimirComDelay('\nOlha. Na falta de um começo pra um enredo revolucionário, nunca antes visto em um RPG ' +
         'com tema medieval, vamos com um genérico mesmo. Ou vários. Você pode ter o\nsonho de se tornar o maior ' +
         'aventureiro do mundo ou está com uma sede de sangue e busca matar monstros para se saciar. Talvez você ' +
         'planeje juntar todo o ouro que\nconseguir e investir em uma franquia de estalagens e bares, ou ainda você ' +
         'queira explorar cada floresta e caverna que este mundo tem a oferecer. Talvez ainda,\nvocê acabe sua jornada ' +
         'enfrentando seres de poder que você sequer consegue imaginar. Escolha o começo de história que mais te '+
         'agrada.\n', conf.npc_fala_delay)
-    utils.ImprimirComDelay('Mas o que está consolidado mesmo.\n',conf.npc_fala_delay)
-    utils.ImprimirComDelay('É que você partiu em uma Aventura.\n',conf.npc_fala_delay)
-
+    imprimir.ImprimirComDelay('Mas o que está consolidado mesmo.\n',conf.npc_fala_delay)
+    imprimir.ImprimirComDelay('É que você partiu em uma Aventura.\n',conf.npc_fala_delay)
+    j.experiencia = 70 ######
     retorno = menu_explorar.MenuExplorar(j, area, conf, caminhos)
 
     if retorno == -1:
@@ -141,7 +141,7 @@ def ContinuarJogo(conf, caminhos):
     n_saves = len(saves)
 
     if n_saves == 0:
-        utils.MensagemSistema('Não há arquivos de jogos salvos.')
+        imprimir.MensagemSistema('Não há arquivos de jogos salvos.')
         print('')
         return
 
@@ -171,67 +171,67 @@ def creditos():
     """
     Imprime os créditos do jogo.
     """
-    utils.ImprimirComDelay('+--------------------------+\n', 0.01)
-    utils.ImprimirComDelay('|         ', 0.01)
-    utils.ImprimirComDelay('CRÉDITOS', 0.03)
-    utils.ImprimirComDelay('         |\n', 0.01)
-    utils.ImprimirComDelay('|--------------------------|\n', 0.01)
+    imprimir.ImprimirComDelay('+--------------------------+\n', 0.01)
+    imprimir.ImprimirComDelay('|         ', 0.01)
+    imprimir.ImprimirComDelay('CRÉDITOS', 0.03)
+    imprimir.ImprimirComDelay('         |\n', 0.01)
+    imprimir.ImprimirComDelay('|--------------------------|\n', 0.01)
 
-    utils.ImprimirComDelay('|        ', 0.01)
-    utils.ImprimirComDelay('PROGRAMAÇÃO', 0.03)
-    utils.ImprimirComDelay('       |\n', 0.01)
+    imprimir.ImprimirComDelay('|        ', 0.01)
+    imprimir.ImprimirComDelay('PROGRAMAÇÃO', 0.03)
+    imprimir.ImprimirComDelay('       |\n', 0.01)
 
-    utils.ImprimirComDelay('|  ', 0.01)
-    utils.ImprimirComDelay('Carlos \"Omega\" Freitas', 0.1)
-    utils.ImprimirComDelay('  |\n', 0.01)
+    imprimir.ImprimirComDelay('|  ', 0.01)
+    imprimir.ImprimirComDelay('Carlos \"Omega\" Freitas', 0.1)
+    imprimir.ImprimirComDelay('  |\n', 0.01)
 
-    utils.ImprimirComDelay('|--------------------------|\n', 0.01)
+    imprimir.ImprimirComDelay('|--------------------------|\n', 0.01)
 
-    utils.ImprimirComDelay('|          ', 0.01)
-    utils.ImprimirComDelay('TESTERS', 0.03)
-    utils.ImprimirComDelay('         |\n', 0.01)
+    imprimir.ImprimirComDelay('|          ', 0.01)
+    imprimir.ImprimirComDelay('TESTERS', 0.03)
+    imprimir.ImprimirComDelay('         |\n', 0.01)
 
-    utils.ImprimirComDelay('|          ', 0.01)
-    utils.ImprimirComDelay('05iinet', 0.03)
-    utils.ImprimirComDelay('         |\n', 0.01)
+    imprimir.ImprimirComDelay('|          ', 0.01)
+    imprimir.ImprimirComDelay('05iinet', 0.03)
+    imprimir.ImprimirComDelay('         |\n', 0.01)
 
-    utils.ImprimirComDelay('|         ', 0.01)
-    utils.ImprimirComDelay("AsSleepT'", 0.03)
-    utils.ImprimirComDelay('        |\n', 0.01)
+    imprimir.ImprimirComDelay('|         ', 0.01)
+    imprimir.ImprimirComDelay("AsSleepT'", 0.03)
+    imprimir.ImprimirComDelay('        |\n', 0.01)
 
-    utils.ImprimirComDelay('|           ', 0.01)
-    utils.ImprimirComDelay('Hidan', 0.03)
-    utils.ImprimirComDelay('          |\n', 0.01)
+    imprimir.ImprimirComDelay('|           ', 0.01)
+    imprimir.ImprimirComDelay('Hidan', 0.03)
+    imprimir.ImprimirComDelay('          |\n', 0.01)
 
-    utils.ImprimirComDelay('|         ', 0.01)
-    utils.ImprimirComDelay('Macenario', 0.03)
-    utils.ImprimirComDelay('        |\n', 0.01)
+    imprimir.ImprimirComDelay('|         ', 0.01)
+    imprimir.ImprimirComDelay('Macenario', 0.03)
+    imprimir.ImprimirComDelay('        |\n', 0.01)
 
-    utils.ImprimirComDelay('|       ', 0.01)
-    utils.ImprimirComDelay('marcusvsf.77', 0.03)
-    utils.ImprimirComDelay('       |\n', 0.01)
+    imprimir.ImprimirComDelay('|       ', 0.01)
+    imprimir.ImprimirComDelay('marcusvsf.77', 0.03)
+    imprimir.ImprimirComDelay('       |\n', 0.01)
 
-    utils.ImprimirComDelay('|       ', 0.01)
-    utils.ImprimirComDelay('ShinjiMimura', 0.03)
-    utils.ImprimirComDelay('       |\n', 0.01)
+    imprimir.ImprimirComDelay('|       ', 0.01)
+    imprimir.ImprimirComDelay('ShinjiMimura', 0.03)
+    imprimir.ImprimirComDelay('       |\n', 0.01)
 
-    utils.ImprimirComDelay('|          ', 0.01)
-    utils.ImprimirComDelay('vfalva', 0.03)
-    utils.ImprimirComDelay('          |\n', 0.01)
+    imprimir.ImprimirComDelay('|          ', 0.01)
+    imprimir.ImprimirComDelay('vfalva', 0.03)
+    imprimir.ImprimirComDelay('          |\n', 0.01)
 
-    utils.ImprimirComDelay('|          ', 0.01)
-    utils.ImprimirComDelay('Wolfhar', 0.03)
-    utils.ImprimirComDelay('         |\n', 0.01)
+    imprimir.ImprimirComDelay('|          ', 0.01)
+    imprimir.ImprimirComDelay('Wolfhar', 0.03)
+    imprimir.ImprimirComDelay('         |\n', 0.01)
 
-    utils.ImprimirComDelay('|        ', 0.01)
-    utils.ImprimirComDelay('Zé Pretinho', 0.03)
-    utils.ImprimirComDelay('       |\n', 0.01)
+    imprimir.ImprimirComDelay('|        ', 0.01)
+    imprimir.ImprimirComDelay('Zé Pretinho', 0.03)
+    imprimir.ImprimirComDelay('       |\n', 0.01)
 
-    utils.ImprimirComDelay('|--------------------------|\n', 0.01)
-    utils.ImprimirComDelay('|    ', 0.01)
-    utils.ImprimirComDelay('Obrigado por jogar!', 0.03)
-    utils.ImprimirComDelay('   |\n', 0.01)
-    utils.ImprimirComDelay('+--------------------------+\n', 0.01)
+    imprimir.ImprimirComDelay('|--------------------------|\n', 0.01)
+    imprimir.ImprimirComDelay('|    ', 0.01)
+    imprimir.ImprimirComDelay('Obrigado por jogar!', 0.03)
+    imprimir.ImprimirComDelay('   |\n', 0.01)
+    imprimir.ImprimirComDelay('+--------------------------+\n', 0.01)
     
     input('Aperte [ENTER] para sair.')
     print('')

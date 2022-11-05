@@ -1,9 +1,8 @@
 import sys
 from colorama import Fore, Back, Style
 
-from . import imprimir
 sys.path.append("..")
-from classes_base import utils
+from base import imprimir, utils
 
 def EscolherAlvo(criaturas):
     """
@@ -147,7 +146,7 @@ def EscolherHabilidade(jogador):
         if (indice_item != indice_atacar) and (h.passiva_ativa == "ativa"):
             mensagem = f'[{indice_print}] {h.nome} - Tipo: '
             print(mensagem, end = '')
-            utils.ImprimirTipo(h.tipo)
+            imprimir.ImprimirTipo(h.tipo)
 
             mensagem = ' - Custo: '
 

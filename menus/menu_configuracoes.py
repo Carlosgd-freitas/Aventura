@@ -3,7 +3,7 @@ import pickle
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from classes_base import utils, configuracao
+from base import imprimir, configuracao, utils
 
 def MenuConfiguracoes(conf, caminhos):
     """
@@ -70,7 +70,7 @@ def MenuConfiguracoes(conf, caminhos):
         elif op == 3:
             print('\nDigite um número real entre 0 e 0.5. Quanto mais baixo o número, mais rápida será as falas dos NPCs.')
             conf.npc_fala_delay = utils.LerNumeroIntervalo('> Nova Velocidade: ', 0, 0.5, 'float')
-            utils.ImprimirComDelay('Este é um exemplo de como as falas de narração e NPCs serão impressas.\n', conf.npc_fala_delay)
+            imprimir.ImprimirComDelay('Este é um exemplo de como as falas de narração e NPCs serão impressas.\n', conf.npc_fala_delay)
 
         elif op == 4:
             configuracao.DefinirConfiguracaoValor(conf, conf.tecla_status)
@@ -88,7 +88,7 @@ def MenuConfiguracoes(conf, caminhos):
             configuracao.DefinirConfiguracaoValor(conf, conf.tecla_salvar_jogo)
 
         if op >= 1 and op <= 8:
-            utils.MensagemSistema(f'Configuração [{op}] foi alterada.', modo = 'print')
+            imprimir.MensagemSistema(f'Configuração [{op}] foi alterada.', modo = 'print')
             retorno = 1
 
         print('')

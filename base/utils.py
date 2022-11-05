@@ -1,43 +1,6 @@
-import time
 import random
 import math
 from colorama import Fore, Back, Style
-
-def MensagemErro(string, modo = 'input'):
-    """
-    Imprime '[ERRO]' em vermelho, negrito e fundo preto, seguido de um espaço e uma string na cor padrão.
-    
-    Parâmetros:
-    - string: a string que será impressa.
-
-    Parâmetros opcionais:
-    - modo: caso seja 'input', o jogo irá esperar o usuário apertar [ENTER] antes de prosseguir, e caso seja
-    'print', esta espera não ocorrerá. O valor padrão é 'input'.
-    """
-    print(Style.BRIGHT + Back.BLACK + Fore.RED + '[ERRO]' + Style.RESET_ALL, end = '')
-
-    if modo == 'input':
-        input(' ' + string)
-    else:
-        print(' ' + string)
-
-def MensagemSistema(string, modo = 'input'):
-    """
-    Imprime '[SISTEMA]' em branco, negrito e fundo preto, seguido de um espaço e uma string na cor padrão.
-
-    Parâmetros:
-    - string: a string que será impressa.
-
-    Parâmetros opcionais:
-    - modo: caso seja 'input', o jogo irá esperar o usuário apertar [ENTER] antes de prosseguir, e caso seja
-    'print', esta espera não ocorrerá. O valor padrão é 'input'.
-    """
-    print(Style.BRIGHT + Back.BLACK + Fore.WHITE + '[SISTEMA]' + Style.RESET_ALL, end = '')
-
-    if modo == 'input':
-        input(' ' + string)
-    else:
-        print(' ' + string)
 
 def LerNumero(string, tipo = "int"):
     """
@@ -79,42 +42,6 @@ def LerNumeroIntervalo(string, low, high, tipo = "int"):
             break
     
     return value
-
-def ImprimirTipo(tipo):
-    """
-    Recebe um tipo como parâmetro e o imprime colorido, sem quebra de linha:
-    * Normal    -> Branco
-    * Fogo      -> Vermelho
-    * Terrestre -> Verde
-    * Agua      -> Azul
-    * Vento     -> Ciano
-    * Trevas    -> Magenta
-    * Luz       -> Amarelo
-    """
-
-    if tipo == 'Normal':
-        print('Normal', end = '')
-    elif tipo == 'Fogo':
-        print(Fore.RED + 'Fogo' + Style.RESET_ALL, end = '')
-    elif tipo == 'Terrestre':
-        print(Fore.GREEN + 'Terrestre' + Style.RESET_ALL, end = '')
-    elif tipo == 'Agua':
-        print(Fore.BLUE + 'Agua' + Style.RESET_ALL, end = '')
-    elif tipo == 'Vento':
-        print(Fore.CYAN + 'Vento' + Style.RESET_ALL, end = '')
-    elif tipo == 'Trevas':
-        print(Fore.MAGENTA + 'Trevas' + Style.RESET_ALL, end = '')
-    elif tipo == 'Luz':
-        print(Fore.YELLOW + 'Luz' + Style.RESET_ALL, end = '')
-
-def ImprimirComDelay(string, delay):
-    """
-    Imprime cada letra de uma string após um delay definido em segundos.
-    """
-
-    for letra in string:
-        print(letra, end = '')
-        time.sleep(delay)
 
 def QuantidadeEmSingularPlural(quantidade):
     """
