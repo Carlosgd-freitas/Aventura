@@ -9,7 +9,7 @@ from combate import jogador_acoes
 def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
     """
     Imprime até <impressoes_por_pagina> primeiros itens presentes no inventário do jogador, incluindo e a
-    partir do índice da habilidade passada como parâmetro.
+    partir do índice do item passado como parâmetro.
     """
 
     # Imprimindo os itens presentes no inventário do jogador

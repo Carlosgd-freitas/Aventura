@@ -124,7 +124,9 @@ def NovoJogo(conf, caminhos):
         'agrada.\n', conf.npc_fala_delay)
     imprimir.ImprimirComDelay('Mas o que está consolidado mesmo.\n',conf.npc_fala_delay)
     imprimir.ImprimirComDelay('É que você partiu em uma Aventura.\n',conf.npc_fala_delay)
-    j.experiencia = 70 ######
+    j.maxHp = 100 ######
+    j.hp = 5 ######
+    j.experiencia = 70 #####
     retorno = menu_explorar.MenuExplorar(j, area, conf, caminhos)
 
     if retorno == -1:

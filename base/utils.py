@@ -188,17 +188,23 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
 
     # Item: Efeitos de Buff
 
-    # Cura o HP em um valor definido
-    if efeito.nome == "Cura HP":
-        alvo.hp += efeito.valor
-        mensagem = f'{artigo} {item.nome} recuperou {efeito.valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
-        sobrecura_hp = 1
-    
-    # Cura o HP com base no HP máximo
-    elif efeito.nome == "Cura HP %":
-        valor = math.floor(alvo.maxHp * (efeito.valor / 100))
+    # Cura o HP em um valor definido, com base no HP máximo ou o que for maior dentre estas opções
+    if efeito.nome == "Cura HP" or efeito.nome == "Cura HP %" or efeito.nome == "Cura HP % ou valor":
+        valor = 0
+
+        if efeito.nome == "Cura HP":
+            valor = efeito.valor
+        elif efeito.nome == "Cura HP %":
+            valor = math.floor(alvo.maxHp * (efeito.valor / 100))
+        else:
+            valor1 = math.floor(alvo.maxHp * (efeito.valor[0] / 100))
+            valor2 = efeito.valor[1]
+            if valor1 > valor2:
+                valor = valor1
+            else:
+                valor = valor2
+        
         alvo.hp += valor
-        sobrecura_hp = 1
 
         # Buff foi causado através de um item
         if item is not None:
@@ -208,25 +214,54 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
         elif habilidade is not None:
             mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
 
-    # Cura o HP com base no HP máximo ou em um valor definido, o que for maior
-    elif efeito.nome == "Cura HP % ou valor":
-        valor1 = math.floor(alvo.maxHp * (efeito.valor[0] / 100))
-        valor2 = efeito.valor[1]
+        sobrecura_hp = 1
 
-        if valor1 > valor2:
-            valor = valor1
+    # Cura a Mana em um valor definido, com base na Mana máxima ou o que for maior dentre estas opções
+    elif efeito.nome == "Cura Mana" or efeito.nome == "Cura Mana %" or efeito.nome == "Cura Mana % ou valor":
+        valor = 0
+
+        if efeito.nome == "Cura Mana":
+            valor = efeito.valor
+        elif efeito.nome == "Cura Mana %":
+            valor = math.floor(alvo.maxMana * (efeito.valor / 100))
         else:
-            valor = valor2
+            valor1 = math.floor(alvo.maxMana * (efeito.valor[0] / 100))
+            valor2 = efeito.valor[1]
+            if valor1 > valor2:
+                valor = valor1
+            else:
+                valor = valor2
+        
+        alvo.mana += valor
+
+        # Buff foi causado através de um item
+        if item is not None:
+            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
+        
+        # Buff foi causado através de uma habilidade
+        elif habilidade is not None:
+            mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+
+        sobrecura_mana = 1
+
+    # Regenera o HP em um valor definido ou com base no HP máximo durante vários turnos
+    elif efeito.nome == "Regeneração HP" or efeito.nome == "Regeneração HP %":
+        valor = 0
+
+        if efeito.nome == "Regeneração HP":
+            valor = efeito.valor
+        elif efeito.nome == "Regeneração HP %":
+            valor = math.floor(alvo.maxHp * (efeito.valor / 100))
 
         alvo.hp += valor
-        mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
-        sobrecura_hp = 1
-    
-    # Regenera o HP em um valor definido durante vários turnos
-    elif efeito.nome == "Regeneração HP":
 
-        alvo.hp += efeito.valor
-        mensagem = f'{artigo} {item.nome} recuperou {efeito.valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
+        # Buff foi causado através de um item
+        if item is not None:
+            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
+        
+        # Buff foi causado através de uma habilidade
+        elif habilidade is not None:
+            mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
 
         regen = efeito.ClonarEfeito()
         regen.duracao -= regen.decaimento
@@ -234,33 +269,6 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
 
         sobrecura_hp = 1
         regeneracao_hp = 1
-
-    # Cura a Mana em um valor definido
-    elif efeito.nome == "Cura Mana":
-        alvo.mana += efeito.valor
-        mensagem = f'{artigo} {item.nome} recuperou {efeito.valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
-        sobrecura_mana = 1
-    
-    # Cura a Mana com base na Mana máxima
-    elif efeito.nome == "Cura Mana %":
-        valor = math.floor(alvo.maxMana * (efeito.valor / 100))
-        alvo.mana += valor
-        mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
-        sobrecura_mana = 1
-    
-    # Cura a Mana com base na Mana máxima ou em um valor definido, o que for maior
-    elif efeito.nome == "Cura Mana % ou valor":
-        valor1 = math.floor(alvo.maxMana * (efeito.valor[0] / 100))
-        valor2 = efeito.valor[1]
-
-        if valor1 > valor2:
-            valor = valor1
-        else:
-            valor = valor2
-
-        alvo.mana += valor
-        mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
-        sobrecura_mana = 1
     
     # Cura debuff de envenenamento
     elif efeito.nome == "Cura Veneno":
@@ -271,12 +279,20 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
     # Caso o HP ou Mana estrapole o valor máximo
     if sobrecura_hp == 1 and alvo.hp >= alvo.maxHp:
         alvo.hp = alvo.maxHp
-        mensagem = f'{artigo} {item.nome} maximizou o ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
-        
+
+        if item is not None:
+            mensagem = f'{artigo} {item.nome} maximizou o ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
+        elif habilidade is not None:
+            mensagem = f'O ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome} foi maximizado.'
+
     if sobrecura_mana == 1 and alvo.mana >= alvo.maxMana:
         alvo.mana = alvo.maxMana
-        mensagem = f'{artigo} {item.nome} maximizou a ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
-    
+
+        if item is not None:
+            mensagem = f'{artigo} {item.nome} maximizou a ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
+        elif habilidade is not None:
+            mensagem = f'A ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome} foi maximizada.'
+
     if mensagem is not None:
         print(mensagem)
 

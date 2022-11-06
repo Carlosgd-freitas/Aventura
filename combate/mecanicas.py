@@ -199,41 +199,49 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
                 if verbose == 1:
                     print(f'{criatura.nome} não está mais defendendo.')
         
-        # Aumento de Defesa
-        elif buff.nome == "Aumento Defesa":
+        # Aumento de atributo: Ataque, Defesa, Magia, Velocidade, Chance de Crítico
+        elif buff.nome == "Aumento Ataque" or buff.nome == "Aumento Defesa" or \
+            buff.nome == "Aumento Magia" or buff.nome == "Aumento Velocidade" or \
+            buff.nome == "Aumento Chance Crítico":
 
             if buff.duracao <= 0 and criatura.hp > 0:
-                criatura.defesa -= buff.valor
+
+                if buff.nome == "Aumento Ataque":
+                    criatura.ataque -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de ataque de {criatura.nome} terminou.')
+
+                elif buff.nome == "Aumento Defesa":
+                    criatura.defesa -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de defesa de {criatura.nome} terminou.')
+
+                elif buff.nome == "Aumento Magia":
+                    criatura.magia -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de magia de {criatura.nome} terminou.')
+
+                elif buff.nome == "Aumento Velocidade":
+                    criatura.velocidade -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de velocidade de {criatura.nome} terminou.')
+
+                else:
+                    criatura.chance_critico -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de chance de crítico de {criatura.nome} terminou.')
+
                 efeitos_expirados.append(indice)
 
-                if verbose == 1:
-                    print(f'O aumento de defesa de {criatura.nome} terminou.')
-        
-        # Aumento de Velocidade
-        elif buff.nome == "Aumento Velocidade":
+        # Regeneração de HP em um valor definido ou com base no HP máximo
+        elif buff.nome == "Regeneração HP" or buff.nome == "Regeneração HP %":
 
-            if buff.duracao <= 0 and criatura.hp > 0:
-                criatura.velocidade -= buff.valor
-                efeitos_expirados.append(indice)
-
-                if verbose == 1:
-                    print(f'O aumento de velocidade de {criatura.nome} terminou.')
-        
-        # Aumento de Chance de Crítico
-        elif buff.nome == "Aumento Chance Crítico":
-
-            if buff.duracao <= 0 and criatura.hp > 0:
-                criatura.chance_critico -= buff.valor
-                efeitos_expirados.append(indice)
-
-                if verbose == 1:
-                    print(f'O aumento de chance de crítico de {criatura.nome} terminou.')
-
-        # Regeneração HP
-        elif buff.nome == "Regeneração HP":
-
-            regen_hp_indices = criatura.ContarEfeitos("buff", "Regeneração HP")
-            descartar, maior_duracao = criatura.MaiorEfeito("buff", "Regeneração HP", "duracao")
+            if buff.nome == "Regeneração HP":
+                regen_hp_indices = criatura.ContarEfeitos("buff", "Regeneração HP")
+                descartar, maior_duracao = criatura.MaiorEfeito("buff", "Regeneração HP", "duracao")
+            elif buff.nome == "Regeneração HP %":
+                regen_hp_indices = criatura.ContarEfeitos("buff", "Regeneração HP %")
+                descartar, maior_duracao = criatura.MaiorEfeito("buff", "Regeneração HP %", "duracao")
 
             criatura.hp += buff.valor
             regen_hp_valor += buff.valor
@@ -329,15 +337,39 @@ def DecairBuffsDebuffs(criatura, verbose = 1):
                 if verbose == 1:
                     print(f'{criatura.nome} não está mais sob o efeito de Lentidão.')
 
-        # Diminuição de Defesa
-        elif debuff.nome == "Diminuição Defesa":
+        # Diminuição de atributo: Ataque, Defesa, Magia, Velocidade, Chance de Crítico
+        elif debuff.nome == "Diminuição Ataque" or debuff.nome == "Diminuição Defesa" or \
+            debuff.nome == "Diminuição Magia" or debuff.nome == "Diminuição Velocidade" or \
+            debuff.nome == "Diminuição Chance Crítico":
 
             if debuff.duracao <= 0 and criatura.hp > 0:
-                criatura.defesa += debuff.valor
-                efeitos_expirados.append(indice)
 
-                if verbose == 1:
-                    print(f'A diminuição de defesa de {criatura.nome} terminou.')
+                if debuff.nome == "Diminuição Ataque":
+                    criatura.ataque += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de ataque de {criatura.nome} terminou.')
+
+                elif debuff.nome == "Diminuição Defesa":
+                    criatura.defesa += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de defesa de {criatura.nome} terminou.')
+
+                elif debuff.nome == "Diminuição Magia":
+                    criatura.magia += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de magia de {criatura.nome} terminou.')
+
+                elif debuff.nome == "Diminuição Velocidade":
+                    criatura.velocidade += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de velocidade de {criatura.nome} terminou.')
+
+                else:
+                    criatura.chance_critico += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de chance de crítico de {criatura.nome} terminou.')
+
+                efeitos_expirados.append(indice)
 
         indice += 1
     

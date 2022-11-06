@@ -97,27 +97,31 @@ class Jogador(criatura.Criatura):
 
     def SubirNivel(self):
         """
-        Confere se o jogador pode tem a experiência necessária para subir de nível. Se tiver, também chama a função
-        de subir de nível da classe do jogador. Retorna 1 caso o jogador tenha subido de nível e retorna 1 caso
-        contrário.
+        Confere se o jogador tem a experiência necessária para subir de nível. Se tiver, a função de subir de nível
+        da classe do jogador é chamada, e a condição para subir para o próximo nível é checada. Retorna a quantidade
+        de níveis que o jogador subiu.
         """
 
         subiu = 0
-        exp_necessaria = self.ExperienciaSubirNivel(self.nivel)
 
-        # Jogador tem a experiencia necessária
-        if self.experiencia >= exp_necessaria:
-            self.experiencia -= exp_necessaria
-            self.nivel += 1
+        while True:
+            exp_necessaria = self.ExperienciaSubirNivel(self.nivel)
 
-            print(f'\nVocê subiu para o nível {self.nivel}!')
+            if self.experiencia >= exp_necessaria:
+                self.experiencia -= exp_necessaria
+                self.nivel += 1
 
-            if self.classe == "Guerreiro" or self.classe == "Guerreira":
-                subiu = guerreiro.SubirNivelGuerreiro(self)
-            elif self.classe == "Mago" or self.classe == "Maga":
-                subiu = mago.SubirNivelMago(self)
+                print(f'\nVocê subiu para o nível {self.nivel}!')
+
+                if self.classe == "Guerreiro" or self.classe == "Guerreira":
+                    guerreiro.SubirNivelGuerreiro(self)
+                elif self.classe == "Mago" or self.classe == "Maga":
+                    mago.SubirNivelMago(self)
+                
+                subiu += 1
             
-            subiu = 1
+            else:
+                break
         
         return subiu
 

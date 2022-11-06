@@ -1,5 +1,7 @@
 ===== Alpha v0.0.4 =====
 
+* Permitir o uso de itens q dão regen do inventário
+
 > Programação
 * Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
@@ -10,12 +12,10 @@
 * Jogador pode ser emboscado ao ir até a vila/cidade
 * Chance de encontrar um vendedor ambulante enquanto explora a área
 * Monstros dropam experiencia e ouro baseados em um range
-* Permitir o uso de itens q dão regen do inventário
 * Habilidades de heal podem critar
 * Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
 * Sistema de criação (crafting) / comprar e aprender receitas de criação
 * Jogador pode upar até o nível 10
-	- se existir experiencia suficiente, o jogador pode upar vários níveis de uma vez
 * Dungeon na área 1 - Colméia de Abelhóides
 * Mago é uma classe bloqueada de início e deve ser desbloqueada
 * Sistema de conquistas (achievements)
@@ -23,6 +23,7 @@
 	- Caçador de Anomalias: Derrote Larry e o Cristal Atacante
 	- Mago: Mate 5 inimigos usando uma habilidade ativa
 	- Ladino: Cause 10 acertos críticos
+* Maelia vende poções de regen de vida pequena
 * Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
 > Bugs
@@ -38,7 +39,6 @@
 > Itens
 * Elixires pequenos de ataque, magia, defesa, velocidade - aumenta em um valor fixo o atributo por 5 turnos
 * Amuleto Anti-Veneno (+75% de chance de não sofrer envenenamento)
-* Poção de Regeneração de Vida Pequena (regen 10% da vida máxima por 3 turnos)
 * Robe de Seda
 
 > Habilidades
@@ -58,6 +58,7 @@
 
 > Programação
 * Se há mais criaturas na party do jogador, permitir que ele use consumiveis nos aliados também
+* Refazer como os efeitos de buff e debuff se stackam
 * Jogo retorna ao menu principal quando erros acontecem em vez de fechar
 
 > Jogabilidade

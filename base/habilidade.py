@@ -118,7 +118,7 @@ class Habilidade():
         da habilidade.
 
         Parâmetros:
-        - recurso: um recurso gasto ao usar uma habilidade, como 'Mana' ou 'Vida';
+        - recurso: um recurso gasto ao usar uma habilidade, como 'Mana' ou 'HP';
         - valor: o novo custo do recurso.
         """
 

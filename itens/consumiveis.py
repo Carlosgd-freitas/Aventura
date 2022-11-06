@@ -55,6 +55,19 @@ def PocaoManaPequena(quantidade, preco):
 
     return ("Consumivel", pocao)
 
+def PocaoRegeneracaoPequena(quantidade, preco):
+    """
+    Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:
+    * Regenera 10% do hp máximo por 3 turnos
+    """
+
+    pocao_efeito = efeito.Efeito("Regeneração HP %", 10, 1, 3, 100)
+    pocao = item.Item([pocao_efeito], [], preco, quantidade, "Poção de Regeneração Pequena",
+        singular_plural = "singular", genero = "F",
+        descricao = "Regenera 10% do HP máximo por 3 turnos.")
+    
+    return ("Consumivel", pocao)
+
 def Antidoto(quantidade, preco):
     """
     Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:

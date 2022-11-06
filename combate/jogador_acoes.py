@@ -75,9 +75,10 @@ def ValidaUsoConsumivel(jogador, item):
     """
     valido = 1
 
-    # Poções de cura, Erva Curativa ou Mel de Abelhóide com o hp cheio
+    # Usar itens com o hp cheio: Poções de cura, Poções de Regeneração, Erva Curativa ou Mel de Abelhóide
     if jogador.hp == jogador.maxHp and (item[1].nome == "Poção de Cura Pequena" or \
-        item[1].nome == "Erva Curativa" or item[1].nome == "Mel de Abelhóide"):
+        item[1].nome == "Poção de Regeneração Pequena" or item[1].nome == "Erva Curativa" or \
+        item[1].nome == "Mel de Abelhóide"):
         print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.')
         valido = -1
     

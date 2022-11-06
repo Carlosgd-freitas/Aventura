@@ -176,6 +176,9 @@ class NotasAtualizacao():
         self.positivo('O local em que o jogador está é impresso antes das ações disponíveis quando este está ' +
             'fora de combate.')
 
+        print('\nItens')
+        self.positivo('Poção de Regeneração Pequena adicionada.')
+
         print('\nOutros')
         self.positivo('As configurações são salvas e permanecem com as alterações feitas pelos jogadores.')
         self.positivo('O mapeamento das teclas de algumas ações pode ser alterado.')

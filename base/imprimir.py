@@ -85,7 +85,7 @@ def ImprimirEfeitos(criatura):
     if criatura.EfeitoPresente("buff", "Aumento Chance Crítico") != -1:
         mensagem += ' - CRIT%' + Fore.GREEN + '+' + Style.RESET_ALL
     
-    if criatura.EfeitoPresente("buff", "Regeneração HP") != -1:
+    if criatura.EfeitoPresente("buff", "Regeneração HP") != -1 or criatura.EfeitoPresente("buff", "Regeneração HP %") != -1:
         mensagem += ' - REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL
 
     # Debuffs presentes na criatura
