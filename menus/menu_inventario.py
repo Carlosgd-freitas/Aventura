@@ -152,13 +152,15 @@ def MenuInventario(jogador):
 
                     if op == 3:
                         if item_escolhido[1].nome == "Erva Curativa" or \
+                            item_escolhido[1].nome == "Mel de Abelhóide" or \
                             item_escolhido[1].nome == "Poção de Cura Pequena" or \
                             item_escolhido[1].nome == "Poção de Mana Pequena" or \
+                            item_escolhido[1].nome == "Poção de Regeneração Pequena" or \
                             item_escolhido[1].nome == "Antídoto":
                             valido = jogador_acoes.ValidaUsoConsumivel(jogador, item_escolhido)
 
-                            if valido != -1:
-                                jogador_acoes.UsarConsumivel(jogador, escolha-1)
+                            if valido:
+                                jogador_acoes.UsarConsumivel(jogador, escolha-1, fora_combate = True)
 
                         else:
                             print('Este item não pode ser utilizado.')

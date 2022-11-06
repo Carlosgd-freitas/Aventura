@@ -168,9 +168,20 @@ def NomesUnicos(nomes, nomes_zerados, criaturas, criaturas2 = None):
             nome += ' ' + sufixo
             c.nome = nome
 
-def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
+def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_combate = False):
     """
-    Processa um efeito de uma habilidade, ou de buff/debuff de um item, utilizado por um usuário em um alvo.
+    Processa um efeito de buff/debuff de um item ou habilidade, utilizado por um usuário em um alvo. Apenas um
+    dos parâmetros 'item' ou 'habilidade' deve receber um argumento, enquanto o outro permanece com None.
+    
+    Parâmetros:
+    - usuario: qual criatura (ou jogador) está causando o efeito;
+    - efeito: efeito a ser processado;
+    - alvo: alvo do efeito;
+    - item: item que irá causar o efeito;
+    - habilidade: habilidade que irá causar o efeito.
+
+    Parâmetros opcionais:
+    - fora_combate: se igual a True, o efeito sendo processado não foi causado em combate. O valor padrão é False.
     """
 
     chance = random.randint(1, 100)
@@ -252,6 +263,10 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
             valor = efeito.valor
         elif efeito.nome == "Regeneração HP %":
             valor = math.floor(alvo.maxHp * (efeito.valor / 100))
+        
+        # Se o efeito de regeneração foi causado fora de combate: recuperar todo o HP de uma vez
+        if fora_combate:
+            valor *= efeito.duracao
 
         alvo.hp += valor
 
@@ -263,12 +278,14 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
         elif habilidade is not None:
             mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
 
-        regen = efeito.ClonarEfeito()
-        regen.duracao -= regen.decaimento
-        alvo.buffs.append(regen)
+        if not fora_combate:
+            regen = efeito.ClonarEfeito()
+            regen.duracao -= regen.decaimento
+            alvo.buffs.append(regen)
 
+            regeneracao_hp = 1
+        
         sobrecura_hp = 1
-        regeneracao_hp = 1
     
     # Cura debuff de envenenamento
     elif efeito.nome == "Cura Veneno":
@@ -296,7 +313,7 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None):
     if mensagem is not None:
         print(mensagem)
 
-    # Mensagem extra ao usar itens que concedem regeneração
+    # Mensagem extra ao usar itens que concedem regeneração dentro de combate
     if regeneracao_hp == 1:
         mensagem = 'A regeneração de ' + Fore.RED + 'HP' + Style.RESET_ALL
         mensagem += f' concedida {contracao_por} {item.nome} irá durar mais {efeito.duracao - 1}'

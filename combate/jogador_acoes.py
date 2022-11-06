@@ -64,28 +64,28 @@ def EscolherConsumivel(jogador):
     if escolha != -1:
         valido = ValidaUsoConsumivel(jogador, jogador.inventario[escolha])
 
-        if valido == -1:
+        if not valido:
             escolha = -1
 
     return escolha
 
 def ValidaUsoConsumivel(jogador, item):
     """
-    Retorna 1 se o item consumível pode ser utilizado normalmente ou -1 caso contrário.
+    Retorna True se o item consumível pode ser utilizado normalmente ou False caso contrário.
     """
-    valido = 1
+    valido = True
 
     # Usar itens com o hp cheio: Poções de cura, Poções de Regeneração, Erva Curativa ou Mel de Abelhóide
     if jogador.hp == jogador.maxHp and (item[1].nome == "Poção de Cura Pequena" or \
         item[1].nome == "Poção de Regeneração Pequena" or item[1].nome == "Erva Curativa" or \
         item[1].nome == "Mel de Abelhóide"):
         print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.')
-        valido = -1
+        valido = False
     
     # Poções de mana com a mana cheia
     elif jogador.mana == jogador.maxMana and item[1].nome == "Poção de Mana Pequena":
         print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' já está maximizada.')
-        valido = -1
+        valido = False
     
     # Antídoto sem estar envenenado
     elif jogador.EfeitoPresente("debuff", "Veneno") == -1 and item[1].nome == "Antídoto":
@@ -95,25 +95,28 @@ def ValidaUsoConsumivel(jogador, item):
         elif jogador.genero == "F":
             print('Você não está ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
 
-        valido = -1
+        valido = False
     
     return valido
 
-def UsarConsumivel(jogador, indice, inimigos = None):
+def UsarConsumivel(jogador, indice, inimigos = None, fora_combate = False):
     """
-    Utiliza uma item consumível do inventário do jogador.
+    Utiliza um item consumível do inventário do jogador.
 
     Parâmetros:
         - jogador: jogador que irá utilizar o item consumível;
         - indice: índice do item no inventário;
         - inimigos: lista de criaturas inimigas atualmente em combate.
+    
+    Parâmetros opcionais:
+    - fora_combate: se igual a True, o item cosumível não foi usado em combate. O valor padrão é False.
     """
 
     item = jogador.inventario[indice][1]
 
     # Processando os buffs que o item concede
     for buff in item.buffs:
-        utils.ProcessarEfeito(jogador, buff, jogador, item = item)
+        utils.ProcessarEfeito(jogador, buff, jogador, item = item, fora_combate = fora_combate)
     
     # Processando dano e os debuffs que o item concede
     for debuff in item.debuffs:
@@ -121,7 +124,7 @@ def UsarConsumivel(jogador, indice, inimigos = None):
         # Debuffs que afetam todos os inimigos
         if debuff.nome == "Dano todos inimigos" or debuff.nome == "Lentidão todos inimigos":
             for c in inimigos:
-                utils.ProcessarEfeito(jogador, debuff, c, item = item)
+                utils.ProcessarEfeito(jogador, debuff, c, item = item, fora_combate = fora_combate)
                 
     # Contabilizando a usagem do item
     item.quantidade -= 1

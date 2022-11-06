@@ -175,6 +175,8 @@ class NotasAtualizacao():
             'estiver em uma vila.')
         self.positivo('O local em que o jogador está é impresso antes das ações disponíveis quando este está ' +
             'fora de combate.')
+        self.positivo('Jogadores podem usar itens consumíveis que dão regeneração de seu inventário enquanto ' +
+            'estão fora de batalha.')
 
         print('\nItens')
         self.positivo('Poção de Regeneração Pequena adicionada.')

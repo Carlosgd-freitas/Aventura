@@ -1,7 +1,5 @@
 ===== Alpha v0.0.4 =====
 
-* Permitir o uso de itens q dão regen do inventário
-
 > Programação
 * Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
