@@ -25,8 +25,10 @@ class Item(basico.Base):
 
         # Caso uma quantidade for especificada no construtor, mas não se o item é singular ou plural, a operação
         # de set do último será feita automaticamente
-        if quantidade > 0 and singular_plural == "default":
-            singular_plural = utils.QuantidadeEmSingularPlural(quantidade)
+        if quantidade == 1 and singular_plural == "default":
+            singular_plural = "singular"
+        elif quantidade > 1 and singular_plural == "default":
+            singular_plural = "plural"
 
         super(Item, self).__init__(nome, descricao, tipo, nivel, experiencia, maxHp, hp, maxMana, mana,
             ataque, defesa, magia, velocidade, singular_plural, genero, chance_critico, multiplicador_critico)

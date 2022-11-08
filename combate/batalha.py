@@ -329,22 +329,22 @@ def JogadorVez(jogador, criaturas, correr = True):
                     if c.nivel > maior_nivel:
                         maior_nivel = c.nivel
                 
-                # Calculando a chance de escapar do combate
-                chance = 50
+                # Calculando a chance de correr do combate
+                chance_correr = 50
                 if jogador.nivel > maior_nivel:
-                    chance += (jogador.nivel - maior_nivel) * 10
+                    chance_correr += (jogador.nivel - maior_nivel) * 10
                 
                 else:
-                    chance -= (maior_nivel - jogador.nivel) * 10
+                    chance_correr -= (maior_nivel - jogador.nivel) * 10
                 
                 # Impedindo o extrapolamento da chance de correr
-                if chance > 100:
-                    chance = 100
-                elif chance < 0:
-                    chance = 0
+                if chance_correr > 100:
+                    chance_correr = 100
+                elif chance_correr < 0:
+                    chance_correr = 0
                 
                 # Escolha do jogador
-                print(f'Você tem {chance}% de chance de correr dessa batalha. Prosseguir?')
+                print(f'Você tem {chance_correr}% de chance de correr dessa batalha. Prosseguir?')
                 print('[0] Não, voltar ao combate.')
                 print('[1] Sim, tentar escapar.\n')
 
@@ -360,9 +360,8 @@ def JogadorVez(jogador, criaturas, correr = True):
                 
                 # Jogador decidiu escapar
                 elif escolha == 1:
-                    tentativa = random.randint(1, 100)
 
-                    if tentativa <= chance:
+                    if utils.CalcularChance(chance_correr / 100):
                         print('\nVocê conseguiu escapar da batalha.')
                         retorno = 2
                     

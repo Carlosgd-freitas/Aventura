@@ -1,8 +1,7 @@
-import random
 import sys
 
 sys.path.append("..")
-from base import criatura
+from base import criatura, utils
 from habilidades import ativas_alvo_unico, ativas_alvos_multiplos
 from itens import espolios, consumiveis
 
@@ -73,8 +72,7 @@ class Ervagora(criatura.Criatura):
 
         # Grito Estremecedor -> 50% de chance da Ervágora usar
         if self.mana >= 3 and super().ChecarRecarga(self.habilidades[1]):
-            chance = random.randint(1, 100)
-            if chance <= 50:
+            if utils.CalcularChance(0.5):
                 return ("habilidade", self.habilidades[1], inimigos)
 
         # Correr da Batalha

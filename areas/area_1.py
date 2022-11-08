@@ -104,7 +104,7 @@ class Area_1(area.Area):
         # Slime de Mel
 
         # Slime de Mel no nível do jogador: 5% de chance de ser encontrado
-        if random.randint(1, 100) <= 5:
+        if utils.CalcularChance(0.05):
             inimigo = slime_mel.SlimeMel(jogador.nivel)
             inimigos.append(inimigo)
             peso_restante -= 3

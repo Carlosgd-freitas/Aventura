@@ -2,7 +2,7 @@ import random
 import sys
 
 sys.path.append("..")
-from base import criatura
+from base import criatura, utils
 from habilidades import ativas_alvo_unico, passivas_inicio_turno, ativas_alvo_proprio
 from itens import espolios
 
@@ -88,14 +88,12 @@ class Larry(criatura.Criatura):
 
         # Cuspe Ácido -> 75% de chance de Larry usar
         if self.mana >= 4 and super().ChecarRecarga(self.habilidades[2]):
-            chance = random.randint(1, 100)
-            if chance <= 75:
+            if utils.CalcularChance(0.75):
                 return ("habilidade", self.habilidades[2], alvo_inimigo)
 
         # Focar -> 50% de chance de Larry usar se não estiver sob o efeito de Aumento de Velocidade
         elif super().EfeitoPresente("buff", "Aumento Velocidade") == -1 and self.mana >= 5 and super().ChecarRecarga(self.habilidades[3]):
-            chance = random.randint(1, 100)
-            if chance <= 50:
+            if utils.CalcularChance(0.5):
                 return ("habilidade", self.habilidades[3], None)
 
         # Atacar

@@ -6,6 +6,7 @@ from colorama import Fore, Back, Style
 from . import invocar_criaturas, batalha_chefao
 
 sys.path.append("..")
+from base import utils
 from itens import espolios
 
 def CalcularDano(atacante, alvo, habilidade):
@@ -69,8 +70,7 @@ def CalcularDano(atacante, alvo, habilidade):
         dano /= 2
     
     # Acerto Crítico
-    critico = random.randint(0, 10000)
-    if critico <= (atacante.chance_critico * 100):
+    if utils.CalcularChance(atacante.chance_critico / 100):
         dano = math.ceil(dano * atacante.multiplicador_critico)
         print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
 
@@ -78,11 +78,9 @@ def CalcularDano(atacante, alvo, habilidade):
     defesa = alvo.defesa
 
     for e in habilidade.efeitos:
-        if e.nome == "Perfurante %":
-            tentativa = random.randint(1, 100)
-            if tentativa <= e.chance:
-                defesa *= (1 - (e.valor / 100))
-            break
+        if e.nome == "Perfurante %" and utils.CalcularChance(e.chance / 100):
+            defesa *= (1 - (e.valor / 100))
+        break
     
     dano -= defesa
 
@@ -390,9 +388,7 @@ def GerarEspolios(criatura):
 
     # Ouro e Itens que o jogador irá ganhar por ter derrotado a criatura
     for e in criatura.espolios:
-        chance = random.randint(1, 100)
-        
-        if chance <= e[0]:
+        if utils.CalcularChance(e[0] / 100):
             lista_espolios.append(e[1])
     
     # Experiência que o jogador irá ganhar por ter derrotado a criatura

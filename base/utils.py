@@ -43,14 +43,19 @@ def LerNumeroIntervalo(string, low, high, tipo = "int"):
     
     return value
 
-def QuantidadeEmSingularPlural(quantidade):
+def CalcularChance(chance):
     """
-    Retorna a string 'singular' se a quantidade passada por parâmetro for igual a 1 e 'plural' caso contrário.
+    Retorna verdadeiro se um número gerado aleatoriamente entre 0 e 1 for menor ou igual a <chance> e falso caso
+    contrário.
+
+    Parâmetros:
+    - chance: um número real entre 0 e 1, que representariam 0% e 100%, respectivamente.
     """
-    if quantidade == 1:
-        return "singular"
+    r = random.random()
+    if r <= chance:
+        return True
     else:
-        return "plural"
+        return False
 
 def MenorAtributo(criaturas, atributo):
     """
@@ -205,12 +210,8 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
     Parâmetros opcionais:
     - fora_combate: se igual a True, o efeito sendo processado não foi causado em combate. O valor padrão é False.
     """
-
-    chance = random.randint(1, 100)
-    mensagem = None
-
     # Se o efeito veio de uma habilidade e possui uma % de acontecer
-    if (habilidade is not None) and (not chance <= efeito.chance):
+    if (habilidade is not None) and (CalcularChance(efeito.chance / 100)):
         return
 
     # Flags para efeitos de item
@@ -219,6 +220,7 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
     regeneracao_hp = 0
 
     # Melhora das mensagens de uso de itens
+    mensagem = None
     if item is not None:
         artigo = item.RetornarArtigo()
         contracao_por = item.RetornarContracaoPor().lower()

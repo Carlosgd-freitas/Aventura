@@ -425,9 +425,7 @@ class Area():
                 print(mensagem)
 
                 # Emboscada
-                chance = random.randint(1, 100)
-
-                if chance <= chance_emboscada:
+                if utils.CalcularChance(chance_emboscada / 100):
                     inimigos = self.RetornarEncontro(jogador)
                     aliados = [jogador]
                     resultado = batalha.BatalhaPrinicipal(aliados, inimigos, emboscada = 1)

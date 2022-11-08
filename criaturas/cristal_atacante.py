@@ -2,7 +2,7 @@ import random
 import sys
 
 sys.path.append("..")
-from base import criatura
+from base import criatura, utils
 from habilidades import ativas_alvo_unico
 from itens import espolios
 
@@ -84,8 +84,7 @@ class CristalAtacante(criatura.Criatura):
 
         # Raio de Fogo -> 50% de chance de Cristal Atacante usar
         if self.mana >= 5 and super().ChecarRecarga(self.habilidades[1]):
-            chance = random.randint(1, 100)
-            if chance <= 50:
+            if utils.CalcularChance(0.5):
                 return ("habilidade", self.habilidades[1], alvo_inimigo)
 
         # Atacar

@@ -2,7 +2,7 @@ import random
 import sys
 
 sys.path.append("..")
-from base import criatura
+from base import criatura, utils
 from habilidades import ativas_alvo_unico, passivas_inicio_turno
 from itens import espolios
 
@@ -87,8 +87,7 @@ class Slime(criatura.Criatura):
 
         # Cuspe Ácido -> 75% de chance do Slime usar
         if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[2]):
-            chance = random.randint(1, 100)
-            if chance <= 75:
+            if utils.CalcularChance(0.75):
                 return ("habilidade", self.habilidades[2], alvo_inimigo)
 
         # Atacar

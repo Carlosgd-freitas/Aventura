@@ -3,7 +3,7 @@ import math
 import sys
 
 sys.path.append("..")
-from base import criatura
+from base import criatura, utils
 from habilidades import ativas_alvo_unico, passivas_ao_atacar
 from itens import espolios
 
@@ -87,8 +87,7 @@ class CobraVenenosa(criatura.Criatura):
 
         # Picada Venenosa -> 80% de chance da Cobra Venenosa usar em um alvo não-envenenado
         if alvo_inimigo.EfeitoPresente("debuff", "Veneno") == -1 and self.mana >= 3 and super().ChecarRecarga(self.habilidades[1]):
-            chance = random.randint(1, 100)
-            if chance <= 80:
+            if utils.CalcularChance(0.8):
                 return ("habilidade", self.habilidades[1], alvo_inimigo)
 
         # Atacar

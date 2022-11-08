@@ -94,15 +94,13 @@ class SlimeMel(criatura.Criatura):
 
         # Cuspe De Mel -> 75% de chance do Slime de Mel usar
         if self.mana >= 3 and super().ChecarRecarga(self.habilidades[1]):
-            chance = random.randint(1, 100)
-            if chance <= 75:
+            if utils.CalcularChance(0.75):
                 return ("habilidade", self.habilidades[1], alvo_inimigo)
 
         # Cura Inferior -> 50% de chance do Slime de Mel usar no aliado ferido com o menor HP atual
         if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[3]) and \
             (alvo_aliado.hp < alvo_aliado.maxHp):
-            chance = random.randint(1, 100)
-            if chance <= 50:
+            if utils.CalcularChance(0.5):
                 return ("habilidade", self.habilidades[3], alvo_aliado)
 
         # Atacar

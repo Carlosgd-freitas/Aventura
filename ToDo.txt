@@ -3,7 +3,6 @@
 > Programação
 * Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
-* Função de cálculo de chance com até 2 casas decimais
 
 > Jogabilidade
 * Veneno persiste após batalha

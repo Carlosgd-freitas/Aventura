@@ -100,16 +100,15 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
             explorar_flag = 0
             
             # Evento: Descanso
-            chance = random.randint(1, 100)
-            if explorar_flag == 0 and chance <= chance_descanso and \
+            if explorar_flag == 0 and utils.CalcularChance(chance_descanso / 100) and \
                 (jogador.hp < jogador.maxHp or jogador.mana < jogador.maxMana):
 
                 resultado = area.EventoDescanso(jogador)
                 chance_descanso = 0
                 explorar_flag = 1
 
-            elif explorar_flag == 0:
-                chance_descanso += 15
+            elif explorar_flag == 0 and (jogador.hp < jogador.maxHp or jogador.mana < jogador.maxMana):
+                chance_descanso += 10
             
             # Batalha
             if explorar_flag == 0:
