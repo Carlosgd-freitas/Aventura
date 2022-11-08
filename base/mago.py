@@ -65,9 +65,9 @@ def CriarNovoMago(nome = "default", genero = "default"):
 
     # Inventário inicial
     inventario = []
-    pocao = consumiveis.PocaoCuraPequena(2, 2)
-    inventario.append(pocao)
-    pocao_mana = consumiveis.PocaoManaPequena(1, 2)
+    pocao_cura = consumiveis.PocaoPequenaCura(2, 2)
+    inventario.append(pocao_cura)
+    pocao_mana = consumiveis.PocaoPequenaMana(1, 2)
     inventario.append(pocao_mana)
 
     j = jogador.Jogador(nome, classe, nivel, experiencia, ouro, maxHp, maxHp, maxMana, maxMana, ataque, defesa,

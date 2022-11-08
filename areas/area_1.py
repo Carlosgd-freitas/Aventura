@@ -35,11 +35,11 @@ class Area_1(area.Area):
         loja_pocoes_itens = []
 
         # Consumíveis
-        pocao_cura_pequena = consumiveis.PocaoCuraPequena(5, 5)
-        loja_pocoes_itens.append(pocao_cura_pequena)
+        pocao_cura = consumiveis.PocaoPequenaCura(5, 5)
+        loja_pocoes_itens.append(pocao_cura)
 
-        pocao_mana_pequena = consumiveis.PocaoManaPequena(5, 5)
-        loja_pocoes_itens.append(pocao_mana_pequena)
+        pocao_mana = consumiveis.PocaoPequenaMana(5, 5)
+        loja_pocoes_itens.append(pocao_mana)
 
         antidoto = consumiveis.Antidoto(10, 3)
         loja_pocoes_itens.append(antidoto)

@@ -66,7 +66,7 @@ def CriarNovoGuerreiro(nome = "default", genero = "default"):
 
     # Inventário inicial
     inventario = []
-    pocao = consumiveis.PocaoCuraPequena(2, 2)
+    pocao = consumiveis.PocaoPequenaCura(2, 2)
     inventario.append(pocao)
 
     j = jogador.Jogador(nome, classe, nivel, experiencia, ouro, maxHp, maxHp, maxMana, maxMana, ataque, defesa,

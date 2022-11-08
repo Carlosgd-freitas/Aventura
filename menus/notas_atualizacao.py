@@ -179,7 +179,9 @@ class NotasAtualizacao():
             'estão fora de batalha.')
 
         print('\nItens')
-        self.positivo('Poção de Regeneração Pequena adicionada.')
+        self.positivo('Poção Pequena de Regeneração adicionada.')
+        self.positivo('Elixires Pequenos de Ataque, Defesa, Magia e Velocidade adicionados.')
+        self.positivo('Poções de Cura e Mana Pequenas renomeadas para Poções Pequenas de Cura e Mana.')
 
         print('\nOutros')
         self.positivo('As configurações são salvas e permanecem com as alterações feitas pelos jogadores.')
