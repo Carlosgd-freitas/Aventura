@@ -3,6 +3,7 @@ import sys
 sys.path.append("..")
 from base import efeito, item
 
+# Materiais
 def ErvaCurativa(quantidade, preco):
     """
     Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:
@@ -29,6 +30,7 @@ def MelAbelhoide(quantidade, preco):
     
     return ("Consumivel", mel)
 
+# Poções
 def PocaoCuraPequena(quantidade, preco):
     """
     Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:
@@ -68,6 +70,27 @@ def PocaoRegeneracaoPequena(quantidade, preco):
     
     return ("Consumivel", pocao)
 
+# Elixires
+def ElixirPequeno(atributo, quantidade, preco):
+    """
+    Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:
+    * Aumenta <atributo> em 3 por 5 turnos
+    """
+
+    descricao = "Aumenta "
+    if atributo == "Ataque":
+        descricao += "o "
+    elif atributo == "Defesa" or atributo == "Magia" or atributo == "Velocidade":
+        descricao += "a "
+    descricao += atributo + " em 3 por 5 turnos."
+
+    elixir_efeito = efeito.Efeito("Aumento " + atributo, 3, 1, 5, 100)
+    elixir = item.Item([elixir_efeito], [], preco, quantidade, "Elixir de " + atributo + " Pequeno",
+        singular_plural = "singular", genero = "M", descricao = descricao)
+    
+    return ("Consumivel", elixir)
+
+# Miscelâneo
 def Antidoto(quantidade, preco):
     """
     Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:
@@ -81,6 +104,7 @@ def Antidoto(quantidade, preco):
     
     return ("Consumivel", antidoto)
 
+# Bombas
 def BombaInferior(quantidade, preco):
     """
     Cria <quantidade> de itens consumíveis, com preço igual à <preco>, que:
