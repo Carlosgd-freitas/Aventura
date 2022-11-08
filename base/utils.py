@@ -210,8 +210,9 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
     Parâmetros opcionais:
     - fora_combate: se igual a True, o efeito sendo processado não foi causado em combate. O valor padrão é False.
     """
+
     # Se o efeito veio de uma habilidade e possui uma % de acontecer
-    if (habilidade is not None) and (CalcularChance(efeito.chance / 100)):
+    if (habilidade is not None) and (not CalcularChance(efeito.chance / 100)):
         return
 
     # Flags para efeitos de item

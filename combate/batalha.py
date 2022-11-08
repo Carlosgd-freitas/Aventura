@@ -378,7 +378,7 @@ def CriaturaVez(criatura, aliados, inimigos, jogador):
     * criatura: criatura cuja ação será controlada;
     * aliados: aliados da criatura em questão;
     * inimigos: inimigos da criatura em questão;
-    * jogador: objeto do jogador;
+    * jogador: objeto do jogador.
     """
 
     # acao será uma tupla: (tipo da ação, habilidade que será usada, alvo(s) da habilidade)

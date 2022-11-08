@@ -18,9 +18,6 @@
 * Maelia vende poções de regen de vida pequena e elixires de aumento de atributo
 * Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
-> Bugs
-* Na emboscada da clareira, os inimigos estão sempre dando 0 de dano
-
 > Inimigos
 * Larva de Abelhóide / Normal
 * Abelhóide / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
@@ -52,6 +49,9 @@
 * Refazer como os efeitos de buff e debuff se stackam
 	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
 * Jogo retorna ao menu principal quando erros acontecem em vez de fechar
+* "Envenenamento" deve ser aplicado a todas as habilidades, e não somente ao ataque normal
+* Mensagens do tipo ervágora correndo ou tortuga entrando no casco tem que levar em consideração o sufixo
+  ex.: "a ervágora A corre da batalha"
 
 > Jogabilidade
 * Sistema de conquistas (achievements)

@@ -4,6 +4,27 @@ from . import mecanicas
 sys.path.append("..")
 from base import utils
 
+def CopiarEfeitos(efeitos):
+    """
+    Cria e retorna uma lista de novos efeitos que possuem os atributos com os mesmos valores dos contidos na
+    lista passada por parâmetro.
+    """
+    efeitos_2 = []
+    for e in efeitos:
+        efeitos_2.append(e.ClonarEfeito())
+    return efeitos_2
+
+def ContabilizarCusto(usuario, habilidade):
+    """
+    Reduz alguns recursos do usuario da habilidade, como Mana ou HP, com base nos custos da habilidade usada.
+    """
+    for c in habilidade.custo:
+        if c[0] == "Mana":
+            usuario.mana -= c[1]
+
+        elif c[0] == "HP":
+            usuario.hp -= c[1]
+
 def AlvoUnico(atacante, alvo, habilidade):
     """
     Utiliza uma habilidade em um único alvo e retorna o dano infligido.
@@ -15,12 +36,7 @@ def AlvoUnico(atacante, alvo, habilidade):
         alvo.hp -= dano
 
     # Custos da habilidade
-    for c in habilidade.custo:
-        if c[0] == "Mana":
-            atacante.mana -= c[1]
-
-        elif c[0] == "HP":
-            atacante.hp -= c[1]
+    ContabilizarCusto(atacante, habilidade)
     
     # Adicionando efeitos ao ataque normal temporariamente
     for h in atacante.habilidades:
@@ -46,12 +62,7 @@ def AlvoMultiplo(atacante, alvos, habilidade):
     """
 
     # Custos da habilidade
-    for c in habilidade.custo:
-        if c[0] == "Mana":
-            atacante.mana -= c[1]
-
-        elif c[0] == "HP":
-            atacante.hp -= c[1]
+    ContabilizarCusto(atacante, habilidade)
     
     # Adicionando efeitos ao ataque normal temporariamente
     for h in atacante.habilidades:
@@ -86,14 +97,9 @@ def AlvoProprio(criatura, habilidade):
     """
 
     # Custos da habilidade
-    for c in habilidade.custo:
-        if c[0] == "Mana":
-            criatura.mana -= c[1]
+    ContabilizarCusto(criatura, habilidade)
 
-        elif c[0] == "HP":
-            criatura.hp -= c[1]
-
-    # Aplicando Buffs em si próprio
+    # Aplicando efeitos em si próprio
     for e in habilidade.efeitos:
         utils.ProcessarEfeito(criatura, e, criatura, habilidade = habilidade)
                 

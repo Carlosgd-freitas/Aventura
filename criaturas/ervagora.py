@@ -15,7 +15,7 @@ class Ervagora(criatura.Criatura):
         Cria e retorna uma Ervágora de um determinado nível.
         """
         # Atributos base da criatura
-        maxHp = 2
+        maxHp = 1
         maxMana = 2
         ataque = 0
         defesa = 0
