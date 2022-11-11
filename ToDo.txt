@@ -7,7 +7,6 @@
 > Jogabilidade
 * Veneno persiste após batalha
 * Jogador pode ser emboscado ao ir até a vila/cidade
-* Chance de encontrar um vendedor ambulante enquanto explora a área
 * Monstros dropam experiencia e ouro baseados em um range
 * Habilidades de heal podem critar
 * Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
@@ -15,7 +14,6 @@
 * Jogador pode upar até o nível 10
 * Dungeon na área 1 - Colméia de Abelhóides
   - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
-* Maelia vende poções de regen de vida pequena e elixires de aumento de atributo
 * Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
 > Inimigos

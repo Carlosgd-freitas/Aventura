@@ -24,6 +24,7 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
     """
 
     chance_descanso = 0
+    chance_vendedor_ambulante = 0
     explorar_flag = 0
     retorno = 1
 
@@ -108,8 +109,17 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
                 explorar_flag = 1
 
             elif explorar_flag == 0 and (jogador.hp < jogador.maxHp or jogador.mana < jogador.maxMana):
-                chance_descanso += 10
+                chance_descanso += 5
             
+            # Evento: Vendedor Ambulante
+            if explorar_flag == 0 and utils.CalcularChance(chance_vendedor_ambulante / 100):
+                resultado = area.EventoVendedorAmbulante(jogador, conf)
+                chance_vendedor_ambulante = 0
+                explorar_flag = 1
+
+            elif explorar_flag == 0:
+                chance_descanso += 5
+
             # Batalha
             if explorar_flag == 0:
                 print('Uma batalha se iniciou!')

@@ -139,9 +139,9 @@ class NotasAtualizacao():
         self.positivo("Em batalha, criaturas com o mesmo nome agora aparecerão com nomes únicos. (Ex.: 'Slime A', 'Slime B'...)")
 
         print('\nLojas e Estalagens')
-        self.positivo('Jogadores agora só encontrarão lojas e estalagens dentro de vilas ou cidades.')
         self.positivo('Lojas e estalagens agora contam com NPCs únicos que falam com o jogador.')
         self.positivo('NPCs podem dar dicas e explicar algumas mecânicas do jogo para o jogador.')
+        self.neutro('Lojas e estalagens só serão encontradas dentro de vilas ou cidades.')
 
         print('\nInimigos')
         self.positivo('Ervágora e Slime de Mel adicionados.')
@@ -159,8 +159,8 @@ class NotasAtualizacao():
         self.positivo("Campos 'singular/plural' e 'gênero' adicionados aos componentes do jogo, deixando a "+
             "impressão de mensagens mais consistente.")
         self.positivo('Adicionada uma confirmação para sair do jogo.')
-        self.positivo('Falas de NPCs possuem um delay durante sua impressão.')
-        self.positivo('Perder o jogo agora retorna o jogador para o menu principal em vez de fechá-lo.')
+        self.positivo('Perder o jogo retorna o jogador para o menu principal em vez de fechá-lo.')
+        self.neutro('Falas de NPCs possuem um delay durante sua impressão.')
     
     def alphaV004(self):
         """
@@ -177,11 +177,13 @@ class NotasAtualizacao():
             'fora de combate.')
         self.positivo('Jogadores podem usar itens consumíveis que dão regeneração de seu inventário enquanto ' +
             'estão fora de batalha.')
+        self.positivo('Evento de vendedor ambulante adicionado.')
+        self.negativo('Eventos na exploração de uma área agora possuem uma menor chance de acontecer.')
 
         print('\nItens')
         self.positivo('Poção Pequena de Regeneração adicionada.')
         self.positivo('Elixires Pequenos de Ataque, Defesa, Magia e Velocidade adicionados.')
-        self.positivo('Poções de Cura e Mana Pequenas renomeadas para Poções Pequenas de Cura e Mana.')
+        self.neutro('Poções de Cura e Mana Pequenas renomeadas para Poções Pequenas de Cura e Mana.')
 
         print('\nOutros')
         self.positivo('As configurações são salvas e permanecem com as alterações feitas pelos jogadores.')
@@ -209,4 +211,4 @@ class NotasAtualizacao():
         """
         Imprime um '*' amarelo e uma string em branco, ambos com fundo preto.
         """
-        print(Back.BLACK + Fore.YELLOW + '- ' + Fore.WHITE + string + Style.RESET_ALL)
+        print(Back.BLACK + Fore.YELLOW + '* ' + Fore.WHITE + string + Style.RESET_ALL)

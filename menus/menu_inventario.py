@@ -153,9 +153,9 @@ def MenuInventario(jogador):
                     if op == 3:
                         if item_escolhido[1].nome == "Erva Curativa" or \
                             item_escolhido[1].nome == "Mel de Abelhóide" or \
-                            item_escolhido[1].nome == "Poção de Cura Pequena" or \
-                            item_escolhido[1].nome == "Poção de Mana Pequena" or \
-                            item_escolhido[1].nome == "Poção de Regeneração Pequena" or \
+                            item_escolhido[1].nome == "Poção Pequena de Cura" or \
+                            item_escolhido[1].nome == "Poção Pequena de Mana" or \
+                            item_escolhido[1].nome == "Poção Pequena de Regeneração" or \
                             item_escolhido[1].nome == "Antídoto":
                             valido = jogador_acoes.ValidaUsoConsumivel(jogador, item_escolhido)
 

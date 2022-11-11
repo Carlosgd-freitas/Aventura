@@ -35,46 +35,62 @@ class Area_1(area.Area):
         loja_pocoes_itens = []
 
         # Consumíveis
-        pocao_cura = consumiveis.PocaoPequenaCura(5, 5)
+        pocao_cura = consumiveis.PocaoPequenaCura(10, 5)
         loja_pocoes_itens.append(pocao_cura)
 
-        pocao_mana = consumiveis.PocaoPequenaMana(5, 5)
+        pocao_mana = consumiveis.PocaoPequenaMana(10, 5)
         loja_pocoes_itens.append(pocao_mana)
+
+        pocao_regen = consumiveis.PocaoPequenaRegeneracao(10, 6)
+        loja_pocoes_itens.append(pocao_regen)
+        
+        elixir_ataque = consumiveis.ElixirPequeno('Ataque', 10, 4)
+        loja_pocoes_itens.append(elixir_ataque)
+    
+        elixir_defesa = consumiveis.ElixirPequeno('Defesa', 10, 5)
+        loja_pocoes_itens.append(elixir_defesa)
+    
+        elixir_magia = consumiveis.ElixirPequeno('Magia', 10, 4)
+        loja_pocoes_itens.append(elixir_magia)
+    
+        elixir_velocidade = consumiveis.ElixirPequeno('Velocidade', 10, 3)
+        loja_pocoes_itens.append(elixir_velocidade)
 
         antidoto = consumiveis.Antidoto(10, 3)
         loja_pocoes_itens.append(antidoto)
 
-        mel = consumiveis.MelAbelhoide(3, 3)
+        # Materiais
+        mel = consumiveis.MelAbelhoide(5, 4)
         loja_pocoes_itens.append(mel)
 
         # Itens disponíveis para venda na loja do Vendedor de Armamentos da área 1
         loja_armamentos_itens = []
 
         # Armas e Escudos
-        espada = equipamentos.Espada(3, 5)
+        espada = equipamentos.Espada(5, 5)
         loja_armamentos_itens.append(espada)
 
-        cajado_aprendiz = equipamentos.CajadoAprendiz(3, 5)
+        cajado_aprendiz = equipamentos.CajadoAprendiz(5, 5)
         loja_armamentos_itens.append(cajado_aprendiz)
 
-        broquel_madeira = equipamentos.BroquelMadeira(3, 7)
+        broquel_madeira = equipamentos.BroquelMadeira(5, 7)
         loja_armamentos_itens.append(broquel_madeira)
 
         # Armaduras
-        chapeu_couro = equipamentos.ChapeuCouro(3, 4)
+        chapeu_couro = equipamentos.ChapeuCouro(5, 4)
         loja_armamentos_itens.append(chapeu_couro)
 
-        peitoral_couro = equipamentos.PeitoralCouro(3, 10)
+        peitoral_couro = equipamentos.PeitoralCouro(5, 10)
         loja_armamentos_itens.append(peitoral_couro)
 
-        robe_algodao = equipamentos.RobeAlgodao(3, 10)
+        robe_algodao = equipamentos.RobeAlgodao(5, 10)
         loja_armamentos_itens.append(robe_algodao)
 
-        botas_couro = equipamentos.BotasCouro(3, 8)
+        botas_couro = equipamentos.BotasCouro(5, 8)
         loja_armamentos_itens.append(botas_couro)
 
         # Consumíveis
-        bomba_inferior = consumiveis.BombaInferior(3, 6)
+        bomba_inferior = consumiveis.BombaInferior(5, 6)
         loja_armamentos_itens.append(bomba_inferior)
 
         bomba_grudenta_inferior = consumiveis.BombaGrudentaInferior(5, 6)
@@ -453,3 +469,91 @@ class Area_1(area.Area):
                 imprimir.ImprimirComDelay('ouro', conf.npc_fala_delay)
                 print(Style.RESET_ALL, end = '')
                 imprimir.ImprimirComDelay(f' o suficiente para descansar aqui.\n', conf.npc_fala_delay)
+
+    def EventoVendedorAmbulante(self, jogador, conf):
+        """
+        Uma loja que irá selecionar aleatoriamente alguns itens para serem vendidos ao jogador. Este método deve
+        chamar o método VendedorAmbulanteInterno() quando for implementado. Retorna 1 se o jogador comprou ou
+        vendeu algo e 0 caso contrário.
+        """
+
+        itens = []
+        n_itens = 10
+        indices = [i for i in range(1, n_itens+1)]
+
+        while len(itens) < 5:
+            
+            indice = random.choice(indices)
+            quantidade = random.randint(1, 3)
+
+            # Poções Pequenas de Cura
+            if indice == 1:
+                item = consumiveis.PocaoPequenaCura(quantidade, 5)
+                itens.append(item)
+                indices.remove(1)
+            
+            # Poções Pequenas de Mana
+            elif indice == 2:
+                item = consumiveis.PocaoPequenaMana(quantidade, 5)
+                itens.append(item)
+                indices.remove(2)
+            
+            # Poções Pequenas de Regeneração
+            elif indice == 3:
+                item = consumiveis.PocaoPequenaRegeneracao(quantidade, 6)
+                itens.append(item)
+                indices.remove(3)
+            
+            # Elixires Pequenos de Ataque
+            elif indice == 4:
+                item = consumiveis.ElixirPequeno('Ataque', quantidade, 4)
+                itens.append(item)
+                indices.remove(4)
+            
+            # Elixires Pequenos de Defesa
+            elif indice == 5:
+                item = consumiveis.ElixirPequeno('Defesa', quantidade, 5)
+                itens.append(item)
+                indices.remove(5)
+            
+            # Elixires Pequenos de Magia
+            elif indice == 6:
+                item = consumiveis.ElixirPequeno('Magia', quantidade, 4)
+                itens.append(item)
+                indices.remove(6)
+            
+            # Elixires Pequenos de Velocidade
+            elif indice == 7:
+                item = consumiveis.ElixirPequeno('Velocidade', quantidade, 3)
+                itens.append(item)
+                indices.remove(7)
+
+            # Antídotos
+            elif indice == 8:
+                item = consumiveis.Antidoto(quantidade, 3)
+                itens.append(item)
+                indices.remove(8)
+            
+            # Bombas Inferiores
+            elif indice == 9:
+                item = consumiveis.BombaInferior(quantidade, 6)
+                itens.append(item)
+                indices.remove(9)
+            
+            # Bombas Grudentas Inferiores
+            elif indice == 10:
+                item = consumiveis.BombaGrudentaInferior(quantidade, 6)
+                itens.append(item)
+                indices.remove(10)
+
+        print('')
+        if jogador.genero == 'M':
+            imprimir.ImprimirComDelay('Vendedor: Olá, aventureiro! Quer dar uma olhada nas minhas coisas?', 
+                conf.npc_fala_delay)
+        elif jogador.genero == 'F':
+            imprimir.ImprimirComDelay('Vendedor: Olá, aventureira! Quer dar uma olhada nas minhas coisas?', 
+                conf.npc_fala_delay)
+
+        operacao_realizada = self.VendedorAmbulanteInterno(jogador, itens)
+
+        return operacao_realizada

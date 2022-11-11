@@ -307,7 +307,7 @@ class Area():
 
     def Loja(self, jogador, loja_itens):
         """
-        Menu principal de uma loja presente na área. Retorna 1 se o jogador comoprou ou vendeu algo
+        Menu principal de uma loja presente na área. Retorna 1 se o jogador comprou ou vendeu algo
         e 0 caso contrário.
         """
 
@@ -433,3 +433,23 @@ class Area():
                 break
 
         return resultado
+
+    @abstractmethod
+    def EventoVendedorAmbulante(self, jogador, conf):
+        """
+        Uma loja que irá selecionar aleatoriamente alguns itens para serem vendidos ao jogador. Este método deve
+        chamar o método VendedorAmbulanteInterno() quando for implementado. Retorna 1 se o jogador comprou ou
+        vendeu algo e 0 caso contrário.
+        """
+
+        pass
+
+    def VendedorAmbulanteInterno(self, jogador, itens):
+        """
+        Método a ser chamado pela método EventoVendedorAmbulante(), que será implementada em cada área. Retorna 1
+        se o jogador comprou ou vendeu algo e 0 caso contrário.
+        """
+
+        operacao_realizada = self.Loja(jogador, itens)
+
+        return operacao_realizada
