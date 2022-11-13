@@ -47,7 +47,7 @@ class Ervagora(criatura.Criatura):
         atacar = ativas_alvo_unico.Atacar("Normal")
         habilidades.append(atacar)
 
-        grito_estremecedor = ativas_alvos_multiplos.GritoEstremecedor(3, 2, 100)
+        grito_estremecedor = ativas_alvos_multiplos.GritoEstremecedor(2, 3, 2, 100)
         habilidades.append(grito_estremecedor)
 
         # Espolios da Criatura

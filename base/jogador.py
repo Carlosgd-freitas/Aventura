@@ -85,7 +85,24 @@ class Jogador(criatura.Criatura):
 
         # Ouro do jogador
         mensagem += Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {self.ouro}'
-        print(mensagem + '\n')
+        print(mensagem)
+
+        # Possíveis Debuffs
+        mensagem = ''
+        debuffs = 0
+
+        if self.EfeitoPresente("debuff", "Veneno") != -1:
+            if debuffs > 0:
+                mensagem += ' - '
+            if self.genero == "M":
+                mensagem += Fore.GREEN + 'ENVENENADO' + Style.RESET_ALL
+            elif self.genero == "F":
+                mensagem += Fore.GREEN + 'ENVENENADA' + Style.RESET_ALL
+            debuffs += 1
+        
+        if debuffs > 0:
+            mensagem += '\n'
+        print(mensagem)
 
         # Atributos do jogador
         print(f'ATAQUE: {self.ataque}')

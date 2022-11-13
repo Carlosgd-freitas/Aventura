@@ -5,7 +5,6 @@
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
 
 > Jogabilidade
-* Veneno persiste após batalha
 * Jogador pode ser emboscado ao ir até a vila/cidade
 * Monstros dropam experiencia e ouro baseados em um range
 * Habilidades de heal podem critar

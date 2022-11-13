@@ -179,6 +179,7 @@ class NotasAtualizacao():
             'estão fora de batalha.')
         self.positivo('Evento de vendedor ambulante adicionado.')
         self.negativo('Eventos na exploração de uma área agora possuem uma menor chance de acontecer.')
+        self.negativo('O debuff de envenenamento persiste após a batalha.')
 
         print('\nItens')
         self.positivo('Poção Pequena de Regeneração adicionada.')

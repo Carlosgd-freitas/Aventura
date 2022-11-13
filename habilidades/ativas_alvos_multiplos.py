@@ -3,9 +3,9 @@ import sys
 sys.path.append("..")
 from base import habilidade, efeito
 
-def GritoEstremecedor(mana, recarga, modificador_magia):
+def GritoEstremecedor(turnos, mana, recarga, modificador_magia):
     """
-    Habilidade ativa onde o usuário grita e diminui a defesa de todos os inimigos por 2 turnos.
+    Habilidade ativa onde o usuário grita e diminui a defesa de todos os inimigos por <turnos> turnos.
     * Alvo: Múltiplos inimigos
     * Tipo: Normal
     * Custo: <mana> de Mana
@@ -14,7 +14,7 @@ def GritoEstremecedor(mana, recarga, modificador_magia):
     * Efeitos: Diminui a defesa dos alvos
     """
 
-    diminuicao = efeito.Efeito("Diminuição Defesa", 0, 1, 2, 100)
+    diminuicao = efeito.Efeito("Diminuição Defesa", 0, 1, turnos, 100)
 
     grito = habilidade.Habilidade("Grito Estremecedor", "O usuário grita tão forte que prejudica temporariamente a" +
         "audição de seus inimigos, diminuindo suas defesas.", "Normal", "multiplos", "ativa", 0, [("Mana", mana)], 

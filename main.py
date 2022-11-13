@@ -6,7 +6,7 @@ import pickle
 from colorama import init
 
 from base import configuracao, imprimir
-from menus.inicial import *
+from menus import menu_inicial
 
 # Lembrete: Quando uma nova arma for criada e ela for de um tipo que não é "Normal", ela deve alterar o tipo
 # do ataque normal do jogador em EquipadosGanhos()
@@ -76,4 +76,4 @@ if(os.path.exists(caminho_saves) == False):
 conf.Atualizar()
 
 # Menu inicial do jogo
-MenuInicial(conf, caminhos)
+menu_inicial.MenuInicial(conf, caminhos)
