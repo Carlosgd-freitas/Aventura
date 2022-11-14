@@ -64,6 +64,18 @@ class Jogador(criatura.Criatura):
             return 35
         elif nivel == 5:
             return 50
+        elif nivel == 6:
+            return 80
+        elif nivel == 7:
+            return 135
+        elif nivel == 8:
+            return 210
+        elif nivel == 9:
+            return 300
+        elif nivel == 10:
+            return 400
+        else:
+            return 999999
 
     def ImprimirStatus(self):
         """

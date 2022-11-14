@@ -6,30 +6,55 @@
 
 > Jogabilidade
 * Jogador pode ser emboscado ao ir até a vila/cidade
-* Monstros dropam experiencia e ouro baseados em um range
 * Habilidades de heal podem critar
-* Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
-* Sistema de criação (crafting) / comprar e aprender receitas de criação
-* Jogador pode upar até o nível 10
-* Dungeon na área 1 - Colméia de Abelhóides
-  - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
 * Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
 > Inimigos
 * Larva de Abelhóide / Normal
 * Abelhóide / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
-* Abelhóide Curandeira / Vento / Vingança - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
-* Abelhóide Guerreiro / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
-* Chefão: Rainha Abelhóide / Vento / Vingança - 1 de Ataque - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
-
-> Itens
-* Amuleto Anti-Veneno (+75% de chance de não sofrer envenenamento)
-* Robe de Seda
 
 > Habilidades
 * Vingança / Passiva / Ganha X de um atributo (ataque/magia) se um inimigo de uma raça (Slime, Tortuga, etc.) morrer, até o fim da batalha
-* Invocar Abelhóide
 * Disparo Elétrico / Ativa / Vento / Pouco dano em vários inimigos
+
+> O De Sempre
+* Tirar imports desnecessários de todos os arquivos.
+* Rever readme.md e notas de atualização.
+* Gerar os executáveis para Windows e Linux.
+
+===== Alpha v0.0.5 =====
+
+> Programação
+* "Envenenamento" deve ser aplicado a todas as habilidades, e não somente ao ataque normal
+* Mensagens do tipo ervágora correndo ou tortuga entrando no casco tem que levar em consideração o sufixo
+  ex.: "a ervágora A corre da batalha"
+
+> Jogabilidade
+* Bestiário
+	- CompararNomeSufixo(stringA, stringB): leva em consideração os possíveis sufixos no nome de uma criatura
+		(Slime A, Slime B, etc.)
+	- Inimigos ainda não encontrados aparecerão como "???"
+	- Inimigos comuns precisam ser derrotados 1 vez para apareçerem seus nomes e descrição
+	- Inimigos comuns precisam ser derrotados 5 vezes para apareçerem seus loots, experiencia e gold dropados
+	- Inimigos comuns precisam ser derrotados 10 vezes para apareçerem suas habilidades e se admitem contratos de invocações (qual nível)
+	- Inimigos raros e chefões precisam derrotados apenas 1 vez pra aparecer tudo
+* Monstros dropam experiencia e ouro baseados em um range
+* Sistema de criação (crafting) / comprar e aprender receitas de criação
+* Dungeon na área 1 - Colméia de Abelhóides
+  - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
+
+> Inimigos
+* Abelhóide Curandeira / Vento / Vingança - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
+* Abelhóide Guerreiro / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
+* Chefão: Rainha Abelhóide / Vento / Vingança - 1 de Ataque - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
+* Um inimigo raro para a colméia
+
+> Itens
+* Amuleto anti-envenenamento
+* Robe de Seda
+
+> Habilidades
+* Invocar Abelhóide
 * Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
 * Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme o mago sobe de nível
 * novo Escudo Mágico irá fazer a criatura ganhar um shield que fica em cima do HP, tipo em MOBA
@@ -39,34 +64,39 @@
 * Rever readme.md e notas de atualização.
 * Gerar os executáveis para Windows e Linux.
 
-===== Alpha v0.0.? =====
+===== Alpha v0.1.0 =====
 
 > Programação
-* Se há mais criaturas na party do jogador, permitir que ele use consumiveis nos aliados também
 * Refazer como os efeitos de buff e debuff se stackam
 	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
+* Se há mais criaturas na party do jogador, permitir que ele use consumiveis nos aliados também
 * Jogo retorna ao menu principal quando erros acontecem em vez de fechar
-* "Envenenamento" deve ser aplicado a todas as habilidades, e não somente ao ataque normal
-* Mensagens do tipo ervágora correndo ou tortuga entrando no casco tem que levar em consideração o sufixo
-  ex.: "a ervágora A corre da batalha"
 
 > Jogabilidade
+* Larry dropa um item chave ao ser derrotado, seu óculos de ourives
+* Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
 * Sistema de conquistas (achievements)
 	- Apicultor: Derrote a Rainha Abelhóide
 	- Caçador de Anomalias: Derrote Larry e o Cristal Atacante
 	- Pesquisador Iniciante: desbloqueie 10 entradas no bestiário
 	- ?: derrote 25 inimigos
-* Larry dropa um item chave ao ser derrotado, seu óculos de ourives
-* Bestiário
-	- Inimigos ainda não encontrados aparecerão como "???"
-	- Inimigos comuns precisam ser derrotados 1 vez para apareçerem seus nomes e descrição
-	- Inimigos comuns precisam ser derrotados 5 vezes para apareçerem seus loots, experiencia e gold dropados
-	- Inimigos comuns precisam ser derrotados 10 vezes para apareçerem suas habilidades e se admitem contratos de invocações (qual nível)
-	- Inimigos raros e chefões precisam derrotados apenas 1 vez pra aparecer tudo
 * Modo Difícil
-* Área 2 - Floresta [alguma coisa] / Cobras Venenosas / Tortugas
 * Sistema de missões (quests)
 	- quest para um morador isolado na floresta, que irá desbloquear o item "Contrato de Invocação Inferior"
+
+> Habilidades
+* Invocar Ervágora (jogador)
+* Invocar Abelhóide (jogador)
+
+> O De Sempre
+* Tirar imports desnecessários de todos os arquivos.
+* Rever readme.md e notas de atualização.
+* Gerar os executáveis para Windows e Linux.
+
+===== Alpha v0.? =====
+
+> Jogabilidade
+* Área 2 - Floresta [alguma coisa] / Cobras Venenosas / Tortugas
 * Atributos novos: Esquiva, Bloqueio
 
 > Classes
@@ -86,11 +116,10 @@
 * Facas / Adagas
 
 > Habilidades
-* Resistência Metálica / Passiva / Danos sofridos são reduzidos em X, mas causam ao menos 1 de dano
+* Resistência Metálica / Passiva / Danos abaixo de X são anulados
 * Cuspe de Mercúrio / Ativa / Fogo / Dano + Def- + Slow + burn em um inimigo
 * Mordida de Fogo / Ativa / Fogo / Dano + burn em um inimigo
 * Saquear / Ativa / Trevas / Rouba X de gold do jogador / Gold é recuperado se quem usou for morto
-* Invocar Ervágora
 * Invocar Lobo Cinzento
 * Invocar Lobo Vermelho
 

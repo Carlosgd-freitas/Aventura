@@ -178,6 +178,7 @@ class NotasAtualizacao():
         self.positivo('Jogadores podem usar itens consumíveis que dão regeneração de seu inventário enquanto ' +
             'estão fora de batalha.')
         self.positivo('Evento de vendedor ambulante adicionado.')
+        self.positivo('Jogadores podem subir de nível até o nível 10.')
         self.negativo('Eventos na exploração de uma área agora possuem uma menor chance de acontecer.')
         self.negativo('O debuff de envenenamento persiste após a batalha.')
 

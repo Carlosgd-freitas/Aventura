@@ -81,8 +81,10 @@ def SubirNivelMago(jogador):
     Mago.
     """
 
-    # Aumento de atributos até o nível 5
+    # Até o nível 5
     if jogador.nivel <= 5:
+
+        # Aumento de atributos
         jogador.maxHp += 2
         jogador.hp = jogador.maxHp
         jogador.maxMana += 3
@@ -90,35 +92,78 @@ def SubirNivelMago(jogador):
 
         jogador.magia += 1
 
-        # A cada 2 níveis: Aumentando o custo do Projétil de Mana
-        if jogador.nivel % 2 == 0:
-            indice =  jogador.HabilidadePresente("Projétil de Mana")
-            custo = jogador.habilidades[indice].RetornarCusto("Mana")
-            jogador.habilidades[indice].AlterarCusto("Mana", custo + 1)
-
         print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo aumentou em 2.')
         print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima aumentou em 3.')
         print('Sua magia aumentou em 1.')
 
-        # No nível 3
         if jogador.nivel == 3:
             jogador.ataque += 1
-
-            escudo = ativas_alvo_proprio.EscudoMagico()
-            jogador.habilidades.append(escudo)
-
             print('Seu ataque aumentou em 1.')
-            print('Você aprendeu uma nova habilidade: ' + Style.BRIGHT + 'Escudo Mágico' + Style.RESET_ALL + '.')
-        
-        # Em níveis pares maiores que 3 (4, 6, 8...): Aumentando o custo do Escudo Mágico
-        if jogador.nivel > 3 and jogador.nivel % 2 == 0:
-            indice =  jogador.HabilidadePresente("Escudo Mágico")
-            jogador.habilidades[indice].custo = [("Mana", jogador.nivel)]
 
-        # No nível 5
-        elif jogador.nivel == 5:
+        if jogador.nivel == 5:
             jogador.defesa += 1
             jogador.velocidade += 1
 
             print('Sua defesa aumentou em 1.')
             print('Sua velocidade aumentou em 1.')
+        
+        # Habilidades
+
+        # Níveis 2 e 4
+        if jogador.nivel % 2 == 0:
+            indice =  jogador.HabilidadePresente("Projétil de Mana")
+            custo = jogador.habilidades[indice].RetornarCusto("Mana")
+            jogador.habilidades[indice].AlterarCusto("Mana", custo + 1)
+        
+        if jogador.nivel == 3:
+            escudo = ativas_alvo_proprio.EscudoMagico()
+            jogador.habilidades.append(escudo)
+
+            print('Você aprendeu uma nova habilidade: ' + Style.BRIGHT + 'Escudo Mágico' + Style.RESET_ALL + '.')
+        
+        if jogador.nivel == 4:
+            indice =  jogador.HabilidadePresente("Escudo Mágico")
+            jogador.habilidades[indice].AlterarCusto("Mana", jogador.nivel)
+
+    # Até o nível 10
+    elif jogador.nivel <= 10:
+
+        # Aumento de atributos
+        jogador.maxHp += 3
+        jogador.hp = jogador.maxHp
+        jogador.maxMana += 5
+        jogador.mana = jogador.maxMana
+
+        jogador.magia += 1
+
+        print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo aumentou em 3.')
+        print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima aumentou em 5.')
+        print('Sua magia aumentou em 1.')
+
+        # Níveis 6, 8 e 10
+        if jogador.nivel % 2 == 0:
+            jogador.ataque += 1
+            print('Seu ataque aumentou em 1.')
+        
+        # Níveis 7
+        if jogador.nivel == 7:
+            jogador.velocidade += 1
+            print('Sua velocidade aumentou em 1.')
+        
+        # Nível 10
+        if jogador.nivel == 10:
+            jogador.defesa += 1
+            print('Sua defesa aumentou em 1.')
+    
+        # Habilidades
+
+        # Níveis 6, 8 e 10
+        if jogador.nivel % 2 == 0:
+            indice =  jogador.HabilidadePresente("Projétil de Mana")
+            custo = jogador.habilidades[indice].RetornarCusto("Mana")
+            jogador.habilidades[indice].AlterarCusto("Mana", custo + 1)
+        
+        # Níveis 7 e 9
+        if jogador.nivel % 2 != 0:
+            indice =  jogador.HabilidadePresente("Escudo Mágico")
+            jogador.habilidades[indice].AlterarCusto("Mana", jogador.nivel)
