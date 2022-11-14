@@ -22,3 +22,18 @@ def GritoEstremecedor(turnos, mana, recarga, modificador_magia):
 
     return grito
 
+def DisparoEletrico(mana):
+    """
+    Habilidade ativa que atinge todos os inimigos com uma corrente elétrica, mas causa pouco dano.
+    * Alvo: Múltiplos inimigos
+    * Tipo: Vento
+    * Custo: <mana> de Mana
+    * Recarga: 3 Turnos
+    * Modificadores: 50% da magia
+    """
+
+    disparo = habilidade.Habilidade("Disparo Elétrico", "Atinge todos os inimigos com uma corrente elétrica, " + 
+    "mas causa pouco dano.", "Vento", "multiplos", "ativa", 0, [("Mana", mana)], 3, 3, [("magia", 50)], [],
+    "singular", "M", False, 0.0, 1.0)
+
+    return disparo

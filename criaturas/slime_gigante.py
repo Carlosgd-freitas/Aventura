@@ -91,7 +91,7 @@ class SlimeGigante(criatura.Criatura):
         # Cuspe Ácido -> 75% de chance do Slime Gigante usar
         if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[2]):
             if utils.CalcularChance(0.75):
-                return ("habilidade", self.habilidades[2], alvo_inimigo)
+                return ("habilidade", self.habilidades[3], alvo_inimigo)
 
         # Atacar
         return ("atacar", self.habilidades[0], alvo_inimigo)

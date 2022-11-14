@@ -4,7 +4,7 @@ from colorama import Fore, Back, Style
 from . import jogador
 
 sys.path.append("..")
-from habilidades import ativas_alvo_unico, ativas_alvo_proprio
+from habilidades import ativas_alvo_unico, ativas_alvo_proprio, ativas_alvos_multiplos
 from itens import consumiveis, equipamentos
 
 def CriarNovoMago(nome = "default", genero = "default"):
@@ -124,6 +124,12 @@ def SubirNivelMago(jogador):
         if jogador.nivel == 4:
             indice =  jogador.HabilidadePresente("Escudo Mágico")
             jogador.habilidades[indice].AlterarCusto("Mana", jogador.nivel)
+        
+        if jogador.nivel == 5:
+            disparo = ativas_alvos_multiplos.DisparoEletrico(4)
+            jogador.habilidades.append(disparo)
+
+            print('Você aprendeu uma nova habilidade: ' + Style.BRIGHT + 'Disparo Elétrico' + Style.RESET_ALL + '.')
 
     # Até o nível 10
     elif jogador.nivel <= 10:

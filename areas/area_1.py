@@ -7,6 +7,7 @@ from base.jogador import ReconhecerAcaoBasica
 from base import area, saver, configuracao, imprimir, utils
 from itens import consumiveis, equipamentos
 from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
+from criaturas import larva_abelhoide
 from combate import batalha
 
 class Area_1(area.Area):
@@ -318,6 +319,7 @@ class Area_1(area.Area):
 
             # Loja de Poções
             elif op == 1:
+                print('')
 
                 if self.conhece_vendedor_pocoes == False:
                     if jogador.genero == 'M':
@@ -353,6 +355,7 @@ class Area_1(area.Area):
             
             # Loja de Armamentos
             elif op == 2:
+                print('')
 
                 if self.conhece_vendedor_armamentos == False:
                     if jogador.genero == 'M':
@@ -367,9 +370,16 @@ class Area_1(area.Area):
                         imprimir.ImprimirComDelay('???: Só uma novata se aventura com esse nível de equipamento que cê tá usando. Hahahaha!\n', conf.npc_fala_delay)
                         imprimir.ImprimirComDelay('???: Me chamo Scolf, moça! Prazer em conhecer ocê.\n', conf.npc_fala_delay)
                     
-                    imprimir.ImprimirComDelay('Scolf: Fica a vontade aí na minha loja, se precisar é só me chamar.\n', conf.npc_fala_delay)
+                    imprimir.ImprimirComDelay('Scolf: Fica a vontade aí na minha loja, se precisar é só chamar.\n', conf.npc_fala_delay)
                     self.conhece_vendedor_armamentos = True
                 
+                # Antes da primeira compra de armamentos a ser realizada nesta loja
+                if self.primeira_compra_armamentos == False:
+                    imprimir.ImprimirComDelay(f'Scolf: Mas presta atenção nos níveis dos equipamento que cê comprar. ' +
+                    'Cê não vai conseguir equipar se ocê tiver um nível menor que o do equipamento, ein?\n', conf.npc_fala_delay)
+
+                    self.primeira_compra_armamentos = True
+
                 else:
                     if jogador.genero == 'M':
                         imprimir.ImprimirComDelay(f'Scolf: Eaí rapaz! Vamo comprar uns equipamento novo?\n', conf.npc_fala_delay)
@@ -378,20 +388,10 @@ class Area_1(area.Area):
 
                 operacao_realizada = self.Loja(jogador, self.lojas_itens[1])
 
-                # Primeira compra de armamentos realizada nesta loja
-                if operacao_realizada == 1 and self.primeira_compra_armamentos == False:
-
-                    if jogador.genero == 'M':
-                        imprimir.ImprimirComDelay(f'Scolf: Boa escolha, rapaz.\n', conf.npc_fala_delay)
-                    elif jogador.genero == 'F':
-                        imprimir.ImprimirComDelay(f'Scolf: Boa escolha, moça.\n', conf.npc_fala_delay)
-                    
-                    imprimir.ImprimirComDelay(f'Scolf: Mas presta atenção nos níveis dos equipamento que cê comprar. ' +
-                        'Cê não vai conseguir equipar se ocê tiver um nível menor que o do equipamento, ein?\n', conf.npc_fala_delay)
-
-                    self.primeira_compra_armamentos = True
-
-                imprimir.ImprimirComDelay(f'Scolf: Té mais, {jogador.nome}!\n', conf.npc_fala_delay)
+                if jogador.genero == 'M':
+                    imprimir.ImprimirComDelay(f'Scolf: Té mais, rapaz.\n', conf.npc_fala_delay)
+                elif jogador.genero == 'F':
+                    imprimir.ImprimirComDelay(f'Scolf: Té mais, moça.\n', conf.npc_fala_delay)
 
                 retorno = 1
             
@@ -472,9 +472,8 @@ class Area_1(area.Area):
 
     def EventoVendedorAmbulante(self, jogador, conf):
         """
-        Uma loja que irá selecionar aleatoriamente alguns itens para serem vendidos ao jogador. Este método deve
-        chamar o método VendedorAmbulanteInterno() quando for implementado. Retorna 1 se o jogador comprou ou
-        vendeu algo e 0 caso contrário.
+        Uma loja que irá selecionar aleatoriamente alguns itens para serem vendidos ao jogador. Retorna 1 se o
+        jogador comprou ou vendeu algo e 0 caso contrário.
         """
 
         itens = []
@@ -554,6 +553,6 @@ class Area_1(area.Area):
             imprimir.ImprimirComDelay('Vendedor: Olá, aventureira! Quer dar uma olhada nas minhas coisas?', 
                 conf.npc_fala_delay)
 
-        operacao_realizada = self.VendedorAmbulanteInterno(jogador, itens)
+        operacao_realizada = self.Loja(jogador, itens)
 
         return operacao_realizada

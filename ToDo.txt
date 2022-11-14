@@ -1,7 +1,6 @@
 ===== Alpha v0.0.4 =====
 
 > Programação
-* Aviso do vendedor de armamentos tem que vir antes de comprar o primeiro equipamento
 * Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
 
 > Jogabilidade
@@ -10,12 +9,10 @@
 * Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
 > Inimigos
-* Larva de Abelhóide / Normal
 * Abelhóide / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
 
 > Habilidades
 * Vingança / Passiva / Ganha X de um atributo (ataque/magia) se um inimigo de uma raça (Slime, Tortuga, etc.) morrer, até o fim da batalha
-* Disparo Elétrico / Ativa / Vento / Pouco dano em vários inimigos
 
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
@@ -57,7 +54,6 @@
 * Invocar Abelhóide
 * Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
 * Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme o mago sobe de nível
-* novo Escudo Mágico irá fazer a criatura ganhar um shield que fica em cima do HP, tipo em MOBA
 
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
@@ -67,10 +63,10 @@
 ===== Alpha v0.1.0 =====
 
 > Programação
+* Retirar as mensagens de decaimento "regen irá durar mais X turnos" (não as de quando o regen stacka)
 * Refazer como os efeitos de buff e debuff se stackam
 	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
-* Se há mais criaturas na party do jogador, permitir que ele use consumiveis nos aliados também
-* Jogo retorna ao menu principal quando erros acontecem em vez de fechar
+* Jogo retorna ao menu inicial quando erros acontecem em vez de fechar
 
 > Jogabilidade
 * Larry dropa um item chave ao ser derrotado, seu óculos de ourives
@@ -82,11 +78,6 @@
 	- ?: derrote 25 inimigos
 * Modo Difícil
 * Sistema de missões (quests)
-	- quest para um morador isolado na floresta, que irá desbloquear o item "Contrato de Invocação Inferior"
-
-> Habilidades
-* Invocar Ervágora (jogador)
-* Invocar Abelhóide (jogador)
 
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
@@ -98,6 +89,8 @@
 > Jogabilidade
 * Área 2 - Floresta [alguma coisa] / Cobras Venenosas / Tortugas
 * Atributos novos: Esquiva, Bloqueio
+* Quest para um morador isolado na floresta, que irá desbloquear o item "Contrato de Invocação Inferior"
+* Se há mais criaturas na party do jogador, permitir que ele use consumiveis nos aliados também
 
 > Classes
 * Ladino
@@ -116,12 +109,16 @@
 * Facas / Adagas
 
 > Habilidades
+* novo Escudo Mágico irá fazer a criatura ganhar um shield que fica em cima do HP, tipo em MOBA
 * Resistência Metálica / Passiva / Danos abaixo de X são anulados
 * Cuspe de Mercúrio / Ativa / Fogo / Dano + Def- + Slow + burn em um inimigo
 * Mordida de Fogo / Ativa / Fogo / Dano + burn em um inimigo
 * Saquear / Ativa / Trevas / Rouba X de gold do jogador / Gold é recuperado se quem usou for morto
-* Invocar Lobo Cinzento
-* Invocar Lobo Vermelho
+* Invocar Ervágora (jogador)
+* Invocar Abelhóide (jogador)
+* Invocar Abelhóide Curandeira (jogador)
+* Invocar Lobo Cinzento (jogador)
+* Invocar Lobo Vermelho (jogador)
 
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.

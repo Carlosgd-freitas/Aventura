@@ -140,7 +140,9 @@ class Jogador(criatura.Criatura):
                 self.experiencia -= exp_necessaria
                 self.nivel += 1
 
-                print(f'\nVocê subiu para o nível {self.nivel}!')
+                print('\nVocê subiu para o ', end = '')
+                print(Style.BRIGHT + 'Nível ' + f'{self.nivel}' + Style.RESET_ALL, end = '')
+                print('!')
 
                 if self.classe == "Guerreiro" or self.classe == "Guerreira":
                     guerreiro.SubirNivelGuerreiro(self)

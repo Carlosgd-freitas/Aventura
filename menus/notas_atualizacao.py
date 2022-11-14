@@ -91,7 +91,7 @@ class NotasAtualizacao():
         self.positivo('Slime adicionado.\n')
 
         print('Habilidades')
-        self.positivo('Projétil de Mana, Regeneração e Cuspe Ácido adicionadas.\n')
+        self.positivo('Projétil de Mana, Regeneração e Cuspe Ácido adicionados.\n')
 
         print('Itens')
         self.positivo('Espada Enferrujada e Cajado de Iniciante adicionados.')
@@ -117,7 +117,7 @@ class NotasAtualizacao():
 
         print('Habilidades')
         self.positivo('Picada Venenosa, Envenenamento, Subdivisão, Esconder no Casco, Impacto Atordoante e ' +
-            'Escudo Mágico adicionadas.\n')
+            'Escudo Mágico adicionados.\n')
         
         print('Itens')
         self.positivo('Espada e Cajado de Aprendiz adicionados.')
@@ -148,7 +148,7 @@ class NotasAtualizacao():
         self.positivo('Chefão da primeira área adicionado.')
 
         print('\nHabilidades')
-        self.positivo('Grito Estremecedor, Cuspe de Mel e Cura Inferior adicionadas.')
+        self.positivo('Grito Estremecedor, Cuspe de Mel e Cura Inferior adicionados.')
 
         print('\nItens')
         self.positivo('Erva Curativa, Mel de Abelhóide e Bomba Grudenta Inferior adicionados.')
@@ -181,6 +181,12 @@ class NotasAtualizacao():
         self.positivo('Jogadores podem subir de nível até o nível 10.')
         self.negativo('Eventos na exploração de uma área agora possuem uma menor chance de acontecer.')
         self.negativo('O debuff de envenenamento persiste após a batalha.')
+
+        print('\nInimigos')
+        self.positivo('Larva de Abelhóide adicionada.')
+
+        print('\nHabilidades')
+        self.positivo('Disparo Elétrico adicionado.')
 
         print('\nItens')
         self.positivo('Poção Pequena de Regeneração adicionada.')

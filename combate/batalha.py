@@ -92,7 +92,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
                 if c == jogador and jogador.hp > 0 and consciente == 1:
                     
                     # Imprimindo os inimigos
-                    print('\nInimigos em batalha:')
+                    print('Inimigos em batalha:')
                     indice_criatura = 1
                     for c in inimigos:
                         imprimir.ImprimirCriatura(indice_criatura, c)
@@ -157,8 +157,6 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
                 else:
                     jogador.AdicionarAoInventario(e)
                     print(f'Você ganhou {e[1].quantidade} {e[1].nome}.')
-        
-        print('')
     
     if acabou == 1 or acabou == 2:
         mecanicas.TerminarBuffsDebuffs(jogador)
@@ -291,6 +289,25 @@ def JogadorVez(jogador, criaturas, correr = True):
                         print(f'\nVocê utilizou {escolha.nome}.')
                         usar_habilidade.AlvoProprio(jogador, escolha)
                     
+                    # Habilidade que alveja múltiplos inimigos
+                    elif escolha.alvo == "multiplos":
+                        print(f'\nVocê utilizou {escolha.nome}.')
+                        danos = usar_habilidade.AlvoMultiplo(jogador, criaturas, escolha)
+
+                        if not escolha.nao_causa_dano:
+                            for i, d in enumerate(danos):
+                                if criaturas[i].singular_plural == "singular":
+                                    if criaturas[i].genero == "M":
+                                        print(f'Você causou {d} de dano ao {criaturas[i].nome}.')
+                                    elif criaturas[i].genero == "F":
+                                        print(f'Você causou {d} de dano à {criaturas[i].nome}.')
+
+                                elif criaturas[i].singular_plural == "plural":
+                                    if criaturas[i].genero == "M":
+                                        print(f'Você causou {d} de dano aos {criaturas[i].nome}.')
+                                    elif criaturas[i].genero == "F":
+                                        print(f'Você causou {d} de dano às {criaturas[i].nome}.')
+
                     break
                 
                 # Jogador escolheu retornar
