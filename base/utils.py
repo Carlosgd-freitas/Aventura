@@ -118,6 +118,55 @@ def NumeroEmSufixo(numero):
     elif numero == 10:
         return 'J'
 
+def CompararSufixos(nome):
+    """
+    Retorna verdadeiro se uma string for igual a um sufixo (letras maiúsculas de A até J), e falso caso contrário.
+
+    Parâmetros:
+    - nome: string a ser comparada.
+    """
+    if nome == 'A' or nome == 'B' or nome == 'C' or nome == 'D' or nome == 'E' or nome == 'F' or nome == 'G' or \
+        nome == 'H' or nome == 'I' or nome == 'J':
+        return True
+    else:
+        return False
+
+def CompararNomesSufixos(nomeA, nomeB):
+    """
+    Retorna o valor de comparação de duas strings sem o possível sufixo existente nelas.
+
+    Parâmetros:
+    - nomeA: string a ser comparada;
+    - nomeB: string a ser comparada.
+    """
+    a = nomeA.split(' ')
+    b = nomeB.split(' ')
+
+    novo_a = ''
+    novo_b = ''
+
+    if len(a) == 1:
+        novo_a = a[0]
+    else:
+        for i, palavra in enumerate(a):
+            if CompararSufixos(palavra):
+                break
+            if i > 0:
+                novo_a += ' '
+            novo_a += palavra
+
+    if len(b) == 1:
+        novo_b = b[0]
+    else:
+        for i, palavra in enumerate(b):
+            if CompararSufixos(palavra):
+                break
+            if i > 0:
+                novo_b += ' '
+            novo_b += palavra
+
+    return novo_a == novo_b
+
 def ContarNomes(nomes, nomes_zerados, criaturas, modifica_nomes_zerados = True):
     """
     Armazena no dicionário "nomes" quantas criaturas presentes na lista 'criaturas' possuem o mesmo nome, para
@@ -361,19 +410,38 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
             
             if efeito.nome == "Aumento Ataque":
                 alvo.ataque += valor_aumento
-                print(f'{alvo.nome} teve seu ataque aumentado em {valor_aumento} por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve seu ataque aumentado em {valor_aumento} até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve seu ataque aumentado em {valor_aumento} por {efeito.duracao} turnos.')
+
             elif efeito.nome == "Aumento Defesa":
                 alvo.defesa += valor_aumento
-                print(f'{alvo.nome} teve sua defesa aumentada em {valor_aumento} por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve sua defesa aumentada em {valor_aumento} até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve sua defesa aumentada em {valor_aumento} por {efeito.duracao} turnos.')
+
             elif efeito.nome == "Aumento Magia":
                 alvo.magia += valor_aumento
-                print(f'{alvo.nome} teve sua magia aumentada {valor_aumento} por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve sua magia aumentada em {valor_aumento} até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve sua magia aumentada em {valor_aumento} por {efeito.duracao} turnos.')
+
             elif efeito.nome == "Aumento Velocidade":
                 alvo.velocidade += valor_aumento
-                print(f'{alvo.nome} teve sua velocidade aumentada {valor_aumento} por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve sua velocidade aumentada em {valor_aumento} até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve sua velocidade aumentada em {valor_aumento} por {efeito.duracao} turnos.')
+
             elif efeito.nome == "Aumento Chance Crítico":
                 alvo.chance_critico += valor_aumento
-                print(f'{alvo.nome} teve sua chance de crítico aumentada em {valor_aumento}% por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve sua chance de crítico aumentada em {valor_aumento}% até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve sua chance de crítico aumentada em {valor_aumento}% por {efeito.duracao} turnos.')
 
     # Criatura está defendendo
     elif efeito.nome == "Defendendo":
@@ -532,16 +600,35 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
             
             if efeito.nome == "Diminuição Ataque":
                 alvo.ataque -= valor_diminuicao
-                print(f'{alvo.nome} teve seu ataque diminuído em {valor_diminuicao} por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve seu ataque diminuído em {valor_diminuicao} até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve seu ataque diminuído em {valor_diminuicao} por {efeito.duracao} turnos.')
+            
             elif efeito.nome == "Diminuição Defesa":
                 alvo.defesa -= valor_diminuicao
-                print(f'{alvo.nome} teve sua defesa diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve sua defesa diminuída em {valor_diminuicao} até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve sua defesa diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
+            
             elif efeito.nome == "Diminuição Magia":
                 alvo.magia -= valor_diminuicao
-                print(f'{alvo.nome} teve sua magia diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve sua magia diminuída em {valor_diminuicao} até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve sua magia diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
+            
             elif efeito.nome == "Diminuição Velocidade":
                 alvo.velocidade -= valor_diminuicao
-                print(f'{alvo.nome} teve sua velocidade diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve sua velocidade diminuída em {valor_diminuicao} até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve sua velocidade diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
+            
             elif efeito.nome == "Diminuição Chance Crítico":
                 alvo.chance_critico -= valor_diminuicao
-                print(f'{alvo.nome} teve sua chance de crítico diminuída em {valor_diminuicao}% por {efeito.duracao} turnos.')     
+                if efeito.duracao >= 999:
+                    print(f'{alvo.nome} teve sua chance de crítico diminuída em {valor_diminuicao}% até o fim da batalha.')
+                else:
+                    print(f'{alvo.nome} teve sua chance de crítico diminuída em {valor_diminuicao}% por {efeito.duracao} turnos.')     

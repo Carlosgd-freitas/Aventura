@@ -7,7 +7,6 @@ from base.jogador import ReconhecerAcaoBasica
 from base import area, saver, configuracao, imprimir, utils
 from itens import consumiveis, equipamentos
 from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
-from criaturas import larva_abelhoide
 from combate import batalha
 
 class Area_1(area.Area):

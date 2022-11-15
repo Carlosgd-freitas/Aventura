@@ -68,3 +68,4 @@ class LarvaAbelhoide(criatura.Criatura):
 
         # Atacar
         return ("atacar", self.habilidades[0], alvo_inimigo)
+        

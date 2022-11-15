@@ -423,9 +423,24 @@ def GerarEspolios(criatura):
 
 def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espolios = True, nomes = None, nomes_zerados = None, conf = None, chefao = 0):
     """
-    Remove quaisquer criaturas que possuam 0 ou menos de HP da lista de criaturas. Retorna dois parâmetros:
-    * 1 caso a criatura for removida da lista de criaturas, ou 0 caso contrário (criatura != None)
-    * uma lista de espólios caso a criatura tenha sido derrotada, ou uma lista vazia caso contrário
+    Remove quaisquer criaturas que possuam 0 ou menos de HP da lista de criaturas. Retorna 1 caso <criatura> for
+    removida da lista de criaturas ou 0 caso contrário.
+
+    Parâmetros:
+    - lista_criaturas: lista que contém as possíveis criaturas a serem derrotadas;
+    - lista_espolios: lista contendo os espólios ganhos durante uma batalha.
+    
+    Parâmetros opcionais:
+    - criatura: criatura que pode morrer enquanto realiza seu turno. Por padrão, nenhuma criatura é passada por
+    parâmetro;
+    - gerar_espolios: se for igual a True, adiciona os espólios gerados a lista de espólios caso uma criatura
+    seja abatida. O valor padrão é True;
+    - nomes: dicionário gerado pelo sistema de adicionar sufixos aos nomes das criaturas. Por padrão, nenhum
+    dicionário é passado por parâmetro.
+    - nomes_zerados: dicionário gerado pelo sistema de adicionar sufixos aos nomes das criaturas. Por padrão,
+    nenhum dicionário é passado por parâmetro.
+    - conf: configurações do usuário relativas ao jogo. Por padrão, nenhuma configuração é passada por parâmetro;
+    - chefao: número da batalha contra um chefão. O valor padrão é 0 (a batalha não é contra um chefão).
     """
 
     morreu = 0
@@ -468,6 +483,33 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
                     lista_criaturas = invocar_criaturas.InvocarCriaturas(c, h, lista_criaturas, nomes, nomes_zerados)
 
             criaturas_derrotadas.append(indice)
+
+            # Ativando habilidades de outras criaturas alidas
+            for c2 in lista_criaturas:
+                if c2.hp > 0 and c2 != c:
+
+                    for h in c2.habilidades:
+                        if h.nome == "Vingança":
+                            efeito = h.efeitos[0].ClonarEfeito()
+                            conteudo = efeito.nome.split(":") # ["Vingança", "Larva de Abelhóide", "Aumento Ataque"]
+                            derrotada = conteudo[1]
+
+                            if utils.CompararNomesSufixos(c.nome, derrotada):
+
+                                if c2.singular_plural == 'singular':
+                                    if c2.genero == 'M':
+                                        print(f'{c2.nome} se sente vingativo!')
+                                    elif c2.genero == 'F':
+                                        print(f'{c2.nome} se sente vingativa!')
+
+                                elif c2.singular_plural == 'plural':
+                                    if c2.genero == 'M':
+                                        print(f'{c2.nome} se sentem vingativos!')
+                                    elif c2.genero == 'F':
+                                        print(f'{c2.nome} se sentem vingativas!')
+
+                                efeito.nome = conteudo[2]
+                                utils.ProcessarEfeito(c2, efeito, c2, habilidade = h)
         
         indice += 1
     

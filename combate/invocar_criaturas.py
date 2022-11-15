@@ -31,10 +31,8 @@ def InvocarCriaturas(invocador, habilidade, lista_criaturas, nomes, nomes_zerado
 
             lista_invocados.append(invocacao)
         
-        if quantidade > 1:
-            print(f'{invocador.nome} se subdividiu em {quantidade} {invocado}s!')
-        else:
-            print(f'{invocador.nome} se subdividiu em {quantidade} {invocado}!')
+        if invocado == "Slime":
+            print(f'{invocador.nome} se subdividiu em {quantidade} Slimes!')
     
     nomes, nomes_zerados = utils.ContarNomes(nomes, nomes_zerados, lista_invocados, modifica_nomes_zerados = False)
     utils.NomesUnicos(nomes, nomes_zerados, lista_invocados)

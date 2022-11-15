@@ -3,7 +3,7 @@ import sys
 
 sys.path.append("..")
 from base import criatura, utils
-from habilidades import ativas_alvo_unico, passivas_inicio_turno, invocar_criaturas
+from habilidades import ativas_alvo_unico, invocacao, passivas_inicio_turno
 from itens import espolios
 
 class SlimeGigante(criatura.Criatura):
@@ -57,7 +57,7 @@ class SlimeGigante(criatura.Criatura):
         atacar = ativas_alvo_unico.Atacar("Normal")
         habilidades.append(atacar)
 
-        subdivisao = invocar_criaturas.Subdivisao("Slime", 2)
+        subdivisao = invocacao.Subdivisao("Slime", 2)
         habilidades.append(subdivisao)
 
         if nivel >= 3:

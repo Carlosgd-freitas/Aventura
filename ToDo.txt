@@ -8,12 +8,6 @@
 * Habilidades de heal podem critar
 * Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
-> Inimigos
-* Abelhóide / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
-
-> Habilidades
-* Vingança / Passiva / Ganha X de um atributo (ataque/magia) se um inimigo de uma raça (Slime, Tortuga, etc.) morrer, até o fim da batalha
-
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
 * Rever readme.md e notas de atualização.
@@ -28,12 +22,11 @@
 
 > Jogabilidade
 * Bestiário
-	- CompararNomeSufixo(stringA, stringB): leva em consideração os possíveis sufixos no nome de uma criatura
-		(Slime A, Slime B, etc.)
 	- Inimigos ainda não encontrados aparecerão como "???"
 	- Inimigos comuns precisam ser derrotados 1 vez para apareçerem seus nomes e descrição
 	- Inimigos comuns precisam ser derrotados 5 vezes para apareçerem seus loots, experiencia e gold dropados
-	- Inimigos comuns precisam ser derrotados 10 vezes para apareçerem suas habilidades e se admitem contratos de invocações (qual nível)
+	- Inimigos comuns precisam ser derrotados 10 vezes para apareçerem suas habilidades e se admitem contratos de
+	invocações (qual nível)
 	- Inimigos raros e chefões precisam derrotados apenas 1 vez pra aparecer tudo
 * Monstros dropam experiencia e ouro baseados em um range
 * Sistema de criação (crafting) / comprar e aprender receitas de criação

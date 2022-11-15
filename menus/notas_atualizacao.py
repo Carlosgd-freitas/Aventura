@@ -183,10 +183,10 @@ class NotasAtualizacao():
         self.negativo('O debuff de envenenamento persiste após a batalha.')
 
         print('\nInimigos')
-        self.positivo('Larva de Abelhóide adicionada.')
+        self.positivo('Larva de Abelhóide e Abelhóide adicionadas.')
 
         print('\nHabilidades')
-        self.positivo('Disparo Elétrico adicionado.')
+        self.positivo('Disparo Elétrico e Vingança adicionados.')
 
         print('\nItens')
         self.positivo('Poção Pequena de Regeneração adicionada.')
