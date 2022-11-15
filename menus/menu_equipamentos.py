@@ -1,22 +1,76 @@
 import sys
+from tabulate import tabulate
+from colorama import Fore, Back, Style
 
 sys.path.append("..")
 from base import imprimir, utils
 from itens import equipamentos
 
-def ImprimirEquipamento(item):
+def LinhaEquipamento(item, linha):
     """
-    Recebe um item e o imprime.
+    Compõe uma linha de uma tabela com as colunas: nível, tipo, vida máxima, mana máxima, ataque, defesa, magia
+    e velocidade de um item.
+
+    Parâmetros:
+    - item: o item que será usado para compor a linha da tabela;
+    - linha: uma lista de atributos do item, representando a linha da tabela.
     """
 
+    # Nível
     if item[0] != "Item Vazio":
-        mensagem = f'{item[1].nome}'.ljust(45, ' ')
-        mensagem += ' | Nível: {:2d} | Tipo: '.format(item[1].nivel)
-        print(mensagem, end = '')
-        imprimir.ImprimirTipo(item[1].tipo)
-        print('')
+        nivel = item[1].nivel
     else:
-        print('----------')
+        nivel = '---'
+    linha.append(nivel)
+
+    # Tipo
+    if item[0] != "Item Vazio":
+        tipo = imprimir.RetornarTipo(item[1].tipo)
+    else:
+        tipo = '---'
+    linha.append(tipo)
+
+    # Vida Máxima
+    if item[0] != "Item Vazio":
+        maxHp = item[1].maxHp
+    else:
+        maxHp = '---'
+    linha.append(maxHp)
+
+    # Mana Máxima
+    if item[0] != "Item Vazio":
+        maxMana = item[1].maxMana
+    else:
+        maxMana = '---'
+    linha.append(maxMana)
+
+    # Ataque
+    if item[0] != "Item Vazio":
+        ataque = item[1].ataque
+    else:
+        ataque = '---'
+    linha.append(ataque)
+
+    # Defesa
+    if item[0] != "Item Vazio":
+        defesa = item[1].defesa
+    else:
+        defesa = '---'
+    linha.append(defesa)
+
+    # Magia
+    if item[0] != "Item Vazio":
+        magia = item[1].magia
+    else:
+        magia = '---'
+    linha.append(magia)
+
+    # Velocidade
+    if item[0] != "Item Vazio":
+        velocidade = item[1].velocidade
+    else:
+        velocidade = '---'
+    linha.append(velocidade)
 
 def ImprimirEquipados(jogador):
     """
@@ -25,30 +79,39 @@ def ImprimirEquipados(jogador):
 
     print('|========================================> EQUIPAMENTOS <========================================|')
 
-    mao_1 = jogador.equipados[0]
-    mao_2 = jogador.equipados[1]
-    cabeca = jogador.equipados[2]
-    peitoral = jogador.equipados[3]
-    pes = jogador.equipados[4]
-    acessorio = jogador.equipados[5]
+    tabela = []
+    cabecalho = ["", "Nome", "Nível", "Tipo", Back.BLACK + Fore.RED + 'HP' + Style.RESET_ALL,
+        Back.BLACK + Fore.BLUE + 'Mana' + Style.RESET_ALL, "ATQ", "DEF", "MAG", "VEL"]
+    alinhamento = ("left", "left", "center", "center", "center", "center", "center", "center", "center", "center")
+    
+    for i, item in enumerate(jogador.equipados):
+        t = []
 
-    print('[1]       Mão: ', end = '')
-    ImprimirEquipamento(mao_1)
+        # Índice + Mão/Cabeça/Peitoral/Pés/Acessório
+        if i == 0 or i == 1:
+            parte = 'Mão'
+        elif i == 2:
+            parte = 'Cabeça'
+        elif i == 3:
+            parte = 'Peitoral'
+        elif i == 4:
+            parte = 'Pés'
+        elif i == 5:
+            parte = 'Acessório'
+        t.append(f'[{i+1}] ' + parte)
 
-    print('[2]       Mão: ', end = '')
-    ImprimirEquipamento(mao_2)
+        # Nome
+        if item[0] != "Item Vazio":
+            nome = item[1].nome
+        else:
+            nome = '---'
+        t.append(nome)
 
-    print('[3]    Cabeça: ', end = '')
-    ImprimirEquipamento(cabeca)
+        LinhaEquipamento(item, t)
 
-    print('[4]  Peitoral: ', end = '')
-    ImprimirEquipamento(peitoral)
+        tabela.append(t)
 
-    print('[5]       Pés: ', end = '')
-    ImprimirEquipamento(pes)
-
-    print('[6] Acessório: ', end = '')
-    ImprimirEquipamento(acessorio)
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
     
     print('')
 
@@ -267,27 +330,35 @@ def MenuEquipar(jogador, lugar):
     print_indice = 1
     item_indice = 0
     relacao = [(0, -1)]
+    
+    tabela = []
+    cabecalho = ["Nome", "Classificação", "Nível", "Tipo", Back.BLACK + Fore.RED + 'HP' + Style.RESET_ALL,
+        Back.BLACK + Fore.BLUE + 'Mana' + Style.RESET_ALL, "ATQ", "DEF", "MAG", "VEL"]
+    alinhamento = ("left", "center", "center", "center", "center", "center", "center", "center", "center", "center")
 
     for item in jogador.inventario:
+        t = []
 
-        if (classificacao == "Uma Mão") and (item[0] == "Uma Mão" or item[0] == "Duas Mãos") and \
-            (item[1].nivel <= jogador.nivel):
+        if ((classificacao == "Uma Mão") and (item[0] == "Uma Mão" or item[0] == "Duas Mãos") and \
+            (item[1].nivel <= jogador.nivel)) or \
+            ((item[0] == classificacao) and (item[1].nivel <= jogador.nivel)):
 
-            print(f'[{print_indice}] {item[1].nome} - Nível: {item[1].nivel} - Tipo: ', end = '')
-            imprimir.ImprimirTipo(item[1].tipo)
-            print('')
-            relacao.append((print_indice, item_indice))
-            print_indice += 1
-        
-        elif (item[0] == classificacao) and (item[1].nivel <= jogador.nivel):
-            
-            print(f'[{print_indice}] {item[1].nome} - Nível: {item[1].nivel} - Tipo: ', end = '')
-            imprimir.ImprimirTipo(item[1].tipo)
-            print('')
+            t.append(f'[{print_indice}] ' + item[1].nome)
+            t.append(item[0])
+            LinhaEquipamento(item, t)
+            tabela.append(t)
+
             relacao.append((print_indice, item_indice))
             print_indice += 1
 
         item_indice += 1
+
+    # Nenhum item pode ser equipado
+    if len(tabela) == 0:
+        print('Não há itens deste tipo que possam ser equipados.\n')
+        return 0, "Item Vazio"
+    
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
     
     print('\n[0] Cancelar e retornar ao menu anterior.\n')
 

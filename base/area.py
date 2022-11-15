@@ -1,6 +1,6 @@
 import math
-import random
 import sys
+from tabulate import tabulate
 from abc import abstractmethod
 from colorama import Fore, Back, Style
 
@@ -93,24 +93,18 @@ class Area():
                 # Ouro do jogador
                 print(Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {jogador.ouro}')
 
-                # Cabeçalho
-                mensagem = 'Nome'.center(50, ' ') + '| Quantidade | '
-                mensagem += ' ' + Fore.YELLOW + 'Preço' + Style.RESET_ALL
-                mensagem += ' | Classificação '
-                print(mensagem)
-
-                print('--------------------------------------------------------------------------------------------------')
-
                 # Listando os itens que o jogador pode comprar/vender
-                indice = 1
-                for item in vendedor:
-                    mensagem = '[{:2d}] '.format(indice)                       # Índice
-                    mensagem += f'{item[1].nome}'.ljust(45, ' ')               # Nome
-                    mensagem += '|    {:3d}     | '.format(item[1].quantidade) # Quantidade
-                    mensagem += '{:6d}'.format(item[1].preco)                  # Preço
-                    mensagem += f' | {item[0]}'                                # Classificação
-                    print(mensagem)
-                    indice += 1
+                tabela = []
+                cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classificação"]
+                alinhamento = ("left", "center", "center", "center")
+                for i, item in enumerate(vendedor):
+                    t = []
+                    t.append(f'[{i+1}] ' + item[1].nome) # Índice + Nome
+                    t.append(item[1].quantidade)         # Quantidade
+                    t.append(item[1].preco)              # Preço
+                    t.append(item[0])                    # Classificação
+                    tabela.append(t)
+                print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
                 print('\n[0] Voltar ao menu anterior')
 
                 # Jogador escolhendo qual item quer comprar/vender

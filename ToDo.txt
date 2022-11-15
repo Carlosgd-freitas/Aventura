@@ -1,8 +1,5 @@
 ===== Alpha v0.0.4 =====
 
-> Programação
-* Testar pacotes tabulate e Simple Terminal Menu / mudar o README.md de acordo
-
 > Jogabilidade
 * Jogador pode ser emboscado ao ir até a vila/cidade
 * Habilidades de heal podem critar

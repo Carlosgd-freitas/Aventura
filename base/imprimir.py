@@ -30,7 +30,33 @@ def ImprimirLocal(nome):
     print(Style.RESET_ALL, end = '')
     print(' ==')
 
-### Impressão de classes ###
+def RetornarTipo(tipo):
+    """
+    Recebe um tipo como parâmetro e o retorna juntamente com as funções para aplicação de cor
+    correspondentes:
+    * Normal    -> Branco
+    * Fogo      -> Vermelho
+    * Terrestre -> Verde
+    * Agua      -> Azul
+    * Vento     -> Ciano
+    * Trevas    -> Magenta
+    * Luz       -> Amarelo
+    """
+    
+    if tipo == 'Normal':
+        return Back.BLACK + Fore.WHITE + 'Normal' + Style.RESET_ALL
+    elif tipo == 'Fogo':
+        return Back.BLACK + Fore.RED + 'Fogo' + Style.RESET_ALL
+    elif tipo == 'Terrestre':
+        return Back.BLACK + Fore.GREEN + 'Terrestre' + Style.RESET_ALL
+    elif tipo == 'Água':
+        return Back.BLACK + Fore.BLUE + 'Água' + Style.RESET_ALL
+    elif tipo == 'Vento':
+        return Back.BLACK + Fore.CYAN + 'Vento' + Style.RESET_ALL
+    elif tipo == 'Trevas':
+        return Back.BLACK + Fore.MAGENTA + 'Trevas' + Style.RESET_ALL
+    elif tipo == 'Luz':
+        return Back.BLACK + Fore.YELLOW + 'Luz' + Style.RESET_ALL
 
 def ImprimirTipo(tipo):
     """
@@ -44,20 +70,9 @@ def ImprimirTipo(tipo):
     * Luz       -> Amarelo
     """
 
-    if tipo == 'Normal':
-        print('Normal', end = '')
-    elif tipo == 'Fogo':
-        print(Fore.RED + 'Fogo' + Style.RESET_ALL, end = '')
-    elif tipo == 'Terrestre':
-        print(Fore.GREEN + 'Terrestre' + Style.RESET_ALL, end = '')
-    elif tipo == 'Agua':
-        print(Fore.BLUE + 'Agua' + Style.RESET_ALL, end = '')
-    elif tipo == 'Vento':
-        print(Fore.CYAN + 'Vento' + Style.RESET_ALL, end = '')
-    elif tipo == 'Trevas':
-        print(Fore.MAGENTA + 'Trevas' + Style.RESET_ALL, end = '')
-    elif tipo == 'Luz':
-        print(Fore.YELLOW + 'Luz' + Style.RESET_ALL, end = '')
+    print(RetornarTipo(tipo), end = '')
+
+### Impressão de classes ###
 
 def ImprimirEfeitos(criatura):
     """

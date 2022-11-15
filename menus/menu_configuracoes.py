@@ -1,6 +1,4 @@
 import sys
-import pickle
-from colorama import Fore, Back, Style
 
 sys.path.append("..")
 from base import imprimir, configuracao, utils
@@ -25,7 +23,7 @@ def MenuConfiguracoes(conf, caminhos):
             print('Digite o índice correspondente a uma configuração para alterá-la:\n')
 
             # Ligar/desligar a confirmação ao fechar o jogo
-            print('[1] Confirmação ao fechar o jogo: ', end = '')
+            print('[1]            Confirmação ao fechar o jogo: ', end = '')
             configuracao.ImprimirConfiguracaoLigadoDesligado(conf.confirmacao_sair)
 
             # Ligar/desligar o salvamento automático ao fechar o jogo
@@ -33,27 +31,29 @@ def MenuConfiguracoes(conf, caminhos):
             configuracao.ImprimirConfiguracaoLigadoDesligado(conf.salvar_sair)
 
             # Velocidade da fala de narração e NPCs
-            print('[3] Velocidade da fala de narração e NPCs: ', end = '')
+            print('[3]   Velocidade da fala de narração e NPCs: ', end = '')
             configuracao.ImprimirConfiguracaoValor(conf.npc_fala_delay)
 
+            print('\n- Mapeamento das Teclas das Ações de Exploração -')
+
             # Tecla da ação de Status
-            print('[4] Tecla da ação de Status no menu de exploração: ', end = '')
+            print('[4]        Status: ', end = '')
             configuracao.ImprimirConfiguracaoValor(conf.tecla_status)
 
             # Tecla da ação de Inventário
-            print('[5] Tecla da ação de Inventário no menu de exploração: ', end = '')
+            print('[5]    Inventário: ', end = '')
             configuracao.ImprimirConfiguracaoValor(conf.tecla_inventario)
 
             # Tecla da ação de Habilidades
-            print('[6] Tecla da ação de Habilidades no menu de exploração: ', end = '')
+            print('[6]   Habilidades: ', end = '')
             configuracao.ImprimirConfiguracaoValor(conf.tecla_habilidades)
 
             # Tecla da ação de Equipamentos
-            print('[7] Tecla da ação de Equipamentos no menu de exploração: ', end = '')
+            print('[7]  Equipamentos: ', end = '')
             configuracao.ImprimirConfiguracaoValor(conf.tecla_equipamentos)
 
             # Tecla da ação de Salvar o Jogo
-            print('[8] Tecla da ação de Salvar o Jogo no menu de exploração: ', end = '')
+            print('[8] Salvar o Jogo: ', end = '')
             configuracao.ImprimirConfiguracaoValor(conf.tecla_salvar_jogo)
 
             print('\n[0] Salvar configurações e voltar para o menu principal\n')

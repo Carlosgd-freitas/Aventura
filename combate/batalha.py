@@ -75,7 +75,6 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
             # Imprimindo o índice do turno
             print('')
             print(Fore.BLACK + Back.WHITE + "> Turno " + str(turno) + " <" + Style.RESET_ALL)
-            print('')
 
             for c in ordem:
                 consciente = mecanicas.InicioTurno(c)
@@ -90,14 +89,6 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
 
                 # Vez do Jogador
                 if c == jogador and jogador.hp > 0 and consciente == 1:
-                    
-                    # Imprimindo os inimigos
-                    print('Inimigos em batalha:')
-                    indice_criatura = 1
-                    for c in inimigos:
-                        imprimir.ImprimirCriatura(indice_criatura, c)
-                        indice_criatura += 1
-
                     acabou = JogadorVez(jogador, inimigos, correr)
 
                     mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
@@ -176,6 +167,15 @@ def JogadorVez(jogador, criaturas, correr = True):
         # Estas mensagens serão impressas no início do turno do jogador e toda vez que ele quiser retornar e 
         # escolher outra ação
         if retorno == 1:
+
+            # Imprimindo os inimigos
+            print('\nInimigos em batalha:')
+            indice_criatura = 1
+            for c in criaturas:
+                imprimir.ImprimirCriatura(indice_criatura, c)
+                indice_criatura += 1
+
+            # Imprimindo o jogador
             print('')
             imprimir.ImprimirJogador(jogador)
 
@@ -321,7 +321,6 @@ def JogadorVez(jogador, criaturas, correr = True):
         elif op == 5:
             print('')
             troca = menu_equipamentos.MenuEquipamentos(jogador)
-            print('')
 
             # Nenhuma troca de equipamento realizada: jogador escolheu retornar
             if troca == 0:

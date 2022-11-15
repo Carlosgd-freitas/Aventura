@@ -196,6 +196,7 @@ class NotasAtualizacao():
         print('\nOutros')
         self.positivo('As configurações são salvas e permanecem com as alterações feitas pelos jogadores.')
         self.positivo('O mapeamento das teclas de algumas ações pode ser alterado.')
+        self.positivo("Utilização de tabelas mais organizadas em alguns aspectos do jogo.")
 
     def titulo(string):
         """

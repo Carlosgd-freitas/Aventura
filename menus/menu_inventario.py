@@ -33,16 +33,8 @@ def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
         if item[0] == "Consumivel":
             mensagem += 'Consumível - '
             flag_consumivel = 1
-        elif item[0] == "Duas maos":
-            mensagem += 'Duas mãos - '
-        elif item[0] == "Uma mao":
-            mensagem += 'Uma mão - '
-        elif item[0] == "Peitoral":
-            mensagem += 'Peitoral - '
-        elif item[0] == "Pes":
-            mensagem += 'Pés - '
-        elif item[0] == "Acessorio":
-            mensagem += 'Acessório - '
+        else:
+            mensagem += item[0] + ' - '
 
         # Quantidade e preço do item
         mensagem += f'Quantidade: {item[1].quantidade} - '
