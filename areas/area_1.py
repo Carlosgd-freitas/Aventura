@@ -229,21 +229,11 @@ class Area_1(area.Area):
             inimigo = cristal_atacante.CristalAtacante(jogador.nivel, chefao = True)
             inimigos.append(inimigo)
             aliados = [jogador]
-            resultado = batalha.BatalhaPrinicipal(aliados, inimigos, conf = conf, correr = False, chefao = 1)
 
+            resultado = batalha.BatalhaPrinicipal(aliados, inimigos, conf = conf, correr = False, chefao = 1)
+            batalha.ProcessarResultado(resultado, jogador, chefao = True)
             if resultado == 1:
-                subiu = jogador.SubirNivel() # Tentativa de subir de nível
                 self.chefao_derrotado = True
-            
-            elif resultado == -1:
-                print('\nO último ataque foi grave demais. Sua consciência vai se esvaindo e você colapsa no chão.')
-                print("     _____                                ____                         ")
-                print("    / ____|                              / __ \                        ")
-                print("   | |  __    __ _   _ __ ___     ___   | |  | | __   __  ___   _ __   ")
-                print("   | | |_ |  / _` | | '_ ` _ \   / _ \  | |  | | \ \ / / / _ \ | '__|  ")
-                print("   | |__| | | (_| | | | | | | | |  __/  | |__| |  \ V / |  __/ | |     ")
-                print("    \_____|  \__,_| |_| |_| |_|  \___|   \____/    \_/   \___| |_|     ")                                                            
-                input('\nPressione [ENTER] para retornar ao menu principal.\n')
             
             return resultado
 

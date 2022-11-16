@@ -58,20 +58,6 @@ def RetornarTipo(tipo):
     elif tipo == 'Luz':
         return Back.BLACK + Fore.YELLOW + 'Luz' + Style.RESET_ALL
 
-def ImprimirTipo(tipo):
-    """
-    Recebe um tipo como parâmetro e o imprime colorido, sem quebra de linha:
-    * Normal    -> Branco
-    * Fogo      -> Vermelho
-    * Terrestre -> Verde
-    * Agua      -> Azul
-    * Vento     -> Ciano
-    * Trevas    -> Magenta
-    * Luz       -> Amarelo
-    """
-
-    print(RetornarTipo(tipo), end = '')
-
 ### Impressão de classes ###
 
 def ImprimirEfeitos(criatura):
@@ -162,7 +148,7 @@ def ImprimirCriatura(indice, criatura):
     # Tipo da criatura
     mensagem += 'Tipo: '
     print(mensagem, end = '')
-    ImprimirTipo(criatura.tipo)
+    print(RetornarTipo(criatura.tipo), end = '')
 
     mensagem = ' - '
 

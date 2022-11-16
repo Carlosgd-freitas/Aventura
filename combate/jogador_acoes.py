@@ -150,7 +150,7 @@ def EscolherHabilidade(jogador):
         if (indice_item != indice_atacar) and (h.passiva_ativa == "ativa"):
             mensagem = f'[{indice_print}] {h.nome} - Tipo: '
             print(mensagem, end = '')
-            imprimir.ImprimirTipo(h.tipo)
+            print(imprimir.RetornarTipo(h.tipo), end = '')
 
             mensagem = ' - Custo: '
 

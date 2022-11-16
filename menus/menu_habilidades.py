@@ -26,7 +26,7 @@ def ImprimirHabilidades(criatura, habilidade_indice, impressoes_por_pagina):
         # Nome e tipo da Habilidade
         mensagem = f'{habilidade.nome} - Tipo: '
         print(mensagem, end = '')
-        imprimir.ImprimirTipo(habilidade.tipo)
+        print(imprimir.RetornarTipo(habilidade.tipo), end = '')
 
         mensagem = ''
 

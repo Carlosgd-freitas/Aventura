@@ -44,8 +44,7 @@ def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
         if flag_consumivel == 0:
             mensagem += f' - Nível: {item[1].nivel} - Tipo: '
             print(mensagem, end = '')
-            imprimir.ImprimirTipo(item[1].tipo)
-            print('')
+            print(imprimir.RetornarTipo(item[1].tipo))
 
         else:
             print(mensagem)

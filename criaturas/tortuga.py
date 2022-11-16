@@ -83,7 +83,7 @@ class Tortuga(criatura.Criatura):
 
         # Passar o Turno -> Se a Tortuga estiver defendendo
         elif super().EfeitoPresente("buff", "Defendendo") != -1:
-            return ("passar", "A Tortuga está dentro de seu casco.", None)
+            return ("passar", f"A {self.nome} está dentro de seu casco.", None)
 
         # Atacar
         return ("atacar", self.habilidades[0], alvo_inimigo)

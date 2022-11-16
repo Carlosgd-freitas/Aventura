@@ -58,12 +58,11 @@ class NotasAtualizacao():
                     proximo = 0
                     print(Fore.RED + '[2] Próximo' + Style.RESET_ALL + '\n')
                 
-                print('[0] Retornar ao menu anterior')
+                print('[0] Retornar ao menu anterior\n')
 
             op = utils.LerNumeroIntervalo('> ', 0, 2)
 
             if op == 0:
-                print('')
                 break
             
             elif op == 1 and anterior == 1:
@@ -181,6 +180,7 @@ class NotasAtualizacao():
         self.positivo('Jogadores podem subir de nível até o nível 10.')
         self.negativo('Eventos na exploração de uma área agora possuem uma menor chance de acontecer.')
         self.negativo('O debuff de envenenamento persiste após a batalha.')
+        self.negativo('Quando o jogador vai até uma vila ou cidade, há uma pequena chance de ser emboscado.')
 
         print('\nInimigos')
         self.positivo('Larva de Abelhóide e Abelhóide adicionadas.')

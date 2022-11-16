@@ -75,7 +75,8 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
             # Imprimindo o índice do turno
             print('')
             print(Fore.BLACK + Back.WHITE + "> Turno " + str(turno) + " <" + Style.RESET_ALL)
-
+            print('')
+            
             for c in ordem:
                 consciente = mecanicas.InicioTurno(c)
                 mecanicas.DecairBuffsDebuffs(c)
@@ -169,7 +170,7 @@ def JogadorVez(jogador, criaturas, correr = True):
         if retorno == 1:
 
             # Imprimindo os inimigos
-            print('\nInimigos em batalha:')
+            print('Inimigos em batalha:')
             indice_criatura = 1
             for c in criaturas:
                 imprimir.ImprimirCriatura(indice_criatura, c)
@@ -438,4 +439,32 @@ def CriaturaVez(criatura, aliados, inimigos, jogador):
     elif acao[0] == "correr":
         print(acao[1])
         aliados.remove(criatura)
-        
+
+def ProcessarResultado(resultado, jogador, chefao = False):
+    """
+    Tenta subir o jogador de nível caso ele tenha ganhado uma batalha e imprime a mensagem de Game Over caso ele
+    tenha perdido.
+
+    Parâmetros:
+    - resultado: inteiro indicando o resultado de uma batalha;
+    - jogador: objeto do jogador.
+
+    Parâmetros Opcionais:
+    - chefao: Se igual a True, a mensagem padrão de vitória não será impressa. O valor padrão é False.
+    """
+
+    if resultado == 1:
+        subiu = jogador.SubirNivel()
+        if not chefao:
+            print('\nVocê retoma seu fôlego e segue em sua Aventura.')
+
+    elif resultado == -1:
+        print('\nO último ataque foi grave demais. Sua consciência vai se esvaindo e você colapsa no chão.')
+        print("     _____                                ____                         ")
+        print("    / ____|                              / __ \                        ")
+        print("   | |  __    __ _   _ __ ___     ___   | |  | | __   __  ___   _ __   ")
+        print("   | | |_ |  / _` | | '_ ` _ \   / _ \  | |  | | \ \ / / / _ \ | '__|  ")
+        print("   | |__| | | (_| | | | | | | | |  __/  | |__| |  \ V / |  __/ | |     ")
+        print("    \_____|  \__,_| |_| |_| |_|  \___|   \____/    \_/   \___| |_|     ")                                                            
+        input('\nPressione [ENTER] para retornar ao menu principal.')
+        print('')

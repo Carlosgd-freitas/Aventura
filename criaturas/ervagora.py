@@ -76,4 +76,4 @@ class Ervagora(criatura.Criatura):
                 return ("habilidade", self.habilidades[1], inimigos)
 
         # Correr da Batalha
-        return ("correr", "A Ervágora corre aos prantos da batalha.", None)
+        return ("correr", f"A {self.nome} corre aos prantos da batalha.", None)

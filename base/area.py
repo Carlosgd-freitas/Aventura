@@ -134,8 +134,7 @@ class Area():
                         # Nível e Tipo
                         mensagem += ' | Nível: {:2d} | Tipo: '.format(item[1].nivel)
                         print(mensagem, end = '')
-                        imprimir.ImprimirTipo(item[1].tipo)
-                        print('')
+                        print(imprimir.RetornarTipo(item[1].tipo))
 
                         # Atributos concedidos pelo item
                         mensagem = ''

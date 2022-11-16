@@ -1,7 +1,7 @@
 import os
 import sys
-import random
-from colorama import Fore, Back, Style
+
+from . import creditos
 
 sys.path.append("..")
 from base.jogador import ReconhecerAcaoBasica
@@ -113,7 +113,7 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
             
             # Evento: Vendedor Ambulante
             if explorar_flag == 0 and utils.CalcularChance(chance_vendedor_ambulante / 100):
-                resultado = area.EventoVendedorAmbulante(jogador, conf)
+                operacao_realizada = area.EventoVendedorAmbulante(jogador, conf)
                 chance_vendedor_ambulante = 0
                 explorar_flag = 1
 
@@ -128,23 +128,8 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
                 aliados = [jogador]
                 resultado = batalha.BatalhaPrinicipal(aliados, inimigos)
 
-            # Resultado de uma Batalha
-            if resultado == 1:
-
-                # Tentativa de subir de nível
-                subiu = jogador.SubirNivel()
-                
-                print('\nVocê retoma seu fôlego e segue em sua Aventura.')
-
-            elif resultado == -1:
-                print('\nO último ataque foi grave demais. Sua consciência vai se esvaindo e você colapsa no chão.')
-                print("     _____                                ____                         ")
-                print("    / ____|                              / __ \                        ")
-                print("   | |  __    __ _   _ __ ___     ___   | |  | | __   __  ___   _ __   ")
-                print("   | | |_ |  / _` | | '_ ` _ \   / _ \  | |  | | \ \ / / / _ \ | '__|  ")
-                print("   | |__| | | (_| | | | | | | | |  __/  | |__| |  \ V / |  __/ | |     ")
-                print("    \_____|  \__,_| |_| |_| |_|  \___|   \____/    \_/   \___| |_|     ")                                                            
-                input('\nPressione [ENTER] para retornar ao menu principal.')
+            batalha.ProcessarResultado(resultado, jogador)
+            if resultado == -1:
                 return -1
 
             retorno = 1
@@ -153,9 +138,23 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
         elif op == 2:
             if pre_selecionado is None:
                 print('')
+
+                # Chance de 5% do jogador ser emboscado
+                chance_emboscada = 5.00
+                if utils.CalcularChance(chance_emboscada / 100):
+                    inimigos = area.RetornarEncontro(jogador)
+                    aliados = [jogador]
+                    resultado = batalha.BatalhaPrinicipal(aliados, inimigos, emboscada = 1)
+                
+                    batalha.ProcessarResultado(resultado, jogador)
+                    if resultado == -1:
+                        return -1
+
                 area.MenuVila(jogador, conf, caminhos)
+
             else:
                 area.MenuVila(jogador, conf, caminhos, True)
+
             retorno = 1
 
         # Ir em direção à Floresta
@@ -164,13 +163,17 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
             resultado = area.EncontroChefe(jogador, conf)
 
             # Chefão derrotado
-            if area.chefao_derrotado == True:
-                imprimir.ImprimirComDelay('Você chegou ao final desta versão do jogo, parabéns! Você agora será '+
+            if resultado == 1 and area.chefao_derrotado == True:
+                imprimir.ImprimirComDelay('\nVocê chegou ao final desta versão do jogo, parabéns! Você agora será '+
                 'retornado ao menu de exploração, com sua vida e mana maximizadas,\ne pode continuar jogando. O ' +
-                'chefão também estará vivo novamente, se quiser enfrentá-lo. Obrigado por jogar!\n', conf.npc_fala_delay)
+                'chefão também estará vivo novamente, se quiser enfrentá-lo.\n\n', conf.npc_fala_delay)
             
                 jogador.hp = jogador.maxHp
                 jogador.mana = jogador.maxMana
+
+                creditos.creditos()
+                input('Aperte [ENTER] para continuar.')
+                print('')
 
                 retorno = 1
             

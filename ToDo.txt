@@ -1,7 +1,6 @@
 ===== Alpha v0.0.4 =====
 
 > Jogabilidade
-* Jogador pode ser emboscado ao ir até a vila/cidade
 * Habilidades de heal podem critar
 * Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
@@ -14,8 +13,7 @@
 
 > Programação
 * "Envenenamento" deve ser aplicado a todas as habilidades, e não somente ao ataque normal
-* Mensagens do tipo ervágora correndo ou tortuga entrando no casco tem que levar em consideração o sufixo
-  ex.: "a ervágora A corre da batalha"
+* Mudar a impressão das habilidades, inventário, itens sendo comprados/vendidos
 
 > Jogabilidade
 * Bestiário
