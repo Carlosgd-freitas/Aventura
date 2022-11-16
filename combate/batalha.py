@@ -7,7 +7,7 @@ sys.path.append("..")
 from base import efeito, imprimir, utils
 from menus import menu_equipamentos
 
-def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = True, chefao = 0):
+def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = True, chefao = 0):
     """
     Recebe uma lista de aliados, onde a primeira posição da lista é o jogador, e uma lista de inimigos, e
     emula uma batalha. Retorna:
@@ -89,7 +89,7 @@ def BatalhaPrinicipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tr
                     break
 
                 # Vez do Jogador
-                if c == jogador and jogador.hp > 0 and consciente == 1:
+                if c == jogador and jogador.hp > 0 and consciente == 1 and len(inimigos) > 0:
                     acabou = JogadorVez(jogador, inimigos, correr)
 
                     mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
@@ -440,14 +440,15 @@ def CriaturaVez(criatura, aliados, inimigos, jogador):
         print(acao[1])
         aliados.remove(criatura)
 
-def ProcessarResultado(resultado, jogador, chefao = False):
+def ProcessarResultado(resultado, jogador, est, chefao = False):
     """
     Tenta subir o jogador de nível caso ele tenha ganhado uma batalha e imprime a mensagem de Game Over caso ele
     tenha perdido.
 
     Parâmetros:
     - resultado: inteiro indicando o resultado de uma batalha;
-    - jogador: objeto do jogador.
+    - jogador: objeto do jogador;
+    - est: estatísticas relacionadas ao jogador e ao jogo.
 
     Parâmetros Opcionais:
     - chefao: Se igual a True, a mensagem padrão de vitória não será impressa. O valor padrão é False.
@@ -455,6 +456,7 @@ def ProcessarResultado(resultado, jogador, chefao = False):
 
     if resultado == 1:
         subiu = jogador.SubirNivel()
+        est.batalhas_ganhas += 1
         if not chefao:
             print('\nVocê retoma seu fôlego e segue em sua Aventura.')
 

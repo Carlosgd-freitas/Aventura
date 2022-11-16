@@ -24,6 +24,13 @@ class Area_1(area.Area):
         self.chefao_encontrado = False
         self.chefao_derrotado = False
 
+        # Flags relacionadas ao sistema de reestoque das lojas
+        self.reestoque = 10             # Número de batalhas necessárias para acontecer um reestoque das lojas
+        self.reestoque_atual = 0        # Número de batalhas ganhas pelo jogador desde o último reestoque
+        self.ultimo_batalhas_ganhas = 0 # Número de batalhas ganhas pelo jogador na última tentativa de reestoque
+        self.reestoque_loja_pocoes = False
+        self.reestoque_loja_armamentos = False
+
         # Flags para os diálogos entre o jogador e NPCs
         self.conhece_vendedor_pocoes = False
         self.conhece_vendedor_armamentos = False
@@ -31,6 +38,19 @@ class Area_1(area.Area):
         self.primeira_compra_pocoes = False
         self.primeira_compra_armamentos = False
 
+        # Estoque inicial das lojas
+        # lojas_itens[0] -> Itens da loja de poções
+        # lojas_itens[1] -> Itens da loja de armamentos
+        lojas_itens = self.EstoqueInicial()
+
+        super(Area_1, self).__init__("Planície de Slimes", lojas_itens, estalagem_preco)
+
+    def EstoqueInicial(self):
+        """
+        Retorna uma lista de listas, onde cada lista é o conjunto inicial de itens disponíveis para venda em
+        uma loja presente na área. Este método também será chamado quando a loja for reestocada.
+        """
+        
         # Itens disponíveis para venda na loja do Vendedor de Poções da área 1
         loja_pocoes_itens = []
 
@@ -99,7 +119,7 @@ class Area_1(area.Area):
         # Armazenando os itens das lojas
         lojas_itens = [loja_pocoes_itens, loja_armamentos_itens]
 
-        super(Area_1, self).__init__("Planície de Slimes", lojas_itens, estalagem_preco)
+        return lojas_itens
 
     def RetornarEncontro(self, jogador):
         """
@@ -194,7 +214,7 @@ class Area_1(area.Area):
         
         return inimigos
 
-    def EncontroChefe(self, jogador, conf):
+    def EncontroChefe(self, jogador, est, conf):
         """
         Gerencia o encontro com o chefão da área.
         """
@@ -230,19 +250,20 @@ class Area_1(area.Area):
             inimigos.append(inimigo)
             aliados = [jogador]
 
-            resultado = batalha.BatalhaPrinicipal(aliados, inimigos, conf = conf, correr = False, chefao = 1)
-            batalha.ProcessarResultado(resultado, jogador, chefao = True)
+            resultado = batalha.BatalhaPrincipal(aliados, inimigos, conf = conf, correr = False, chefao = 1)
+            batalha.ProcessarResultado(resultado, jogador, est, chefao = True)
             if resultado == 1:
                 self.chefao_derrotado = True
             
             return resultado
 
-    def MenuVila(self, jogador, conf, caminhos, save_carregado = False):
+    def MenuVila(self, jogador, est, conf, caminhos, save_carregado = False):
         """
         Menu referente ao que o jogador pode fazer quando está presente na vila/cidade da área.
 
         Parâmetros:
         - jogador: objeto do jogador;
+        - est: estatísticas relacionadas ao jogador e ao jogo;
         - conf: configurações do usuário relativas ao jogo;
         - caminhos: caminho relativo a pasta que contém os saves;
 
@@ -298,7 +319,7 @@ class Area_1(area.Area):
             # Salvar o Jogo
             elif configuracao.CompararAcao(op, conf.tecla_salvar_jogo):
                 print('')
-                saver.Salvar(caminhos['saves'], jogador, self, "Vila Pwikutt")
+                saver.Salvar(caminhos['saves'], jogador, est, self, "Vila Pwikutt")
                 retorno = 1
 
             # Voltar a Explorar
@@ -323,8 +344,19 @@ class Area_1(area.Area):
                     self.conhece_vendedor_pocoes = True
                 
                 else:
-                    imprimir.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Veio se prevenir com algumas das minhas ' +
-                        'poções?\n', conf.npc_fala_delay)
+
+                    if self.Reestocar(est):
+                        self.reestoque_loja_pocoes = True
+                        self.reestoque_loja_armamentos = True
+
+                    if self.reestoque_loja_pocoes:
+                        imprimir.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Poções fresquinhas acabaram de ' +
+                        'chegar!\n', conf.npc_fala_delay)
+                        self.reestoque_loja_pocoes == False
+
+                    else:
+                        imprimir.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Veio se prevenir com algumas das ' +
+                        'minhas poções?\n', conf.npc_fala_delay)
 
                 operacao_realizada = self.Loja(jogador, self.lojas_itens[0])
 
@@ -350,13 +382,13 @@ class Area_1(area.Area):
                     if jogador.genero == 'M':
                         imprimir.ImprimirComDelay('???: Eaí rapaz, como vai essa vida de aventureiro novato?\n', conf.npc_fala_delay)
                         imprimir.ImprimirComDelay(f'{jogador.nome}: Como sabe que eu sou um aventureiro novato?\n', conf.npc_fala_delay)
-                        imprimir.ImprimirComDelay('???: Só um novato se aventura com esse nível de equipamento que cê tá usando. Hahahaha!\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Só um novato se aventura com esse nível de equipamento que cê tá usando. Hehehehe!\n', conf.npc_fala_delay)
                         imprimir.ImprimirComDelay('???: Me chamo Scolf, rapaz! Prazer em conhecer ocê.\n', conf.npc_fala_delay)
                         
                     elif jogador.genero == 'F':
                         imprimir.ImprimirComDelay('???: Eaí moça, como vai essa vida de aventureira novata?\n', conf.npc_fala_delay)
                         imprimir.ImprimirComDelay(f'{jogador.nome}: Como sabe que eu sou uma aventureira novata?\n', conf.npc_fala_delay)
-                        imprimir.ImprimirComDelay('???: Só uma novata se aventura com esse nível de equipamento que cê tá usando. Hahahaha!\n', conf.npc_fala_delay)
+                        imprimir.ImprimirComDelay('???: Só uma novata se aventura com esse nível de equipamento que cê tá usando. Hehehehe!\n', conf.npc_fala_delay)
                         imprimir.ImprimirComDelay('???: Me chamo Scolf, moça! Prazer em conhecer ocê.\n', conf.npc_fala_delay)
                     
                     imprimir.ImprimirComDelay('Scolf: Fica a vontade aí na minha loja, se precisar é só chamar.\n', conf.npc_fala_delay)
@@ -370,10 +402,27 @@ class Area_1(area.Area):
                     self.primeira_compra_armamentos = True
 
                 else:
-                    if jogador.genero == 'M':
-                        imprimir.ImprimirComDelay(f'Scolf: Eaí rapaz! Vamo comprar uns equipamento novo?\n', conf.npc_fala_delay)
-                    elif jogador.genero == 'F':
-                        imprimir.ImprimirComDelay(f'Scolf: Eaí moça! Vamo comprar uns equipamento novo?\n', conf.npc_fala_delay)
+
+                    if self.Reestocar(est):
+                        self.reestoque_loja_pocoes = True
+                        self.reestoque_loja_armamentos = True
+
+                    if self.reestoque_loja_armamentos:
+                        if jogador.genero == 'M':
+                            imprimir.ImprimirComDelay(f'Scolf: Eaí rapaz! Uns equipamento novo acabaram de sair ' +
+                            'do forno, Hehehehe!\n', conf.npc_fala_delay)
+                        elif jogador.genero == 'F':
+                            imprimir.ImprimirComDelay(f'Scolf: Eaí moça! Uns equipamento novo acabaram de sair ' +
+                            'do forno, Hehehehe!\n', conf.npc_fala_delay)
+                        self.reestoque_loja_armamentos = False
+
+                    else:
+                        if jogador.genero == 'M':
+                            imprimir.ImprimirComDelay(f'Scolf: Eaí rapaz! Vamo comprar uns equipamento novo?\n',
+                            conf.npc_fala_delay)
+                        elif jogador.genero == 'F':
+                            imprimir.ImprimirComDelay(f'Scolf: Eaí moça! Vamo comprar uns equipamento novo?\n',
+                            conf.npc_fala_delay)
 
                 operacao_realizada = self.Loja(jogador, self.lojas_itens[1])
 

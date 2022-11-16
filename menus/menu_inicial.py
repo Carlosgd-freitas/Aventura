@@ -4,7 +4,7 @@ import sys
 from . import notas_atualizacao, menu_explorar, menu_equipamentos, menu_configuracoes, creditos
 
 sys.path.append("..")
-from base import guerreiro, mago, imprimir, utils, saver
+from base import guerreiro, mago, imprimir, saver, estatisticas, utils
 from areas import area_1
 
 def MenuInicial(conf, caminhos):
@@ -116,6 +116,7 @@ def NovoJogo(conf, caminhos):
 
     menu_equipamentos.EquipadosGanhos(j)
     area = area_1.Area_1(15)
+    est = estatisticas.Estatisticas()
 
     imprimir.ImprimirComDelay('\nOlha. Na falta de um começo pra um enredo revolucionário, nunca antes visto em um RPG ' +
         'com tema medieval, vamos com um genérico mesmo. Ou vários. Você pode ter o\nsonho de se tornar o maior ' +
@@ -126,7 +127,7 @@ def NovoJogo(conf, caminhos):
         'agrada.\n', conf.npc_fala_delay)
     imprimir.ImprimirComDelay('Mas o que está consolidado mesmo.\n',conf.npc_fala_delay)
     imprimir.ImprimirComDelay('É que você partiu em uma Aventura.\n',conf.npc_fala_delay)
-    retorno = menu_explorar.MenuExplorar(j, area, conf, caminhos)
+    retorno = menu_explorar.MenuExplorar(j, area, est, conf, caminhos)
 
     if retorno == -1:
         return
@@ -154,16 +155,18 @@ def ContinuarJogo(conf, caminhos):
         save = saver.Carregar(caminho_save)
 
         j = save['jogador']
+        est = save['estatisticas']
+        est.Atualizar()
         area = save['area']
         local = save['local']
 
         # Jogo foi salvo na parte principal de uma área
         if local == "Planície de Slimes":
-            retorno = menu_explorar.MenuExplorar(j, area, conf, caminhos)
+            retorno = menu_explorar.MenuExplorar(j, area, est, conf, caminhos)
 
         # Jogo foi salvo em uma parte específica de uma área
         elif local == "Vila Pwikutt":
-            retorno = menu_explorar.MenuExplorar(j, area, conf, caminhos, pre_selecionado = 2)
+            retorno = menu_explorar.MenuExplorar(j, area, est, conf, caminhos, pre_selecionado = 2)
 
         if retorno == -1:
             return

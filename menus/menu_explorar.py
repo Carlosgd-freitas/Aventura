@@ -8,13 +8,14 @@ from base.jogador import ReconhecerAcaoBasica
 from base import configuracao, saver, imprimir, utils
 from combate import batalha
 
-def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
+def MenuExplorar(jogador, area, est, conf, caminhos, pre_selecionado = None):
     """
     Emula a exploração de uma área pelo jogador. Retorna -1 quando o jogador perde o jogo.
 
     Parâmetros:
     - jogador: objeto do jogador;
     - area: area em que o jogador está;
+    - est: estatísticas relacionadas ao jogador e ao jogo;
     - conf: configurações do usuário relativas ao jogo;
     - caminhos: caminho relativo a pasta que contém os saves;
     
@@ -71,7 +72,7 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
         # Salvar o Jogo
         elif configuracao.CompararAcao(op, conf.tecla_salvar_jogo):
             print('')
-            saver.Salvar(caminhos['saves'], jogador, area, area.nome)
+            saver.Salvar(caminhos['saves'], jogador, est, area, area.nome)
             retorno = 1
 
         # Sair do Jogo
@@ -87,12 +88,12 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
                     retorno = 1
                 else:
                     if conf.salvar_sair == True:
-                        saver.Salvar(caminhos['saves'], jogador, area, area.nome)
+                        saver.Salvar(caminhos['saves'], jogador, est, area, area.nome)
                     os._exit(0)
             
             else:
                 if conf.salvar_sair == True:
-                    saver.Salvar(caminhos['saves'], jogador, area, area.nome)
+                    saver.Salvar(caminhos['saves'], jogador, est, area, area.nome)
                 os._exit(0)
         
         # Explorar a Área
@@ -126,9 +127,9 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
 
                 inimigos = area.RetornarEncontro(jogador)
                 aliados = [jogador]
-                resultado = batalha.BatalhaPrinicipal(aliados, inimigos)
+                resultado = batalha.BatalhaPrincipal(aliados, inimigos)
 
-            batalha.ProcessarResultado(resultado, jogador)
+            batalha.ProcessarResultado(resultado, jogador, est)
             if resultado == -1:
                 return -1
 
@@ -144,23 +145,23 @@ def MenuExplorar(jogador, area, conf, caminhos, pre_selecionado = None):
                 if utils.CalcularChance(chance_emboscada / 100):
                     inimigos = area.RetornarEncontro(jogador)
                     aliados = [jogador]
-                    resultado = batalha.BatalhaPrinicipal(aliados, inimigos, emboscada = 1)
+                    resultado = batalha.BatalhaPrincipal(aliados, inimigos, emboscada = 1)
                 
-                    batalha.ProcessarResultado(resultado, jogador)
+                    batalha.ProcessarResultado(resultado, jogador, est)
                     if resultado == -1:
                         return -1
 
-                area.MenuVila(jogador, conf, caminhos)
+                area.MenuVila(jogador, est, conf, caminhos)
 
             else:
-                area.MenuVila(jogador, conf, caminhos, True)
+                area.MenuVila(jogador, est, conf, caminhos, True)
 
             retorno = 1
 
         # Ir em direção à Floresta
         elif op == 3:
             print('')
-            resultado = area.EncontroChefe(jogador, conf)
+            resultado = area.EncontroChefe(jogador, est, conf)
 
             # Chefão derrotado
             if resultado == 1 and area.chefao_derrotado == True:

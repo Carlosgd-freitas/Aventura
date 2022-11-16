@@ -1,12 +1,9 @@
 ===== Alpha v0.0.4 =====
 
-> Jogabilidade
-* Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
-
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
 * Rever readme.md e notas de atualização.
-* Gerar os executáveis para Windows e Linux.
+* Gerar os executáveis para Windows e Linux (pyinstaller --onefile main.py).
 
 ===== Alpha v0.0.5 =====
 
@@ -45,7 +42,7 @@
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
 * Rever readme.md e notas de atualização.
-* Gerar os executáveis para Windows e Linux.
+* Gerar os executáveis para Windows e Linux (pyinstaller --onefile main.py).
 
 ===== Alpha v0.1.0 =====
 
@@ -69,7 +66,7 @@
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
 * Rever readme.md e notas de atualização.
-* Gerar os executáveis para Windows e Linux.
+* Gerar os executáveis para Windows e Linux (pyinstaller --onefile main.py).
 
 ===== Alpha v0.? =====
 
@@ -110,4 +107,4 @@
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
 * Rever readme.md e notas de atualização.
-* Gerar os executáveis para Windows e Linux.
+* Gerar os executáveis para Windows e Linux (pyinstaller --onefile main.py).

@@ -27,6 +27,8 @@ class Area():
         # Preço da estalagem na primeira opção do evento de descanso
         self.estalagem_preco = estalagem_preco
 
+    # Métodos Abstratos
+
     @abstractmethod
     def RetornarEncontro(self, jogador):
         """
@@ -36,7 +38,7 @@ class Area():
         pass
 
     @abstractmethod
-    def EncontroChefe(self, jogador, conf):
+    def EncontroChefe(self, jogador, est, conf):
         """
         Gerencia o encontro com o chefão da área.
         """
@@ -44,25 +46,40 @@ class Area():
         pass
 
     @abstractmethod
-    def MenuVila(self, jogador, caminhos):
+    def MenuVila(self, jogador, est, conf, caminhos, save_carregado = False):
         """
         Menu referente ao que o jogador pode fazer quando está presente na vila/cidade da área.
         """
 
         pass
 
-    def PrecoItemMaisBarato(self, loja_itens):
+    @abstractmethod
+    def EstoqueInicial(self):
         """
-        Retorna o preço do item mais barato que se encontra na loja.
+        Retorna uma lista de listas, onde cada lista é o conjunto inicial de itens disponíveis para venda em
+        uma loja presente na área. Este método também será chamado quando a loja for reestocada.
         """
 
-        menor = 9999999
+        pass
 
-        for item in loja_itens:
-            if item[1].preco < menor:
-                menor = item[1].preco
+    @abstractmethod
+    def Estalagem(self, jogador):
+        """
+        Menu principal de uma estalagem presente na área.
+        """
 
-        return menor
+        pass
+    
+    @abstractmethod
+    def EventoVendedorAmbulante(self, jogador, conf):
+        """
+        Uma loja que irá selecionar aleatoriamente alguns itens para serem vendidos ao jogador. Retorna 1 se o
+        jogador comprou ou vendeu algo e 0 caso contrário.
+        """
+
+        pass
+
+    # Métodos
 
     def LojaMenu(self, jogador, loja_itens, venda_compra):
         """
@@ -341,13 +358,23 @@ class Area():
         
         return operacao_realizada
 
-    @abstractmethod
-    def Estalagem(self, jogador):
+    def Reestocar(self, est):
         """
-        Menu principal de uma estalagem presente na área.
+        Irá retornar as lojas presentes na área so seu estado inicial com base no número de batalhas ganhas
+        pelo jogador. Retorna True se houve um reestoque das lojas presentes na área e False caso contrário.
         """
 
-        pass
+        b = est.batalhas_ganhas - self.ultimo_batalhas_ganhas
+        self.reestoque_atual += b
+        self.ultimo_batalhas_ganhas = est.batalhas_ganhas
+
+        if self.reestoque_atual >= self.reestoque:
+            self.reestoque_atual = 0
+            self.lojas_itens = self.EstoqueInicial()
+            return True
+            
+        else:
+            return False
 
     def EventoDescanso(self, jogador):
         """
@@ -421,17 +448,8 @@ class Area():
                 if utils.CalcularChance(chance_emboscada / 100):
                     inimigos = self.RetornarEncontro(jogador)
                     aliados = [jogador]
-                    resultado = batalha.BatalhaPrinicipal(aliados, inimigos, emboscada = 1)
+                    resultado = batalha.BatalhaPrincipal(aliados, inimigos, emboscada = 1)
                 
                 break
 
         return resultado
-
-    @abstractmethod
-    def EventoVendedorAmbulante(self, jogador, conf):
-        """
-        Uma loja que irá selecionar aleatoriamente alguns itens para serem vendidos ao jogador. Retorna 1 se o
-        jogador comprou ou vendeu algo e 0 caso contrário.
-        """
-
-        pass

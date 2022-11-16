@@ -2,19 +2,21 @@ import os
 import pickle
 from . import imprimir
 
-def Salvar(caminho, jogador, area, local):
+def Salvar(caminho, jogador, estatisticas, area, local):
     """
     Salva o jogo em um arquivo binário com o nome do jogador.
 
     Parâmetros:
     - caminho: caminho relativo a pasta que contém os saves;
     - jogador: objeto do jogador;
+    - estatisticas: estatísticas relacionadas ao jogador e ao jogo;
     - area: area em que o jogador estava quando salvou o jogo;
     - local: nome do local em que o jogador estava quando salvou o jogo.
     """
     save = {}
     save['valido'] = 'Arquivo de jogo salvo do Aventura'
     save['jogador'] = jogador
+    save['estatisticas'] = estatisticas
     save['area'] = area
     save['local'] = local
     
