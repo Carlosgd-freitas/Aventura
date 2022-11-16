@@ -25,8 +25,8 @@ class Slime(criatura.Criatura):
         experiencia = 0
         regen = 0
         ouro = 0
-        chance_critico = 0.0
-        multiplicador_critico = 1.0
+        chance_critico = 1.0
+        multiplicador_critico = 1.1
 
         # Aumentado os atributos por nivel
         i = 1

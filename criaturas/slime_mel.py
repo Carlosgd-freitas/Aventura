@@ -25,8 +25,8 @@ class SlimeMel(criatura.Criatura):
         experiencia = 2
         regen = 0
         ouro = 2
-        chance_critico = 0.0
-        multiplicador_critico = 1.0
+        chance_critico = 1.0
+        multiplicador_critico = 1.1
 
         # Aumentado os atributos por nivel
         i = 1
@@ -89,7 +89,7 @@ class SlimeMel(criatura.Criatura):
         """
         alvo_inimigo = random.choice(inimigos)
 
-        indice = utils.MenorAtributo(aliados, 'hp')
+        indice = utils.AtributoDestaque(aliados, 'maior', 'maxHp - hp')
         alvo_aliado = aliados[indice]
 
         # Cuspe De Mel -> 75% de chance do Slime de Mel usar
@@ -97,10 +97,11 @@ class SlimeMel(criatura.Criatura):
             if utils.CalcularChance(0.75):
                 return ("habilidade", self.habilidades[1], alvo_inimigo)
 
-        # Cura Inferior -> 50% de chance do Slime de Mel usar no aliado ferido com o menor HP atual
+        # Cura Inferior -> 50% de chance do Slime de Mel usar no aliado ferido com a maior diferença entre
+        # seu HP máximo e seu HP atual
         if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[3]) and \
             (alvo_aliado.hp < alvo_aliado.maxHp):
-            if utils.CalcularChance(0.5):
+            if utils.CalcularChance(1): ###1 -> 0.5
                 return ("habilidade", self.habilidades[3], alvo_aliado)
 
         # Atacar

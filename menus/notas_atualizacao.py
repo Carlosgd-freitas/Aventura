@@ -178,9 +178,10 @@ class NotasAtualizacao():
             'estão fora de batalha.')
         self.positivo('Evento de vendedor ambulante adicionado.')
         self.positivo('Jogadores podem subir de nível até o nível 10.')
+        self.positivo('Habilidades que curam HP ou Mana podem causar acertos críticos.')
         self.negativo('Eventos na exploração de uma área agora possuem uma menor chance de acontecer.')
         self.negativo('O debuff de envenenamento persiste após a batalha.')
-        self.negativo('Quando o jogador vai até uma vila ou cidade, há uma pequena chance de ser emboscado.')
+        self.negativo('Quando o jogador vai até uma vila ou cidade, há uma pequena chance de uma emboscagem ocorrer.')
 
         print('\nInimigos')
         self.positivo('Larva de Abelhóide e Abelhóide adicionadas.')

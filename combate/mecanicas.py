@@ -21,13 +21,7 @@ def CalcularDano(atacante, alvo, habilidade):
     dano = habilidade.valor
 
     # Acrescentando possíveis modificadores de dano
-    for m in habilidade.modificadores:
-
-        if m[0] == "ataque":
-            dano += m[1]/100 * atacante.ataque
-
-        elif m[0] == "magia":
-            dano += m[1]/100 * atacante.magia
+    dano = utils.ContabilizarModificadores(dano, atacante, habilidade)
     
     # Em caso da habilidade ter a si mesmo como alvo
     if habilidade.alvo == "proprio":
@@ -70,8 +64,11 @@ def CalcularDano(atacante, alvo, habilidade):
         dano /= 2
     
     # Acerto Crítico
-    if utils.CalcularChance(atacante.chance_critico / 100):
-        dano = math.ceil(dano * atacante.multiplicador_critico)
+    chance_critico = atacante.chance_critico + habilidade.chance_critico
+    multiplicador_critico = atacante.multiplicador_critico * habilidade.multiplicador_critico
+
+    if utils.CalcularChance(chance_critico / 100):
+        dano = math.ceil(dano * multiplicador_critico)
         print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
 
     # Checando se a habilidade é perfurante e diminuindo o dano pela defesa do alvo

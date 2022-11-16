@@ -1,7 +1,6 @@
 ===== Alpha v0.0.4 =====
 
 > Jogabilidade
-* Habilidades de heal podem critar
 * Restoque dos produtos na loja (a cada X batalhas, os itens são restocados)
 
 > O De Sempre

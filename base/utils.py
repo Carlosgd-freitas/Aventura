@@ -57,40 +57,92 @@ def CalcularChance(chance):
     else:
         return False
 
-def MenorAtributo(criaturas, atributo):
+def AtributoDestaque(criaturas, menor_maior, atributo):
     """
-    Recebe uma lista de criaturas e um atributo e retorna o índice da criatura com o menor valor referente ao
-    atributo passado dentre todas as criaturas.
+    Recebe uma lista de criaturas e um atributo e retorna o índice da criatura com o maior ou menor valor
+    referente ao atributo passado dentre todas as criaturas.
 
-    Valores possíveis para o atributo: 'hp', 'mana', 'ataque', 'defesa', 'magia' e 'velocidade'.
+    Parâmetros:
+    - criaturas: lista de criaturas cujos atributos serão checados;
+    - menor_maior: se igual a 'menor', será retornado o índice da criatura com o menor valor referente ao
+    atributo passado, e se igual a 'maior', será retornado o índice da criatura com o maior valor;
+    - atributo: o atributo que será checado nas criaturas. Valores possíveis: 'hp', 'maxHp - hp', 'mana',
+    'maxMana - mana', 'ataque', 'defesa', 'magia' e 'velocidade'.
     """
-    menor_valor = 9999999
-    menor_indice = -1
 
-    i = 0
-    for c in criaturas:
-        if atributo == "hp" and c.hp < menor_valor:
-            menor_valor = c.hp
-            menor_indice = i
-        elif atributo == "mana" and c.mana < menor_valor:
-            menor_valor = c.mana
-            menor_indice = i
-        elif atributo == "ataque" and c.ataque < menor_valor:
-            menor_valor = c.ataque
-            menor_indice = i
-        elif atributo == "defesa" and c.defesa < menor_valor:
-            menor_valor = c.defesa
-            menor_indice = i
-        elif atributo == "magia" and c.magia < menor_valor:
-            menor_valor = c.magia
-            menor_indice = i
-        elif atributo == "velocidade" and c.velocidade < menor_valor:
-            menor_valor = c.velocidade
-            menor_indice = i
+    if menor_maior == 'menor':
+        valor = 9999999
+    elif menor_maior == 'maior':
+        valor = -9999999
+    indice = -1
 
-        i += 1
+    for i, c in enumerate(criaturas):
+
+        if atributo == "hp":
+            if menor_maior == 'menor' and c.hp < valor:
+                valor = c.hp
+                indice = i
+            if menor_maior == 'maior' and c.hp > valor:
+                valor = c.hp
+                indice = i
+
+        elif atributo == "maxHp - hp":
+            if menor_maior == 'menor' and (c.maxHp - c.hp) < valor:
+                valor = (c.maxHp - c.hp)
+                indice = i
+            if menor_maior == 'maior' and (c.maxHp - c.hp) > valor:
+                valor = (c.maxHp - c.hp)
+                indice = i
+        
+        elif atributo == "mana":
+            if menor_maior == 'menor' and c.mana < valor:
+                valor = c.mana
+                indice = i
+            if menor_maior == 'maior' and c.mana > valor:
+                valor = c.mana
+                indice = i
+            
+        elif atributo == "maxMana - mana":
+            if menor_maior == 'menor' and (c.maxMana - c.mana) < valor:
+                valor = (c.maxMana - c.mana)
+                indice = i
+            if menor_maior == 'maior' and (c.maxMana - c.mana) > valor:
+                valor = (c.maxMana - c.mana)
+                indice = i
+        
+        elif atributo == "ataque":
+            if menor_maior == 'menor' and c.ataque < valor:
+                valor = c.ataque
+                indice = i
+            if menor_maior == 'maior' and c.ataque > valor:
+                valor = c.ataque
+                indice = i
+        
+        elif atributo == "defesa":
+            if menor_maior == 'menor' and c.defesa < valor:
+                valor = c.defesa
+                indice = i
+            if menor_maior == 'maior' and c.defesa > valor:
+                valor = c.defesa
+                indice = i
+        
+        elif atributo == "magia":
+            if menor_maior == 'menor' and c.magia < valor:
+                valor = c.magia
+                indice = i
+            if menor_maior == 'maior' and c.magia > valor:
+                valor = c.magia
+                indice = i
+        
+        elif atributo == "velocidade":
+            if menor_maior == 'menor' and c.velocidade < valor:
+                valor = c.velocidade
+                indice = i
+            if menor_maior == 'maior' and c.velocidade > valor:
+                valor = c.velocidade
+                indice = i
     
-    return menor_indice
+    return indice
 
 def NumeroEmSufixo(numero):
     """
@@ -296,6 +348,14 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
         if habilidade is not None:
             valor = ContabilizarModificadores(valor, usuario, habilidade)
 
+            # Acerto Crítico
+            chance_critico = usuario.chance_critico + habilidade.chance_critico
+            multiplicador_critico = usuario.multiplicador_critico * habilidade.multiplicador_critico
+
+            if CalcularChance(chance_critico / 100):
+                valor = math.ceil(valor * multiplicador_critico)
+                print(Fore.GREEN + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+
         alvo.hp += valor
 
         # Buff foi causado através de um item
@@ -326,6 +386,14 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
         
         if habilidade is not None:
             valor = ContabilizarModificadores(valor, usuario, habilidade)
+
+            # Acerto Crítico
+            chance_critico = usuario.chance_critico + habilidade.chance_critico
+            multiplicador_critico = usuario.multiplicador_critico * habilidade.multiplicador_critico
+
+            if CalcularChance(chance_critico / 100):
+                valor = math.ceil(valor * multiplicador_critico)
+                print(Fore.GREEN + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
 
         alvo.mana += valor
 
