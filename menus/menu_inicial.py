@@ -28,7 +28,7 @@ def MenuInicial(conf, caminhos):
             print(f"  / _ \ \ \ / / / _ \ | '_ \  | __| | | | | | '__| / _` |")
             print(f" / ___ \ \ V / |  __/ | | | | | |_  | |_| | | |   | (_| |")
             print(f"/_/   \_\ \_/   \___| |_| |_|  \__|  \__,_| |_|    \__,_|\n")
-            print(f"      por Carlos Gabriel de Freitas - Alpha v0.0.3\n")        
+            print(f"      por Carlos Gabriel de Freitas - Alpha v0.0.4\n")        
 
             print('[1] Novo Jogo')
             print('[2] Carregar Jogo')

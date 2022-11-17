@@ -2,6 +2,7 @@
 
 import random
 import os
+import sys
 import pickle
 from colorama import init
 
@@ -18,7 +19,10 @@ init()        # Inicialização da biblioteca colorama
 # Caminhos de arquivos e pastas
 caminhos = {}
 
-caminho_main = os.path.dirname(os.path.abspath(__file__))
+if getattr(sys, 'frozen', False):
+    caminho_main = os.path.dirname(sys.executable)
+elif __file__:
+    caminho_main = os.path.dirname(os.path.abspath(__file__))
 caminhos['main'] = caminho_main
 
 caminho_bin = os.path.join(caminho_main, 'bin')

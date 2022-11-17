@@ -1,4 +1,4 @@
-from . import basico, utils
+from . import basico
 
 class Item(basico.Base):
     """
