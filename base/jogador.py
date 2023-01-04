@@ -4,7 +4,7 @@ from colorama import Fore, Back, Style
 from . import criatura, guerreiro, mago
 
 sys.path.append("..")
-from base import configuracao
+from base import imprimir, configuracao
 from menus import menu_inventario, menu_habilidades, menu_equipamentos
 
 class Jogador(criatura.Criatura):
@@ -79,7 +79,7 @@ class Jogador(criatura.Criatura):
 
     def ImprimirStatus(self):
         """
-        Imprime os atributos do jogador na situação atual.
+        Imprime o jogador fora de batalha.
         """
 
         # Nome, classe e nível do jogador
@@ -99,30 +99,20 @@ class Jogador(criatura.Criatura):
         mensagem += Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {self.ouro}'
         print(mensagem)
 
-        # Possíveis Debuffs
-        mensagem = ''
-        debuffs = 0
-
-        if self.EfeitoPresente("debuff", "Veneno") != -1:
-            if debuffs > 0:
-                mensagem += ' - '
-            if self.genero == "M":
-                mensagem += Fore.GREEN + 'ENVENENADO' + Style.RESET_ALL
-            elif self.genero == "F":
-                mensagem += Fore.GREEN + 'ENVENENADA' + Style.RESET_ALL
-            debuffs += 1
-        
-        if debuffs > 0:
-            mensagem += '\n'
-        print(mensagem)
+        # Possíveis Buffs/Debuffs
+        n_efeitos = imprimir.ImprimirEfeitos(self, espaco = False)
+        if n_efeitos > 0:
+            print('')
 
         # Atributos do jogador
-        print(f'ATAQUE: {self.ataque}')
-        print(f'DEFESA: {self.defesa}')
-        print(f'MAGIA: {self.magia}')
-        print(f'VELOCIDADE: {self.velocidade}')
-        print('CHANCE DE ACERTO CRÍTICO: {:.2f}'.format(self.chance_critico) + '%')
-        print('MULTIPLICADOR DE ACERTO CRÍTICO: {:.2f}'.format(self.multiplicador_critico) + 'x')
+        print('    ATAQUE: {:2d}'.format(self.ataque), end = '')
+        print(' |        CHANCE DE ACERTO CRÍTICO: {:.2f}'.format(self.chance_critico) + '%')
+
+        print('    DEFESA: {:2d}'.format(self.defesa), end = '')
+        print(' | MULTIPLICADOR DE ACERTO CRÍTICO: {:.2f}'.format(self.multiplicador_critico) + 'x')
+
+        print('     MAGIA: {:2d}'.format(self.magia))
+        print('VELOCIDADE: {:2d}'.format(self.velocidade))
 
     def SubirNivel(self):
         """

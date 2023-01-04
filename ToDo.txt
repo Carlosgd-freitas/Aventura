@@ -43,6 +43,7 @@
 * Retirar as mensagens de decaimento "regen irá durar mais X turnos" (não as de quando o regen stacka)
 * Refazer como os efeitos de buff e debuff se stackam
 	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
+	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
 * Jogo retorna ao menu inicial quando erros acontecem em vez de fechar
 
 > Jogabilidade

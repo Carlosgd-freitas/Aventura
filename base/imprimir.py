@@ -60,83 +60,98 @@ def RetornarTipo(tipo):
 
 ### Impressão de classes ###
 
-def ImprimirEfeitos(criatura):
+def ImprimirEfeitos(criatura, espaco = True):
     """
-    Imprime os efeitos que uma criatura está sob.
+    Imprime os efeitos que uma criatura está sob. Retorna o número de efeitos que foram impressos.
+
+    Parâmetros:
+    - criatura: criatura cujos efeitos serão impressos.
+
+    Parâmetros Opcionais:
+    - espaco: se igual a False, o espaço antes do primeiro grupo de efeitos não será impresso. O valor padrão é
+    True.
     """
 
-    mensagem = ""
+    c_buffs = criatura.ContarEfeitos("buff")
+    c_debuffs = criatura.ContarEfeitos("debuff")
 
     # Buffs presentes na criatura
-    if criatura.EfeitoPresente("buff", "Defendendo") != -1:
-        mensagem += ' - DEFENDENDO'
-    
-    if criatura.EfeitoPresente("buff", "Aumento Ataque") != -1:
-        mensagem += ' - ATQ' + Fore.GREEN + '+' + Style.RESET_ALL
+    if len(c_buffs) > 0:
 
-    if criatura.EfeitoPresente("buff", "Aumento Defesa") != -1:
-        mensagem += ' - DEF' + Fore.GREEN + '+' + Style.RESET_ALL
-    
-    if criatura.EfeitoPresente("buff", "Aumento Magia") != -1:
-        mensagem += ' - MAG' + Fore.GREEN + '+' + Style.RESET_ALL
+        if espaco:
+            print(' ', end = '')
+        print('[', end = '')
 
-    if criatura.EfeitoPresente("buff", "Aumento Velocidade") != -1:
-        mensagem += ' - VEL' + Fore.GREEN + '+' + Style.RESET_ALL
-    
-    if criatura.EfeitoPresente("buff", "Aumento Chance Crítico") != -1:
-        mensagem += ' - CRIT%' + Fore.GREEN + '+' + Style.RESET_ALL
-    
-    if criatura.EfeitoPresente("buff", "Regeneração HP") != -1 or criatura.EfeitoPresente("buff", "Regeneração HP %") != -1:
-        mensagem += ' - REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL
+        for i, b in enumerate(c_buffs):
+            if criatura.buffs[b].nome == "Defendendo":
+                print(Style.BRIGHT + Fore.WHITE + 'DEFENDENDO'+ Style.RESET_ALL, end = '')
+            
+            elif criatura.buffs[b].nome == "Aumento Ataque":
+                print('ATQ' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+
+            elif criatura.buffs[b].nome == "Aumento Defesa":
+                print('DEF' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+            
+            elif criatura.buffs[b].nome == "Aumento Magia":
+                print('MAG' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+
+            elif criatura.buffs[b].nome == "Aumento Velocidade":
+                print('VEL' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+            
+            elif criatura.buffs[b].nome == "Aumento Chance Crítico":
+                print('CRIT%' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+            
+            elif criatura.buffs[b].nome == "Regeneração HP" or criatura.buffs[b].nome == "Regeneração HP %":
+                print('REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL, end = '')
+
+            if i != len(c_buffs) - 1:
+                print(' | ', end = '')
+        
+        print(']', end = '')
 
     # Debuffs presentes na criatura
-    if criatura.EfeitoPresente("debuff", "Diminuição Ataque") != -1:
-        mensagem += ' - ATQ' + Fore.RED + '-' + Style.RESET_ALL
-    
-    if criatura.EfeitoPresente("debuff", "Diminuição Defesa") != -1:
-        mensagem += ' - DEF' + Fore.RED + '-' + Style.RESET_ALL
-    
-    if criatura.EfeitoPresente("debuff", "Diminuição Magia") != -1:
-        mensagem += ' - MAG' + Fore.RED + '-' + Style.RESET_ALL
-    
-    if criatura.EfeitoPresente("debuff", "Diminuição Velocidade") != -1:
-        mensagem += ' - VEL' + Fore.RED + '-' + Style.RESET_ALL
-    
-    if criatura.EfeitoPresente("debuff", "Diminuição Chance Crítico") != -1:
-        mensagem += ' - CRIT%' + Fore.RED + '-' + Style.RESET_ALL
+    if len(c_debuffs) > 0:
 
-    if criatura.EfeitoPresente("debuff", "Veneno") != -1:
+        if espaco and len(c_buffs) == 0:
+            print(' ', end = '')
+        print('[', end = '')
 
-        if criatura.singular_plural == "singular":
-            if criatura.genero == "M":
-                mensagem += ' - ' + Fore.GREEN + 'ENVENENADO' + Style.RESET_ALL
-            elif criatura.genero == "F":
-                mensagem += ' - ' + Fore.GREEN + 'ENVENENADA' + Style.RESET_ALL
+        for i, d in enumerate(c_debuffs):
+            if criatura.debuffs[d].nome == "Defendendo":
+                print(Style.BRIGHT + Fore.WHITE + 'DEFENDENDO'+ Style.RESET_ALL, end = '')
+            
+            elif criatura.debuffs[d].nome == "Diminuição Ataque":
+                print('ATQ' + Fore.RED + '-' + Style.RESET_ALL, end = '')
 
-        elif criatura.singular_plural == "plural":
-            if criatura.genero == "M":
-                mensagem += ' - ' + Fore.GREEN + 'ENVENENADOS' + Style.RESET_ALL
-            elif criatura.genero == "F":
-                mensagem += ' - ' + Fore.GREEN + 'ENVENENADAS' + Style.RESET_ALL
+            elif criatura.debuffs[d].nome == "Diminuição Defesa":
+                print('DEF' + Fore.RED + '-' + Style.RESET_ALL, end = '')
+            
+            elif criatura.debuffs[d].nome == "Diminuição Magia":
+                print('MAG' + Fore.RED + '-' + Style.RESET_ALL, end = '')
 
-    if criatura.EfeitoPresente("debuff", "Atordoamento") != -1:
+            elif criatura.debuffs[d].nome == "Diminuição Velocidade":
+                print('VEL' + Fore.RED + '-' + Style.RESET_ALL, end = '')
+            
+            elif criatura.debuffs[d].nome == "Diminuição Chance Crítico":
+                print('CRIT%' + Fore.RED + '-' + Style.RESET_ALL, end = '')
+            
+            elif criatura.debuffs[d].nome == "Veneno":
+                print(Fore.GREEN + 'VENENO' + Style.RESET_ALL, end = '')
+            
+            elif criatura.debuffs[d].nome == "Atordoamento":
+                print(Style.BRIGHT + Fore.WHITE + 'ATORDOAMENTO' + Style.RESET_ALL, end = '')
+            
+            elif criatura.debuffs[d].nome == "Lentidão":
+                print(Style.BRIGHT + Fore.WHITE + 'LENTIDÃO' + Style.RESET_ALL, end = '')
 
-        if criatura.singular_plural == "singular":
-            if criatura.genero == "M":
-                mensagem += ' - ATORDOADO'
-            elif criatura.genero == "F":
-                mensagem += ' - ATORDOADA'
-
-        elif criatura.singular_plural == "plural":
-            if criatura.genero == "M":
-                mensagem += ' - ATORDOADOS'
-            elif criatura.genero == "F":
-                mensagem += ' - ATORDOADAS'
+            if i != len(c_debuffs) - 1:
+                print(' | ', end = '')
+        
+        print(']', end = '')
     
-    if criatura.EfeitoPresente("debuff", "Lentidão") != -1:
-        mensagem += ' - LENTIDÃO' + Style.RESET_ALL
-    
-    print(mensagem)
+    print('')
+
+    return len(c_buffs) + len(c_debuffs)
 
 def ImprimirCriatura(indice, criatura):
     """

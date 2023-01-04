@@ -11,7 +11,6 @@ class NotasAtualizacao():
         Exibe a nota de atualização da versão atual e imprime outras versões do jogo.
         """
 
-        # Imprimindo até 2 versões
         pagina = 0
         anterior = 0
         proximo = 0
@@ -199,6 +198,13 @@ class NotasAtualizacao():
         self.positivo('As configurações são salvas e permanecem com as alterações feitas pelos jogadores.')
         self.positivo('O mapeamento das teclas de algumas ações pode ser alterado.')
         self.positivo("Utilização de tabelas mais organizadas em alguns aspectos do jogo.")
+
+    def alphaV005(self):
+        """
+        Notas de atualização referente à versão Alpha 0.0.5.
+        """
+
+        self.titulo('----------------------------------- Alpha Versão 0.0.5 -----------------------------------')
 
     def titulo(string):
         """

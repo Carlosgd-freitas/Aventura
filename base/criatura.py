@@ -57,10 +57,17 @@ class Criatura(basico.Base):
 
         return valor
     
-    def ContarEfeitos(self, buff_debuff, efeito_nome):
+    def ContarEfeitos(self, buff_debuff, efeito_nome = ""):
         """
-        Retorna os índices dos efeitos de buff ou debuff que a criatura está sob que tenha o mesmo nome do
-        passado por parâmetro.
+        Retorna uma lista de índices dos efeitos de buff ou debuff que a criatura está sob.
+
+        Parâmetros:
+        - buff_debuff: tipo de efeito cujos inídices serão retornados. Os valores possíveis são 'buff' e
+        'debuff'.
+
+        Parâmetros Opcionais:
+        - efeito_nome: se o nome de um efeito for passado, retornará apenas os índices dos efeitos que tenham
+        o mesmo nome.
         """
 
         lista_indices = []
@@ -73,7 +80,7 @@ class Criatura(basico.Base):
 
         indice = 0
         for e in lista_efeitos:
-            if e.nome == efeito_nome:
+            if (e.nome == efeito_nome) or (efeito_nome == ""):
                 lista_indices.append(indice)
             indice += 1
 
