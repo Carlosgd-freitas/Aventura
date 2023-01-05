@@ -13,7 +13,8 @@ def ErvaCurativa(quantidade, preco):
     erva_efeito = efeito.Efeito("Cura HP", 3, 0, -1, 100)
     erva = item.Item([erva_efeito], [], preco, quantidade, "Erva Curativa",
         singular_plural = "singular", genero = "F",
-        descricao = "Cura 3 de HP.")
+        descricao = "Uma planta medicinal utilizada na fabricação de poções curativas. Quando crianças estão " + 
+            "brincando e se machucam, pais cuidadosos as fazem mascarem essa erva, apesar de seu gosto amargo.")
     
     return ("Consumivel", erva)
 
@@ -26,7 +27,8 @@ def MelAbelhoide(quantidade, preco):
     mel_efeito = efeito.Efeito("Regeneração HP", 2, 1, 3, 100)
     mel = item.Item([mel_efeito], [], preco, quantidade, "Mel de Abelhóide",
         singular_plural = "singular", genero = "M",
-        descricao = "Regenera 2 de HP por 3 turnos.")
+        descricao = "As abelhóides produzem esse mel após coletarem polén das plantas próximas a colméia em que " +
+            "habitam.")
     
     return ("Consumivel", mel)
 
@@ -40,7 +42,8 @@ def PocaoPequenaCura(quantidade, preco):
     pocao_efeito = efeito.Efeito("Cura HP % ou valor", [25, 5], 0, -1, 100)
     pocao = item.Item([pocao_efeito], [], preco, quantidade, "Poção Pequena de Cura",
         singular_plural = "singular", genero = "F",
-        descricao = "Cura 25% do HP máximo ou 5 de HP, o que for maior.")
+        descricao = "A poção curativa de preparo mais básico - comumente utilizada como tutorial para botanistas " +
+            "e alquimistas iniciantes.")
     
     return ("Consumivel", pocao)
 
@@ -53,7 +56,9 @@ def PocaoPequenaMana(quantidade, preco):
     pocao_efeito = efeito.Efeito("Cura Mana % ou valor", [25, 5], 0, -1, 100)
     pocao = item.Item([pocao_efeito], [], preco, quantidade, "Poção Pequena de Mana",
         singular_plural = "singular", genero = "F",
-        descricao = "Cura 25% da Mana máxima ou 5 de Mana, o que for maior.")
+        descricao = "Uma pequena mudança no preparo de uma poção de cura fará com que o usuário recupere sua mana" +
+            " em vez de fechar suas feridas. Este princípio básico\nda magia foi revolucionário na época, mas o que" +
+            " tinha chamado atenção mesmo foi que a poção mudou de cor para azul.")
 
     return ("Consumivel", pocao)
 
@@ -66,7 +71,8 @@ def PocaoPequenaRegeneracao(quantidade, preco):
     pocao_efeito = efeito.Efeito("Regeneração HP %", 10, 1, 3, 100)
     pocao = item.Item([pocao_efeito], [], preco, quantidade, "Poção Pequena de Regeneração",
         singular_plural = "singular", genero = "F",
-        descricao = "Regenera 10% do HP máximo por 3 turnos.")
+        descricao = "Ao retardar o efeito de cura, o usuário irá se sentir mais recuperado no fim das contas. Dê " +
+            "tempo ao tempo ou algo do tipo.")
     
     return ("Consumivel", pocao)
 
@@ -77,12 +83,17 @@ def ElixirPequeno(atributo, quantidade, preco):
     * Aumenta <atributo> em 3 por 5 turnos
     """
 
-    descricao = "Aumenta "
     if atributo == "Ataque":
-        descricao += "o "
-    elif atributo == "Defesa" or atributo == "Magia" or atributo == "Velocidade":
-        descricao += "a "
-    descricao += atributo + " em 3 por 5 turnos."
+        descricao = "Usagem proibida em competições esportivas."
+    
+    elif atributo == "Defesa":
+        descricao = "Tortugas com certeza foram feridas durante a realização deste elixir."
+
+    elif atributo == "Magia":
+        descricao =  "Alguns indivíduos com pouco talento mágico tendem a ficar viciados em elixires de magia."
+
+    elif atributo == "Velocidade":
+        descricao = "Praticamente cafeína concentrada."
 
     elixir_efeito = efeito.Efeito("Aumento " + atributo, 3, 1, 5, 100)
     elixir = item.Item([elixir_efeito], [], preco, quantidade, "Elixir Pequeno de " + atributo,
@@ -100,7 +111,8 @@ def Antidoto(quantidade, preco):
     antidoto_efeito = efeito.Efeito("Cura Veneno", 0, 0, -1, 100)
     antidoto = item.Item([antidoto_efeito], [], preco, quantidade, "Antídoto",
         singular_plural = "singular", genero = "M",
-        descricao = "Cura o debuff de envenenamento.")
+        descricao = "Apesar de parecer simples, este andídoto é efetivo contra o envenenamento causado pelas mais" +
+            " variadas espécies.")
     
     return ("Consumivel", antidoto)
 
@@ -114,7 +126,7 @@ def BombaInferior(quantidade, preco):
     bomba_efeito = efeito.Efeito("Dano todos inimigos", 5, 0, -1, 100)
     bomba = item.Item([], [bomba_efeito], preco, quantidade, "Bomba Inferior",
         singular_plural = "singular", genero = "F",
-        descricao = "Dá 5 de dano em todos os inimigos.")
+        descricao = "Uma esfera metálica recheada de pólvora.")
     
     return ("Consumivel", bomba)
 
@@ -130,6 +142,7 @@ def BombaGrudentaInferior(quantidade, preco):
 
     bomba = item.Item([], [bomba_dano, bomba_lentidao], preco, quantidade, "Bomba Grudenta Inferior",
         singular_plural = "singular", genero = "F",
-        descricao = "Dá 3 de dano em todos os inimigos e os afeta com Lentidão por 5 turnos.")
+        descricao = "Apesar de causar menos dano que uma bomba comum, seu conteúdo pegajoso fará com que os " +
+            "inimigos tenham dificuldade em tentar te matar rápido.")
     
     return ("Consumivel", bomba)

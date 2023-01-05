@@ -2,15 +2,17 @@
 
 > Programação
 * "Envenenamento" deve ser aplicado a todas as habilidades, e não somente ao ataque normal
-* Mudar a impressão das habilidades, inventário, itens sendo comprados/vendidos
+* Mudar a impressão das habilidades
+* Campo 'usar_fora_batalha' na classe item, em vez de comparar nomes como em menu_inventario.py
+* Campo 'classificacao' na classe item, em vez de uma tupla (classificacao, item)
+	- Usar a string 'consumível' em vez de 'consumivel'
 
 > Jogabilidade
 * Bestiário
 	- Inimigos ainda não encontrados aparecerão como "???"
-	- Inimigos comuns precisam ser derrotados 1 vez para apareçerem seus nomes e descrição
-	- Inimigos comuns precisam ser derrotados 5 vezes para apareçerem seus loots, experiencia e gold dropados
-	- Inimigos comuns precisam ser derrotados 10 vezes para apareçerem suas habilidades e se admitem contratos de
-	invocações (qual nível)
+	- Inimigos comuns precisam ser derrotados 1 vez para aparecerem seus nomes, hp, mana e descrição
+	- Inimigos comuns precisam ser derrotados 5 vezes para aparecerem seus loots, experiencia e gold dropados
+	- Inimigos comuns precisam ser derrotados 10 vezes para aparecerem suas habilidades
 	- Inimigos raros e chefões precisam derrotados apenas 1 vez pra aparecer tudo
 * Monstros dropam experiencia e ouro baseados em um range
 * Sistema de criação (crafting) / comprar e aprender receitas de criação
@@ -69,6 +71,7 @@
 * Atributos novos: Esquiva, Bloqueio
 * Quest para um morador isolado na floresta, que irá desbloquear o item "Contrato de Invocação Inferior"
 * Se há mais criaturas na party do jogador, permitir que ele use consumiveis nos aliados também
+* Bestiário: Rank 3 - admissão de contratos de invocação
 
 > Classes
 * Ladino

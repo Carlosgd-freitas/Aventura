@@ -205,6 +205,8 @@ class NotasAtualizacao():
         """
 
         self.titulo('----------------------------------- Alpha Versão 0.0.5 -----------------------------------')
+        print('\nOutros')
+        self.neutro('As descrições dos itens consumíveis foi refeita.')
 
     def titulo(string):
         """

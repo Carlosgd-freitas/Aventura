@@ -138,107 +138,12 @@ class Area():
                 # Etapa final da compra/venda
                 else:
                     item = vendedor[escolha_item - 1]
-
-                    # Imprimindo o item escolhido
-                    mensagem = f'\n{item[1].nome} | Qtd: {item[1].quantidade} | '              # Nome e Quantidade
-                    mensagem += Fore.YELLOW + 'Preço' + Style.RESET_ALL + f': {item[1].preco}' # Preço
-                    mensagem += f' | {item[0]}'                                                # Classificação
-                    
-                    if item[0] == "Consumivel":
-                        print(mensagem)
-
-                    else:
-                        # Nível e Tipo
-                        mensagem += ' | Nível: {:2d} | Tipo: '.format(item[1].nivel)
-                        print(mensagem, end = '')
-                        print(imprimir.RetornarTipo(item[1].tipo))
-
-                        # Atributos concedidos pelo item
-                        mensagem = ''
-                        primeiro = 1
-
-                        if item[1].maxHp > 0:
-                            mensagem += Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].maxHp} '
-                            mensagem += Fore.RED + 'HP' + Style.RESET_ALL
-                            primeiro = 0
-                        elif item[1].maxHp < 0:
-                            mensagem += Fore.RED + '-' + Style.RESET_ALL + f'{item[1].maxHp} '
-                            mensagem += Fore.RED + 'HP' + Style.RESET_ALL
-                            primeiro = 0
-
-                        if item[1].maxMana > 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].maxMana} '
-                            mensagem += Fore.BLUE + 'Mana' + Style.RESET_ALL
-                            primeiro = 0
-                        elif item[1].maxMana < 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.RED + '-' + Style.RESET_ALL + f'{item[1].maxMana} '
-                            mensagem += Fore.BLUE + 'Mana' + Style.RESET_ALL 
-                            primeiro = 0
-
-                        if item[1].ataque > 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].ataque} '
-                            mensagem += 'ATAQUE'
-                            primeiro = 0
-                        elif item[1].ataque < 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.RED + '-' + Style.RESET_ALL + f'{item[1].ataque} '
-                            mensagem += 'ATAQUE'
-                            primeiro = 0
-
-                        if item[1].defesa > 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].defesa} '
-                            mensagem += 'DEFESA'
-                            primeiro = 0
-                        elif item[1].defesa < 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.RED + '-' + Style.RESET_ALL + f'{item[1].defesa} '
-                            mensagem +='DEFESA'
-                            primeiro = 0
-
-                        if item[1].magia > 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].magia} '
-                            mensagem += 'MAGIA'
-                            primeiro = 0
-                        elif item[1].magia < 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.RED + '-' + Style.RESET_ALL + f'{item[1].magia} '
-                            mensagem +='MAGIA'
-                            primeiro = 0
-
-                        if item[1].velocidade > 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].velocidade} '
-                            mensagem += 'VELOCIDADE'
-                            primeiro = 0
-                        elif item[1].velocidade < 0:
-                            if primeiro == 0:
-                                mensagem += ', '
-                            mensagem += Fore.RED + '-' + Style.RESET_ALL + f'{item[1].velocidade} '
-                            mensagem +='VELOCIDADE'
-                            primeiro = 0
-
-                        print(mensagem)
-
-                    print(f'Descrição: {item[1].descricao}') # Descrição
+                    imprimir.ImprimirItemDetalhado(item)
 
                     if venda_compra == "Compra":
-                        print(f'\nDeseja comprar quanto de {item[1].nome}?')
+                        print(f'Deseja comprar quanto de {item[1].nome}?')
                     else:
-                        print(f'\nDeseja vender quanto de {item[1].nome}?')
+                        print(f'Deseja vender quanto de {item[1].nome}?')
 
                     # Jogador escolhendo a quantidade do item que quer vender
                     while True:

@@ -1,5 +1,6 @@
 import math
 import sys
+from tabulate import tabulate
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
@@ -15,118 +16,111 @@ def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
     # Imprimindo os itens presentes no inventário do jogador
     print('|========================================> INVENTÁRIO <=========================================|')
 
+
+    tabela = []
+    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classificação"]
+    alinhamento = ("left", "center", "center", "center")
+        
     i = 0
     while i < impressoes_por_pagina:
-
-        flag_consumivel = 0
 
         # Há menos que <impressoes_por_pagina> itens restantes
         if item_indice == len(jogador.inventario):
             break
 
         item = jogador.inventario[item_indice]
-
-        # Nome do item
-        mensagem = f'[{item_indice+1}] {item[1].nome} - '
         
-        # Classificação do item
-        if item[0] == "Consumivel":
-            mensagem += 'Consumível - '
-            flag_consumivel = 1
-        else:
-            mensagem += item[0] + ' - '
-
-        # Quantidade e preço do item
-        mensagem += f'Quantidade: {item[1].quantidade} - '
-        mensagem += Fore.YELLOW + 'Preço' + Style.RESET_ALL + f': {item[1].preco}'
-
-        # Nível e tipo do item, caso ele não for um consumível
-        if flag_consumivel == 0:
-            mensagem += f' - Nível: {item[1].nivel} - Tipo: '
-            print(mensagem, end = '')
-            print(imprimir.RetornarTipo(item[1].tipo))
-
-        else:
-            print(mensagem)
-
-        # Descrição do Item
-        print(f'Descrição: {item[1].descricao}\n')
+        t = []
+        t.append(f'[{item_indice+1}] ' + item[1].nome) # Índice + Nome
+        t.append(item[1].quantidade)                   # Quantidade
+        t.append(item[1].preco)                        # Preço
+        t.append(item[0])                              # Classificação
+        tabela.append(t)
 
         item_indice += 1
         i += 1
+    
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+    print('')
 
 def MenuInventario(jogador):
     """
     Menu de gerenciamento do inventário do jogador.
     """
 
+    itens_por_pagina = 15
     ultima_pagina = len(jogador.inventario)
-    ultima_pagina = math.ceil(ultima_pagina / 10)
+    ultima_pagina = math.ceil(ultima_pagina / itens_por_pagina)
     ultima_pagina -= 1
     item_indice_atual = 0
     pagina = 0
 
     while True:
 
-        # Imprimindo até 10 itens
+        # Imprimindo até 'itens_por_pagina' itens
         anterior = 0
         proximo = 0
-        item_indice_atual = (pagina * 10)
-        ImprimirInventario(jogador, item_indice_atual, 10)
+        item_indice_atual = (pagina * itens_por_pagina)
+        ImprimirInventario(jogador, item_indice_atual, itens_por_pagina)
 
-        # É possível imprimir até 10 itens anteriores
+        print('[1] Analisar item')
+        print('[2] Usar item')
+        print('[3] Jogar item fora')
+
+        # É possível imprimir até 'itens_por_pagina' itens anteriores
         if pagina > 0:
             anterior = 1
-            print('[1] Anterior')
-        
+            print('[4] Anterior')
         else:
-            print(Fore.RED + '[1] Anterior' + Style.RESET_ALL + '')
+            print(Fore.RED + '[4] Anterior' + Style.RESET_ALL + '')
 
-        # É possível imprimir até 10 próximos itens
+        # É possível imprimir até 'itens_por_pagina' próximos itens
         if pagina < ultima_pagina:
             proximo = 1
-            print('[2] Próximo')
-        
+            print('[5] Próximo')
         else:
-            print(Fore.RED + '[2] Próximo' + Style.RESET_ALL)
+            print(Fore.RED + '[5] Próximo' + Style.RESET_ALL)
 
-        print('[3] Usar item')
-        print('[4] Jogar item fora\n')
-        print('[0] Retornar ao menu anterior')
+        print('\n[0] Retornar ao menu anterior')
 
         while True:
-            op = utils.LerNumero('> ')
+            op = utils.LerNumeroIntervalo('> ', 0, 5)
 
-            if (op == 0) or (op == 1 and anterior == 1) or (op == 2 and proximo == 1) or (op == 3) or (op == 4):
+            if (op == 4 and anterior == 0) or (op == 5 and proximo == 0):
+                continue
+            else:
                 break
         
         # Retornando ao menu anterior
         if op == 0:
             break
     
-        # Imprimir até 10 itens anteriores
-        elif op == 1 and anterior == 1:
+        # Imprimir até 'itens_por_pagina' itens anteriores
+        elif op == 4 and anterior == 1:
             pagina -= 1
         
-        # Imprimir até 10 próximos itens
-        elif op == 2 and proximo == 1:
+        # Imprimir até 'itens_por_pagina' próximos itens
+        elif op == 5 and proximo == 1:
             pagina += 1
 
-        # Usar item ou jogar item fora
-        elif op == 3 or op == 4:
-            
+        # Analisar, usar ou jogar o item fora
+        else:
             escolha = 1
             pergunta = 1
 
-            menor_indice = (pagina * 10) + 1
-            maior_indice = len(jogador.inventario)
+            menor_indice = (pagina * itens_por_pagina) + 1
+            maior_indice = (pagina + 1) * itens_por_pagina
+            if len(jogador.inventario) < maior_indice:
+                maior_indice = len(jogador.inventario)
 
             while escolha != 0:
 
                 if pergunta == 1:
-                    if op == 3:
+                    if op == 1:
+                        print('\nQual item deseja analisar?')
+                    elif op == 2:
                         print('\nQual item deseja usar?')
-                    if op == 4:
+                    elif op == 3:
                         print('\nQual item deseja jogar fora?')
                     pergunta = 0
 
@@ -139,9 +133,15 @@ def MenuInventario(jogador):
                 # Procedendo
                 elif escolha >= menor_indice and escolha <= maior_indice:
 
-                    item_escolhido = jogador.inventario[escolha-1]
+                    item_escolhido = jogador.inventario[escolha - 1]
 
-                    if op == 3:
+                    # Analisar item
+                    if op == 1:
+                        imprimir.ImprimirItemDetalhado(item_escolhido)
+                        break
+
+                    # Usar item
+                    elif op == 2:
                         if item_escolhido[1].nome == "Erva Curativa" or \
                             item_escolhido[1].nome == "Mel de Abelhóide" or \
                             item_escolhido[1].nome == "Poção Pequena de Cura" or \
@@ -159,12 +159,11 @@ def MenuInventario(jogador):
                         print('')
                         break
 
-                    if op == 4:
-
+                    # Jogar item fora
+                    elif op == 3:
                         print('\nQuantos deste item deseja jogar fora?')
                     
                         while True:
-
                             escolha_quantidade = utils.LerNumero('> ')
 
                             if escolha_quantidade == 0:
@@ -187,7 +186,7 @@ def MenuInventario(jogador):
         
             # Checando se a página tinha 1 item sobrando, e ele foi removido
             tentativa_ultima_pagina = len(jogador.inventario)
-            tentativa_ultima_pagina = math.ceil(tentativa_ultima_pagina / 10)
+            tentativa_ultima_pagina = math.ceil(tentativa_ultima_pagina / itens_por_pagina)
             tentativa_ultima_pagina -= 1
 
             if escolha != 0 and ultima_pagina != tentativa_ultima_pagina:

@@ -1,4 +1,5 @@
 import time
+from tabulate import tabulate
 from colorama import Fore, Back, Style
 
 ### Impressão de strings ###
@@ -57,6 +58,147 @@ def RetornarTipo(tipo):
         return Back.BLACK + Fore.MAGENTA + 'Trevas' + Style.RESET_ALL
     elif tipo == 'Luz':
         return Back.BLACK + Fore.YELLOW + 'Luz' + Style.RESET_ALL
+
+def RetornarStringColorida(string):
+    """
+    Recebe uma string e a retorna juntamente com as funções para aplicação de cor correspondentes.
+    """
+    
+    if string.lower() == 'hp':
+        return Back.BLACK + Fore.RED + string + Style.RESET_ALL
+    elif string.lower() == 'mana':
+        return Back.BLACK + Fore.BLUE + string + Style.RESET_ALL
+    elif string.lower() == 'veneno' or 'envenenamento':
+        return Back.BLACK + Fore.GREEN + string + Style.RESET_ALL
+    elif string.lower() == 'lentidão':
+        return Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
+
+def ImprimirItemDetalhado(item):
+    """
+    Imprime um item do inventário detalhadamente.
+
+    Parâmetros:
+    - item: item a ser impresso.
+    """
+
+    # Informações "não-detalhadas" do item
+    tabela = []
+    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classificação"]
+    alinhamento = ("left", "center", "center", "center")
+    t = []
+    t.append(item[1].nome)       # Índice + Nome
+    t.append(item[1].quantidade) # Quantidade
+    t.append(item[1].preco)      # Preço
+    t.append(item[0])            # Classificação
+    tabela.append(t)
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+
+    # Descrição
+    print(f'Descrição: {item[1].descricao}')
+
+    if item[0] == 'Consumivel':
+
+        # Efeitos 'positivos' concedidos pelo item
+        for b in item[1].buffs:
+
+            if b.nome == "Cura HP":
+                print('* Cura ' + str(b.valor) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.')
+            elif b.nome == "Cura HP %":
+                print('* Cura ' + str(b.valor) + '% do seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo.')
+            elif b.nome == "Cura HP % ou valor":
+                print('* Cura ' + str(b.valor[0]) + '% do seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo, ou ' +
+                    str(b.valor[1]) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + ', o que for maior.')
+            
+            elif b.nome == "Cura Mana":
+                print('* Cura ' + str(b.valor) + ' de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.')
+            elif b.nome == "Cura Mana %":
+                print('* Cura ' + str(b.valor) + '% da sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima.')
+            elif b.nome == "Cura Mana % ou valor":
+                print('* Cura ' + str(b.valor[0]) + '% da sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima, ou ' +
+                    str(b.valor[1]) + ' de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ', o que for maior.')
+            
+            elif b.nome == "Regeneração HP":
+                print('* Cura ' + str(b.valor) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + ' ao longo de ' + 
+                    str(b.duracao) + ' turnos.')
+            elif b.nome == "Regeneração HP %":
+                print('* Cura ' + str(b.valor) + '% do seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo ao longo de ' +
+                    str(b.duracao) + ' turnos.')
+            
+            elif b.nome == "Aumento Ataque":
+                print('* Aumenta o ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'ATAQUE' + Style.RESET_ALL + ' em ' +
+                    str(b.valor) + ' por ' + str(b.duracao) + ' turnos.')
+            elif b.nome == "Aumento Defesa":
+                print('* Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' + Style.RESET_ALL + ' em ' +
+                    str(b.valor) + ' por ' + str(b.duracao) + ' turnos.')
+            elif b.nome == "Aumento Magia":
+                print('* Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'MAGIA' + Style.RESET_ALL + ' em ' +
+                    str(b.valor) + ' por ' + str(b.duracao) + ' turnos.')
+            elif b.nome == "Aumento Velocidade":
+                print('* Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL + ' em ' +
+                    str(b.valor) + ' por ' + str(b.duracao) + ' turnos.')
+
+            elif b.nome == "Cura Veneno":
+                print('* Cura o debuff de ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '.')
+
+        # Efeitos 'negativos' concedidos pelo item  
+        for d in item[1].debuffs:
+
+            if d.nome == "Dano todos inimigos":
+                print('* Causa ' + str(d.valor) + ' de dano a todos os inimigos.')
+            elif d.nome == "Lentidão todos inimigos":
+                print('* Causa ' + str(d.duracao) + ' turnos de ' + Style.BRIGHT + Back.BLACK + Fore.WHITE +
+                    'Lentidão' + Style.RESET_ALL + ' a todos os inimigos.')
+
+    else:
+        # Nível e Tipo
+        mensagem = 'Nível: {:2d} | Tipo: '.format(item[1].nivel)
+        print(mensagem, end = '')
+        print(RetornarTipo(item[1].tipo))
+
+        # Atributos concedidos pelo item
+        if item[1].maxHp > 0:
+            print('* ' + Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].maxHp} ' +
+                Fore.RED + 'HP' + Style.RESET_ALL)
+        elif item[1].maxHp < 0:
+            print('* ' + Fore.RED + '-' + Style.RESET_ALL + f'{item[1].maxHp} ' +
+                Fore.RED + 'HP' + Style.RESET_ALL)
+
+        if item[1].maxMana > 0:
+            print('* ' + Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].maxMana} ' +
+                Fore.BLUE + 'Mana' + Style.RESET_ALL)
+        elif item[1].maxMana < 0:
+            print('* ' + Fore.RED + '-' + Style.RESET_ALL + f'{item[1].maxMana} ' +
+                Fore.BLUE + 'Mana' + Style.RESET_ALL)
+
+        if item[1].ataque > 0:
+            print('* ' + Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].ataque} ' +
+                Style.BRIGHT + Back.BLACK + Fore.WHITE + 'ATAQUE' + Style.RESET_ALL)
+        elif item[1].ataque < 0:
+            print('* ' + Fore.RED + '-' + Style.RESET_ALL + f'{item[1].ataque} ' +
+                Style.BRIGHT + Back.BLACK + Fore.WHITE + 'ATAQUE' + Style.RESET_ALL)
+
+        if item[1].defesa > 0:
+            print('* ' + Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].defesa} ' +
+                Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' + Style.RESET_ALL)
+        elif item[1].defesa < 0:
+            print('* ' + Fore.RED + '-' + Style.RESET_ALL + f'{item[1].defesa} ' +
+                Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' + Style.RESET_ALL)
+
+        if item[1].magia > 0:
+            print('* ' + Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].magia} ' +
+                Style.BRIGHT + Back.BLACK + Fore.WHITE + 'MAGIA' + Style.RESET_ALL)
+        elif item[1].magia < 0:
+            print('* ' + Fore.RED + '-' + Style.RESET_ALL + f'{item[1].magia} ' +
+                Style.BRIGHT + Back.BLACK + Fore.WHITE + 'MAGIA' + Style.RESET_ALL)
+
+        if item[1].velocidade > 0:
+            print('* ' + Fore.GREEN + '+' + Style.RESET_ALL + f'{item[1].velocidade} ' +
+                Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL)
+        elif item[1].velocidade < 0:
+            print('* ' + Fore.RED + '-' + Style.RESET_ALL + f'{item[1].velocidade} ' +
+                Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL)
+
+    print('')
 
 ### Impressão de classes ###
 
