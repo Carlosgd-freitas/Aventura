@@ -11,12 +11,12 @@ def ErvaCurativa(quantidade, preco):
     """
 
     erva_efeito = efeito.Efeito("Cura HP", 3, 0, -1, 100)
-    erva = item.Item([erva_efeito], [], preco, quantidade, "Erva Curativa",
+    erva = item.Item([erva_efeito], [], preco, quantidade, "Consumível", True, "Erva Curativa",
         singular_plural = "singular", genero = "F",
         descricao = "Uma planta medicinal utilizada na fabricação de poções curativas. Quando crianças estão " + 
-            "brincando e se machucam, pais cuidadosos as fazem mascarem essa erva, apesar de seu gosto amargo.")
+            "brincando e se machucam, pais cuidadosos as\nfazem mascarem essa erva, apesar de seu gosto amargo.")
     
-    return ("Consumivel", erva)
+    return erva
 
 def MelAbelhoide(quantidade, preco):
     """
@@ -25,12 +25,12 @@ def MelAbelhoide(quantidade, preco):
     """
 
     mel_efeito = efeito.Efeito("Regeneração HP", 2, 1, 3, 100)
-    mel = item.Item([mel_efeito], [], preco, quantidade, "Mel de Abelhóide",
+    mel = item.Item([mel_efeito], [], preco, quantidade, "Consumível", True, "Mel de Abelhóide",
         singular_plural = "singular", genero = "M",
         descricao = "As abelhóides produzem esse mel após coletarem polén das plantas próximas a colméia em que " +
             "habitam.")
     
-    return ("Consumivel", mel)
+    return mel
 
 # Poções
 def PocaoPequenaCura(quantidade, preco):
@@ -40,12 +40,12 @@ def PocaoPequenaCura(quantidade, preco):
     """
 
     pocao_efeito = efeito.Efeito("Cura HP % ou valor", [25, 5], 0, -1, 100)
-    pocao = item.Item([pocao_efeito], [], preco, quantidade, "Poção Pequena de Cura",
+    pocao = item.Item([pocao_efeito], [], preco, quantidade, "Consumível", True, "Poção Pequena de Cura",
         singular_plural = "singular", genero = "F",
         descricao = "A poção curativa de preparo mais básico - comumente utilizada como tutorial para botanistas " +
             "e alquimistas iniciantes.")
     
-    return ("Consumivel", pocao)
+    return pocao
 
 def PocaoPequenaMana(quantidade, preco):
     """
@@ -54,13 +54,13 @@ def PocaoPequenaMana(quantidade, preco):
     """
 
     pocao_efeito = efeito.Efeito("Cura Mana % ou valor", [25, 5], 0, -1, 100)
-    pocao = item.Item([pocao_efeito], [], preco, quantidade, "Poção Pequena de Mana",
+    pocao = item.Item([pocao_efeito], [], preco, quantidade, "Consumível", True, "Poção Pequena de Mana",
         singular_plural = "singular", genero = "F",
         descricao = "Uma pequena mudança no preparo de uma poção de cura fará com que o usuário recupere sua mana" +
             " em vez de fechar suas feridas. Este princípio básico\nda magia foi revolucionário na época, mas o que" +
             " tinha chamado atenção mesmo foi que a poção mudou de cor para azul.")
 
-    return ("Consumivel", pocao)
+    return pocao
 
 def PocaoPequenaRegeneracao(quantidade, preco):
     """
@@ -69,12 +69,12 @@ def PocaoPequenaRegeneracao(quantidade, preco):
     """
 
     pocao_efeito = efeito.Efeito("Regeneração HP %", 10, 1, 3, 100)
-    pocao = item.Item([pocao_efeito], [], preco, quantidade, "Poção Pequena de Regeneração",
+    pocao = item.Item([pocao_efeito], [], preco, quantidade, "Consumível", True, "Poção Pequena de Regeneração",
         singular_plural = "singular", genero = "F",
         descricao = "Ao retardar o efeito de cura, o usuário irá se sentir mais recuperado no fim das contas. Dê " +
             "tempo ao tempo ou algo do tipo.")
     
-    return ("Consumivel", pocao)
+    return pocao
 
 # Elixires
 def ElixirPequeno(atributo, quantidade, preco):
@@ -96,10 +96,10 @@ def ElixirPequeno(atributo, quantidade, preco):
         descricao = "Praticamente cafeína concentrada."
 
     elixir_efeito = efeito.Efeito("Aumento " + atributo, 3, 1, 5, 100)
-    elixir = item.Item([elixir_efeito], [], preco, quantidade, "Elixir Pequeno de " + atributo,
-        singular_plural = "singular", genero = "M", descricao = descricao)
+    elixir = item.Item([elixir_efeito], [], preco, quantidade, "Consumível", False,
+        "Elixir Pequeno de " + atributo, singular_plural = "singular", genero = "M", descricao = descricao)
     
-    return ("Consumivel", elixir)
+    return elixir
 
 # Miscelâneo
 def Antidoto(quantidade, preco):
@@ -109,12 +109,12 @@ def Antidoto(quantidade, preco):
     """
 
     antidoto_efeito = efeito.Efeito("Cura Veneno", 0, 0, -1, 100)
-    antidoto = item.Item([antidoto_efeito], [], preco, quantidade, "Antídoto",
+    antidoto = item.Item([antidoto_efeito], [], preco, quantidade, "Consumível", True, "Antídoto",
         singular_plural = "singular", genero = "M",
         descricao = "Apesar de parecer simples, este andídoto é efetivo contra o envenenamento causado pelas mais" +
             " variadas espécies.")
     
-    return ("Consumivel", antidoto)
+    return antidoto
 
 # Bombas
 def BombaInferior(quantidade, preco):
@@ -124,11 +124,11 @@ def BombaInferior(quantidade, preco):
     """
 
     bomba_efeito = efeito.Efeito("Dano todos inimigos", 5, 0, -1, 100)
-    bomba = item.Item([], [bomba_efeito], preco, quantidade, "Bomba Inferior",
+    bomba = item.Item([], [bomba_efeito], preco, quantidade, "Consumível", False, "Bomba Inferior",
         singular_plural = "singular", genero = "F",
         descricao = "Uma esfera metálica recheada de pólvora.")
     
-    return ("Consumivel", bomba)
+    return bomba
 
 def BombaGrudentaInferior(quantidade, preco):
     """
@@ -140,9 +140,9 @@ def BombaGrudentaInferior(quantidade, preco):
     bomba_dano = efeito.Efeito("Dano todos inimigos", 3, 0, -1, 100)
     bomba_lentidao = efeito.Efeito("Lentidão todos inimigos", 0, 1, 5, 100)
 
-    bomba = item.Item([], [bomba_dano, bomba_lentidao], preco, quantidade, "Bomba Grudenta Inferior",
-        singular_plural = "singular", genero = "F",
+    bomba = item.Item([], [bomba_dano, bomba_lentidao], preco, quantidade, "Consumível", False,
+        "Bomba Grudenta Inferior", singular_plural = "singular", genero = "F",
         descricao = "Apesar de causar menos dano que uma bomba comum, seu conteúdo pegajoso fará com que os " +
             "inimigos tenham dificuldade em tentar te matar rápido.")
     
-    return ("Consumivel", bomba)
+    return bomba

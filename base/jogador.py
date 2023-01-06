@@ -42,8 +42,8 @@ class Jogador(criatura.Criatura):
         """
 
         for item in self.inventario:
-            if item[1].nome == novo_item[1].nome:
-                item[1].quantidade += novo_item[1].quantidade
+            if item.nome == novo_item.nome:
+                item.quantidade += novo_item.quantidade
                 return
         
         self.inventario.append(novo_item)
@@ -156,7 +156,7 @@ class Jogador(criatura.Criatura):
         indice = 0
 
         for i in self.inventario:
-            if i[1].nome == item_nome:
+            if i.nome == item_nome:
                 valor = indice
                 break
             indice += 1
@@ -185,7 +185,7 @@ class Jogador(criatura.Criatura):
 
         for item in self.inventario:
 
-            if (condicao_1) or (condicao_2 and item[0] == classificacao) or (condicao_3 and item[1].nivel <= nivel) or (condicao_4 and item[0] == classificacao and item[1].nivel <= nivel):
+            if (condicao_1) or (condicao_2 and item.classificacao == classificacao) or (condicao_3 and item.nivel <= nivel) or (condicao_4 and item.classificacao == classificacao and item.nivel <= nivel):
                 cont += 1
         
         return cont
@@ -199,7 +199,7 @@ class Jogador(criatura.Criatura):
         nova_lista = []
 
         for item in lista:
-            item_clonado = (item[0], item[1].ClonarItem())
+            item_clonado = item.ClonarItem()
             nova_lista.append(item_clonado)
 
         return nova_lista

@@ -522,8 +522,8 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
         indice_2 = 0
         for espolio_2 in lista_espolios:
 
-            if espolio_1[1].nome == espolio_2[1].nome and indice_1 != indice_2:
-                espolio_1[1].quantidade += espolio_2[1].quantidade
+            if espolio_1.nome == espolio_2.nome and indice_1 != indice_2:
+                espolio_1.quantidade += espolio_2.quantidade
                 lista_espolios.remove(espolio_2)
             
             indice_2 += 1

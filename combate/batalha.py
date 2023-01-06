@@ -137,17 +137,17 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
 
         else:
             for e in espolios:
-                if e[0] == "Ouro":
-                    jogador.ouro += e[1].quantidade
-                    print(f'Você ganhou {e[1].quantidade} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + '.')
+                if e.classificacao == "Ouro":
+                    jogador.ouro += e.quantidade
+                    print(f'Você ganhou {e.quantidade} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + '.')
 
-                elif e[0] == "Experiencia":
-                    jogador.experiencia += e[1].quantidade
-                    print(f'Você ganhou {e[1].quantidade} de experiência.')
+                elif e.classificacao == "Experiência":
+                    jogador.experiencia += e.quantidade
+                    print(f'Você ganhou {e.quantidade} de experiência.')
                 
                 else:
                     jogador.AdicionarAoInventario(e)
-                    print(f'Você ganhou {e[1].quantidade} {e[1].nome}.')
+                    print(f'Você ganhou {e.quantidade} {e.nome}.')
     
     if acabou == 1 or acabou == 2:
         mecanicas.TerminarBuffsDebuffs(jogador)
@@ -238,7 +238,7 @@ def JogadorVez(jogador, criaturas, correr = True):
 
         # Usar um item consumível do inventário
         elif op == 3:
-            if jogador.ContarItens("Consumivel") > 0:
+            if jogador.ContarItens("Consumível") > 0:
             
                 indice = jogador_acoes.EscolherConsumivel(jogador)
 

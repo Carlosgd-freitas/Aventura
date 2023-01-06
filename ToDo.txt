@@ -3,9 +3,6 @@
 > Programação
 * "Envenenamento" deve ser aplicado a todas as habilidades, e não somente ao ataque normal
 * Mudar a impressão das habilidades
-* Campo 'usar_fora_batalha' na classe item, em vez de comparar nomes como em menu_inventario.py
-* Campo 'classificacao' na classe item, em vez de uma tupla (classificacao, item)
-	- Usar a string 'consumível' em vez de 'consumivel'
 
 > Jogabilidade
 * Bestiário

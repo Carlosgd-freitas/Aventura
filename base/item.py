@@ -4,10 +4,11 @@ class Item(basico.Base):
     """
     Esta classe serve para itens consumíveis e equipamentos.
     """
-    def __init__(self, buffs = [], debuffs = [], preco = 0, quantidade = 0, nome = "default", descricao = "default",
-                tipo = "default", nivel = 0, experiencia = 0, maxHp = 0, hp = 0,  maxMana = 0, mana = 0, ataque = 0,
-                defesa = 0, magia = 0, velocidade = 0, singular_plural = "default", genero = "default",
-                chance_critico = 0.0, multiplicador_critico = 1.0):
+    def __init__(self, buffs = [], debuffs = [], preco = 0, quantidade = 0, classificacao = "default",
+        fora_batalha = False, nome = "default", descricao = "default", tipo = "default", nivel = 0,
+        experiencia = 0, maxHp = 0, hp = 0,  maxMana = 0, mana = 0, ataque = 0, defesa = 0, magia = 0,
+        velocidade = 0, singular_plural = "default", genero = "default", chance_critico = 0.0,
+        multiplicador_critico = 1.0):
         """
         Inicializador da classe.
         """
@@ -23,12 +24,11 @@ class Item(basico.Base):
         # Quantidade do Item
         self.quantidade = quantidade
 
-        # Caso uma quantidade for especificada no construtor, mas não se o item é singular ou plural, a operação
-        # de set do último será feita automaticamente
-        if quantidade == 1 and singular_plural == "default":
-            singular_plural = "singular"
-        elif quantidade > 1 and singular_plural == "default":
-            singular_plural = "plural"
+        # Classificação do Item (Consumível, Peitoral, Uma Mão...)
+        self.classificacao = classificacao
+
+        # Se o item pode ser usado fora de batalha
+        self.fora_batalha = fora_batalha
 
         super(Item, self).__init__(nome, descricao, tipo, nivel, experiencia, maxHp, hp, maxMana, mana,
             ataque, defesa, magia, velocidade, singular_plural, genero, chance_critico, multiplicador_critico)
@@ -40,6 +40,8 @@ class Item(basico.Base):
 
         preco = self.preco
         quantidade = self.quantidade
+        classificacao = self.classificacao
+        fora_batalha = self.fora_batalha
 
         nome = self.nome
         descricao = self.descricao
@@ -72,8 +74,8 @@ class Item(basico.Base):
             d_2 = d.ClonarEfeito()
             debuffs.append(d_2)
 
-        item_2 = Item(buffs, debuffs, preco, quantidade, nome, descricao, tipo, nivel, experiencia, maxHp, hp,
-            maxMana, mana, ataque, defesa, magia, velocidade, singular_plural, genero, chance_critico,
-            multiplicador_critico)
+        item_2 = Item(buffs, debuffs, preco, quantidade, classificacao, fora_batalha, nome, descricao, tipo,
+            nivel, experiencia, maxHp, hp, maxMana, mana, ataque, defesa, magia, velocidade, singular_plural,
+            genero, chance_critico, multiplicador_critico)
 
         return item_2

@@ -205,6 +205,9 @@ class NotasAtualizacao():
         """
 
         self.titulo('----------------------------------- Alpha Versão 0.0.5 -----------------------------------')
+        print('\nItens')
+        self.neutro('Espada renomeada para Espada de Aço.')
+
         print('\nOutros')
         self.neutro('As descrições dos itens consumíveis foi refeita.')
 

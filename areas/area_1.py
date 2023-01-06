@@ -87,7 +87,7 @@ class Area_1(area.Area):
         loja_armamentos_itens = []
 
         # Armas e Escudos
-        espada = equipamentos.Espada(5, 5)
+        espada = equipamentos.EspadaAco(5, 5)
         loja_armamentos_itens.append(espada)
 
         cajado_aprendiz = equipamentos.CajadoAprendiz(5, 5)

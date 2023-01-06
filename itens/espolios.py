@@ -8,20 +8,22 @@ def Ouro(quantidade):
     Cria <quantidade> de ouro.
     """
 
-    ouro = item.Item(nome = "Ouro", quantidade = quantidade, singular_plural = "singular", genero = "M",
+    ouro = item.Item(nome = "Ouro", quantidade = quantidade, classificacao = "Ouro", fora_batalha = False,
+        singular_plural = "singular", genero = "M",
         descricao = "Peças de ouro aceitas como moeda por todo o mundo.")
 
-    return ("Ouro", ouro)
+    return ouro
 
 def Experiencia(quantidade):
     """
     Cria <quantidade> de experiência.
     """
 
-    exp = item.Item(nome = "Experiência", quantidade = quantidade, singular_plural = "singular", genero = "F", 
+    exp = item.Item(nome = "Experiência", quantidade = quantidade, classificacao = "Experiência",
+        fora_batalha = False, singular_plural = "singular", genero = "F", 
         descricao = "Pontos de experiência que se acumulam para subir o nível de uma criatura.")
 
-    return ("Experiencia", exp)
+    return exp
 
 def FluidoSlime(quantidade, preco):
     """
@@ -29,10 +31,10 @@ def FluidoSlime(quantidade, preco):
     """
 
     fluido = item.Item(nome = "Fluido de Slime", quantidade = quantidade, preco = preco,
-        singular_plural = "singular", genero = "M",
+        classificacao = "Material", fora_batalha = False, singular_plural = "singular", genero = "M",
         descricao = "Uma parte viscosa e um pouco ácida do interior de um Slime derrotado.")
 
-    return ("Material", fluido)
+    return fluido
 
 def GlandulaVenenosa(quantidade, preco):
     """
@@ -40,10 +42,10 @@ def GlandulaVenenosa(quantidade, preco):
     """
 
     glandula = item.Item(nome = "Glândula Venenosa", quantidade = quantidade, preco = preco,
-        singular_plural = "singular", genero = "F",
+        classificacao = "Material", fora_batalha = False, singular_plural = "singular", genero = "F",
         descricao = "Uma glândula responsável por produzir veneno.")
 
-    return ("Material", glandula)
+    return glandula
 
 def CarapacaTortuga(quantidade, preco):
     """
@@ -51,10 +53,10 @@ def CarapacaTortuga(quantidade, preco):
     """
 
     casco = item.Item(nome = "Carapaça de Tortuga", quantidade = quantidade, preco = preco,
-        singular_plural = "singular", genero = "F",
+        classificacao = "Material", fora_batalha = False, singular_plural = "singular", genero = "F",
         descricao = "A parte resistente do casco de uma Tortuga.")
 
-    return ("Material", casco)
+    return casco
 
 def RubiFogo(quantidade, preco):
     """
@@ -62,7 +64,7 @@ def RubiFogo(quantidade, preco):
     """
 
     rubi = item.Item(nome = "Rubi de Fogo", quantidade = quantidade, preco = preco,
-        singular_plural = "singular", genero = "M",
+        classificacao = "Material", fora_batalha = False, singular_plural = "singular", genero = "M",
         descricao = "Uma pedra preciosa vermelha, útil para ferreiros, que emana magia do tipo Fogo.")
 
-    return ("Material", rubi)
+    return rubi

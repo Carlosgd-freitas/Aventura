@@ -39,8 +39,8 @@ def EscolherConsumivel(jogador):
     print('\nEscolha qual consumível deseja usar:')
     for item in jogador.inventario:
 
-        if item[0] == "Consumivel":
-            print(f'[{indice_print}] {item[1].nome} - Quantidade: {item[1].quantidade}')
+        if item.classificacao == "Consumível":
+            print(f'[{indice_print}] {item.nome} - Quantidade: {item.quantidade}')
             relacao.append((indice_print, indice_item))
             indice_print += 1
 
@@ -51,7 +51,7 @@ def EscolherConsumivel(jogador):
     while True:
         escolha = utils.LerNumero('> ')
 
-        if escolha >= 0 and escolha <= jogador.ContarItens("Consumivel"):
+        if escolha >= 0 and escolha <= jogador.ContarItens("Consumível"):
             break
     
     # Mapeando a escolha para um índice do inventario
@@ -76,19 +76,19 @@ def ValidaUsoConsumivel(jogador, item):
     valido = True
 
     # Usar itens com o hp cheio: Poções de Cura, Poções de Regeneração, Erva Curativa ou Mel de Abelhóide
-    if jogador.hp == jogador.maxHp and (item[1].nome == "Poção Pequena de Cura" or \
-        item[1].nome == "Poção Pequena de Regeneração" or item[1].nome == "Erva Curativa" or \
-        item[1].nome == "Mel de Abelhóide"):
+    if jogador.hp == jogador.maxHp and (item.nome == "Poção Pequena de Cura" or \
+        item.nome == "Poção Pequena de Regeneração" or item.nome == "Erva Curativa" or \
+        item.nome == "Mel de Abelhóide"):
         print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.')
         valido = False
     
     # Poções de Mana com a mana cheia
-    elif jogador.mana == jogador.maxMana and item[1].nome == "Poção Pequena de Mana":
+    elif jogador.mana == jogador.maxMana and item.nome == "Poção Pequena de Mana":
         print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' já está maximizada.')
         valido = False
     
     # Antídoto sem estar envenenado
-    elif jogador.EfeitoPresente("debuff", "Veneno") == -1 and item[1].nome == "Antídoto":
+    elif jogador.EfeitoPresente("debuff", "Veneno") == -1 and item.nome == "Antídoto":
 
         if jogador.genero == "M":
             print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
@@ -112,7 +112,7 @@ def UsarConsumivel(jogador, indice, inimigos = None, fora_combate = False):
     - fora_combate: se igual a True, o item cosumível não foi usado em combate. O valor padrão é False.
     """
 
-    item = jogador.inventario[indice][1]
+    item = jogador.inventario[indice]
 
     # Processando os buffs que o item concede
     for buff in item.buffs:

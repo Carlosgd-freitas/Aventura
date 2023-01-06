@@ -116,10 +116,10 @@ class Area():
                 alinhamento = ("left", "center", "center", "center")
                 for i, item in enumerate(vendedor):
                     t = []
-                    t.append(f'[{i+1}] ' + item[1].nome) # Índice + Nome
-                    t.append(item[1].quantidade)         # Quantidade
-                    t.append(item[1].preco)              # Preço
-                    t.append(item[0])                    # Classificação
+                    t.append(f'[{i+1}] ' + item.nome) # Índice + Nome
+                    t.append(item.quantidade)         # Quantidade
+                    t.append(item.preco)              # Preço
+                    t.append(item.classificacao)                    # Classificação
                     tabela.append(t)
                 print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
                 print('\n[0] Voltar ao menu anterior')
@@ -141,15 +141,15 @@ class Area():
                     imprimir.ImprimirItemDetalhado(item)
 
                     if venda_compra == "Compra":
-                        print(f'Deseja comprar quanto de {item[1].nome}?')
+                        print(f'Deseja comprar quanto de {item.nome}?')
                     else:
-                        print(f'Deseja vender quanto de {item[1].nome}?')
+                        print(f'Deseja vender quanto de {item.nome}?')
 
                     # Jogador escolhendo a quantidade do item que quer vender
                     while True:
                         escolha_quantidade = utils.LerNumero('> ')
 
-                        if escolha_quantidade >= 0 and escolha_quantidade <= item[1].quantidade:
+                        if escolha_quantidade >= 0 and escolha_quantidade <= item.quantidade:
                             break
 
                     # Jogador confirmou a compra/venda
@@ -157,44 +157,44 @@ class Area():
 
                         if venda_compra == "Venda":
 
-                            item_vendido = item[1].ClonarItem()
-                            item_vendido = (item[0], item_vendido)
+                            item_vendido = item.ClonarItem()
+                            item_vendido = (item.classificacao, item_vendido)
 
-                            item_vendido[1].preco = (item_vendido[1].preco * 2) + 1
-                            item_vendido[1].quantidade = escolha_quantidade
+                            item_vendido.preco = (item_vendido.preco * 2) + 1
+                            item_vendido.quantidade = escolha_quantidade
                             self.AdicionarAoEstoque(item_vendido, loja_itens)
 
-                            jogador.ouro += escolha_quantidade * item[1].preco
-                            item[1].quantidade -= escolha_quantidade
-                            if item[1].quantidade == 0:
+                            jogador.ouro += escolha_quantidade * item.preco
+                            item.quantidade -= escolha_quantidade
+                            if item.quantidade == 0:
                                 jogador.inventario.remove(item)
 
-                            print(f'Você vendeu {escolha_quantidade} {item_vendido[1].nome}.')
+                            print(f'Você vendeu {escolha_quantidade} {item_vendido.nome}.')
 
                             operacao_realizada = 1
                     
                         # Compra -> Jogador tem ouro suficiente
-                        elif venda_compra == "Compra" and jogador.ouro >= escolha_quantidade * item[1].preco:
+                        elif venda_compra == "Compra" and jogador.ouro >= escolha_quantidade * item.preco:
 
-                            item_comprado = item[1].ClonarItem()
-                            item_comprado = (item[0], item_comprado)
+                            item_comprado = item.ClonarItem()
+                            item_comprado = (item.classificacao, item_comprado)
 
-                            item_comprado[1].preco = math.floor(item_comprado[1].preco / 2)
-                            item_comprado[1].quantidade = escolha_quantidade
-                            jogador.ouro -= escolha_quantidade * item[1].preco
+                            item_comprado.preco = math.floor(item_comprado.preco / 2)
+                            item_comprado.quantidade = escolha_quantidade
+                            jogador.ouro -= escolha_quantidade * item.preco
                             jogador.AdicionarAoInventario(item_comprado)
 
-                            item[1].quantidade -= escolha_quantidade
-                            if item[1].quantidade == 0:
+                            item.quantidade -= escolha_quantidade
+                            if item.quantidade == 0:
                                 loja_itens.remove(item)
 
-                            print(f'Você comprou {escolha_quantidade} {item_comprado[1].nome}.')
+                            print(f'Você comprou {escolha_quantidade} {item_comprado.nome}.')
 
                             operacao_realizada = 1
                         
                         # Compra -> Jogador não tem ouro suficiente
                         else:
-                            print(f'Você não tem ouro suficiente para comprar {escolha_quantidade} {item[1].nome}.')
+                            print(f'Você não tem ouro suficiente para comprar {escolha_quantidade} {item.nome}.')
         
             elif venda_compra == "Compra":
                 print('Não há mais itens à venda na loja.')
@@ -214,8 +214,8 @@ class Area():
         """
 
         for item in loja_itens:
-            if item[1].nome == novo_item[1].nome:
-                item[1].quantidade += novo_item[1].quantidade
+            if item.nome == novo_item.nome:
+                item.quantidade += novo_item.quantidade
                 return
         
         loja_itens.append(novo_item)

@@ -31,10 +31,10 @@ def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
         item = jogador.inventario[item_indice]
         
         t = []
-        t.append(f'[{item_indice+1}] ' + item[1].nome) # Índice + Nome
-        t.append(item[1].quantidade)                   # Quantidade
-        t.append(item[1].preco)                        # Preço
-        t.append(item[0])                              # Classificação
+        t.append(f'[{item_indice+1}] ' + item.nome) # Índice + Nome
+        t.append(item.quantidade)                   # Quantidade
+        t.append(item.preco)                        # Preço
+        t.append(item.classificacao)                # Classificação
         tabela.append(t)
 
         item_indice += 1
@@ -142,12 +142,7 @@ def MenuInventario(jogador):
 
                     # Usar item
                     elif op == 2:
-                        if item_escolhido[1].nome == "Erva Curativa" or \
-                            item_escolhido[1].nome == "Mel de Abelhóide" or \
-                            item_escolhido[1].nome == "Poção Pequena de Cura" or \
-                            item_escolhido[1].nome == "Poção Pequena de Mana" or \
-                            item_escolhido[1].nome == "Poção Pequena de Regeneração" or \
-                            item_escolhido[1].nome == "Antídoto":
+                        if item_escolhido.fora_batalha == True:
                             valido = jogador_acoes.ValidaUsoConsumivel(jogador, item_escolhido)
 
                             if valido:
@@ -169,10 +164,10 @@ def MenuInventario(jogador):
                             if escolha_quantidade == 0:
                                 break
 
-                            elif escolha_quantidade > 0 and escolha_quantidade <= item_escolhido[1].quantidade:
-                                item_escolhido[1].quantidade -= escolha_quantidade
+                            elif escolha_quantidade > 0 and escolha_quantidade <= item_escolhido.quantidade:
+                                item_escolhido.quantidade -= escolha_quantidade
 
-                                if item_escolhido[1].quantidade <= 0:
+                                if item_escolhido.quantidade <= 0:
                                     jogador.inventario.remove(item_escolhido)
 
                                 break
