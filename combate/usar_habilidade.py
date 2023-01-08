@@ -30,26 +30,50 @@ def AlvoUnico(atacante, alvo, habilidade):
     Utiliza uma habilidade em um único alvo e retorna o dano infligido.
     """
 
-    dano = mecanicas.CalcularDano(atacante, alvo, habilidade)
-
-    if not habilidade.nao_causa_dano:
-        alvo.hp -= dano
-
     # Custos da habilidade
     ContabilizarCusto(atacante, habilidade)
     
-    # Adicionando efeitos ao ataque normal temporariamente
-    for h in atacante.habilidades:
-        if h.nome == "Envenenamento":
-            efeito = h.efeitos[0]
-            atacante.habilidades[0].efeitos.append(efeito)
-    
+    # Ativando o efeito de certas habilidades passivas
+    efeitos_originais = None
+    flag_veneno = 0
+
+    if atacante.HabilidadePresente("Envenenamento") != -1:
+        indice = atacante.HabilidadePresente("Envenenamento")
+        h = atacante.habilidades[indice]
+        efeito_envenenamento = h.efeitos[0]
+
+        # A habilidade usada já possui Veneno: aumenta a chance do efeito
+        if habilidade.RetornarEfeito('Veneno') is not None:
+            flag_veneno = 1
+
+            efeito_habilidade = habilidade.RetornarEfeito('Veneno')
+            efeito_habilidade.chance += efeito_envenenamento.chance
+
+        #  A habilidade usada não possui Veneno: passa a ter o Veneno de 'Envenenamento'
+        else:
+            flag_veneno = 2
+
+            efeitos_originais = []
+            for e in habilidade.efeitos:
+                efeitos_originais.append(e.ClonarEfeito())
+
+            habilidade.efeitos.append(efeito_envenenamento)
+
+    # Calculando o dano que será aplicado ao Alvo
+    dano = mecanicas.CalcularDano(atacante, alvo, habilidade)
+    if not habilidade.nao_causa_dano:
+        alvo.hp -= dano
+
     # Aplicando Debuffs no Alvo
     for e in habilidade.efeitos:
         utils.ProcessarEfeito(atacante, e, alvo, habilidade = habilidade)
     
-    # Removendo os efeitos temporários do ataque normal
-    atacante.habilidades[0].efeitos = []
+    # Retornando possíveis alterações na habilidade
+    if flag_veneno == 1:
+        efeito_habilidade.chance -= efeito_envenenamento.chance
+
+    elif flag_veneno == 2:
+        habilidade.efeitos = efeitos_originais
 
     # Zerando a recarga atual da habilidade
     habilidade.recarga_atual = -1
@@ -63,15 +87,35 @@ def AlvoMultiplo(atacante, alvos, habilidade):
 
     # Custos da habilidade
     ContabilizarCusto(atacante, habilidade)
-    
-    # Adicionando efeitos ao ataque normal temporariamente
-    for h in atacante.habilidades:
-        if h.nome == "Envenenamento":
-            efeito = h.efeitos[0]
-            atacante.habilidades[0].efeitos.append(efeito)
 
+    # Ativando o efeito de certas habilidades passivas
+    efeitos_originais = None
+    flag_veneno = 0
+
+    if atacante.HabilidadePresente("Envenenamento") != -1:
+        indice = atacante.HabilidadePresente("Envenenamento")
+        h = atacante.habilidades[indice]
+        efeito_envenenamento = h.efeitos[0]
+
+        # A habilidade usada já possui Veneno: aumenta a chance do efeito
+        if habilidade.RetornarEfeito('Veneno') is not None:
+            flag_veneno = 1
+
+            efeito_habilidade = habilidade.RetornarEfeito('Veneno')
+            efeito_habilidade.chance += efeito_envenenamento.chance
+
+        #  A habilidade usada não possui Veneno: passa a ter o Veneno de 'Envenenamento'
+        else:
+            flag_veneno = 2
+
+            efeitos_originais = []
+            for e in habilidade.efeitos:
+                efeitos_originais.append(e.ClonarEfeito())
+
+            habilidade.efeitos.append(efeito_envenenamento)
+
+    # Calculando o dano que será aplicado aos Alvos
     danos = []
-
     for alvo in alvos:
         dano = mecanicas.CalcularDano(atacante, alvo, habilidade)
         danos.append(dano)
@@ -82,10 +126,14 @@ def AlvoMultiplo(atacante, alvos, habilidade):
         # Aplicando Debuffs no Alvo
         for e in habilidade.efeitos:
             utils.ProcessarEfeito(atacante, e, alvo, habilidade = habilidade)
-        
-    # Removendo os efeitos temporários do ataque normal
-    atacante.habilidades[0].efeitos = []
 
+    # Retornando possíveis alterações na habilidade
+    if flag_veneno == 1:
+        efeito_habilidade.chance -= efeito_envenenamento.chance
+
+    elif flag_veneno == 2:
+        habilidade.efeitos = efeitos_originais
+        
     # Zerando a recarga atual da habilidade
     habilidade.recarga_atual = -1
 

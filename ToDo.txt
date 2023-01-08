@@ -1,8 +1,9 @@
 ===== Alpha v0.0.5 =====
 
 > Programação
-* "Envenenamento" deve ser aplicado a todas as habilidades, e não somente ao ataque normal
 * Mudar a impressão das habilidades
+* Refazer AlvoUnico, AlvoMultiplo, AlvoProprio
+* Método __str__ para todas as classes em base
 
 > Jogabilidade
 * Bestiário
@@ -23,7 +24,6 @@
 * Um inimigo raro para a colméia
 
 > Itens
-* Amuleto anti-envenenamento
 * Robe de Seda
 
 > Habilidades
@@ -40,7 +40,7 @@
 
 > Programação
 * Retirar as mensagens de decaimento "regen irá durar mais X turnos" (não as de quando o regen stacka)
-* Refazer como os efeitos de buff e debuff se stackam
+* Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
 	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
 	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
 * Jogo retorna ao menu inicial quando erros acontecem em vez de fechar

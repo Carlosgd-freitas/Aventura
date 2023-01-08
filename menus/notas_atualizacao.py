@@ -28,15 +28,19 @@ class NotasAtualizacao():
             else:
                 # Imprimindo Versão Atual
                 if pagina == 0:
+                    self.alphaV005(self)
+                    print('')
+
+                # Imprimindo Outras Versões
+                if pagina == 1:
                     self.alphaV004(self)
                     print('')
                 
-                # Imprimindo Outras Versões
-                if pagina == 1:
+                if pagina == 2:
                     self.alphaV003(self)
                     print('')
                     
-                elif pagina == 2:
+                elif pagina == 3:
                     self.alphaV002(self)
                     print('')
                     self.alphaV001(self)
@@ -205,7 +209,11 @@ class NotasAtualizacao():
         """
 
         self.titulo('----------------------------------- Alpha Versão 0.0.5 -----------------------------------')
+        print('\nHabilidades')
+        self.positivo("A chance de envenenar um alvo ao atacar pela habilidade 'Envenenamento' será aplicada a todas as habilidades.")
+
         print('\nItens')
+        self.positivo('Amuleto de Esmeralda adicionado.')
         self.neutro('Espada renomeada para Espada de Aço.')
 
         print('\nOutros')

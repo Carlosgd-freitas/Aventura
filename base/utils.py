@@ -312,8 +312,11 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
     - fora_combate: se igual a True, o efeito sendo processado não foi causado em combate. O valor padrão é False.
     """
 
+    # Alguns efeitos terão sua chance calculada posteriormente
+    if efeito.nome == "Veneno":
+        pass
     # Se o efeito veio de uma habilidade e possui uma % de acontecer
-    if (habilidade is not None) and (not CalcularChance(efeito.chance / 100)):
+    elif (habilidade is not None) and (not CalcularChance(efeito.chance / 100)):
         return
 
     # Flags para efeitos de item
@@ -581,10 +584,29 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
             print(mensagem)
 
     elif efeito.nome == "Veneno":
-        veneno = efeito.ClonarEfeito()
-        alvo.debuffs.append(veneno)
-        print(f'{usuario.nome} ' + Fore.GREEN + 'envenenou' + Style.RESET_ALL + f' {alvo.nome}!')
-        alvo.CombinarEfeito("Veneno")
+
+        chance_veneno = efeito.chance
+        chance_resistencia = 0
+
+        # Calculando a chance de resistir ao veneno
+        indice = alvo.EfeitoPresente('buff', 'Resistência Veneno')
+        if indice != -1:
+            chance_resistencia += alvo.buffs[indice].valor
+
+        indice = alvo.EfeitoPresente('buff', 'Equipamento:Resistência Veneno')
+        if indice != -1:
+            chance_resistencia += alvo.buffs[indice].valor
+        
+        if chance_resistencia > 1:
+            chance_resistencia = 1
+
+        chance = chance_veneno * (1 - chance_resistencia)
+
+        if CalcularChance(chance):
+            veneno = efeito.ClonarEfeito()
+            alvo.debuffs.append(veneno)
+            print(f'{usuario.nome} ' + Fore.GREEN + 'envenenou' + Style.RESET_ALL + f' {alvo.nome}!')
+            alvo.CombinarEfeito("Veneno")
     
     elif efeito.nome == "Atordoamento":
         atordoamento = efeito.ClonarEfeito()

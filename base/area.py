@@ -158,7 +158,6 @@ class Area():
                         if venda_compra == "Venda":
 
                             item_vendido = item.ClonarItem()
-                            item_vendido = (item.classificacao, item_vendido)
 
                             item_vendido.preco = (item_vendido.preco * 2) + 1
                             item_vendido.quantidade = escolha_quantidade
@@ -177,7 +176,6 @@ class Area():
                         elif venda_compra == "Compra" and jogador.ouro >= escolha_quantidade * item.preco:
 
                             item_comprado = item.ClonarItem()
-                            item_comprado = (item.classificacao, item_comprado)
 
                             item_comprado.preco = math.floor(item_comprado.preco / 2)
                             item_comprado.quantidade = escolha_quantidade

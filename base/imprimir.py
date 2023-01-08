@@ -197,6 +197,11 @@ def ImprimirItemDetalhado(item):
         elif item.velocidade < 0:
             print('* ' + Fore.RED + '-' + Style.RESET_ALL + f'{item.velocidade} ' +
                 Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL)
+        
+        # Efeitos 'positivos' concedidos pelo item
+        for b in item.buffs:
+            if b.nome == "Resistência Veneno" or b.nome == "Equipamento:Resistência Veneno":
+                print('* Resistência a ' + Fore.GREEN + 'Veneno' + Style.RESET_ALL + ': ' + str(b.valor * 100) + '%')
 
     print('')
 
@@ -216,6 +221,8 @@ def ImprimirEfeitos(criatura, espaco = True):
 
     c_buffs = criatura.ContarEfeitos("buff")
     c_debuffs = criatura.ContarEfeitos("debuff")
+
+    res_veneno = 0
 
     # Buffs presentes na criatura
     if len(c_buffs) > 0:
@@ -245,6 +252,10 @@ def ImprimirEfeitos(criatura, espaco = True):
             
             elif criatura.buffs[b].nome == "Regeneração HP" or criatura.buffs[b].nome == "Regeneração HP %":
                 print('REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL, end = '')
+            
+            elif (criatura.buffs[b].nome == "Resistência Veneno" or criatura.buffs[b].nome == "Equipamento:Resistência Veneno") and (res_veneno == 0):
+                print(Fore.RED + '-' + Fore.GREEN + 'VENENO' + Style.RESET_ALL + '%', end = '')
+                res_veneno = 1
 
             if i != len(c_buffs) - 1:
                 print(' | ', end = '')
@@ -255,6 +266,8 @@ def ImprimirEfeitos(criatura, espaco = True):
     if len(c_debuffs) > 0:
 
         if espaco and len(c_buffs) == 0:
+            print(' ', end = '')
+        elif len(c_buffs) > 0:
             print(' ', end = '')
         print('[', end = '')
 
@@ -333,6 +346,29 @@ def ImprimirJogador(jogador):
 
     print(mensagem, end = '')
     ImprimirEfeitos(jogador)
+
+def ImprimirEfeitosEquipamentos(jogador):
+    """
+    Imprime os efeitos concedidos pelos equipamentos do jogador. Retorna True se algum efeito foi impresso e False caso contrário.
+    """
+
+    efeitos = {}
+    imprimiu = False
+
+    # Contabilizando efeitos
+    for e in jogador.equipados:
+        for b in e.buffs:
+            if (b.nome == "Resistência Veneno" or b.nome == "Equipamento:Resistência Veneno") and ("Resistência Veneno" not in efeitos):
+                efeitos["Resistência Veneno"] = b.valor
+            elif (b.nome == "Resistência Veneno" or b.nome == "Equipamento:Resistência Veneno"):
+                efeitos["Resistência Veneno"] += b.valor
+    
+    # Imprimindo efeitos
+    if "Resistência Veneno" in efeitos:
+        print('* Resistência a ' + Fore.GREEN + 'Veneno' + Style.RESET_ALL + ': ' + str(b.valor * 100) + '%')
+        imprimiu = True
+    
+    return imprimiu
 
 ### Mensagens do Sistema ###
 

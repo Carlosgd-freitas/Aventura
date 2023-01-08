@@ -101,7 +101,7 @@ class SlimeMel(criatura.Criatura):
         # seu HP máximo e seu HP atual
         if self.nivel >= 5 and self.mana >= 4 and super().ChecarRecarga(self.habilidades[3]) and \
             (alvo_aliado.hp < alvo_aliado.maxHp):
-            if utils.CalcularChance(1): ###1 -> 0.5
+            if utils.CalcularChance(0.5):
                 return ("habilidade", self.habilidades[3], alvo_aliado)
 
         # Atacar

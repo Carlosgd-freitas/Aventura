@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from base import item
+from base import efeito, item
 
 # Item Vazio
 def Vazio():
@@ -139,3 +139,19 @@ def BotasCouro(quantidade, preco):
         descricao = "Um par de botas de couro bovino para proteger seus pés de pequenas adversidades do terreno.")
     
     return botas
+
+# Acessórios
+def AmuletoEsmeralda(quantidade, preco):
+    """
+    Cria <quantidade> de itens equipáveis, com preço igual à <preco>, que oferecem:
+    * 50% de Resistência a Veneno
+    * Requerimento: Nível 4
+    """
+
+    resistencia = efeito.Efeito("Equipamento:Resistência Veneno", 0.5, 0, 999, 100)
+    amuleto = item.Item([resistencia], [], preco, quantidade, "Acessório", False, "Amuleto de Esmeralda", nivel = 4, tipo = "Terrestre",
+        singular_plural = "singular", genero = "M",
+        descricao = "Este amuleto é adornado com Esmeraldas de Terra que foram imbuídas em magia reversa após a liberação de seus potenciais mágicos. O resultado é " +
+            "que o\nportador do amuleto se torna resistente a efeitos de envenenamento.")
+    
+    return amuleto

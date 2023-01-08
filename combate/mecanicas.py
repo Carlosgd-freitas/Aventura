@@ -532,7 +532,7 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
 
     return morreu
 
-def TerminarBuffsDebuffs(criatura, nao_terminar = ['Veneno']):
+def TerminarBuffsDebuffs(criatura, nao_terminar = ['Veneno', 'Equipamento:Resistência Veneno']):
     """
     Remove a maioria dos buffs e debuffs presentes na criatura.
     

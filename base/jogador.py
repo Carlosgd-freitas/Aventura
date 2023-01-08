@@ -106,13 +106,16 @@ class Jogador(criatura.Criatura):
 
         # Atributos do jogador
         print('    ATAQUE: {:2d}'.format(self.ataque), end = '')
-        print(' |        CHANCE DE ACERTO CRÍTICO: {:.2f}'.format(self.chance_critico) + '%')
+        print(' |      CHANCE DE ACERTO CRÍTICO: {:.2f}'.format(self.chance_critico) + '%')
 
         print('    DEFESA: {:2d}'.format(self.defesa), end = '')
-        print(' | MULTIPLICADOR DE ACERTO CRÍTICO: {:.2f}'.format(self.multiplicador_critico) + 'x')
+        print(' | MULTIPLICADOR DE DANO CRÍTICO: {:.2f}'.format(self.multiplicador_critico) + 'x')
 
         print('     MAGIA: {:2d}'.format(self.magia))
         print('VELOCIDADE: {:2d}'.format(self.velocidade))
+
+        # Imprime os efeitos concedidos pelos equipamentos do jogador
+        imprimir.ImprimirEfeitosEquipamentos(self)
 
     def SubirNivel(self):
         """

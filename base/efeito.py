@@ -28,7 +28,24 @@ class Efeito():
 
         # Se o nome do efeito é masculino ou feminino
         self.genero = genero
-        
+    
+    def __str__(self):
+        """
+        Converte a classe em uma string. Utilizada em impressões.
+        """
+        return f'Nome: {self.nome}, Valor: {self.valor}, Decaimento: {self.decaimento}, Duração: {self.duracao}, Chance: {self.chance}, ' + \
+            f'singular_plural: {self.singular_plural}, Gênero: {self.genero}'
+
+    def CombinarEfeito(self, efeito):
+        """
+        Combina os atributos de si mesmo com os de um outro efeito.
+        """
+
+        if self.nome == 'Veneno' and efeito.nome == 'Veneno':
+            self.valor += efeito.valor
+            self.duracao += efeito.duracao
+            self.chance += efeito.chance
+
     def ClonarEfeito(self):
         """
         Cria e retorna um novo efeito que possui os atributos com os mesmos valores deste.

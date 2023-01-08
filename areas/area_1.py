@@ -109,6 +109,10 @@ class Area_1(area.Area):
         botas_couro = equipamentos.BotasCouro(5, 8)
         loja_armamentos_itens.append(botas_couro)
 
+        # Acessórios
+        amuleto_esmeralda = equipamentos.AmuletoEsmeralda(2, 15)
+        loja_armamentos_itens.append(amuleto_esmeralda)
+
         # Consumíveis
         bomba_inferior = consumiveis.BombaInferior(5, 6)
         loja_armamentos_itens.append(bomba_inferior)

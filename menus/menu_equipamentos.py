@@ -112,7 +112,7 @@ def ImprimirEquipados(jogador):
         tabela.append(t)
 
     print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
-    
+    imprimir.ImprimirEfeitosEquipamentos(jogador)
     print('')
 
 def EquipadosGanhos(jogador):
@@ -135,7 +135,21 @@ def EquipadosGanhos(jogador):
             jogador.magia += e.magia
             jogador.velocidade += e.velocidade
 
+            # Aplicando possíveis buffs/debuffs concedidos por equipamentos
+            for b in e.buffs:
+                jogador.buffs.append(b)
+            for d in e.debuffs:
+                jogador.debuffs.append(d)
+
         equipado_indice += 1
+    
+    # Mudando o tipo do Ataque Normal para o tipo da arma equipada na primeira mão
+    ataque_indice = jogador.HabilidadePresente("Atacar")
+
+    if jogador.equipados[0].classificacao == "Item Vazio":
+        jogador.habilidades[ataque_indice].tipo = "Normal"
+    else:
+        jogador.habilidades[ataque_indice].tipo = jogador.equipados[0].tipo
 
 def EquipadosPerdas(jogador):
     """
@@ -158,6 +172,22 @@ def EquipadosPerdas(jogador):
             jogador.velocidade -= e.velocidade
 
         equipado_indice += 1
+    
+    # Terminando possíveis buffs concedidos por equipamentos
+    indices = []
+    for i, b in enumerate(jogador.buffs):
+        if b.nome.startswith("Equipamento:"):
+            indices.append(i)
+    for x, i in enumerate(indices):
+        jogador.buffs.pop(i - x)
+
+    # Terminando possíveis debuffs concedidos por equipamentos
+    indices = []
+    for i, d in enumerate(jogador.debuffs):
+        if d.nome.startswith("Equipamento:"):
+            indices.append(i)
+    for x, i in enumerate(indices):
+        jogador.debuffs.pop(i - x)
     
     # Voltando o tipo do Ataque Normal para "Normal"
     ataque_indice = jogador.HabilidadePresente("Atacar")

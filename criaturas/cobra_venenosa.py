@@ -62,7 +62,7 @@ class CobraVenenosa(criatura.Criatura):
         picada.descricao = "Ao utilizar suas presas, a Cobra Venenosa injeta veneno no alvo."
         habilidades.append(picada)
 
-        envenenamento = passivas_ao_atacar.Envenenamento(math.ceil(magia/2), 2, envenenamento_chance)
+        envenenamento = passivas_ao_atacar.Envenenamento(math.ceil(magia/2), 3, envenenamento_chance)
         habilidades.append(envenenamento)
 
         # Espolios da Criatura

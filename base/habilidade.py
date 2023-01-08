@@ -59,6 +59,21 @@ class Habilidade():
         # Multiplicador do crítico que irá afetar a habilidade
         self.multiplicador_critico = multiplicador_critico
 
+    def __str__(self):
+        """
+        Converte a classe em uma string. Utilizada em impressões.
+        """
+        string = f'Nome: {self.nome}, Tipo: {self.tipo}, Alvo: {self.alvo}, passiva_ativa: {self.passiva_ativa}, Valor: {self.valor}, Custo: {self.custo}, ' + \
+            f'Recarga: {self.recarga}, Recarga Atual: {self.recarga_atual}\n' + \
+            f'Modificadores: {self.modificadores}, singular_plural: {self.singular_plural}, Gênero: {self.genero}, ' + \
+            f'Não causa dano: {self.nao_causa_dano}, Chance de Acerto Crítico: {self.chance_critico}, Multiplicador de Dano Crítico: {self.multiplicador_critico}\n' + \
+            f'Descrição: {self.descricao}\n' + \
+            'Efeitos:\n'
+        for e in self.efeitos:
+            string += str(e) + '\n'
+        
+        return string
+
     def ClonarHabilidade(self):
         """
         Cria e retorna uma nova habilidade que possui os atributos com os mesmos valores desta.
@@ -91,7 +106,7 @@ class Habilidade():
         
         efeitos = []
         for e in self.efeitos:
-            efeitos.append(e)
+            efeitos.append(e.ClonarEfeito())
 
         habilidade_2 = Habilidade(nome, descricao, tipo, alvo, passiva_ativa, valor, custo, recarga, recarga_atual, 
             modificadores, efeitos, singular_plural, genero, nao_causa_dano, chance_critico, multiplicador_critico)
@@ -135,3 +150,17 @@ class Habilidade():
         
         if existe == 1:
             self.custo.insert(indice, novo)
+    
+    def RetornarEfeito(self, nome):
+        """
+        Retorna um efeito causado pelo uso da habilidade, e None caso a habilidade não cause esse efeito.
+
+        Parâmetros:
+        - nome: nome de um efeito que a habilidade pode causar.
+        """
+
+        for e in self.efeitos:
+            if e.nome == nome:
+                return e
+        
+        return None
