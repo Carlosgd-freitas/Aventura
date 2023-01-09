@@ -31,7 +31,7 @@ class Efeito():
     
     def __str__(self):
         """
-        Converte a classe em uma string. Utilizada em impressões.
+        Converte a classe em uma string.
         """
         return f'Nome: {self.nome}, Valor: {self.valor}, Decaimento: {self.decaimento}, Duração: {self.duracao}, Chance: {self.chance}, ' + \
             f'singular_plural: {self.singular_plural}, Gênero: {self.genero}'

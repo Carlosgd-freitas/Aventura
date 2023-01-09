@@ -27,6 +27,39 @@ class Criatura(basico.Base):
         super(Criatura, self).__init__(nome, descricao, tipo, nivel, experiencia, maxHp, hp, maxMana, mana, ataque,
             defesa, magia, velocidade, singular_plural, genero, chance_critico, multiplicador_critico)
     
+    def __str__(self):
+        """
+        Converte a classe em uma string.
+        """
+        string = f'Nome: {self.nome}, Tipo: {self.tipo}, Nível: {self.nivel}, Experiência: {self.experiencia}, HP Máximo: {self.maxHp}, HP: {self.hp}, ' + \
+            f'Mana Máxima: {self.maxMana}, Mana: {self.mana}\n' + \
+            f'Ataque: {self.ataque}, Defesa: {self.defesa}, Magia: {self.magia}, Velocidade: {self.velocidade}, Chance de Acerto Crítico: {self.chance_critico}, ' + \
+            f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n' + \
+            f'singular_plural: {self.singular_plural}, Gênero: {self.genero}\n' + \
+            f'Descrição: {self.descricao}\n'
+        string += 'Buffs:\n'
+        for i, b in enumerate(self.buffs):
+            string += '* ' + str(b)
+            if i != len(self.buffs) - 1:
+                string += '\n'
+        string += 'Debuffs:\n'
+        for i, d in enumerate(self.debuffs):
+            string += '* ' + str(d)
+            if i != len(self.debuffs) - 1:
+                string += '\n'
+        string += 'Habilidades:\n'
+        for i, h in enumerate(self.habilidades):
+            string += '* ' + str(h)
+            if i != len(self.habilidades) - 1:
+                string += '\n'
+        string += 'Espólios:\n'
+        for i, (e0, e1) in enumerate(self.espolios):
+            string += f'* {e0}% de chance: {e1}'
+            if i != len(self.espolios) - 1:
+                string += '\n'
+
+        return string
+
     def ChecarRecarga(self, habilidade):
         """
         Retorna 1 se o valor de recarga atual da habilidade é igual ao valor da recarga e retorna 0 caso contrário.

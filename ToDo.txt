@@ -3,7 +3,6 @@
 > Programação
 * Mudar a impressão das habilidades
 * Refazer AlvoUnico, AlvoMultiplo, AlvoProprio
-* Método __str__ para todas as classes em base
 
 > Jogabilidade
 * Bestiário

@@ -30,6 +30,19 @@ class Base():
         self.singular_plural = singular_plural
         self.genero = genero
 
+    def __str__(self):
+        """
+        Converte a classe em uma string.
+        """
+        string = f'Nome: {self.nome}, Tipo: {self.tipo}, Nível: {self.nivel}, Experiência: {self.experiencia}, HP Máximo: {self.maxHp}, HP: {self.hp}, ' + \
+            f'Mana Máxima: {self.maxMana}, Mana: {self.mana}\n' + \
+            f'Ataque: {self.ataque}, Defesa: {self.defesa}, Magia: {self.magia}, Velocidade: {self.velocidade}, Chance de Acerto Crítico: {self.chance_critico}, ' + \
+            f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n' + \
+            f'singular_plural: {self.singular_plural}, Gênero: {self.genero}\n' + \
+            f'Descrição: {self.descricao}'
+
+        return string
+
     def RetornarArtigo(self):
         """
         Retorna o artigo apropriado para o nome do componente em questão, com a primeira letra em maiúsculo.

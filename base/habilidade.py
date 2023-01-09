@@ -61,7 +61,7 @@ class Habilidade():
 
     def __str__(self):
         """
-        Converte a classe em uma string. Utilizada em impressões.
+        Converte a classe em uma string.
         """
         string = f'Nome: {self.nome}, Tipo: {self.tipo}, Alvo: {self.alvo}, passiva_ativa: {self.passiva_ativa}, Valor: {self.valor}, Custo: {self.custo}, ' + \
             f'Recarga: {self.recarga}, Recarga Atual: {self.recarga_atual}\n' + \
@@ -69,8 +69,10 @@ class Habilidade():
             f'Não causa dano: {self.nao_causa_dano}, Chance de Acerto Crítico: {self.chance_critico}, Multiplicador de Dano Crítico: {self.multiplicador_critico}\n' + \
             f'Descrição: {self.descricao}\n' + \
             'Efeitos:\n'
-        for e in self.efeitos:
-            string += str(e) + '\n'
+        for i, e in enumerate(self.efeitos):
+            string += str(e)
+            if i != len(self.efeitos) - 1:
+                string += '\n'
         
         return string
 
