@@ -14,7 +14,7 @@ class Configuracao():
         self.confirmacao_sair = True
         self.salvar_sair = True
 
-        self.npc_fala_delay = 0.03
+        self.npc_fala_delay = 0.025
 
         self.tecla_status = 'S'
         self.tecla_inventario = 'I'
@@ -34,7 +34,7 @@ class Configuracao():
             self.salvar_sair = True
 
         if not hasattr(self, 'npc_fala_delay'):
-            self.npc_fala_delay = 0.03
+            self.npc_fala_delay = 0.025
         
         if not hasattr(self, 'tecla_status'):
             self.tecla_status = 'S'

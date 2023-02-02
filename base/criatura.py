@@ -119,6 +119,25 @@ class Criatura(basico.Base):
 
         return lista_indices
     
+    def ContarEfeitosImprimiveis(self, buff_debuff):
+        """
+        Retorna a quantidade de buffs ou debuffs que uma criatura está sob que podem ser impressos.
+        """
+
+        if buff_debuff == "buff":
+            lista_efeitos = self.buffs
+        else:
+            lista_efeitos = self.debuffs
+
+        tamanho = len(lista_efeitos)
+        for e in lista_efeitos:
+            if e.nome == "Resistência Veneno":
+                tamanho -= 1
+            elif e.nome == "Equipamento:Resistência Veneno":
+                tamanho -= 1
+
+        return tamanho
+    
     def MaiorEfeito(self, buff_debuff, efeito_nome, criterio):
         """
         Retorna o índice e o valor do maior critério (decaimento, duracao, etc.) dentre os buffs ou debuffs que

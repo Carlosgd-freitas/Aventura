@@ -2,7 +2,7 @@
 /bin
 /saves
 /areas/__pycache__
-/classes_base/__pycache__
+/base/__pycache__
 /combate/__pycache__
 /criaturas/__pycache__
 /habilidades/__pycache__

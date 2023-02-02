@@ -32,7 +32,7 @@ def MenuConfiguracoes(conf, caminhos):
 
             # Velocidade da fala de narração e NPCs
             print('[3]   Velocidade da fala de narração e NPCs: ', end = '')
-            configuracao.ImprimirConfiguracaoValor(conf.npc_fala_delay)
+            configuracao.ImprimirConfiguracaoValor(int(conf.npc_fala_delay / 0.005))
 
             print('\n- Mapeamento das Teclas das Ações de Exploração -')
 
@@ -68,8 +68,8 @@ def MenuConfiguracoes(conf, caminhos):
             conf.salvar_sair = not conf.salvar_sair
         
         elif op == 3:
-            print('\nDigite um número real entre 0 e 0.5. Quanto mais baixo o número, mais rápida será as falas dos NPCs.')
-            conf.npc_fala_delay = utils.LerNumeroIntervalo('> Nova Velocidade: ', 0, 0.5, 'float')
+            print('\nDigite um número entre 0 e 10. Quanto mais baixo o número, mais rápida será as falas dos NPCs.')
+            conf.npc_fala_delay = utils.LerNumeroIntervalo('> Nova Velocidade: ', 0, 10) * 0.005
             imprimir.ImprimirComDelay('Este é um exemplo de como as falas de narração e NPCs serão impressas.\n', conf.npc_fala_delay)
 
         elif op == 4:

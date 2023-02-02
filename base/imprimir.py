@@ -222,10 +222,11 @@ def ImprimirEfeitos(criatura, espaco = True):
     c_buffs = criatura.ContarEfeitos("buff")
     c_debuffs = criatura.ContarEfeitos("debuff")
 
-    res_veneno = 0
+    n_buffs = criatura.ContarEfeitosImprimiveis("buff")
+    n_debuffs = criatura.ContarEfeitosImprimiveis("debuff")
 
     # Buffs presentes na criatura
-    if len(c_buffs) > 0:
+    if n_buffs > 0:
 
         if espaco:
             print(' ', end = '')
@@ -252,22 +253,18 @@ def ImprimirEfeitos(criatura, espaco = True):
             
             elif criatura.buffs[b].nome == "Regeneração HP" or criatura.buffs[b].nome == "Regeneração HP %":
                 print('REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL, end = '')
-            
-            elif (criatura.buffs[b].nome == "Resistência Veneno" or criatura.buffs[b].nome == "Equipamento:Resistência Veneno") and (res_veneno == 0):
-                print(Fore.RED + '-' + Fore.GREEN + 'VENENO' + Style.RESET_ALL + '%', end = '')
-                res_veneno = 1
 
-            if i != len(c_buffs) - 1:
+            if i != n_buffs - 1:
                 print(' | ', end = '')
         
         print(']', end = '')
 
     # Debuffs presentes na criatura
-    if len(c_debuffs) > 0:
+    if n_debuffs > 0:
 
-        if espaco and len(c_buffs) == 0:
+        if espaco and n_buffs == 0:
             print(' ', end = '')
-        elif len(c_buffs) > 0:
+        elif n_buffs > 0:
             print(' ', end = '')
         print('[', end = '')
 
@@ -299,14 +296,14 @@ def ImprimirEfeitos(criatura, espaco = True):
             elif criatura.debuffs[d].nome == "Lentidão":
                 print(Style.BRIGHT + Fore.WHITE + 'LENTIDÃO' + Style.RESET_ALL, end = '')
 
-            if i != len(c_debuffs) - 1:
+            if i != n_debuffs - 1:
                 print(' | ', end = '')
         
         print(']', end = '')
     
     print('')
 
-    return len(c_buffs) + len(c_debuffs)
+    return n_buffs + n_debuffs
 
 def ImprimirCriatura(indice, criatura):
     """
