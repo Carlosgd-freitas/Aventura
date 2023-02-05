@@ -1,5 +1,6 @@
 import math
 import sys
+from tabulate import tabulate
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
@@ -14,113 +15,139 @@ def ImprimirHabilidades(criatura, habilidade_indice, impressoes_por_pagina):
     # Imprimindo as habilidades aprendidas pela criatura
     print('|========================================> HABILIDADES <========================================|')
 
+    tabela = []
+    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center")
+        
     i = 0
     while i < impressoes_por_pagina:
 
         # Há menos que <impressoes_por_pagina> habilidades restantes
         if habilidade_indice == len(criatura.habilidades):
             break
-
+        
         habilidade = criatura.habilidades[habilidade_indice]
 
-        # Nome e tipo da Habilidade
-        mensagem = f'{habilidade.nome} - Tipo: '
-        print(mensagem, end = '')
-        print(imprimir.RetornarTipo(habilidade.tipo), end = '')
-
-        mensagem = ''
-
-        # Custos da Habilidade
+        t = []
+        t.append(f'[{habilidade_indice}] ' + habilidade.nome) # Índice + Nome
+        # Custo
+        custo = ""
         if len(habilidade.custo) > 0:
-            mensagem += ' - Custo: '
-
-            custo_indice = 0
-            for c in habilidade.custo:
-                if custo_indice != 0:
-                    mensagem += ' e '
-
-                mensagem += str(c[1]) + ' '
-
+            for i, c in enumerate(habilidade.custo):
+                if (i != 0) and (i < len(habilidade.custo) - 1):
+                    custo += ', '
                 if c[0] == "Mana":
-                    mensagem += Fore.BLUE + 'Mana' + Style.RESET_ALL
+                    custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
                 elif c[0] == "HP":
-                    mensagem += Fore.RED + 'HP' + Style.RESET_ALL
-                custo_indice += 1
+                    custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
+        else:
+            custo += '---'
+        t.append(custo)
+        # Recarga
+        recarga = ""
+        if habilidade.recarga == 1:
+            recarga += f'{habilidade.recarga} Turno'
+        else:
+            recarga += f'{habilidade.recarga} Turnos'
+        t.append(recarga)
+        t.append(imprimir.RetornarTipo(habilidade.tipo))      # Tipo
+        t.append(habilidade.passiva_ativa)                    # Passiva/Ativa
+        t.append(habilidade.alvo)                             # Alvo
+        tabela.append(t)
         
-        else:
-            mensagem += ' - Sem Custo'
-        
-        # Recarga da Habilidade
-        if habilidade.recarga > 0:
-            mensagem += f' - Recarga: {habilidade.recarga} Turnos'
-        else:
-            mensagem += f' - Sem Recarga'
-
-        # Se a Habilidade é passiva/ativa
-        if habilidade.passiva_ativa == "passiva":
-            mensagem += ' - Passiva'
-        else:
-            mensagem += ' - Ativa'
-
-        print(mensagem)
-
-        # Descrição da habilidade
-        print(f'Descrição: {habilidade.descricao}\n')
-
         habilidade_indice += 1
         i += 1
+    
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+    print('')
 
 def MenuHabilidades(criatura):
     """
     Menu de gerenciamento das habilidades da criatura.
     """
 
+    habilidades_por_pagina = 15
     ultima_pagina = len(criatura.habilidades) - 1 # Descontando o Ataque Normal
-    ultima_pagina = math.ceil(ultima_pagina / 10)
+    ultima_pagina = math.ceil(ultima_pagina / habilidades_por_pagina)
     ultima_pagina -= 1
     habilidade_indice_atual = 1
     pagina = 0
 
     while True:
 
-        # Imprimindo até 10 habilidades
+        # Imprimindo até 'habilidades_por_pagina' habilidades
         anterior = 0
         proximo = 0
-        habilidade_indice_atual = (pagina * 10) + 1
-        ImprimirHabilidades(criatura, habilidade_indice_atual, 10)
+        habilidade_indice_atual = (pagina * habilidades_por_pagina) + 1
+        ImprimirHabilidades(criatura, habilidade_indice_atual, habilidades_por_pagina)
 
-        # É possível imprimir até 10 Habilidades anteriores
+        print('[1] Analisar habilidade')
+
+        # É possível imprimir até 'habilidades_por_pagina' Habilidades anteriores
         if pagina > 0:
             anterior = 1
-            print('[1] Anterior')
-        
+            print('[2] Anterior')
         else:
-            print(Fore.RED + '[1] Anterior' + Style.RESET_ALL + '')
+            print(Fore.RED + '[2] Anterior' + Style.RESET_ALL)
 
-        # É possível imprimir até 10 próximas Habilidades
+        # É possível imprimir até 'habilidades_por_pagina' próximas Habilidades
         if pagina < ultima_pagina:
             proximo = 1
-            print('[2] Próximo\n')
-        
+            print('[3] Próximo')
         else:
-            print(Fore.RED + '[2] Próximo' + Style.RESET_ALL + '\n')
+            print(Fore.RED + '[3] Próximo' + Style.RESET_ALL)
 
-        print('[0] Retornar ao menu anterior')
+        print('\n[0] Retornar ao menu anterior')
 
         while True:
-            op = utils.LerNumero('> ')
+            op = utils.LerNumeroIntervalo('> ', 0, 3)
 
-            if (op == 0) or (op == 1 and anterior == 1) or (op == 2 and proximo == 1):
+            if (op == 2 and anterior == 0) or (op == 3 and proximo == 0):
+                continue
+            else:
                 break
         
         # Retornando ao menu anterior
         if op == 0:
             break
     
-        # Imprimir até 10 habilidades anteriores
-        elif op == 1 and anterior == 1:
+        # Imprimir até 'habilidades_por_pagina' habilidades anteriores
+        elif op == 2 and anterior == 1:
             pagina -= 1
         
-        # Imprimir até 10 próximas habilidades
-        elif op == 2 and proximo == 1:
+        # Imprimir até 'habilidades_por_pagina' próximas habilidades
+        elif op == 3 and proximo == 1:
             pagina += 1
+        
+        # Analisar uma habilidade
+        else:
+            escolha = 1
+            pergunta = 1
+
+            menor_indice = (pagina * habilidades_por_pagina) + 1
+            maior_indice = (pagina + 1) * habilidades_por_pagina
+            if len(criatura.habilidades) - 1 < maior_indice:
+                maior_indice = len(criatura.habilidades) - 1
+
+            while escolha != 0:
+
+                if pergunta == 1:
+                    if op == 1:
+                        print('\nQual habilidade deseja analisar?')
+                    pergunta = 0
+
+                escolha = utils.LerNumero('> ')
+            
+                # Saindo
+                if escolha == 0:
+                    break
+
+                # Procedendo
+                elif escolha >= menor_indice and escolha <= maior_indice:
+
+                    habilidade_escolhida = criatura.habilidades[escolha]
+
+                    # Analisar habilidade
+                    if op == 1:
+                        imprimir.ImprimirHabilidadeDetalhada(habilidade_escolhida)
+                        break

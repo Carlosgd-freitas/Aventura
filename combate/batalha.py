@@ -75,6 +75,15 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
             print('')
             print(Fore.BLACK + Back.WHITE + "> Turno " + str(turno) + " <" + Style.RESET_ALL)
             print('')
+
+            # Caso o jogador não seja o primeiro a agir, imprime os inimigos em batalha
+            if jogador != ordem[0]:
+                print('Inimigos em batalha:')
+                indice_criatura = 1
+                for c in inimigos:
+                    imprimir.ImprimirCriatura(indice_criatura, c)
+                    indice_criatura += 1
+                print('')
             
             for c in ordem:
                 consciente = mecanicas.InicioTurno(c)
@@ -266,7 +275,7 @@ def JogadorVez(jogador, criaturas, correr = True):
                     escolha = jogador.habilidades[indice]
 
                     # Habilidade de alvo único
-                    if escolha.alvo == "inimigo":
+                    if escolha.alvo == "Inimigo":
                         alvo = jogador_acoes.EscolherAlvo(criaturas)
                         print(f'\nVocê utilizou {escolha.nome}.')
                         dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], escolha)
@@ -285,12 +294,12 @@ def JogadorVez(jogador, criaturas, correr = True):
                                     print(f'Você causou {dano} de dano às {criaturas[alvo].nome}.')
                     
                     # Habilidade que alveja a si próprio
-                    elif escolha.alvo == "proprio":
+                    elif escolha.alvo == "Próprio":
                         print(f'\nVocê utilizou {escolha.nome}.')
                         usar_habilidade.AlvoProprio(jogador, escolha)
                     
                     # Habilidade que alveja múltiplos inimigos
-                    elif escolha.alvo == "multiplos":
+                    elif escolha.alvo == "Inimigos":
                         print(f'\nVocê utilizou {escolha.nome}.')
                         danos = usar_habilidade.AlvoMultiplo(jogador, criaturas, escolha)
 
@@ -411,17 +420,18 @@ def CriaturaVez(criatura, aliados, inimigos, jogador):
         print(f'{criatura.nome} usou {acao[1].nome}!')
 
         # Habilidade de alvo único
-        if acao[1].alvo == "inimigo" or acao[1].alvo == "aliado":
+        if acao[1].alvo == "Inimigo" or acao[1].alvo == "Aliado":
             dano = usar_habilidade.AlvoUnico(criatura, acao[2], acao[1])
 
             if not acao[1].nao_causa_dano:
                 print(f'{acao[2].nome} recebeu {dano} de dano.')
         
         # Habilidade que alveja a si próprio
-        if acao[1].alvo == "proprio":
+        elif acao[1].alvo == "Próprio":
             usar_habilidade.AlvoProprio(criatura, acao[1])
         
-        if acao[1].alvo == "multiplos":
+        # Habilidade de alvo único
+        elif acao[1].alvo == "Inimigos" or acao[1].alvo == "Aliados":
             danos = usar_habilidade.AlvoMultiplo(criatura, acao[2], acao[1])
 
             if not acao[1].nao_causa_dano:

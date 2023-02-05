@@ -28,16 +28,16 @@ def EspadaEnferrujada(quantidade, preco):
     
     return espada
 
-def EspadaAco(quantidade, preco):
+def EspadaFerro(quantidade, preco):
     """
     Cria <quantidade> de itens equipáveis, com preço igual à <preco>, que oferecem:
     * 2 de Ataque
     * Requerimento: Nível 2
     """
 
-    espada = item.Item([], [], preco, quantidade, "Uma Mão", False, "Espada de Aço", nivel = 2, tipo = "Normal",
-        ataque = 2, singular_plural = "singular", genero = "F",
-        descricao = "Uma espada de aço de fácil manuseio.")
+    espada = item.Item([], [], preco, quantidade, "Uma Mão", False, "Espada de Ferro", nivel = 2,
+        tipo = "Normal", ataque = 2, singular_plural = "singular", genero = "F",
+        descricao = "Uma espada de ferro de fácil manuseio.")
     
     return espada
 

@@ -17,7 +17,7 @@ def GritoEstremecedor(turnos, mana, recarga, modificador_magia):
     diminuicao = efeito.Efeito("Diminuição Defesa", 0, 1, turnos, 100)
 
     grito = habilidade.Habilidade("Grito Estremecedor", "O usuário grita tão forte que prejudica temporariamente a" +
-        "audição de seus inimigos, diminuindo suas defesas.", "Normal", "multiplos", "ativa", 0, [("Mana", mana)], 
+        "audição de seus inimigos, diminuindo suas defesas.", "Normal", "Inimigos", "Ativa", 0, [("Mana", mana)], 
         recarga, recarga, [("magia", modificador_magia)], [diminuicao], "singular", "M", True, 0.0, 1.0)
 
     return grito
@@ -33,7 +33,7 @@ def DisparoEletrico(mana):
     """
 
     disparo = habilidade.Habilidade("Disparo Elétrico", "Atinge todos os inimigos com uma corrente elétrica, " + 
-    "mas causa pouco dano.", "Vento", "multiplos", "ativa", 0, [("Mana", mana)], 3, 3, [("magia", 50)], [],
+    "mas causa pouco dano.", "Vento", "Inimigos", "Ativa", 0, [("Mana", mana)], 3, 3, [("magia", 50)], [],
     "singular", "M", False, 0.0, 1.0)
 
     return disparo

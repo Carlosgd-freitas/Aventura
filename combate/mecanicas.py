@@ -475,7 +475,7 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
             
             # Habilidades que ativam quando a criatura é derrotada
             for h in c.habilidades:
-                if h.nome == "Subdivisão":
+                if h.alvo == "Invocação":
                     lista_criaturas = invocar_criaturas.InvocarCriaturas(c, h, lista_criaturas, nomes, nomes_zerados)
 
             criaturas_derrotadas.append(indice)
@@ -487,7 +487,7 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
                     for h in c2.habilidades:
                         if h.nome == "Vingança":
                             efeito = h.efeitos[0].ClonarEfeito()
-                            conteudo = efeito.nome.split(":") # ["Vingança", "Larva de Abelhóide", "Aumento Ataque"]
+                            conteudo = efeito.nome.split(":") # ["Vingança", "Larva de Abelhóide", "Aumento Ataque", "F"]
                             derrotada = conteudo[1]
 
                             if utils.CompararNomesSufixos(c.nome, derrotada):

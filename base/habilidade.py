@@ -153,7 +153,7 @@ class Habilidade():
         if existe == 1:
             self.custo.insert(indice, novo)
     
-    def RetornarEfeito(self, nome):
+    def RetornarEfeito(self, nome, startswith = False):
         """
         Retorna um efeito causado pelo uso da habilidade, e None caso a habilidade não cause esse efeito.
 
@@ -162,7 +162,9 @@ class Habilidade():
         """
 
         for e in self.efeitos:
-            if e.nome == nome:
+            if (not startswith) and (e.nome == nome):
+                return e
+            elif e.nome.startswith(nome):
                 return e
         
         return None

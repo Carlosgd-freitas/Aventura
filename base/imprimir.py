@@ -73,6 +73,197 @@ def RetornarStringColorida(string):
     elif string.lower() == 'lentidão':
         return Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
 
+def ImprimirEfeitoDetalhado(efeito):
+    """
+    Imprime um efeito de uma habilidade ou efeito detalhadamente.
+
+    Parâmetros:
+    - efeito: efeito a ser impresso.
+    """
+
+    if efeito.duracao <= 1:
+        mensagem_duracao = f'{efeito.duracao} turno'
+    else:
+        mensagem_duracao = f'{efeito.duracao} turnos'
+
+    # Chance do efeito ocorrer
+    if abs(efeito.chance - 100) < 0.0001:
+        print('* ', end = '')
+    else:
+        print('* [{:.1f}%] '.format(efeito.chance), end = '')
+
+    # Efeitos de Cura de HP
+    if efeito.nome == "Cura HP":
+        print('Cura ' + str(efeito.valor) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.')
+    elif efeito.nome == "Cura HP %":
+        print('Cura ' + str(efeito.valor) + '% do ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo.')
+    elif efeito.nome == "Cura HP % ou valor":
+        print('Cura ' + str(efeito.valor[0]) + '% do ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo, ou ' +
+            str(efeito.valor[1]) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + ', o que for maior.')
+    
+    # Efeitos de Cura de Mana
+    elif efeito.nome == "Cura Mana":
+        print('Cura ' + str(efeito.valor) + ' de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.')
+    elif efeito.nome == "Cura Mana %":
+        print('Cura ' + str(efeito.valor) + '% da ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima.')
+    elif efeito.nome == "Cura Mana % ou valor":
+        print('Cura ' + str(efeito.valor[0]) + '% da ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima, ou ' +
+            str(efeito.valor[1]) + ' de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ', o que for maior.')
+    
+    # Efeitos de Regeneração de HP
+    elif efeito.nome == "Regeneração HP":
+        print('Cura ' + str(efeito.valor) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + ' ao longo de ' + 
+            mensagem_duracao + '.')
+    elif efeito.nome == "Regeneração HP %":
+        print('Cura ' + str(efeito.valor) + '% do ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo ao longo de ' +
+            mensagem_duracao + '.')
+    
+    # Efeitos de Aumento de Atributo
+    elif efeito.nome == "Aumento Ataque":
+        print('Aumenta o ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'ATAQUE' + Style.RESET_ALL + ' em ' +
+            str(efeito.valor) + ' por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Aumento Defesa":
+        print('Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' + Style.RESET_ALL + ' em ' +
+            str(efeito.valor) + ' por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Aumento Magia":
+        print('Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'MAGIA' + Style.RESET_ALL + ' em ' +
+            str(efeito.valor) + ' por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Aumento Velocidade":
+        print('Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL + ' em ' +
+            str(efeito.valor) + ' por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Aumento Chance Crítico":
+        print('Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'Chance de Acerto Crítico' +
+            Style.RESET_ALL + ' em {:.1f}'.format(efeito.valor) + '% por ' + mensagem_duracao + '.')
+
+    # Efeitos de Buff
+    elif efeito.nome == "Defendendo":
+        print('Concede o buff ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'Defendendo' + Style.RESET_ALL +
+            ', reduzindo todo o dano recebido em {:.1f}% por '.format(efeito.valor) + mensagem_duracao + '.')
+
+    # Efeitos de Debuff
+    elif efeito.nome == "Veneno":
+        print('Causa o debuff ' + Style.BRIGHT + Back.BLACK + Fore.GREEN + 'Veneno' + Style.RESET_ALL +
+            f', causando {str(efeito.valor)} de dano no início de cada turno, por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Atordoamento":
+        print('Causa o debuff ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'Atordoamento' + Style.RESET_ALL +
+            ', impedindo quaisquer ações de serem realizadas por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Lentidão":
+        print('Causa o debuff ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'Lentidão' + Style.RESET_ALL +
+            ', reduzindo a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL +
+            ' para 1 por ' + mensagem_duracao + '.')
+
+    # Efeitos de Resistência a Debuffs
+    if efeito.nome == "Resistência Veneno" or efeito.nome == "Equipamento:Resistência Veneno":
+        print('Resistência a ' + Fore.GREEN + 'Veneno' + Style.RESET_ALL + ': ' + str(efeito.valor * 100) + '%')
+
+    # Efeitos de Cura de Debuffs
+    elif efeito.nome == "Cura Veneno":
+        print('Cura o debuff de ' + Fore.GREEN + 'Veneno' + Style.RESET_ALL + '.')
+
+    # Efeitos Em área de Itens Consumíveis
+    elif efeito.nome == "Dano todos inimigos":
+        print('Causa ' + str(efeito.valor) + ' de dano a todos os inimigos.')
+    elif efeito.nome == "Lentidão todos inimigos":
+        print('Causa o debuff ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'Lentidão' + Style.RESET_ALL +
+            ' a todos os inimigos, reduzindo a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' +
+            Style.RESET_ALL + ' para 1 por ' + mensagem_duracao + '.')
+
+    # Efeitos de Diminuição de Atributo
+    elif efeito.nome == "Diminuição Ataque":
+        print('Diminui o ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'ATAQUE' + Style.RESET_ALL + ' em ' +
+            str(efeito.valor) + ' por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Diminuição Defesa":
+        print('Diminui a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' + Style.RESET_ALL + ' em ' +
+            str(efeito.valor) + ' por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Diminuição Magia":
+        print('Diminui a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'MAGIA' + Style.RESET_ALL + ' em ' +
+            str(efeito.valor) + ' por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Diminuição Velocidade":
+        print('Diminui a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL + ' em ' +
+            str(efeito.valor) + ' por ' + mensagem_duracao + '.')
+    elif efeito.nome == "Diminuição Chance Crítico":
+        print('Diminui a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'Chance de Acerto Crítico' + Style.RESET_ALL +
+            ' em {:.1f}% por '.format(efeito.valor) + mensagem_duracao + '.')
+    
+    # Efeitos de Modificação de Ataque
+    elif efeito.nome == "Perfurante %":
+        print('Ignora {:.1f}% da '.format(efeito.valor) + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' +
+        Style.RESET_ALL + ' no cálculo de dano.')
+
+    # Efeitos Miscelâneos
+    elif efeito.nome.startswith("Invocar:"):
+        conteudo = efeito.nome.split(":") # ["Invocar", "2", "Slime", "1", "Derrotado", "M"]
+        quantidade = conteudo[1]
+        invocado = conteudo[2]
+        nivel = conteudo[3]
+        forma = conteudo[4]
+        genero = conteudo[5]
+
+        # Quantidade de criaturas a serem invocadas
+        mensagem_invocacao = f'Invoca {quantidade} '
+        if invocado == "Slime" and quantidade > 1:
+            mensagem_invocacao += "Slimes"
+        else:
+            mensagem_invocacao += invocado
+
+        # Forma com que as criaturas serão invocadas
+        mensagem_invocacao += f' de nível {nivel}'
+        if forma == "Derrotado":
+            if genero == "M":
+                mensagem_invocacao += ' ao ser derrotado.'
+            if genero == "F":
+                mensagem_invocacao += ' ao ser derrotada.'
+        elif forma == "Usar":
+            mensagem_invocacao += '.'
+
+        print(mensagem_invocacao)
+    
+    elif efeito.nome.startswith("Vingança:"):
+        conteudo = efeito.nome.split(":") # ["Vingança", "Larva de Abelhóide", "Aumento Ataque", "F"]
+        derrotada = conteudo[1]
+        efeito_acionado = conteudo[2]
+        genero = conteudo[3]
+
+        # Efeito a ser acionado quando uma criatura aliada é derrotada
+        if efeito_acionado == "Aumento Ataque":
+            mensagem_vinganca = 'Aumenta o ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'ATAQUE' + \
+            Style.RESET_ALL + ' em ' + str(efeito.valor)
+        elif efeito_acionado == "Aumento Defesa":
+            mensagem_vinganca = 'Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' + \
+            Style.RESET_ALL + ' em ' + str(efeito.valor)
+        elif efeito_acionado == "Aumento Magia":
+            mensagem_vinganca = 'Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'MAGIA' + \
+            Style.RESET_ALL + ' em ' + str(efeito.valor)
+        elif efeito_acionado == "Aumento Velocidade":
+            mensagem_vinganca = 'Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + \
+            Style.RESET_ALL + ' em ' + str(efeito.valor)
+        elif efeito_acionado == "Aumento Chance Crítico":
+            mensagem_vinganca = 'Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'Chance de Acerto Crítico' + \
+            Style.RESET_ALL + ' em {:.1f}%'.format(efeito.valor)
+        elif efeito_acionado == "Diminuição Ataque":
+            mensagem_vinganca = 'Diminui o ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'ATAQUE' + \
+                Style.RESET_ALL + ' em ' + str(efeito.valor)
+        elif efeito_acionado == "Diminuição Defesa":
+            mensagem_vinganca = 'Diminui a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' + \
+                Style.RESET_ALL + ' em ' + str(efeito.valor)
+        elif efeito_acionado == "Diminuição Magia":
+            mensagem_vinganca = 'Diminui a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'MAGIA' + \
+                Style.RESET_ALL + ' em ' + str(efeito.valor)
+        elif efeito_acionado == "Diminuição Velocidade":
+            mensagem_vinganca = 'Diminui a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + \
+                Style.RESET_ALL + ' em ' + str(efeito.valor)
+        elif efeito_acionado == "Diminuição Chance Crítico":
+            mensagem_vinganca = 'Diminui a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'Chance de Acerto Crítico' + \
+                Style.RESET_ALL + ' em {:.1f}%'.format(efeito.valor)
+
+        # Criatura aliada a ser derrotada para ativar o efeito
+        if genero == "M":
+            mensagem_vinganca += f' quando um {derrotada} aliado é derrotado.'
+        if genero == "F":
+            mensagem_vinganca += f' quando uma {derrotada} aliada é derrotada.'
+
+        print(mensagem_vinganca)
+
 def ImprimirItemDetalhado(item):
     """
     Imprime um item do inventário detalhadamente.
@@ -86,7 +277,7 @@ def ImprimirItemDetalhado(item):
     cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classificação"]
     alinhamento = ("left", "center", "center", "center")
     t = []
-    t.append(item.nome)          # Índice + Nome
+    t.append(item.nome)          # Nome
     t.append(item.quantidade)    # Quantidade
     t.append(item.preco)         # Preço
     t.append(item.classificacao) # Classificação
@@ -96,60 +287,7 @@ def ImprimirItemDetalhado(item):
     # Descrição
     print(f'Descrição: {item.descricao}')
 
-    if item.classificacao == "Consumível":
-
-        # Efeitos 'positivos' concedidos pelo item
-        for b in item.buffs:
-
-            if b.nome == "Cura HP":
-                print('* Cura ' + str(b.valor) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.')
-            elif b.nome == "Cura HP %":
-                print('* Cura ' + str(b.valor) + '% do seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo.')
-            elif b.nome == "Cura HP % ou valor":
-                print('* Cura ' + str(b.valor[0]) + '% do seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo, ou ' +
-                    str(b.valor[1]) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + ', o que for maior.')
-            
-            elif b.nome == "Cura Mana":
-                print('* Cura ' + str(b.valor) + ' de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.')
-            elif b.nome == "Cura Mana %":
-                print('* Cura ' + str(b.valor) + '% da sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima.')
-            elif b.nome == "Cura Mana % ou valor":
-                print('* Cura ' + str(b.valor[0]) + '% da sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima, ou ' +
-                    str(b.valor[1]) + ' de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ', o que for maior.')
-            
-            elif b.nome == "Regeneração HP":
-                print('* Cura ' + str(b.valor) + ' de ' + Fore.RED + 'HP' + Style.RESET_ALL + ' ao longo de ' + 
-                    str(b.duracao) + ' turnos.')
-            elif b.nome == "Regeneração HP %":
-                print('* Cura ' + str(b.valor) + '% do seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo ao longo de ' +
-                    str(b.duracao) + ' turnos.')
-            
-            elif b.nome == "Aumento Ataque":
-                print('* Aumenta o ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'ATAQUE' + Style.RESET_ALL + ' em ' +
-                    str(b.valor) + ' por ' + str(b.duracao) + ' turnos.')
-            elif b.nome == "Aumento Defesa":
-                print('* Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'DEFESA' + Style.RESET_ALL + ' em ' +
-                    str(b.valor) + ' por ' + str(b.duracao) + ' turnos.')
-            elif b.nome == "Aumento Magia":
-                print('* Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'MAGIA' + Style.RESET_ALL + ' em ' +
-                    str(b.valor) + ' por ' + str(b.duracao) + ' turnos.')
-            elif b.nome == "Aumento Velocidade":
-                print('* Aumenta a ' + Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL + ' em ' +
-                    str(b.valor) + ' por ' + str(b.duracao) + ' turnos.')
-
-            elif b.nome == "Cura Veneno":
-                print('* Cura o debuff de ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '.')
-
-        # Efeitos 'negativos' concedidos pelo item  
-        for d in item.debuffs:
-
-            if d.nome == "Dano todos inimigos":
-                print('* Causa ' + str(d.valor) + ' de dano a todos os inimigos.')
-            elif d.nome == "Lentidão todos inimigos":
-                print('* Causa ' + str(d.duracao) + ' turnos de ' + Style.BRIGHT + Back.BLACK + Fore.WHITE +
-                    'Lentidão' + Style.RESET_ALL + ' a todos os inimigos.')
-
-    else:
+    if item.classificacao != "Consumível":
         # Nível e Tipo
         mensagem = 'Nível: {:2d} | Tipo: '.format(item.nivel)
         print(mensagem, end = '')
@@ -198,10 +336,81 @@ def ImprimirItemDetalhado(item):
             print('* ' + Fore.RED + '-' + Style.RESET_ALL + f'{item.velocidade} ' +
                 Style.BRIGHT + Back.BLACK + Fore.WHITE + 'VELOCIDADE' + Style.RESET_ALL)
         
-        # Efeitos 'positivos' concedidos pelo item
-        for b in item.buffs:
-            if b.nome == "Resistência Veneno" or b.nome == "Equipamento:Resistência Veneno":
-                print('* Resistência a ' + Fore.GREEN + 'Veneno' + Style.RESET_ALL + ': ' + str(b.valor * 100) + '%')
+    # Efeitos 'positivos' concedidos pelo item
+    for buff in item.buffs:
+        ImprimirEfeitoDetalhado(buff)
+    
+    # Efeitos 'negativos' concedidos pelo item  
+    for debuff in item.debuffs:
+        ImprimirEfeitoDetalhado(debuff)
+
+    print('')
+
+def ImprimirHabilidadeDetalhada(habilidade):
+    """
+    Imprime uma habilidade de uma criatura detalhadamente.
+
+    Parâmetros:
+    - habilidade: habilidade a ser impressa.
+    """
+
+    # Informações "não-detalhadas" da habilidade
+    tabela = []
+    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center")
+    t = []
+    t.append(habilidade.nome)               # Nome
+    # Custo
+    custo = ""
+    if len(habilidade.custo) > 0:
+        for i, c in enumerate(habilidade.custo):
+            if (i != 0) and (i < len(habilidade.custo) - 1):
+                custo += ', '
+            if c[0] == "Mana":
+                custo += str(c[1]) + " " + RetornarStringColorida(c[0])
+            elif c[0] == "HP":
+                custo += str(c[1]) + " " + RetornarStringColorida(c[0])
+    else:
+        custo += '---'
+    t.append(custo)
+    # Recarga
+    recarga = ""
+    if habilidade.recarga == 1:
+        recarga += f'{habilidade.recarga} Turno'
+    else:
+        recarga += f'{habilidade.recarga} Turnos'
+    t.append(recarga)
+    t.append(RetornarTipo(habilidade.tipo)) # Tipo
+    t.append(habilidade.passiva_ativa)      # Passiva/Ativa
+    t.append(habilidade.alvo)               # Alvo
+    tabela.append(t)
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+
+    # Descrição
+    print(f'Descrição: {habilidade.descricao}')
+
+    # Chance de Acerto Crítico e Multiplicador de Dano Crítico
+    if abs(habilidade.chance_critico - 0) > 0.0001:
+        print('* Chance de Acerto Crítico: {:.1f}%'.format(habilidade.chance_critico))
+    if abs(habilidade.multiplicador_critico - 1) > 0.0001:
+        print('* Multiplicador de Dano Crítico: {:.1f}x'.format(habilidade.multiplicador_critico))
+
+    # Efeitos causados pelo uso da habilidade
+    for e in habilidade.efeitos:
+        ImprimirEfeitoDetalhado(e)
+
+    # Modificadores
+    if habilidade.modificadores:
+        print('\nModificadores:')
+        for m in habilidade.modificadores:
+            if m[0] == "ataque":
+                print('* ATAQUE: {:.1f}%'.format(m[1]))
+            elif m[0] == "defesa":
+                print('* DEFESA: {:.1f}%'.format(m[1]))
+            elif m[0] == "magia":
+                print('* MAGIA: {:.1f}%'.format(m[1]))
+            elif m[0] == "velocidade":
+                print('* VELOCIDADE: {:.1f}%'.format(m[1])) 
 
     print('')
 

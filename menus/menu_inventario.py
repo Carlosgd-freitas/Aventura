@@ -16,7 +16,6 @@ def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
     # Imprimindo os itens presentes no inventário do jogador
     print('|========================================> INVENTÁRIO <=========================================|')
 
-
     tabela = []
     cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classificação"]
     alinhamento = ("left", "center", "center", "center")
@@ -72,7 +71,7 @@ def MenuInventario(jogador):
             anterior = 1
             print('[4] Anterior')
         else:
-            print(Fore.RED + '[4] Anterior' + Style.RESET_ALL + '')
+            print(Fore.RED + '[4] Anterior' + Style.RESET_ALL)
 
         # É possível imprimir até 'itens_por_pagina' próximos itens
         if pagina < ultima_pagina:

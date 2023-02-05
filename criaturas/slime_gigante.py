@@ -57,7 +57,7 @@ class SlimeGigante(criatura.Criatura):
         atacar = ativas_alvo_unico.Atacar("Normal")
         habilidades.append(atacar)
 
-        subdivisao = invocacao.Subdivisao("Slime", 2)
+        subdivisao = invocacao.Subdivisao(2, "Slime", nivel - 1, "M")
         habilidades.append(subdivisao)
 
         if nivel >= 3:

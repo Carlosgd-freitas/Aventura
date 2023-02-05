@@ -1,8 +1,20 @@
 ===== Alpha v0.0.5 =====
 
 > Programação
-* Mudar a impressão das habilidades
+* Mudar a descrição de habilidades
 * Refazer AlvoUnico, AlvoMultiplo, AlvoProprio
+* Habilidade "Regeneração" dos slimes precisa de ter um efeito de Regen (regen não está funcionando também)
+* Usar RetornarStringColorida para impressão detalhada de itens, habilidades e efeitos
+* Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
+	- Atributo 'combinar' na classe Efeito: lista de '+', '-', '>', '<' que indicam como cada um dos
+	outros atributos se combinam
+	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
+	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
+* Retirar as mensagens de decaimento "regen irá durar mais X turnos" (não as de quando o regen stacka)
+* Retirar a duplicidade de código da impressão em "menu_inventario"/"menu_habilidades" e "imprimir"
+* Colocar em utils um modelo de menu genérico para MenuHabilidades e MenuInventario
+* Trocar as funções de "Clonar Classe" por copy.deepcopy()
+* Usar tabulate para a impressão de inimigos em batalha (tablefmt="plain")
 
 > Jogabilidade
 * Bestiário
@@ -16,17 +28,10 @@
 * Dungeon na área 1 - Colméia de Abelhóides
   - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
 
-> Inimigos
-* Abelhóide Curandeira / Vento / Vingança - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
-* Abelhóide Guerreiro / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
-* Chefão: Rainha Abelhóide / Vento / Vingança - 1 de Ataque - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
-* Um inimigo raro para a colméia
-
 > Itens
 * Robe de Seda
 
 > Habilidades
-* Invocar Abelhóide
 * Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
 * Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme o mago sobe de nível
 
@@ -38,22 +43,30 @@
 ===== Alpha v0.1.0 =====
 
 > Programação
-* Retirar as mensagens de decaimento "regen irá durar mais X turnos" (não as de quando o regen stacka)
-* Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
-	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
-	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
 * Jogo retorna ao menu inicial quando erros acontecem em vez de fechar
+* Quando a lista de criaturas é alterada (invocação, criatura derrota...), checar o sufixo dos nomes das criaturas
 
 > Jogabilidade
-* Larry dropa um item chave ao ser derrotado, seu óculos de ourives
+* Larry dropa um item chave ao ser derrotado, um óculos de ourives
 * Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
 * Sistema de conquistas (achievements)
 	- Apicultor: Derrote a Rainha Abelhóide
 	- Caçador de Anomalias: Derrote Larry e o Cristal Atacante
 	- Pesquisador Iniciante: desbloqueie 10 entradas no bestiário
 	- ?: derrote 25 inimigos
-* Modo Difícil
+* Modo Difícil / Refazer IA dos inimigos
 * Sistema de missões (quests)
+
+> Inimigos
+* Abelhóide Curandeira / Vento / Vingança - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
+* Abelhóide Guerreiro / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
+* Chefão: Rainha Abelhóide / Vento / Vingança - 1 de Ataque - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
+* Um inimigo raro para a colméia
+* Refazer batalha contra o chefão da Área 1
+
+> Habilidades
+* Invocar Abelhóide
+* Ventania
 
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.

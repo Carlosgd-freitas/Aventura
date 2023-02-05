@@ -1,4 +1,5 @@
 import sys
+from tabulate import tabulate
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
@@ -32,20 +33,31 @@ def EscolherConsumivel(jogador):
     ao item escolhido.
     """
 
+    print('\nEscolha qual consumível deseja usar:')
+
     indice_print = 1
     indice_item = 0
     relacao = [(0, -1)]
 
-    print('\nEscolha qual consumível deseja usar:')
+    tabela = []
+    cabecalho = ["Nome", "Quantidade"]
+    alinhamento = ("left", "center")
+
     for item in jogador.inventario:
 
         if item.classificacao == "Consumível":
-            print(f'[{indice_print}] {item.nome} - Quantidade: {item.quantidade}')
+
+            t = []
+            t.append(f'[{indice_print}] ' + item.nome) # Índice + Nome
+            t.append(item.quantidade)                  # Quantidade
+            tabela.append(t)
+
             relacao.append((indice_print, indice_item))
             indice_print += 1
 
         indice_item += 1
     
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
     print('\n[0] Retornar e escolher outra ação.\n')
 
     while True:
@@ -79,21 +91,21 @@ def ValidaUsoConsumivel(jogador, item):
     if jogador.hp == jogador.maxHp and (item.nome == "Poção Pequena de Cura" or \
         item.nome == "Poção Pequena de Regeneração" or item.nome == "Erva Curativa" or \
         item.nome == "Mel de Abelhóide"):
-        print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.')
+        print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.\n')
         valido = False
     
     # Poções de Mana com a mana cheia
     elif jogador.mana == jogador.maxMana and item.nome == "Poção Pequena de Mana":
-        print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' já está maximizada.')
+        print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' já está maximizada.\n')
         valido = False
     
     # Antídoto sem estar envenenado
     elif jogador.EfeitoPresente("debuff", "Veneno") == -1 and item.nome == "Antídoto":
 
         if jogador.genero == "M":
-            print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
+            print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.\n')
         elif jogador.genero == "F":
-            print('Você não está ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
+            print('Você não está ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.\n')
 
         valido = False
     
@@ -144,40 +156,49 @@ def EscolherHabilidade(jogador):
     indice_item = 0
     relacao = [(0, -1)]
 
-    for h in jogador.habilidades:
+    tabela = []
+    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center")
+
+    for habilidade in jogador.habilidades:
 
         # A habilidade de ataque normal, bem como habilidades passivas, não serão listadas
-        if (indice_item != indice_atacar) and (h.passiva_ativa == "ativa"):
-            mensagem = f'[{indice_print}] {h.nome} - Tipo: '
-            print(mensagem, end = '')
-            print(imprimir.RetornarTipo(h.tipo), end = '')
+        if (indice_item != indice_atacar) and (habilidade.passiva_ativa == "Ativa"):
 
-            mensagem = ' - Custo: '
+            t = []
+            t.append(f'[{indice_print}] ' + habilidade.nome) # Índice + Nome
+            # Custo
+            custo = ""
+            if len(habilidade.custo) > 0:
+                for i, c in enumerate(habilidade.custo):
+                    if (i != 0) and (i < len(habilidade.custo) - 1):
+                        custo += ', '
+                    if c[0] == "Mana":
+                        custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
+                    elif c[0] == "HP":
+                        custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
+            else:
+                custo += '---'
+            t.append(custo)
+            # Recarga
+            recarga = ""
+            if habilidade.recarga_atual != habilidade.recarga:
+                recarga += Back.BLACK + Fore.RED + str(habilidade.recarga_atual) + Style.RESET_ALL
+            else:
+                recarga += str(habilidade.recarga_atual)
+            recarga += f' / {habilidade.recarga}'
+            t.append(recarga)
+            t.append(imprimir.RetornarTipo(habilidade.tipo))      # Tipo
+            t.append(habilidade.passiva_ativa)                    # Passiva/Ativa
+            t.append(habilidade.alvo)                             # Alvo
+            tabela.append(t)
 
-            # Imprimindo os custos de utilizar a habilidade
-            i_2 = 0
-            for c in h.custo:
-                if i_2 > 0:
-                    print(' e ')
-
-                mensagem += f'{c[1]} '
-
-                if c[0] == "Mana":
-                    mensagem += Fore.BLUE + 'Mana' + Style.RESET_ALL
-                elif c[0] == "HP":
-                    mensagem += Fore.RED + 'HP' + Style.RESET_ALL
-                
-                i_2 += 1  
-            
-            # Imprimindo a recarga da habilidade
-            mensagem += f' - Recarga: {h.recarga_atual}/{h.recarga}'
-
-            print(mensagem)
             relacao.append((indice_print, indice_item))
             indice_print += 1
 
         indice_item += 1
     
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
     print('\n[0] Retornar e escolher outra ação.\n')
 
     while True:

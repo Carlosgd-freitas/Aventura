@@ -214,10 +214,12 @@ class NotasAtualizacao():
 
         print('\nItens')
         self.positivo('Amuleto de Esmeralda adicionado.')
-        self.neutro('Espada renomeada para Espada de Aço.')
+        self.neutro('Espada renomeada para Espada de Ferro.')
 
         print('\nOutros')
+        self.neutro('A impressão do inventário e das habilidades foi refeita.')
         self.neutro('As descrições dos itens consumíveis foi refeita.')
+        # self.neutro('As descrições de itens consumíveis e habilidades foi refeita.')
 
     def titulo(string):
         """
