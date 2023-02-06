@@ -1,5 +1,6 @@
-import math
 import sys
+import math
+from copy import deepcopy
 from colorama import Fore, Back, Style
 
 from . import invocar_criaturas, batalha_chefao
@@ -93,56 +94,63 @@ def CalcularDano(atacante, alvo, habilidade):
 
     return dano
 
-def InicioTurno(criatura):
+def InicioBatalha(criatura, verbose = True):
+    """
+    Esta função é chamada no início da batalha.
+    """
+
+    # Ativando o efeito de certas habilidades passivas
+    if criatura.RetornarHabilidade("Regeneração") is not None:
+        habilidade = criatura.RetornarHabilidade("Regeneração")
+        efeito_regen = deepcopy(habilidade.efeitos[0])
+        criatura.buffs.append(efeito_regen)
+
+def InicioTurno(criatura, verbose = True):
     """
     Esta função é chamada no início do turno da criatura e retorna 0 caso a criatura esteja atordoada.
     """
 
+    # Flags
     consciente = 1
 
-    # Acionando habilidades
-    for h in criatura.habilidades:
+    if criatura.hp > 0:
 
-        if h.nome == "Regeneração" and criatura.hp < criatura.maxHp and criatura.hp > 0:
-            valor = CalcularDano(criatura, criatura, h)
-            criatura.hp += valor
-            mensagem = f'{criatura.nome} regenerou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL +'.'
+        # Aplicando efeitos de buff
+        if criatura.RetornarEfeito("Regeneração HP") is not None:
+            buff = criatura.RetornarEfeito("Regeneração HP")
+            utils.ProcessarEfeito(criatura, buff, criatura, append = False)
+        elif criatura.RetornarEfeito("Regeneração HP %") is not None:
+            buff = criatura.RetornarEfeito("Regeneração HP %")
+            utils.ProcessarEfeito(criatura, buff, criatura, append = False)
 
-            if criatura.hp >= criatura.maxHp:
-                criatura.hp = criatura.maxHp
-                mensagem = f'{criatura.nome} regenerou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' até o máximo.'
+        # Aplicando efeitos de debuff
+        criatura.CombinarEfeito("Veneno")
+        criatura.CombinarEfeito("Atordoamento")
+        criatura.CombinarEfeito("Lentidão")
 
-            print(mensagem)
-            break
-    
-    # Aplicando efeitos de debuff
-    criatura.CombinarEfeito("Veneno")
-    criatura.CombinarEfeito("Atordoamento")
-    criatura.CombinarEfeito("Lentidão")
+        if criatura.EfeitoPresente("debuff", "Veneno") != -1:
+            indice = criatura.EfeitoPresente("debuff", "Veneno")
+            valor = criatura.debuffs[indice].valor
+            criatura.hp -= valor
+            print(f'{criatura.nome} sofreu {valor} de dano do ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '!')
+        
+        elif criatura.EfeitoPresente("debuff", "Atordoamento") != -1:
+            indice = criatura.EfeitoPresente("debuff", "Atordoamento")
 
-    if criatura.EfeitoPresente("debuff", "Veneno") != -1 and criatura.hp > 0:
-        indice = criatura.EfeitoPresente("debuff", "Veneno")
-        valor = criatura.debuffs[indice].valor
-        criatura.hp -= valor
-        print(f'{criatura.nome} sofreu {valor} de dano do ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '!')
-    
-    elif criatura.EfeitoPresente("debuff", "Atordoamento") != -1 and criatura.hp > 0:
-        indice = criatura.EfeitoPresente("debuff", "Atordoamento")
+            if criatura.debuffs[indice].duracao != 0:
+                consciente = 0
+                
+                if criatura.singular_plural == "singular":
+                    if criatura.genero == "M":
+                        print(f'{criatura.nome} está atordoado e não pode agir!')
+                    elif criatura.genero == "F":
+                        print(f'{criatura.nome} está atordoada e não pode agir!')
 
-        if criatura.debuffs[indice].duracao != 0:
-            consciente = 0
-            
-            if criatura.singular_plural == "singular":
-                if criatura.genero == "M":
-                    print(f'{criatura.nome} está atordoado e não pode agir!')
-                elif criatura.genero == "F":
-                    print(f'{criatura.nome} está atordoada e não pode agir!')
-
-            elif criatura.singular_plural == "plural":
-                if criatura.genero == "M":
-                    print(f'{criatura.nome} estão atordoados e não podem agir!')
-                elif criatura.genero == "F":
-                    print(f'{criatura.nome} estão atordoadas e não podem agir!')
+                elif criatura.singular_plural == "plural":
+                    if criatura.genero == "M":
+                        print(f'{criatura.nome} estão atordoados e não podem agir!')
+                    elif criatura.genero == "F":
+                        print(f'{criatura.nome} estão atordoadas e não podem agir!')
 
     return consciente
 
@@ -161,7 +169,7 @@ def AcrescentarRecargas(criatura):
     
     return recarregou
 
-def DecairBuffsDebuffs(criatura, nao_decair = [], verbose = 1):
+def DecairBuffsDebuffs(criatura, nao_decair = [], verbose = 1, terminar = False):
     """
     Aplica o decaimento no valor de cada buff e debuff presente na criatura. Se houve algum decaimento de buff ou
     debuff na criatura, a função retorna 1 e, caso contrário, retorna 0.
@@ -196,103 +204,78 @@ def DecairBuffsDebuffs(criatura, nao_decair = [], verbose = 1):
 
     # Flags
     efeitos_expirados = []
-
-    regen_hp_valor = 0
-    regen_hp_indices = []
+    duracao_pre_termino = 0
     
     # Decaindo Buffs
-    indice = 0
-    for buff in criatura.buffs:
-
+    for indice, buff in enumerate(criatura.buffs):
         if buff.nome not in nao_decair:
-            buff.duracao -= buff.decaimento
 
-            # Defendendo
-            if buff.nome == "Defendendo":
+            if not terminar:
+                buff.duracao -= buff.decaimento
+            else:
+                duracao_pre_termino = buff.duracao
+                buff.duracao -= 9999
             
-                if buff.duracao <= 0 and criatura.hp > 0:
-                    efeitos_expirados.append(indice)
+            if buff.duracao <= 0 and criatura.hp > 0:
+                efeitos_expirados.append(indice)
 
+                # Defendendo
+                if buff.nome == "Defendendo" and verbose == 1:
+                    print(f'{criatura.nome} não está mais defendendo.')
+                
+                # Aumento de atributo: Ataque, Defesa, Magia, Velocidade, Chance de Crítico
+                elif buff.nome == "Aumento Ataque":
+                    criatura.ataque -= buff.valor
                     if verbose == 1:
-                        print(f'{criatura.nome} não está mais defendendo.')
-            
-            # Aumento de atributo: Ataque, Defesa, Magia, Velocidade, Chance de Crítico
-            elif buff.nome == "Aumento Ataque" or buff.nome == "Aumento Defesa" or \
-                buff.nome == "Aumento Magia" or buff.nome == "Aumento Velocidade" or \
-                buff.nome == "Aumento Chance Crítico":
+                        print(f'O aumento de ataque de {criatura.nome} terminou.')
 
-                if buff.duracao <= 0 and criatura.hp > 0:
+                elif buff.nome == "Aumento Defesa":
+                    criatura.defesa -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de defesa de {criatura.nome} terminou.')
 
-                    if buff.nome == "Aumento Ataque":
-                        criatura.ataque -= buff.valor
-                        if verbose == 1:
-                            print(f'O aumento de ataque de {criatura.nome} terminou.')
+                elif buff.nome == "Aumento Magia":
+                    criatura.magia -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de magia de {criatura.nome} terminou.')
 
-                    elif buff.nome == "Aumento Defesa":
-                        criatura.defesa -= buff.valor
-                        if verbose == 1:
-                            print(f'O aumento de defesa de {criatura.nome} terminou.')
+                elif buff.nome == "Aumento Velocidade":
+                    criatura.velocidade -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de velocidade de {criatura.nome} terminou.')
 
-                    elif buff.nome == "Aumento Magia":
-                        criatura.magia -= buff.valor
-                        if verbose == 1:
-                            print(f'O aumento de magia de {criatura.nome} terminou.')
+                elif buff.nome == "Aumento Chance Crítico":
+                    criatura.chance_critico -= buff.valor
+                    if verbose == 1:
+                        print(f'O aumento de chance de crítico de {criatura.nome} terminou.')
 
-                    elif buff.nome == "Aumento Velocidade":
-                        criatura.velocidade -= buff.valor
-                        if verbose == 1:
-                            print(f'O aumento de velocidade de {criatura.nome} terminou.')
+                # Regeneração de HP em um valor definido ou com base no HP máximo
+                elif buff.nome == "Regeneração HP" or buff.nome == "Regeneração HP %":
 
-                    else:
-                        criatura.chance_critico -= buff.valor
-                        if verbose == 1:
-                            print(f'O aumento de chance de crítico de {criatura.nome} terminou.')
+                    # Curando a criatura com o restante do efeito de regeneração de HP
+                    if terminar:
+                        if buff.nome == "Regeneração HP":
+                            criatura.hp += duracao_pre_termino * buff.valor
+                        elif buff.nome == "Regeneração HP %":
+                            valor = duracao_pre_termino * math.floor(criatura.maxHp * (buff.valor / 100))
+                            criatura.hp += valor
 
-                    efeitos_expirados.append(indice)
-
-            # Regeneração de HP em um valor definido ou com base no HP máximo
-            elif buff.nome == "Regeneração HP" or buff.nome == "Regeneração HP %":
-
-                if buff.nome == "Regeneração HP":
-                    regen_hp_indices = criatura.ContarEfeitos("buff", "Regeneração HP")
-                    descartar, maior_duracao = criatura.MaiorEfeito("buff", "Regeneração HP", "duracao")
-                elif buff.nome == "Regeneração HP %":
-                    regen_hp_indices = criatura.ContarEfeitos("buff", "Regeneração HP %")
-                    descartar, maior_duracao = criatura.MaiorEfeito("buff", "Regeneração HP %", "duracao")
-
-                criatura.hp += buff.valor
-                regen_hp_valor += buff.valor
-
-                # Último buff de regeneração presente na lista de buffs
-                if indice == regen_hp_indices[-1] and criatura.hp > 0:
-                    if criatura.hp >= criatura.maxHp:
-                        criatura.hp = criatura.maxHp
-
-                        if verbose == 1:
-                            print('O ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {criatura.nome} foi maximizado.')
-                    else:
-                        if verbose == 1:
-                            print(f'{criatura.nome} regenerou {regen_hp_valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.')
-
-                    if buff.duracao <= 0:
-                        efeitos_expirados.append(indice)
+                        if criatura.hp > criatura.maxHp:
+                            criatura.hp = criatura.maxHp
+                            print(f'O ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {criatura.nome} foi maximizado' +
+                                ' pelo restante do efeito de regeneração.')
+                        else:
+                            print(f'{criatura.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + 
+                                ' pelo restante do efeito de regeneração.')
 
                         if verbose == 1:
                             print('A regeneração de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {criatura.nome} terminou.')
+        
+                # Resistência a Veneno
+                elif buff.nome == "Resistência Veneno" and verbose == 1:
+                    print(f'{criatura.nome} não possui mais resistência a ' + Fore.GREEN + 'Veneno' +
+                        Style.RESET_ALL + '.')
 
-                    else:
-                        if verbose == 1:
-                            if maior_duracao > 1:
-                                print('A regeneração de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {criatura.nome} irá durar mais {maior_duracao} turnos.')
-                            else:
-                                print('A regeneração de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {criatura.nome} irá durar mais {maior_duracao} turno.')
-                
-                # Demais buffs de regeneração presentes na lista de buffs
-                elif criatura.hp > 0 and buff.duracao <= 0:
-                    efeitos_expirados.append(indice)
-
-        indice += 1
-    
     # Removendo Buffs expirados
     indice = 0
     for i in efeitos_expirados:
@@ -301,95 +284,82 @@ def DecairBuffsDebuffs(criatura, nao_decair = [], verbose = 1):
 
     # Decaindo Debuffs
     efeitos_expirados = []
-    indice = 0
-    for debuff in criatura.debuffs:
+    for indice, debuff in enumerate(criatura.debuffs):
 
         if debuff.nome not in nao_decair:
-            debuff.duracao -= debuff.decaimento
 
-            # Veneno
-            if debuff.nome == "Veneno":
+            if not terminar:
+                debuff.duracao -= debuff.decaimento
+            else:
+                duracao_pre_termino = debuff.duracao
+                debuff.duracao -= 9999
 
-                if debuff.duracao <= 0 and criatura.hp > 0:
-                    efeitos_expirados.append(indice)
-
-                    if verbose == 1:
-                        if criatura.singular_plural == "singular":
-                            if criatura.genero == "M":
-                                print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
-                            elif criatura.genero == "F":
-                                print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
-
-                        elif criatura.singular_plural == "plural":
-                            if criatura.genero == "M":
-                                print(f'{criatura.nome} não estão mais ' + Fore.GREEN + 'envenenados' + Style.RESET_ALL + '.')
-                            elif criatura.genero == "F":
-                                print(f'{criatura.nome} não estão mais ' + Fore.GREEN + 'envenenadas' + Style.RESET_ALL + '.')
-        
             # Atordoamento
-            elif debuff.nome == "Atordoamento":
+            if debuff.nome == "Atordoamento" and debuff.duracao <= -1 and criatura.hp > 0:
+                efeitos_expirados.append(indice)
 
-                if debuff.duracao <= -1 and criatura.hp > 0:
-                    efeitos_expirados.append(indice)
+                if verbose == 1:
+                    if criatura.singular_plural == "singular":
+                        if criatura.genero == "M":
+                            print(f'{criatura.nome} não está mais atordoado.')
+                        elif criatura.genero == "F":
+                            print(f'{criatura.nome} não está mais atordoada.')
 
-                    if verbose == 1:
-                        if criatura.singular_plural == "singular":
-                            if criatura.genero == "M":
-                                print(f'{criatura.nome} não está mais atordoado.')
-                            elif criatura.genero == "F":
-                                print(f'{criatura.nome} não está mais atordoada.')
+                    elif criatura.singular_plural == "plural":
+                        if criatura.genero == "M":
+                            print(f'{criatura.nome} não estão mais atordoados.')
+                        elif criatura.genero == "F":
+                            print(f'{criatura.nome} não estão mais atordoadas.')
 
-                        elif criatura.singular_plural == "plural":
-                            if criatura.genero == "M":
-                                print(f'{criatura.nome} não estão mais atordoados.')
-                            elif criatura.genero == "F":
-                                print(f'{criatura.nome} não estão mais atordoadas.')
-        
-            # Lentidão
-            elif debuff.nome == "Lentidão":
+            # Demais debuffs
+            elif debuff.duracao <= 0 and criatura.hp > 0:
+                efeitos_expirados.append(indice)
 
-                if debuff.duracao <= 0 and criatura.hp > 0:
+                # Veneno
+                if debuff.nome == "Veneno" and verbose == 1:
+                    if criatura.singular_plural == "singular":
+                        if criatura.genero == "M":
+                            print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
+                        elif criatura.genero == "F":
+                            print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
+
+                    elif criatura.singular_plural == "plural":
+                        if criatura.genero == "M":
+                            print(f'{criatura.nome} não estão mais ' + Fore.GREEN + 'envenenados' + Style.RESET_ALL + '.')
+                        elif criatura.genero == "F":
+                            print(f'{criatura.nome} não estão mais ' + Fore.GREEN + 'envenenadas' + Style.RESET_ALL + '.')
+            
+                # Lentidão
+                elif debuff.nome == "Lentidão":
                     criatura.velocidade += debuff.valor
-                    efeitos_expirados.append(indice)
-
                     if verbose == 1:
                         print(f'{criatura.nome} não está mais sob o efeito de Lentidão.')
 
-            # Diminuição de atributo: Ataque, Defesa, Magia, Velocidade, Chance de Crítico
-            elif debuff.nome == "Diminuição Ataque" or debuff.nome == "Diminuição Defesa" or \
-                debuff.nome == "Diminuição Magia" or debuff.nome == "Diminuição Velocidade" or \
-                debuff.nome == "Diminuição Chance Crítico":
+                # Diminuição de atributo: Ataque, Defesa, Magia, Velocidade, Chance de Crítico
+                elif debuff.nome == "Diminuição Ataque":
+                    criatura.ataque += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de ataque de {criatura.nome} terminou.')
 
-                if debuff.duracao <= 0 and criatura.hp > 0:
+                elif debuff.nome == "Diminuição Defesa":
+                    criatura.defesa += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de defesa de {criatura.nome} terminou.')
 
-                    if debuff.nome == "Diminuição Ataque":
-                        criatura.ataque += debuff.valor
-                        if verbose == 1:
-                            print(f'A diminuição de ataque de {criatura.nome} terminou.')
+                elif debuff.nome == "Diminuição Magia":
+                    criatura.magia += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de magia de {criatura.nome} terminou.')
 
-                    elif debuff.nome == "Diminuição Defesa":
-                        criatura.defesa += debuff.valor
-                        if verbose == 1:
-                            print(f'A diminuição de defesa de {criatura.nome} terminou.')
+                elif debuff.nome == "Diminuição Velocidade":
+                    criatura.velocidade += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de velocidade de {criatura.nome} terminou.')
 
-                    elif debuff.nome == "Diminuição Magia":
-                        criatura.magia += debuff.valor
-                        if verbose == 1:
-                            print(f'A diminuição de magia de {criatura.nome} terminou.')
-
-                    elif debuff.nome == "Diminuição Velocidade":
-                        criatura.velocidade += debuff.valor
-                        if verbose == 1:
-                            print(f'A diminuição de velocidade de {criatura.nome} terminou.')
-
-                    else:
-                        criatura.chance_critico += debuff.valor
-                        if verbose == 1:
-                            print(f'A diminuição de chance de crítico de {criatura.nome} terminou.')
-
-                    efeitos_expirados.append(indice)
-
-        indice += 1
+                elif debuff.nome == "Diminuição Chance Crítico":
+                    criatura.chance_critico += debuff.valor
+                    if verbose == 1:
+                        print(f'A diminuição de chance de crítico de {criatura.nome} terminou.')
     
     # Removendo Debuffs expirados
     indice = 0
@@ -532,12 +502,12 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
 
     return morreu
 
-def TerminarBuffsDebuffs(criatura, nao_terminar = ['Veneno', 'Equipamento:Resistência Veneno']):
+def TerminarBuffsDebuffs(criatura, nao_terminar = ['Veneno']):
     """
-    Remove a maioria dos buffs e debuffs presentes na criatura.
+    Processa cada um dos buffs e debuffs ainda presentes na criatura ao fim de uma batalha.
     
     Parâmetros:
-    - criatura: criatura que terá os efeitos de buff e debuff removidos.
+    - criatura: criatura presente no fim da batalha que terá os efeitos de buff e debuff terminados.
 
     Parâmetros opcionais:
     - nao_terminar: lista de nomes de efeitos que não serão removidos da criatura. O valor padrão é uma lista
@@ -545,7 +515,7 @@ def TerminarBuffsDebuffs(criatura, nao_terminar = ['Veneno', 'Equipamento:Resist
     """
 
     while True:
-        decaiu = DecairBuffsDebuffs(criatura, nao_decair = nao_terminar, verbose = 0)
+        decaiu = DecairBuffsDebuffs(criatura, nao_decair = nao_terminar, verbose = 0, terminar = True)
 
         if decaiu == 0:
             break

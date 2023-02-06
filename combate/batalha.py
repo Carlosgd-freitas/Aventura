@@ -32,6 +32,12 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
     nomes, nomes_zerados = utils.ContarNomes(nomes, nomes_zerados, inimigos)
     utils.NomesUnicos(nomes, nomes_zerados, aliados, inimigos)
 
+    # Ativando certas habilidades no início da batalha
+    for c in aliados:
+        mecanicas.InicioBatalha(c)
+    for c in inimigos:
+        mecanicas.InicioBatalha(c)
+
     while acabou == 0:
 
         if jogador.hp <= 0:
@@ -86,11 +92,13 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
                 print('')
             
             for c in ordem:
-                consciente = mecanicas.InicioTurno(c)
-                mecanicas.DecairBuffsDebuffs(c)
-                mecanicas.AcrescentarRecargas(c)
-                mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
-                    conf = conf, chefao = chefao)
+
+                if acabou == 0:
+                    consciente = mecanicas.InicioTurno(c)
+                    mecanicas.DecairBuffsDebuffs(c)
+                    mecanicas.AcrescentarRecargas(c)
+                    mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
+                        conf = conf, chefao = chefao)
 
                 if jogador.hp <= 0:
                     acabou = -1
@@ -212,12 +220,14 @@ def JogadorVez(jogador, criaturas, correr = True):
 
         # Atacar
         if op == 1:
-            atacar = jogador.habilidades[0]
+
+            atacar = jogador.RetornarHabilidade("Atacar")
             alvo = jogador_acoes.EscolherAlvo(criaturas)
 
             # Jogador não escolheu retornar 
-            if alvo != -1:
+            if alvo > 0:
                 print('')
+                alvo -= 1
                 dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], atacar)
 
                 if criaturas[alvo].singular_plural == "singular":
@@ -277,27 +287,37 @@ def JogadorVez(jogador, criaturas, correr = True):
                     # Habilidade de alvo único
                     if escolha.alvo == "Inimigo":
                         alvo = jogador_acoes.EscolherAlvo(criaturas)
-                        print(f'\nVocê utilizou {escolha.nome}.')
-                        dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], escolha)
 
-                        if not escolha.nao_causa_dano:
-                            if criaturas[alvo].singular_plural == "singular":
-                                if criaturas[alvo].genero == "M":
-                                    print(f'Você causou {dano} de dano ao {criaturas[alvo].nome}.')
-                                elif criaturas[alvo].genero == "F":
-                                    print(f'Você causou {dano} de dano à {criaturas[alvo].nome}.')
+                        # Jogador não escolheu retornar 
+                        if alvo > 0:
+                            print(f'\nVocê utilizou {escolha.nome}.')
+                            alvo -= 1
+                            dano = usar_habilidade.AlvoUnico(jogador, criaturas[alvo], escolha)
 
-                            elif criaturas[alvo].singular_plural == "plural":
-                                if criaturas[alvo].genero == "M":
-                                    print(f'Você causou {dano} de dano aos {criaturas[alvo].nome}.')
-                                elif criaturas[alvo].genero == "F":
-                                    print(f'Você causou {dano} de dano às {criaturas[alvo].nome}.')
+                            if not escolha.nao_causa_dano:
+                                if criaturas[alvo].singular_plural == "singular":
+                                    if criaturas[alvo].genero == "M":
+                                        print(f'Você causou {dano} de dano ao {criaturas[alvo].nome}.')
+                                    elif criaturas[alvo].genero == "F":
+                                        print(f'Você causou {dano} de dano à {criaturas[alvo].nome}.')
+
+                                elif criaturas[alvo].singular_plural == "plural":
+                                    if criaturas[alvo].genero == "M":
+                                        print(f'Você causou {dano} de dano aos {criaturas[alvo].nome}.')
+                                    elif criaturas[alvo].genero == "F":
+                                        print(f'Você causou {dano} de dano às {criaturas[alvo].nome}.')
+                            break
+                        
+                        # Jogador escolheu retornar 
+                        else:
+                            retorno = 1
                     
                     # Habilidade que alveja a si próprio
                     elif escolha.alvo == "Próprio":
                         print(f'\nVocê utilizou {escolha.nome}.')
                         usar_habilidade.AlvoProprio(jogador, escolha)
-                    
+                        break
+
                     # Habilidade que alveja múltiplos inimigos
                     elif escolha.alvo == "Inimigos":
                         print(f'\nVocê utilizou {escolha.nome}.')
@@ -316,8 +336,7 @@ def JogadorVez(jogador, criaturas, correr = True):
                                         print(f'Você causou {d} de dano aos {criaturas[i].nome}.')
                                     elif criaturas[i].genero == "F":
                                         print(f'Você causou {d} de dano às {criaturas[i].nome}.')
-
-                    break
+                        break
                 
                 # Jogador escolheu retornar
                 else:

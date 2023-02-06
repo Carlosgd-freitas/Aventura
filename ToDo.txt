@@ -1,20 +1,26 @@
 ===== Alpha v0.0.5 =====
 
+* bug: crítico é impresso na hora errada
+* Usar tabulate para a impressão de inimigos em batalha (tablefmt="plain")
+	- usar uma função pra evitar duplicidade de código
+	- print('\nInimigos em batalha:') no começo
+
 > Programação
-* Mudar a descrição de habilidades
 * Refazer AlvoUnico, AlvoMultiplo, AlvoProprio
-* Habilidade "Regeneração" dos slimes precisa de ter um efeito de Regen (regen não está funcionando também)
+	- refazer a lógica de escolher alvo e infligir dano em batalha.py
+* Usar os nomes de função EfeitoPresente e HabilidadePresente, mas com a lógica de RetornarEfeito e
+RetornarHabilidade
 * Usar RetornarStringColorida para impressão detalhada de itens, habilidades e efeitos
+* Trocar as funções de "Clonar Classe" por copy.deepcopy()
+* Retirar a duplicidade de código da impressão em "menu_inventario"/"menu_habilidades" e "imprimir"
+* Colocar em utils um modelo de menu genérico para MenuHabilidades e MenuInventario
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
 	- Atributo 'combinar' na classe Efeito: lista de '+', '-', '>', '<' que indicam como cada um dos
 	outros atributos se combinam
 	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
 	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
-* Retirar as mensagens de decaimento "regen irá durar mais X turnos" (não as de quando o regen stacka)
-* Retirar a duplicidade de código da impressão em "menu_inventario"/"menu_habilidades" e "imprimir"
-* Colocar em utils um modelo de menu genérico para MenuHabilidades e MenuInventario
-* Trocar as funções de "Clonar Classe" por copy.deepcopy()
-* Usar tabulate para a impressão de inimigos em batalha (tablefmt="plain")
+	- Mudar o buff "Equipamento:Resistência Veneno" pra "Resistência Veneno"
+* Mudar a descrição de habilidades
 
 > Jogabilidade
 * Bestiário

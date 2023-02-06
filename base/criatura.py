@@ -67,6 +67,20 @@ class Criatura(basico.Base):
 
         return habilidade.recarga_atual == habilidade.recarga
 
+    def RetornarEfeito(self, efeito_nome):
+        """
+        Retorna o primeiro efeito com nome <efeito_nome> presente na criatura, e retorna None caso a
+        criatura não esteja sob este efeito.
+        """
+
+        for e in self.buffs:
+            if e.nome == efeito_nome:
+                return e
+        for e in self.debuffs:
+            if e.nome == efeito_nome:
+                return e
+        return None
+
     def EfeitoPresente(self, buff_debuff, efeito_nome):
         """
         Retorna o índice da lista de buffs ou debuffs correspondente ao nome do efeito passado por parâmetro se
@@ -168,6 +182,17 @@ class Criatura(basico.Base):
 
         return indice, maior
     
+    def RetornarHabilidade(self, habilidade_nome):
+        """
+        Retorna a habilidade com nome <habilidade_nome> presente na criatura, e retorna None caso a
+        criatura não possua aquela habilidade.
+        """
+
+        for h in self.habilidades:
+            if h.nome == habilidade_nome:
+                return h
+        return None
+
     def HabilidadePresente(self, habilidade_nome):
         """
         Retorna o índice da lista de habilidades correspondente ao nome da habilidade passado por parâmetro se

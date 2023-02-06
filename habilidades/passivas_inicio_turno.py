@@ -1,7 +1,7 @@
 import sys
 
 sys.path.append("..")
-from base import habilidade
+from base import efeito, habilidade
 
 def Regeneracao(valor):
     """
@@ -10,7 +10,9 @@ def Regeneracao(valor):
     * Tipo: Normal
     """
 
+    regen_efeito = efeito.Efeito("Regeneração HP", valor, 0, 999, 100)
+
     regeneracao = habilidade.Habilidade("Regeneração", "Recupera parte do HP no início do turno.", "Normal",
-    "Próprio", "Passiva", valor, [], 0, 0, [], [], "singular", "F", False, 0.0, 1.0)
+    "Próprio", "Passiva", valor, [], 0, 0, [], [regen_efeito], "singular", "F", False, 0.0, 1.0)
     
     return regeneracao

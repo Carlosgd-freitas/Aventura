@@ -12,20 +12,13 @@ def EscolherAlvo(criaturas):
     """
 
     print('\nEscolha quem deseja atacar:')
-    i = 1
-    for c in criaturas:
-        imprimir.ImprimirCriatura(i, c)
-        i += 1
+    for i, c in enumerate(criaturas):
+        imprimir.ImprimirCriatura(i+1, c)
     
     print('\n[0] Retornar e escolher outra ação.\n')
 
-    while True:
-        alvo = utils.LerNumero('> ')
-
-        if alvo >= 0 and alvo <= len(criaturas):
-            break
-    
-    return alvo-1
+    alvo = utils.LerNumeroIntervalo('> ', 0, len(criaturas))
+    return alvo
 
 def EscolherConsumivel(jogador):
     """

@@ -296,7 +296,7 @@ def ContabilizarModificadores(valor, usuario, habilidade):
     saida = math.floor(saida)
     return saida
 
-def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_combate = False):
+def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_combate = False, append = True):
     """
     Processa um efeito de buff/debuff de um item ou habilidade, utilizado por um usuário em um alvo. Apenas um
     dos parâmetros 'item' ou 'habilidade' deve receber um argumento, enquanto o outro permanece com None.
@@ -309,7 +309,9 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
     - habilidade: habilidade que irá causar o efeito.
 
     Parâmetros opcionais:
-    - fora_combate: se igual a True, o efeito sendo processado não foi causado em combate. O valor padrão é False.
+    - fora_combate: se igual a True, o efeito sendo processado não foi causado em combate. O valor padrão é False;
+    - append: se igual a False, o efeito sendo processado não será adicionado a lista de buffs/debuffs da
+    criatura. O valor padrão é True.
     """
 
     # Alguns efeitos terão sua chance calculada posteriormente
@@ -322,7 +324,6 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
     # Flags para efeitos de item
     sobrecura_hp = 0
     sobrecura_mana = 0
-    regeneracao_hp = 0
 
     # Melhora das mensagens de uso de itens
     mensagem = None
@@ -364,9 +365,8 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
         # Buff foi causado através de um item
         if item is not None:
             mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
-        
-        # Buff foi causado através de uma habilidade
-        elif habilidade is not None:
+        # Buff foi causado através de uma habilidade ou outra fonte
+        else:
             mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
 
         sobrecura_hp = 1
@@ -403,9 +403,8 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
         # Buff foi causado através de um item
         if item is not None:
             mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
-        
-        # Buff foi causado através de uma habilidade
-        elif habilidade is not None:
+        # Buff foi causado através de uma habilidade ou outra fonte
+        else:
             mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
 
         sobrecura_mana = 1
@@ -428,17 +427,15 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
         # Buff foi causado através de um item
         if item is not None:
             mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
-        
-        # Buff foi causado através de uma habilidade
-        elif habilidade is not None:
+        # Buff foi causado através de uma habilidade ou outra fonte
+        else:
             mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
 
         if not fora_combate:
             regen = efeito.ClonarEfeito()
             regen.duracao -= regen.decaimento
-            alvo.buffs.append(regen)
-
-            regeneracao_hp = 1
+            if append:
+                alvo.buffs.append(regen)
         
         sobrecura_hp = 1
     
@@ -477,7 +474,8 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
 
         # Se a criatura não está sob o efeito de aumento do atributo
         else:
-            alvo.buffs.append(aumento)
+            if append:
+                alvo.buffs.append(aumento)
             
             if efeito.nome == "Aumento Ataque":
                 alvo.ataque += valor_aumento
@@ -517,7 +515,8 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
     # Criatura está defendendo
     elif efeito.nome == "Defendendo":
         defendendo = efeito.ClonarEfeito()
-        alvo.buffs.append(defendendo)
+        if append:
+            alvo.buffs.append(defendendo)
         print(f'{alvo.nome} está defendendo.')
     
     # Cura debuff de envenenamento
@@ -545,18 +544,6 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
 
     if mensagem is not None:
         print(mensagem)
-
-    # Mensagem extra ao usar itens que concedem regeneração dentro de combate
-    if regeneracao_hp == 1:
-        mensagem = 'A regeneração de ' + Fore.RED + 'HP' + Style.RESET_ALL
-        mensagem += f' concedida {contracao_por} {item.nome} irá durar mais {efeito.duracao - 1}'
-        if efeito.duracao - 1 > 1:
-            mensagem += ' turnos.'
-        else:
-            mensagem += ' turno.'
-
-        if mensagem is not None:
-            print(mensagem)
 
     ## Efeitos de Debuff ##
 
@@ -604,13 +591,15 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
 
         if CalcularChance(chance):
             veneno = efeito.ClonarEfeito()
-            alvo.debuffs.append(veneno)
+            if append:
+                alvo.debuffs.append(veneno)
             print(f'{usuario.nome} ' + Fore.GREEN + 'envenenou' + Style.RESET_ALL + f' {alvo.nome}!')
             alvo.CombinarEfeito("Veneno")
     
     elif efeito.nome == "Atordoamento":
         atordoamento = efeito.ClonarEfeito()
-        alvo.debuffs.append(atordoamento)
+        if append:
+            alvo.debuffs.append(atordoamento)
         print(f'{usuario.nome} atordoou {alvo.nome}!')
         alvo.CombinarEfeito("Atordoamento")
     
@@ -621,7 +610,8 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
         lentidao.nome = "Lentidão"
         lentidao.valor = alvo.velocidade
         alvo.velocidade = 0
-        alvo.debuffs.append(lentidao)
+        if append:
+            alvo.debuffs.append(lentidao)
 
         # Debuff foi causado através de um item
         if item is not None:
@@ -686,7 +676,8 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
 
         # Se a criatura não está sob o efeito de diminuição do atributo
         else:
-            alvo.debuffs.append(diminuicao)
+            if append:
+                alvo.debuffs.append(diminuicao)
             
             if efeito.nome == "Diminuição Ataque":
                 alvo.ataque -= valor_diminuicao
