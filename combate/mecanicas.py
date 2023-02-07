@@ -11,25 +11,20 @@ from itens import espolios
 
 def CalcularDano(atacante, alvo, habilidade):
     """
-    Calcula e retorna o dano que um atacante irá infligir em um alvo ao utilizar uma habilidade.
+    Calcula e retorna o dano que um atacante irá infligir em um alvo ao utilizar uma habilidade e se o acerto
+    foi crítico.
     """
+    acerto_critico = False
+
     # Se a habilidade não causa dano
     if habilidade.nao_causa_dano == True:
-        return 0
+        return 0, acerto_critico
 
     # Valor inicial
     dano = habilidade.valor
 
     # Acrescentando possíveis modificadores de dano
     dano = utils.ContabilizarModificadores(dano, atacante, habilidade)
-    
-    # Em caso da habilidade ter a si mesmo como alvo
-    if habilidade.alvo == "proprio":
-        dano = math.floor(dano)
-        if dano < 0:
-            dano = 0
-
-        return dano
 
     # Habilidade é efetiva contra o tipo do alvo
     if ((habilidade.tipo == "Fogo" and alvo.tipo == "Terrestre") or
@@ -69,7 +64,7 @@ def CalcularDano(atacante, alvo, habilidade):
 
     if utils.CalcularChance(chance_critico / 100):
         dano = math.ceil(dano * multiplicador_critico)
-        print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+        acerto_critico = True
 
     # Checando se a habilidade é perfurante e diminuindo o dano pela defesa do alvo
     defesa = alvo.defesa
@@ -92,7 +87,7 @@ def CalcularDano(atacante, alvo, habilidade):
     if dano < 0:
         dano = 0
 
-    return dano
+    return dano, acerto_critico
 
 def InicioBatalha(criatura, verbose = True):
     """

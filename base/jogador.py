@@ -144,9 +144,9 @@ class Jogador(criatura.Criatura):
         print(mensagem)
 
         # Possíveis Buffs/Debuffs
-        n_efeitos = imprimir.ImprimirEfeitos(self, espaco = False)
+        mensagem, n_efeitos = imprimir.RetornarEfeitos(self, espaco = False)
         if n_efeitos > 0:
-            print('')
+            print(f'{mensagem}\n')
 
         # Atributos do jogador
         print('    ATAQUE: {:2d}'.format(self.ataque), end = '')

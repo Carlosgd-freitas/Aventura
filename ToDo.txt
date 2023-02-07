@@ -1,13 +1,9 @@
 ===== Alpha v0.0.5 =====
 
-* bug: crítico é impresso na hora errada
-* Usar tabulate para a impressão de inimigos em batalha (tablefmt="plain")
-	- usar uma função pra evitar duplicidade de código
-	- print('\nInimigos em batalha:') no começo
-
 > Programação
 * Refazer AlvoUnico, AlvoMultiplo, AlvoProprio
 	- refazer a lógica de escolher alvo e infligir dano em batalha.py
+	- criar função para imprimir danos e acertos críticos em usar_habilidade.py
 * Usar os nomes de função EfeitoPresente e HabilidadePresente, mas com a lógica de RetornarEfeito e
 RetornarHabilidade
 * Usar RetornarStringColorida para impressão detalhada de itens, habilidades e efeitos

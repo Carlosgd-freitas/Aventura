@@ -27,7 +27,7 @@ def ContabilizarCusto(usuario, habilidade):
 
 def AlvoUnico(atacante, alvo, habilidade):
     """
-    Utiliza uma habilidade em um único alvo e retorna o dano infligido.
+    Utiliza uma habilidade em um único alvo e retorna o dano infligido e se o acerto foi crítico.
     """
 
     # Custos da habilidade
@@ -60,7 +60,7 @@ def AlvoUnico(atacante, alvo, habilidade):
             habilidade.efeitos.append(efeito_envenenamento)
 
     # Calculando o dano que será aplicado ao Alvo
-    dano = mecanicas.CalcularDano(atacante, alvo, habilidade)
+    dano, acerto_critico = mecanicas.CalcularDano(atacante, alvo, habilidade)
     if not habilidade.nao_causa_dano:
         alvo.hp -= dano
 
@@ -78,11 +78,12 @@ def AlvoUnico(atacante, alvo, habilidade):
     # Zerando a recarga atual da habilidade
     habilidade.recarga_atual = -1
 
-    return dano
+    return dano, acerto_critico
 
 def AlvoMultiplo(atacante, alvos, habilidade):
     """
-    Utiliza uma habilidade em múltiplos alvos e retorna uma lista contendo o dano infligido em cada um.
+    Utiliza uma habilidade em múltiplos alvos e retorna uma lista contendo o dano infligido em cada um
+    e uma lista dizendo se cada acerto foi crítico.
     """
 
     # Custos da habilidade
@@ -116,9 +117,12 @@ def AlvoMultiplo(atacante, alvos, habilidade):
 
     # Calculando o dano que será aplicado aos Alvos
     danos = []
+    acertos_criticos = []
+
     for alvo in alvos:
-        dano = mecanicas.CalcularDano(atacante, alvo, habilidade)
+        dano, acerto_critico = mecanicas.CalcularDano(atacante, alvo, habilidade)
         danos.append(dano)
+        acertos_criticos.append(acerto_critico)
 
         if not habilidade.nao_causa_dano:
             alvo.hp -= dano
@@ -137,7 +141,7 @@ def AlvoMultiplo(atacante, alvos, habilidade):
     # Zerando a recarga atual da habilidade
     habilidade.recarga_atual = -1
 
-    return danos
+    return danos, acertos_criticos
 
 def AlvoProprio(criatura, habilidade):
     """

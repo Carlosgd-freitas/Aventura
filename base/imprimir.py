@@ -416,9 +416,10 @@ def ImprimirHabilidadeDetalhada(habilidade):
 
 ### Impressão de classes ###
 
-def ImprimirEfeitos(criatura, espaco = True):
+def RetornarEfeitos(criatura, espaco = True):
     """
-    Imprime os efeitos que uma criatura está sob. Retorna o número de efeitos que foram impressos.
+    Retorna uma string referente aos efeitos que uma criatura está sob e o número de efeitos contidos
+    nessa string.
 
     Parâmetros:
     - criatura: criatura cujos efeitos serão impressos.
@@ -434,108 +435,116 @@ def ImprimirEfeitos(criatura, espaco = True):
     n_buffs = criatura.ContarEfeitosImprimiveis("buff")
     n_debuffs = criatura.ContarEfeitosImprimiveis("debuff")
 
+    mensagem = ''
+
     # Buffs presentes na criatura
     if n_buffs > 0:
 
         if espaco:
-            print(' ', end = '')
-        print('[', end = '')
+            mensagem += ' '
+        mensagem += '['
 
         for i, b in enumerate(c_buffs):
             if criatura.buffs[b].nome == "Defendendo":
-                print(Style.BRIGHT + Fore.WHITE + 'DEFENDENDO'+ Style.RESET_ALL, end = '')
+                mensagem += Style.BRIGHT + Fore.WHITE + 'DEFENDENDO'+ Style.RESET_ALL
             
             elif criatura.buffs[b].nome == "Aumento Ataque":
-                print('ATQ' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+                mensagem += 'ATQ' + Fore.GREEN + '+' + Style.RESET_ALL
 
             elif criatura.buffs[b].nome == "Aumento Defesa":
-                print('DEF' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+                mensagem += 'DEF' + Fore.GREEN + '+' + Style.RESET_ALL
             
             elif criatura.buffs[b].nome == "Aumento Magia":
-                print('MAG' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+                mensagem += 'MAG' + Fore.GREEN + '+' + Style.RESET_ALL
 
             elif criatura.buffs[b].nome == "Aumento Velocidade":
-                print('VEL' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+                mensagem += 'VEL' + Fore.GREEN + '+' + Style.RESET_ALL
             
             elif criatura.buffs[b].nome == "Aumento Chance Crítico":
-                print('CRIT%' + Fore.GREEN + '+' + Style.RESET_ALL, end = '')
+                mensagem += 'CRIT%' + Fore.GREEN + '+' + Style.RESET_ALL
             
             elif criatura.buffs[b].nome == "Regeneração HP" or criatura.buffs[b].nome == "Regeneração HP %":
-                print('REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL, end = '')
+                mensagem += 'REGEN ' + Fore.RED + 'HP' + Style.RESET_ALL
 
             if i != n_buffs - 1:
-                print(' | ', end = '')
+                mensagem += ' | '
         
-        print(']', end = '')
+        mensagem += ']'
 
     # Debuffs presentes na criatura
     if n_debuffs > 0:
 
         if espaco and n_buffs == 0:
-            print(' ', end = '')
+            mensagem += ' '
         elif n_buffs > 0:
-            print(' ', end = '')
-        print('[', end = '')
+            mensagem += ' '
+        mensagem += '['
 
         for i, d in enumerate(c_debuffs):
             if criatura.debuffs[d].nome == "Defendendo":
-                print(Style.BRIGHT + Fore.WHITE + 'DEFENDENDO'+ Style.RESET_ALL, end = '')
+                mensagem += Style.BRIGHT + Fore.WHITE + 'DEFENDENDO'+ Style.RESET_ALL
             
             elif criatura.debuffs[d].nome == "Diminuição Ataque":
-                print('ATQ' + Fore.RED + '-' + Style.RESET_ALL, end = '')
+                mensagem += 'ATQ' + Fore.RED + '-' + Style.RESET_ALL
 
             elif criatura.debuffs[d].nome == "Diminuição Defesa":
-                print('DEF' + Fore.RED + '-' + Style.RESET_ALL, end = '')
+                mensagem += 'DEF' + Fore.RED + '-' + Style.RESET_ALL
             
             elif criatura.debuffs[d].nome == "Diminuição Magia":
-                print('MAG' + Fore.RED + '-' + Style.RESET_ALL, end = '')
+                mensagem += 'MAG' + Fore.RED + '-' + Style.RESET_ALL
 
             elif criatura.debuffs[d].nome == "Diminuição Velocidade":
-                print('VEL' + Fore.RED + '-' + Style.RESET_ALL, end = '')
+                mensagem += 'VEL' + Fore.RED + '-' + Style.RESET_ALL
             
             elif criatura.debuffs[d].nome == "Diminuição Chance Crítico":
-                print('CRIT%' + Fore.RED + '-' + Style.RESET_ALL, end = '')
+                mensagem += 'CRIT%' + Fore.RED + '-' + Style.RESET_ALL
             
             elif criatura.debuffs[d].nome == "Veneno":
-                print(Fore.GREEN + 'VENENO' + Style.RESET_ALL, end = '')
+                mensagem += Fore.GREEN + 'VENENO' + Style.RESET_ALL
             
             elif criatura.debuffs[d].nome == "Atordoamento":
-                print(Style.BRIGHT + Fore.WHITE + 'ATORDOAMENTO' + Style.RESET_ALL, end = '')
+                mensagem += Style.BRIGHT + Fore.WHITE + 'ATORDOAMENTO' + Style.RESET_ALL
             
             elif criatura.debuffs[d].nome == "Lentidão":
-                print(Style.BRIGHT + Fore.WHITE + 'LENTIDÃO' + Style.RESET_ALL, end = '')
+                mensagem += Style.BRIGHT + Fore.WHITE + 'LENTIDÃO' + Style.RESET_ALL
 
             if i != n_debuffs - 1:
-                print(' | ', end = '')
+                mensagem += ' | '
         
-        print(']', end = '')
+        mensagem += ']'
+
+    return mensagem, n_buffs + n_debuffs
+
+def InimigosPresentes(inimigos):
+    """
+    Imprime uma lista de criaturas inimigas atualmente presentes em batalha.
+    """
     
+    tabela = []
+    alinhamento = ("left", "left", "left", "left", "left")
+        
+    for indice, inimigo in enumerate(inimigos):
+        t = []
+        # Índice + Nome
+        t.append(f'[{indice+1}] ' + inimigo.nome)
+        # HP / MaxHP
+        hp = '- ' + Fore.RED + 'HP' + Style.RESET_ALL + f' {inimigo.hp}/{inimigo.maxHp}'
+        t.append(hp)
+        # Mana / MaxMana
+        mana = '- ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' {inimigo.mana}/{inimigo.maxMana}'
+        t.append(mana)
+        # Tipo
+        t.append('- Tipo: ' + RetornarTipo(inimigo.tipo))
+        # Efeitos de buff/debuff
+        efeitos, n_efeitos = RetornarEfeitos(inimigo)
+        if n_efeitos > 0:
+            t.append('- ' + efeitos)
+        else:
+            t.append('')
+        tabela.append(t)
+    
+    print(tabulate(tabela, colalign = alinhamento, tablefmt="plain", numalign="right"))
     print('')
-
-    return n_buffs + n_debuffs
-
-def ImprimirCriatura(indice, criatura):
-    """
-    Imprime uma criatura inimiga em batalha.
-    """
-    # Índice e nome da criatura
-    mensagem = f'[{indice}] {criatura.nome} - '
-
-    # Tipo da criatura
-    mensagem += 'Tipo: '
-    print(mensagem, end = '')
-    print(RetornarTipo(criatura.tipo), end = '')
-
-    mensagem = ' - '
-
-    # HP da criatura
-    mensagem += Fore.RED + 'HP' + Style.RESET_ALL + f' {criatura.hp}/{criatura.maxHp} - '
-
-    # Mana da criatura
-    mensagem += Fore.BLUE + 'Mana' + Style.RESET_ALL + f' {criatura.mana}/{criatura.maxMana}'
-
-    print(mensagem, end = '')
-    ImprimirEfeitos(criatura)
 
 def ImprimirJogador(jogador):
     """
@@ -551,7 +560,8 @@ def ImprimirJogador(jogador):
     mensagem += Fore.BLUE + 'Mana' + Style.RESET_ALL + f' {jogador.mana}/{jogador.maxMana}'
 
     print(mensagem, end = '')
-    ImprimirEfeitos(jogador)
+    mensagem, n_efeitos = RetornarEfeitos(jogador)
+    print(mensagem)
 
 def ImprimirEfeitosEquipamentos(jogador):
     """

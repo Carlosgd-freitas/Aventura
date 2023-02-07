@@ -12,10 +12,9 @@ def EscolherAlvo(criaturas):
     """
 
     print('\nEscolha quem deseja atacar:')
-    for i, c in enumerate(criaturas):
-        imprimir.ImprimirCriatura(i+1, c)
-    
-    print('\n[0] Retornar e escolher outra ação.\n')
+    imprimir.InimigosPresentes(criaturas)
+
+    print('[0] Retornar e escolher outra ação.\n')
 
     alvo = utils.LerNumeroIntervalo('> ', 0, len(criaturas))
     return alvo
