@@ -218,25 +218,11 @@ def JogadorVez(jogador, inimigos, correr = True):
 
             # Jogador não escolheu retornar 
             if alvo > 0:
-                print('')
                 alvo -= 1
-                dano, acerto_critico = usar_habilidade.AlvoUnico(jogador, inimigos[alvo], atacar)
-
-                if acerto_critico:
-                    print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
-
-                if inimigos[alvo].singular_plural == "singular":
-                    if inimigos[alvo].genero == "M":
-                        print(f'Você atacou e causou {dano} de dano ao {inimigos[alvo].nome}.')
-                    elif inimigos[alvo].genero == "F":
-                        print(f'Você atacou e causou {dano} de dano à {inimigos[alvo].nome}.')
-
-                elif inimigos[alvo].singular_plural == "plural":
-                    if inimigos[alvo].genero == "M":
-                        print(f'Você atacou e causou {dano} de dano aos {inimigos[alvo].nome}.')
-                    elif inimigos[alvo].genero == "F":
-                        print(f'Você atacou e causou {dano} de dano às {inimigos[alvo].nome}.')
-
+                alvos = [inimigos[alvo]]
+                print('')
+                danos, acertos_criticos = usar_habilidade.UsarHabilidade(jogador, alvos, atacar, verbose = False)
+                usar_habilidade.ImprimirDano(jogador, alvos, atacar, danos, acertos_criticos)
                 break
             
             # Jogador escolheu retornar 
@@ -276,67 +262,44 @@ def JogadorVez(jogador, inimigos, correr = True):
 
                 # Jogador não escolheu retornar 
                 if indice != -1:
-
-                    escolha = jogador.habilidades[indice]
+                    habilidade = jogador.habilidades[indice]
 
                     # Habilidade de alvo único
-                    if escolha.alvo == "Inimigo":
-                        alvo = jogador_acoes.EscolherAlvo(inimigos)
+                    if habilidade.alvo == "Inimigo" or habilidade.alvo == "Aliado":
+                        if habilidade.alvo == "Inimigo":
+                            alvo = jogador_acoes.EscolherAlvo(inimigos)
+                        # else:
+                        #    alvo = jogador_acoes.EscolherAlvo([jogador, aliados])
 
                         # Jogador não escolheu retornar 
                         if alvo > 0:
-                            print(f'\nVocê utilizou {escolha.nome}.')
                             alvo -= 1
-                            dano, acerto_critico = usar_habilidade.AlvoUnico(jogador, inimigos[alvo], escolha)
-
-                            if not escolha.nao_causa_dano:
-                                if acerto_critico:
-                                    print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
-
-                                if inimigos[alvo].singular_plural == "singular":
-                                    if inimigos[alvo].genero == "M":
-                                        print(f'Você causou {dano} de dano ao {inimigos[alvo].nome}.')
-                                    elif inimigos[alvo].genero == "F":
-                                        print(f'Você causou {dano} de dano à {inimigos[alvo].nome}.')
-
-                                elif inimigos[alvo].singular_plural == "plural":
-                                    if inimigos[alvo].genero == "M":
-                                        print(f'Você causou {dano} de dano aos {inimigos[alvo].nome}.')
-                                    elif inimigos[alvo].genero == "F":
-                                        print(f'Você causou {dano} de dano às {inimigos[alvo].nome}.')
+                            alvos = [inimigos[alvo]]
+                            print('')
+                            danos, acertos_criticos = usar_habilidade.UsarHabilidade(jogador, alvos, habilidade)
+                            usar_habilidade.ImprimirDano(jogador, alvos, habilidade, danos, acertos_criticos)
                             break
                         
                         # Jogador escolheu retornar 
                         else:
                             retorno = 1
                     
-                    # Habilidade que alveja a si próprio
-                    elif escolha.alvo == "Próprio":
-                        print(f'\nVocê utilizou {escolha.nome}.')
-                        usar_habilidade.AlvoProprio(jogador, escolha)
-                        break
+                    else:
 
-                    # Habilidade que alveja múltiplos inimigos
-                    elif escolha.alvo == "Inimigos":
-                        print(f'\nVocê utilizou {escolha.nome}.')
-                        danos, acertos_criticos = usar_habilidade.AlvoMultiplo(jogador, inimigos, escolha)
+                        # Habilidade que alveja a si próprio
+                        if habilidade.alvo == "Próprio":
+                            alvos = [jogador]
 
-                        if not escolha.nao_causa_dano:
-                            for i, d in enumerate(danos):
-                                if acertos_criticos[i]:
-                                    print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+                        # Habilidade de alvos múltiplos
+                        elif habilidade.alvo == "Inimigos" or habilidade.alvo == "Aliados":
+                            if habilidade.alvo == "Inimigos":
+                                alvos = inimigos
+                            # else:
+                            #    alvos = [jogador, aliados]
 
-                                if inimigos[i].singular_plural == "singular":
-                                    if inimigos[i].genero == "M":
-                                        print(f'Você causou {d} de dano ao {inimigos[i].nome}.')
-                                    elif inimigos[i].genero == "F":
-                                        print(f'Você causou {d} de dano à {inimigos[i].nome}.')
-
-                                elif inimigos[i].singular_plural == "plural":
-                                    if inimigos[i].genero == "M":
-                                        print(f'Você causou {d} de dano aos {inimigos[i].nome}.')
-                                    elif inimigos[i].genero == "F":
-                                        print(f'Você causou {d} de dano às {inimigos[i].nome}.')
+                        print('')
+                        danos, acertos_criticos = usar_habilidade.UsarHabilidade(jogador, alvos, habilidade)
+                        usar_habilidade.ImprimirDano(jogador, alvos, habilidade, danos, acertos_criticos)
                         break
                 
                 # Jogador escolheu retornar
@@ -428,41 +391,31 @@ def CriaturaVez(criatura, aliados, inimigos, jogador):
 
     # acao será uma tupla: (tipo da ação, habilidade que será usada, alvo(s) da habilidade)
     acao = criatura.EscolherAcao(aliados, inimigos, jogador)
+    habilidade = acao[1]
 
     # Ataque normal
     if acao[0] == "atacar":
-        dano, acerto_critico = usar_habilidade.AlvoUnico(criatura, acao[2], acao[1])
-        if acerto_critico:
-            print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
-        print(f'{criatura.nome} atacou {acao[2].nome} e deu {dano} de dano!')
+        alvos = [acao[2]]
+        danos, acertos_criticos = usar_habilidade.UsarHabilidade(criatura, alvos, habilidade, verbose = False)
+        usar_habilidade.ImprimirDano(criatura, alvos, habilidade, danos, acertos_criticos)
     
     # Usando uma Habilidade
     elif acao[0] == "habilidade":
 
-        print(f'{criatura.nome} usou {acao[1].nome}!')
-
         # Habilidade de alvo único
         if acao[1].alvo == "Inimigo" or acao[1].alvo == "Aliado":
-            dano, acerto_critico = usar_habilidade.AlvoUnico(criatura, acao[2], acao[1])
+            alvos = [acao[2]]
 
-            if not acao[1].nao_causa_dano:
-                if acerto_critico:
-                    print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
-                print(f'{acao[2].nome} recebeu {dano} de dano.')
-        
         # Habilidade que alveja a si próprio
         elif acao[1].alvo == "Próprio":
-            usar_habilidade.AlvoProprio(criatura, acao[1])
-        
+            alvos = [criatura]
+
         # Habilidade de alvos múltiplos
         elif acao[1].alvo == "Inimigos" or acao[1].alvo == "Aliados":
-            danos, acertos_criticos = usar_habilidade.AlvoMultiplo(criatura, acao[2], acao[1])
+            alvos = acao[2]
 
-            if not acao[1].nao_causa_dano:
-                for i, a in enumerate(acao[2]):
-                    if acertos_criticos[i]:
-                        print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
-                    print(f'{a.nome} recebeu {danos[i]} de dano.')
+        danos, acertos_criticos = usar_habilidade.UsarHabilidade(criatura, alvos, habilidade)
+        usar_habilidade.ImprimirDano(criatura, alvos, habilidade, danos, acertos_criticos)
 
     # Passou o turno
     elif acao[0] == "passar":

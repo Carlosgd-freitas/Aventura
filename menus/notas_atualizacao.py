@@ -209,6 +209,9 @@ class NotasAtualizacao():
         """
 
         self.titulo('----------------------------------- Alpha Versão 0.0.5 -----------------------------------')
+        print('\nJogabilidade')
+        self.positivo('Jogadores podem ver os detalhes de um item ou habilidade ao analisá-los fora de batalha.')
+        
         print('\nHabilidades')
         self.positivo("A chance de envenenar um alvo ao atacar pela habilidade 'Envenenamento' será aplicada a todas as habilidades.")
 

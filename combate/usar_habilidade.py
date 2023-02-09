@@ -1,5 +1,6 @@
 import sys
 from copy import deepcopy
+from colorama import Fore, Back, Style
 
 from . import mecanicas
 sys.path.append("..")
@@ -16,75 +17,23 @@ def ContabilizarCusto(usuario, habilidade):
         elif c[0] == "HP":
             usuario.hp -= c[1]
 
-def AlvoUnico(atacante, alvo, habilidade):
+def UsarHabilidade(usuario, alvos, habilidade, verbose = True):
     """
-    Utiliza uma habilidade em um único alvo e retorna o dano infligido e se o acerto foi crítico.
-    """
-
-    # Custos da habilidade
-    ContabilizarCusto(atacante, habilidade)
-    
-    # Ativando o efeito de certas habilidades passivas
-    efeitos_originais = None
-    flag_veneno = 0
-
-    if atacante.HabilidadePresente("Envenenamento") is not None:
-        h = atacante.HabilidadePresente("Envenenamento")
-        efeito_envenenamento = h.efeitos[0]
-
-        # A habilidade usada já possui Veneno: aumenta a chance do efeito
-        if habilidade.RetornarEfeito('Veneno') is not None:
-            flag_veneno = 1
-
-            efeito_habilidade = habilidade.RetornarEfeito('Veneno')
-            efeito_habilidade.chance += efeito_envenenamento.chance
-
-        #  A habilidade usada não possui Veneno: passa a ter o Veneno de 'Envenenamento'
-        else:
-            flag_veneno = 2
-
-            efeitos_originais = []
-            for e in habilidade.efeitos:
-                efeitos_originais.append(deepcopy(e))
-
-            habilidade.efeitos.append(efeito_envenenamento)
-
-    # Calculando o dano que será aplicado ao Alvo
-    dano, acerto_critico = mecanicas.CalcularDano(atacante, alvo, habilidade)
-    if not habilidade.nao_causa_dano:
-        alvo.hp -= dano
-
-    # Aplicando Debuffs no Alvo
-    for e in habilidade.efeitos:
-        utils.ProcessarEfeito(atacante, e, alvo, habilidade = habilidade)
-    
-    # Retornando possíveis alterações na habilidade
-    if flag_veneno == 1:
-        efeito_habilidade.chance -= efeito_envenenamento.chance
-
-    elif flag_veneno == 2:
-        habilidade.efeitos = efeitos_originais
-
-    # Zerando a recarga atual da habilidade
-    habilidade.recarga_atual = -1
-
-    return dano, acerto_critico
-
-def AlvoMultiplo(atacante, alvos, habilidade):
-    """
-    Utiliza uma habilidade em múltiplos alvos e retorna uma lista contendo o dano infligido em cada um
+    Utiliza uma habilidade do usuário em alvos e retorna uma lista contendo o dano infligido em cada um
     e uma lista dizendo se cada acerto foi crítico.
     """
+    if verbose:
+        print(f'{usuario.nome} utilizou {habilidade.nome}.')
 
     # Custos da habilidade
-    ContabilizarCusto(atacante, habilidade)
+    ContabilizarCusto(usuario, habilidade)
 
     # Ativando o efeito de certas habilidades passivas
     efeitos_originais = None
     flag_veneno = 0
 
-    if atacante.HabilidadePresente("Envenenamento") != -1:
-        h = atacante.HabilidadePresente("Envenenamento")
+    if usuario.HabilidadePresente("Envenenamento") is not None:
+        h = usuario.HabilidadePresente("Envenenamento")
         efeito_envenenamento = h.efeitos[0]
 
         # A habilidade usada já possui Veneno: aumenta a chance do efeito
@@ -109,16 +58,16 @@ def AlvoMultiplo(atacante, alvos, habilidade):
     acertos_criticos = []
 
     for alvo in alvos:
-        dano, acerto_critico = mecanicas.CalcularDano(atacante, alvo, habilidade)
+        dano, acerto_critico = mecanicas.CalcularDano(usuario, alvo, habilidade)
         danos.append(dano)
         acertos_criticos.append(acerto_critico)
 
         if not habilidade.nao_causa_dano:
             alvo.hp -= dano
 
-        # Aplicando Debuffs no Alvo
+        # Aplicando efeitos da habilidade no alvo
         for e in habilidade.efeitos:
-            utils.ProcessarEfeito(atacante, e, alvo, habilidade = habilidade)
+            utils.ProcessarEfeito(usuario, e, alvo, habilidade = habilidade)
 
     # Retornando possíveis alterações na habilidade
     if flag_veneno == 1:
@@ -132,17 +81,26 @@ def AlvoMultiplo(atacante, alvos, habilidade):
 
     return danos, acertos_criticos
 
-def AlvoProprio(criatura, habilidade):
+def ImprimirDano(atacante, alvos, habilidade, danos, acertos_criticos):
     """
-    Utiliza uma habilidade em si próprio.
+    Imprime as mensagens de dano após o uso de uma habilidade.
     """
 
-    # Custos da habilidade
-    ContabilizarCusto(criatura, habilidade)
+    for indice, alvo in enumerate(alvos):
 
-    # Aplicando efeitos em si próprio
-    for e in habilidade.efeitos:
-        utils.ProcessarEfeito(criatura, e, criatura, habilidade = habilidade)
-                
-    # Zerando a recarga atual da habilidade
-    habilidade.recarga_atual = -1
+        # Uso da habilidade básica: Atacar
+        if habilidade.nome == "Atacar":
+            if acertos_criticos[indice]:
+                print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+            print(f'{atacante.nome} atacou {alvo.nome} e deu {danos[indice]} de dano!')
+
+        # Uso de outras habilidades
+        else:
+            if acertos_criticos[indice]:
+                print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+            
+            if alvo.singular_plural == "singular":
+                print(f'{alvo.nome} recebeu {danos[indice]} de dano.')
+            elif alvo.singular_plural == "plural":
+                print(f'{alvo.nome} receberam {danos[indice]} de dano.')
+

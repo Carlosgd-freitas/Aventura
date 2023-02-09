@@ -1,19 +1,20 @@
 ===== Alpha v0.0.5 =====
 
 > Programação
-* Refazer AlvoUnico, AlvoMultiplo, AlvoProprio
-	- refazer a lógica de escolher alvo e infligir dano em batalha.py
-	- criar função para imprimir danos e acertos críticos em usar_habilidade.py
 * Retirar a duplicidade de código da impressão em "menu_inventario"/"menu_habilidades" e "imprimir"
-* Colocar em utils um modelo de menu genérico para MenuHabilidades e MenuInventario
+* Imprimir "CRÍTICO" em curas críticas em usar_habilidade.ImprimirDano()
+    - campo cura_critica : bool nas habilidades
+* Campo "item_classe": Espada, Escudo, Adaga, Poção...
+* Colocar o tipo dos argumentos nas funções (usar biblioteca Typing) e o que são os parâmetros nas """docstrings"""
+* Colocar em menu_generico.py um modelo de menu genérico para MenuHabilidades e MenuInventario
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
-	- Atributo 'combinar' na classe Efeito: lista de '+', '-', '>', '<' que indicam como cada um dos
-	outros atributos se combinam
+	- Atributo 'combinar' na classe Efeito: dicionário que indica como cada um dos
+	outros atributos se sobrepõem: '+', '-', '>', '<'
 	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
 	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
 	- Equipamentos e efeitos devem possuir um campo de conceder buffs/debuffs -> EquipamentosGanhos
 	e EquipamentosPerdas
-* Mudar a descrição de habilidades
+* Mudar a descrição das habilidades
 
 > Jogabilidade
 * Bestiário
@@ -21,18 +22,22 @@
 	- Inimigos comuns precisam ser derrotados 1 vez para aparecerem seus nomes, hp, mana e descrição
 	- Inimigos comuns precisam ser derrotados 5 vezes para aparecerem seus loots, experiencia e gold dropados
 	- Inimigos comuns precisam ser derrotados 10 vezes para aparecerem suas habilidades
-	- Inimigos raros e chefões precisam derrotados apenas 1 vez pra aparecer tudo
-* Monstros dropam experiencia e ouro baseados em um range
+	- Inimigos raros e chefões precisam ser derrotados apenas 1 vez pra aparecer tudo
 * Sistema de criação (crafting) / comprar e aprender receitas de criação
+* Monstros dropam experiencia e ouro baseados em um range
 * Dungeon na área 1 - Colméia de Abelhóides
   - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
 
 > Itens
-* Robe de Seda
+* Peitoral de Casco de Tortuga
+* Adaga (duas adagas equipadas -> +1 VEL)
+* Adaga Peçonhenta (% de envenenar) (duas adagas equipadas -> +1 VEL, +% de envenenar)
+* Cajado de Erva Curativa
 
 > Habilidades
-* Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
+* Impacto Atordoante atordoa por +1 turno e tem +1 de recarga se um escudo estiver equipado
 * Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme o mago sobe de nível
+* Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
 
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
@@ -43,7 +48,7 @@
 
 > Programação
 * Jogo retorna ao menu inicial quando erros acontecem em vez de fechar
-* Quando a lista de criaturas é alterada (invocação, criatura derrota...), checar o sufixo dos nomes das criaturas
+* Quando a lista de criaturas é alterada (invocação, criatura derrotada...), checar o sufixo dos nomes das criaturas
 
 > Jogabilidade
 * Larry dropa um item chave ao ser derrotado, um óculos de ourives
@@ -63,6 +68,9 @@
 * Um inimigo raro para a colméia
 * Refazer batalha contra o chefão da Área 1
 
+> Itens
+* Robe de Seda
+
 > Habilidades
 * Invocar Abelhóide
 * Ventania
@@ -72,7 +80,7 @@
 * Rever readme.md e notas de atualização.
 * Gerar os executáveis para Windows e Linux (pyinstaller --onefile --name Aventura main.py).
 
-===== Alpha v0.? =====
+===== Alpha v0.1.1+ =====
 
 > Jogabilidade
 * Área 2 - Floresta [alguma coisa] / Cobras Venenosas / Tortugas
