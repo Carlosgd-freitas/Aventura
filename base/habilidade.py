@@ -76,45 +76,6 @@ class Habilidade():
         
         return string
 
-    def ClonarHabilidade(self):
-        """
-        Cria e retorna uma nova habilidade que possui os atributos com os mesmos valores desta.
-        """
-
-        nome = self.nome
-        descricao = self.descricao
-        tipo = self.tipo
-        alvo = self.alvo
-        passiva_ativa = self.passiva_ativa
-        valor = self.valor
-        nao_causa_dano = self.nao_causa_dano
-
-        recarga = self.recarga
-        recarga_atual = self.recarga_atual
-
-        singular_plural = self.singular_plural
-        genero = self.genero
-
-        chance_critico = self.chance_critico
-        multiplicador_critico = self.multiplicador_critico
-        
-        custo = []
-        for c in self.custo:
-            custo.append(c)
-
-        modificadores = []
-        for m in self.modificadores:
-            modificadores.append(m)
-        
-        efeitos = []
-        for e in self.efeitos:
-            efeitos.append(e.ClonarEfeito())
-
-        habilidade_2 = Habilidade(nome, descricao, tipo, alvo, passiva_ativa, valor, custo, recarga, recarga_atual, 
-            modificadores, efeitos, singular_plural, genero, nao_causa_dano, chance_critico, multiplicador_critico)
-
-        return habilidade_2
-
     def RetornarCusto(self, recurso):
         """
         Retorna o custo de algum recurso ao usar a habilidade.

@@ -45,27 +45,3 @@ class Efeito():
             self.valor += efeito.valor
             self.duracao += efeito.duracao
             self.chance += efeito.chance
-
-    def ClonarEfeito(self):
-        """
-        Cria e retorna um novo efeito que possui os atributos com os mesmos valores deste.
-        """
-
-        nome = self.nome
-        decaimento = self.decaimento
-        duracao = self.duracao
-        chance = self.chance
-        singular_plural = self.singular_plural
-        genero = self.genero
-
-        valor = 0
-        if isinstance(self.valor, (list)):
-            valor = []
-            for v in self.valor:
-                valor.append(v)
-        else:
-            valor = self.valor
-
-        efeito_2 = Efeito(nome, valor, decaimento, duracao, chance, singular_plural, genero)
-
-        return efeito_2

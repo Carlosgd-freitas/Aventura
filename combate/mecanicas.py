@@ -77,10 +77,9 @@ def CalcularDano(atacante, alvo, habilidade):
     dano -= defesa
 
     # Checando se o alvo está defendendo
-    if alvo.EfeitoPresente("buff", "Defendendo") != -1:
-        indice = alvo.EfeitoPresente("buff", "Defendendo")
-        valor = alvo.buffs[indice].valor
-        dano *= (valor / 100)
+    if alvo.EfeitoPresente("Defendendo") is not None:
+        buff = alvo.EfeitoPresente("Defendendo")
+        dano *= (buff.valor / 100)
 
     # Retornando o valor
     dano = math.floor(dano)
@@ -95,8 +94,8 @@ def InicioBatalha(criatura, verbose = True):
     """
 
     # Ativando o efeito de certas habilidades passivas
-    if criatura.RetornarHabilidade("Regeneração") is not None:
-        habilidade = criatura.RetornarHabilidade("Regeneração")
+    if criatura.HabilidadePresente("Regeneração") is not None:
+        habilidade = criatura.HabilidadePresente("Regeneração")
         efeito_regen = deepcopy(habilidade.efeitos[0])
         criatura.buffs.append(efeito_regen)
 
@@ -111,11 +110,11 @@ def InicioTurno(criatura, verbose = True):
     if criatura.hp > 0:
 
         # Aplicando efeitos de buff
-        if criatura.RetornarEfeito("Regeneração HP") is not None:
-            buff = criatura.RetornarEfeito("Regeneração HP")
+        if criatura.EfeitoPresente("Regeneração HP") is not None:
+            buff = criatura.EfeitoPresente("Regeneração HP")
             utils.ProcessarEfeito(criatura, buff, criatura, append = False)
-        elif criatura.RetornarEfeito("Regeneração HP %") is not None:
-            buff = criatura.RetornarEfeito("Regeneração HP %")
+        elif criatura.EfeitoPresente("Regeneração HP %") is not None:
+            buff = criatura.EfeitoPresente("Regeneração HP %")
             utils.ProcessarEfeito(criatura, buff, criatura, append = False)
 
         # Aplicando efeitos de debuff
@@ -123,16 +122,16 @@ def InicioTurno(criatura, verbose = True):
         criatura.CombinarEfeito("Atordoamento")
         criatura.CombinarEfeito("Lentidão")
 
-        if criatura.EfeitoPresente("debuff", "Veneno") != -1:
-            indice = criatura.EfeitoPresente("debuff", "Veneno")
-            valor = criatura.debuffs[indice].valor
+        if criatura.EfeitoPresente("Veneno") is not None:
+            debuff = criatura.EfeitoPresente("Veneno")
+            valor = debuff.valor
             criatura.hp -= valor
             print(f'{criatura.nome} sofreu {valor} de dano do ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '!')
         
-        elif criatura.EfeitoPresente("debuff", "Atordoamento") != -1:
-            indice = criatura.EfeitoPresente("debuff", "Atordoamento")
+        elif criatura.EfeitoPresente("Atordoamento") is not None:
+            debuff = criatura.EfeitoPresente("Atordoamento")
 
-            if criatura.debuffs[indice].duracao != 0:
+            if debuff.duracao != 0:
                 consciente = 0
                 
                 if criatura.singular_plural == "singular":
@@ -451,7 +450,7 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
 
                     for h in c2.habilidades:
                         if h.nome == "Vingança":
-                            efeito = h.efeitos[0].ClonarEfeito()
+                            efeito = deepcopy(h.efeitos[0])
                             conteudo = efeito.nome.split(":") # ["Vingança", "Larva de Abelhóide", "Aumento Ataque", "F"]
                             derrotada = conteudo[1]
 

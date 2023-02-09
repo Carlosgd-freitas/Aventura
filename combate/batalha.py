@@ -213,7 +213,7 @@ def JogadorVez(jogador, inimigos, correr = True):
         # Atacar
         if op == 1:
 
-            atacar = jogador.RetornarHabilidade("Atacar")
+            atacar = jogador.HabilidadePresente("Atacar")
             alvo = jogador_acoes.EscolherAlvo(inimigos)
 
             # Jogador não escolheu retornar 

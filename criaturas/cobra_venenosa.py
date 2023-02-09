@@ -86,7 +86,7 @@ class CobraVenenosa(criatura.Criatura):
         alvo_inimigo = random.choice(inimigos)
 
         # Picada Venenosa -> 80% de chance da Cobra Venenosa usar em um alvo não-envenenado
-        if alvo_inimigo.EfeitoPresente("debuff", "Veneno") == -1 and self.mana >= 3 and super().ChecarRecarga(self.habilidades[1]):
+        if alvo_inimigo.EfeitoPresente("Veneno") is None and self.mana >= 3 and super().ChecarRecarga(self.habilidades[1]):
             if utils.CalcularChance(0.8):
                 return ("habilidade", self.habilidades[1], alvo_inimigo)
 

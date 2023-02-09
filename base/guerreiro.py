@@ -115,9 +115,9 @@ def SubirNivelGuerreiro(jogador):
             print('Você aprendeu uma nova habilidade: ' + Style.BRIGHT + 'Impacto Atordoante' + Style.RESET_ALL + '.')
         
         if jogador.nivel == 4:
-            indice =  jogador.HabilidadePresente("Impacto Atordoante")
-            custo = jogador.habilidades[indice].RetornarCusto("Mana")
-            jogador.habilidades[indice].AlterarCusto("Mana", custo + 1)
+            habilidade =  jogador.HabilidadePresente("Impacto Atordoante")
+            custo = habilidade.RetornarCusto("Mana")
+            habilidade.AlterarCusto("Mana", custo + 1)
     
     # Até o nível 10
     elif jogador.nivel <= 10:
@@ -152,6 +152,6 @@ def SubirNivelGuerreiro(jogador):
 
         # Níveis 6, 8 e 10
         if jogador.nivel % 2 == 0:
-            indice =  jogador.HabilidadePresente("Impacto Atordoante")
-            custo = jogador.habilidades[indice].RetornarCusto("Mana")
-            jogador.habilidades[indice].AlterarCusto("Mana", custo + 1)
+            habilidade =  jogador.HabilidadePresente("Impacto Atordoante")
+            custo = habilidade.RetornarCusto("Mana")
+            habilidade.AlterarCusto("Mana", custo + 1)

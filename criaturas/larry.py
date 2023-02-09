@@ -92,7 +92,7 @@ class Larry(criatura.Criatura):
                 return ("habilidade", self.habilidades[2], alvo_inimigo)
 
         # Focar -> 50% de chance de Larry usar se não estiver sob o efeito de Aumento de Velocidade
-        elif super().EfeitoPresente("buff", "Aumento Velocidade") == -1 and self.mana >= 5 and super().ChecarRecarga(self.habilidades[3]):
+        elif super().EfeitoPresente("Aumento Velocidade") is None and self.mana >= 5 and super().ChecarRecarga(self.habilidades[3]):
             if utils.CalcularChance(0.5):
                 return ("habilidade", self.habilidades[3], None)
 

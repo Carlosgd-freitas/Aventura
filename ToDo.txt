@@ -4,10 +4,6 @@
 * Refazer AlvoUnico, AlvoMultiplo, AlvoProprio
 	- refazer a lógica de escolher alvo e infligir dano em batalha.py
 	- criar função para imprimir danos e acertos críticos em usar_habilidade.py
-* Usar os nomes de função EfeitoPresente e HabilidadePresente, mas com a lógica de RetornarEfeito e
-RetornarHabilidade
-* Usar RetornarStringColorida para impressão detalhada de itens, habilidades e efeitos
-* Trocar as funções de "Clonar Classe" por copy.deepcopy()
 * Retirar a duplicidade de código da impressão em "menu_inventario"/"menu_habilidades" e "imprimir"
 * Colocar em utils um modelo de menu genérico para MenuHabilidades e MenuInventario
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
@@ -15,7 +11,8 @@ RetornarHabilidade
 	outros atributos se combinam
 	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
 	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
-	- Mudar o buff "Equipamento:Resistência Veneno" pra "Resistência Veneno"
+	- Equipamentos e efeitos devem possuir um campo de conceder buffs/debuffs -> EquipamentosGanhos
+	e EquipamentosPerdas
 * Mudar a descrição de habilidades
 
 > Jogabilidade

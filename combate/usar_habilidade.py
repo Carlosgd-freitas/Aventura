@@ -1,18 +1,9 @@
 import sys
+from copy import deepcopy
 
 from . import mecanicas
 sys.path.append("..")
 from base import utils
-
-def CopiarEfeitos(efeitos):
-    """
-    Cria e retorna uma lista de novos efeitos que possuem os atributos com os mesmos valores dos contidos na
-    lista passada por parâmetro.
-    """
-    efeitos_2 = []
-    for e in efeitos:
-        efeitos_2.append(e.ClonarEfeito())
-    return efeitos_2
 
 def ContabilizarCusto(usuario, habilidade):
     """
@@ -37,9 +28,8 @@ def AlvoUnico(atacante, alvo, habilidade):
     efeitos_originais = None
     flag_veneno = 0
 
-    if atacante.HabilidadePresente("Envenenamento") != -1:
-        indice = atacante.HabilidadePresente("Envenenamento")
-        h = atacante.habilidades[indice]
+    if atacante.HabilidadePresente("Envenenamento") is not None:
+        h = atacante.HabilidadePresente("Envenenamento")
         efeito_envenenamento = h.efeitos[0]
 
         # A habilidade usada já possui Veneno: aumenta a chance do efeito
@@ -55,7 +45,7 @@ def AlvoUnico(atacante, alvo, habilidade):
 
             efeitos_originais = []
             for e in habilidade.efeitos:
-                efeitos_originais.append(e.ClonarEfeito())
+                efeitos_originais.append(deepcopy(e))
 
             habilidade.efeitos.append(efeito_envenenamento)
 
@@ -94,8 +84,7 @@ def AlvoMultiplo(atacante, alvos, habilidade):
     flag_veneno = 0
 
     if atacante.HabilidadePresente("Envenenamento") != -1:
-        indice = atacante.HabilidadePresente("Envenenamento")
-        h = atacante.habilidades[indice]
+        h = atacante.HabilidadePresente("Envenenamento")
         efeito_envenenamento = h.efeitos[0]
 
         # A habilidade usada já possui Veneno: aumenta a chance do efeito
@@ -111,7 +100,7 @@ def AlvoMultiplo(atacante, alvos, habilidade):
 
             efeitos_originais = []
             for e in habilidade.efeitos:
-                efeitos_originais.append(e.ClonarEfeito())
+                efeitos_originais.append(deepcopy(e))
 
             habilidade.efeitos.append(efeito_envenenamento)
 

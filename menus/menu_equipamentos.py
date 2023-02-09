@@ -1,4 +1,5 @@
 import sys
+from copy import deepcopy
 from tabulate import tabulate
 from colorama import Fore, Back, Style
 
@@ -144,12 +145,12 @@ def EquipadosGanhos(jogador):
         equipado_indice += 1
     
     # Mudando o tipo do Ataque Normal para o tipo da arma equipada na primeira mão
-    ataque_indice = jogador.HabilidadePresente("Atacar")
+    atacar = jogador.HabilidadePresente("Atacar")
 
     if jogador.equipados[0].classificacao == "Item Vazio":
-        jogador.habilidades[ataque_indice].tipo = "Normal"
+        atacar.tipo = "Normal"
     else:
-        jogador.habilidades[ataque_indice].tipo = jogador.equipados[0].tipo
+        atacar.tipo = jogador.equipados[0].tipo
 
 def EquipadosPerdas(jogador):
     """
@@ -190,8 +191,8 @@ def EquipadosPerdas(jogador):
         jogador.debuffs.pop(i - x)
     
     # Voltando o tipo do Ataque Normal para "Normal"
-    ataque_indice = jogador.HabilidadePresente("Atacar")
-    jogador.habilidades[ataque_indice].tipo = "Normal"
+    atacar = jogador.HabilidadePresente("Atacar")
+    atacar.tipo = "Normal"
 
 def MenuDesequipar(jogador, lugar, verbose = 1):
     """
@@ -295,7 +296,7 @@ def ClonarEquipar(jogador, lugar, item, lugar_adicional = None, verbose = 0):
     """
 
     # Criando um clone do item
-    item_clone = item.ClonarItem()
+    item_clone = deepcopy(item)
     item_clone.quantidade = 1
 
     # Equipando o clone
@@ -339,8 +340,8 @@ def MenuEquipar(jogador, lugar):
     """
 
     # Estados do inventário e equipados antes de qualquer modificação
-    inventario_antigo = jogador.ClonarLista(jogador.inventario)
-    equipados_antigo = jogador.ClonarLista(jogador.equipados)
+    inventario_antigo = deepcopy(jogador.inventario)
+    equipados_antigo = deepcopy(jogador.equipados)
 
     # Classificação do item
     if lugar == 1 or lugar == 2:

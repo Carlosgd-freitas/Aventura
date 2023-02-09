@@ -1,5 +1,6 @@
-import math
 import sys
+import math
+from copy import deepcopy
 from tabulate import tabulate
 from abc import abstractmethod
 from colorama import Fore, Back, Style
@@ -157,7 +158,7 @@ class Area():
 
                         if venda_compra == "Venda":
 
-                            item_vendido = item.ClonarItem()
+                            item_vendido = deepcopy(item)
 
                             item_vendido.preco = (item_vendido.preco * 2) + 1
                             item_vendido.quantidade = escolha_quantidade
@@ -175,7 +176,7 @@ class Area():
                         # Compra -> Jogador tem ouro suficiente
                         elif venda_compra == "Compra" and jogador.ouro >= escolha_quantidade * item.preco:
 
-                            item_comprado = item.ClonarItem()
+                            item_comprado = deepcopy(item)
 
                             item_comprado.preco = math.floor(item_comprado.preco / 2)
                             item_comprado.quantidade = escolha_quantidade

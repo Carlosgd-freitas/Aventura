@@ -237,20 +237,6 @@ class Jogador(criatura.Criatura):
         
         return cont
 
-    def ClonarLista(self, lista):
-        """
-        Cria e retorna uma novo lista de itens que possui os mesmos itens da passada por parâmetro, com
-        os mesmos valores.
-        """
-
-        nova_lista = []
-
-        for item in lista:
-            item_clonado = item.ClonarItem()
-            nova_lista.append(item_clonado)
-
-        return nova_lista
-
 def ReconhecerAcaoBasica(acao, jogador, conf):
     """
     Compara uma ação tomada pelo jogador fora de combate e a executa caso ela seja uma das ações básicas:

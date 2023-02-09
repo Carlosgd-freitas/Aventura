@@ -92,7 +92,7 @@ def ValidaUsoConsumivel(jogador, item):
         valido = False
     
     # Antídoto sem estar envenenado
-    elif jogador.EfeitoPresente("debuff", "Veneno") == -1 and item.nome == "Antídoto":
+    elif jogador.EfeitoPresente("Veneno") is None and item.nome == "Antídoto":
 
         if jogador.genero == "M":
             print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.\n')
@@ -143,7 +143,7 @@ def EscolherHabilidade(jogador):
 
     print('\nEscolha qual habilidade deseja usar:')
 
-    indice_atacar = jogador.HabilidadePresente("Atacar")
+    indice_atacar = jogador.HabilidadeIndice("Atacar")
     indice_print = 1
     indice_item = 0
     relacao = [(0, -1)]

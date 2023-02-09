@@ -67,7 +67,7 @@ class Criatura(basico.Base):
 
         return habilidade.recarga_atual == habilidade.recarga
 
-    def RetornarEfeito(self, efeito_nome):
+    def EfeitoPresente(self, efeito_nome):
         """
         Retorna o primeiro efeito com nome <efeito_nome> presente na criatura, e retorna None caso a
         criatura não esteja sob este efeito.
@@ -80,29 +80,28 @@ class Criatura(basico.Base):
             if e.nome == efeito_nome:
                 return e
         return None
-
-    def EfeitoPresente(self, buff_debuff, efeito_nome):
+    
+    def HabilidadePresente(self, habilidade_nome):
         """
-        Retorna o índice da lista de buffs ou debuffs correspondente ao nome do efeito passado por parâmetro se
-        a criatura está sob aquele efeito e -1 caso contrário.
+        Retorna a habilidade com nome <habilidade_nome> presente na criatura, e retorna None caso a
+        criatura não possua aquela habilidade.
         """
 
-        valor = -1
-        indice = 0
-        lista_efeitos = None
+        for h in self.habilidades:
+            if h.nome == habilidade_nome:
+                return h
+        return None
 
-        if buff_debuff == "buff":
-            lista_efeitos = self.buffs
-        else:
-            lista_efeitos = self.debuffs
+    def HabilidadeIndice(self, habilidade_nome):
+        """
+        Retorna o índice da habilidade com nome <habilidade_nome> presente na criatura, e retorna None caso a
+        criatura não possua aquela habilidade.
+        """
 
-        for e in lista_efeitos:
-            if e.nome == efeito_nome:
-                valor = indice
-                break
-            indice += 1
-
-        return valor
+        for indice, h in enumerate(self.habilidades):
+            if h.nome == habilidade_nome:
+                return indice
+        return None
     
     def ContarEfeitos(self, buff_debuff, efeito_nome = ""):
         """
@@ -147,8 +146,6 @@ class Criatura(basico.Base):
         for e in lista_efeitos:
             if e.nome == "Resistência Veneno":
                 tamanho -= 1
-            elif e.nome == "Equipamento:Resistência Veneno":
-                tamanho -= 1
 
         return tamanho
     
@@ -182,34 +179,6 @@ class Criatura(basico.Base):
 
         return indice, maior
     
-    def RetornarHabilidade(self, habilidade_nome):
-        """
-        Retorna a habilidade com nome <habilidade_nome> presente na criatura, e retorna None caso a
-        criatura não possua aquela habilidade.
-        """
-
-        for h in self.habilidades:
-            if h.nome == habilidade_nome:
-                return h
-        return None
-
-    def HabilidadePresente(self, habilidade_nome):
-        """
-        Retorna o índice da lista de habilidades correspondente ao nome da habilidade passado por parâmetro se
-        a criatura possui aquela habilidade e -1 caso contrário.
-        """
-
-        valor = -1
-        indice = 0
-
-        for h in self.habilidades:
-            if h.nome == habilidade_nome:
-                valor = indice
-                break
-            indice += 1
-
-        return valor
-
     def CombinarEfeito(self, efeito_nome):
         """
         Se a criatura estiver sob mais de um efeito de <efeito_nome>, eles serão combinados e será retornado 1.
@@ -226,32 +195,32 @@ class Criatura(basico.Base):
         # Definindo a lista de efeitos
         if efeito_nome == "Veneno" or efeito_nome == "Atordoamento" or efeito_nome == "Lentidão":
             lista_efeitos = self.debuffs
-            primeiro_indice = self.EfeitoPresente("debuff", efeito_nome)
+            efeito = self.EfeitoPresente(efeito_nome)
         else:
             lista_efeitos = self.buffs
-            primeiro_indice = self.EfeitoPresente("buff", efeito_nome)
+            efeito = self.EfeitoPresente(efeito_nome)
 
         indice = 0
 
-        if primeiro_indice != -1:
+        if efeito is not None:
 
             for e in lista_efeitos:
                 
                 # Efeitos com nome <efeito_nome> presentes na criatura que não são o primeiro
-                if e.nome == efeito_nome and indice != primeiro_indice:
+                if e.nome == efeito_nome and e != efeito:
                     combinou = 1
 
                     # Combinando os efeitos
                     if efeito_nome == "Veneno":
-                        if e.valor > lista_efeitos[primeiro_indice].valor:
-                            lista_efeitos[primeiro_indice].valor = e.valor
+                        if e.valor > efeito.valor:
+                            efeito.valor = e.valor
                     
                     if efeito_nome == "Veneno" or efeito_nome == "Atordoamento":
-                        if e.duracao > lista_efeitos[primeiro_indice].duracao:
-                            lista_efeitos[primeiro_indice].duracao = e.duracao
+                        if e.duracao > efeito.duracao:
+                            efeito.duracao = e.duracao
                     
                     elif efeito_nome == "Lentidão":
-                        lista_efeitos[primeiro_indice].duracao += (e.duracao - 1)
+                        efeito.duracao += (e.duracao - 1)
 
                     # Removendo efeitos com nome <efeito_nome> duplicados
                     lista_efeitos.remove(e)

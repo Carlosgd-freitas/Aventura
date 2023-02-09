@@ -148,7 +148,7 @@ def AmuletoEsmeralda(quantidade, preco):
     * Requerimento: Nível 4
     """
 
-    resistencia = efeito.Efeito("Equipamento:Resistência Veneno", 0.5, 0, 999, 100)
+    resistencia = efeito.Efeito("Resistência Veneno", 0.5, 0, 999, 100)
     amuleto = item.Item([resistencia], [], preco, quantidade, "Acessório", False, "Amuleto de Esmeralda", nivel = 4, tipo = "Terrestre",
         singular_plural = "singular", genero = "M",
         descricao = "Este amuleto é adornado com Esmeraldas de Terra que foram imbuídas em magia reversa após a liberação de seus potenciais mágicos. O resultado é " +

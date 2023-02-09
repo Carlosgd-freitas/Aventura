@@ -111,9 +111,9 @@ def SubirNivelMago(jogador):
 
         # Níveis 2 e 4
         if jogador.nivel % 2 == 0:
-            indice =  jogador.HabilidadePresente("Projétil de Mana")
-            custo = jogador.habilidades[indice].RetornarCusto("Mana")
-            jogador.habilidades[indice].AlterarCusto("Mana", custo + 1)
+            habilidade =  jogador.HabilidadePresente("Projétil de Mana")
+            custo = habilidade.RetornarCusto("Mana")
+            habilidade.AlterarCusto("Mana", custo + 1)
         
         if jogador.nivel == 3:
             escudo = ativas_alvo_proprio.EscudoMagico()
@@ -122,8 +122,8 @@ def SubirNivelMago(jogador):
             print('Você aprendeu uma nova habilidade: ' + Style.BRIGHT + 'Escudo Mágico' + Style.RESET_ALL + '.')
         
         if jogador.nivel == 4:
-            indice =  jogador.HabilidadePresente("Escudo Mágico")
-            jogador.habilidades[indice].AlterarCusto("Mana", jogador.nivel)
+            habilidade =  jogador.HabilidadePresente("Escudo Mágico")
+            habilidade.AlterarCusto("Mana", jogador.nivel)
         
         if jogador.nivel == 5:
             disparo = ativas_alvos_multiplos.DisparoEletrico(4)
@@ -165,11 +165,11 @@ def SubirNivelMago(jogador):
 
         # Níveis 6, 8 e 10
         if jogador.nivel % 2 == 0:
-            indice =  jogador.HabilidadePresente("Projétil de Mana")
-            custo = jogador.habilidades[indice].RetornarCusto("Mana")
-            jogador.habilidades[indice].AlterarCusto("Mana", custo + 1)
+            habilidade =  jogador.HabilidadePresente("Projétil de Mana")
+            custo = habilidade.RetornarCusto("Mana")
+            habilidade.AlterarCusto("Mana", custo + 1)
         
         # Níveis 7 e 9
         if jogador.nivel % 2 != 0:
-            indice =  jogador.HabilidadePresente("Escudo Mágico")
-            jogador.habilidades[indice].AlterarCusto("Mana", jogador.nivel)
+            habilidade =  jogador.HabilidadePresente("Escudo Mágico")
+            habilidade.AlterarCusto("Mana", jogador.nivel)

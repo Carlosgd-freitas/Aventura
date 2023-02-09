@@ -78,11 +78,11 @@ class Tortuga(criatura.Criatura):
         alvo_inimigo = random.choice(inimigos)
 
         # Entrar no Casco -> Se a Tortuga não estiver defendendo e estiver com HP <= 25%
-        if super().EfeitoPresente("buff", "Defendendo") == -1 and self.hp <= (self.maxHp * 0.25) and super().ChecarRecarga(self.habilidades[1]):
+        if super().EfeitoPresente("Defendendo") is None and self.hp <= (self.maxHp * 0.25) and super().ChecarRecarga(self.habilidades[1]):
             return ("habilidade", self.habilidades[1], None)
 
         # Passar o Turno -> Se a Tortuga estiver defendendo
-        elif super().EfeitoPresente("buff", "Defendendo") != -1:
+        elif super().EfeitoPresente("Defendendo") is not None:
             return ("passar", f"A {self.nome} está dentro de seu casco.", None)
 
         # Atacar
