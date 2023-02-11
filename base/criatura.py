@@ -60,6 +60,22 @@ class Criatura(basico.Base):
 
         return string
 
+    def AtributosBasicos(self):
+        """
+        Retorna um dicionário contendo os atributos maxHp, hp, maxMana, mana, ataque, defesa, magia, e 
+        velocidade.
+        """
+        atributos = {}
+        atributos["maxHp"] = self.maxHp
+        atributos["hp"] = self.hp
+        atributos["maxMana"] = self.maxMana
+        atributos["mana"] = self.mana
+        atributos["ataque"] = self.ataque
+        atributos["defesa"] = self.defesa
+        atributos["magia"] = self.magia
+        atributos["velocidade"] = self.velocidade
+        return atributos
+
     def ChecarRecarga(self, habilidade):
         """
         Retorna 1 se o valor de recarga atual da habilidade é igual ao valor da recarga e retorna 0 caso contrário.

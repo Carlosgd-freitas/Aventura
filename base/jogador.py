@@ -161,6 +161,24 @@ class Jogador(criatura.Criatura):
         # Imprime os efeitos concedidos pelos equipamentos do jogador
         imprimir.ImprimirEfeitosEquipamentos(self)
 
+    def AtributosBasicos(self):
+        """
+        Retorna um dicionário contendo os atributos maxHp, hp, maxMana, mana, ataque, defesa, magia, e 
+        velocidade.
+        """
+        menu_equipamentos.EquipadosPerdas(self)
+        atributos = {}
+        atributos["maxHp"] = self.maxHp
+        atributos["hp"] = self.hp
+        atributos["maxMana"] = self.maxMana
+        atributos["mana"] = self.mana
+        atributos["ataque"] = self.ataque
+        atributos["defesa"] = self.defesa
+        atributos["magia"] = self.magia
+        atributos["velocidade"] = self.velocidade
+        menu_equipamentos.EquipadosGanhos(self)
+        return atributos
+
     def SubirNivel(self):
         """
         Confere se o jogador tem a experiência necessária para subir de nível. Se tiver, a função de subir de nível
@@ -180,12 +198,15 @@ class Jogador(criatura.Criatura):
                 print('\nVocê subiu para o ', end = '')
                 print(Style.BRIGHT + 'Nível ' + f'{self.nivel}' + Style.RESET_ALL, end = '')
                 print('!')
+                atributos_antes = self.AtributosBasicos()
 
                 if self.classe == "Guerreiro" or self.classe == "Guerreira":
                     guerreiro.SubirNivelGuerreiro(self)
                 elif self.classe == "Mago" or self.classe == "Maga":
                     mago.SubirNivelMago(self)
                 
+                atributos_depois = self.AtributosBasicos()
+                imprimir.MensagemSubirNivel(atributos_antes, atributos_depois)
                 subiu += 1
             
             else:

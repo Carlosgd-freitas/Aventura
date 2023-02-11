@@ -91,20 +91,12 @@ def SubirNivelGuerreiro(jogador):
 
         jogador.ataque += 1
 
-        print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo aumentou em 3.')
-        print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima aumentou em 2.')
-        print('Seu ataque aumentou em 1.')
-
         if jogador.nivel == 3:
             jogador.magia += 1
             jogador.defesa += 1
-
-            print('Sua magia aumentou em 1.')
-            print('Sua defesa aumentou em 1.')
         
         if jogador.nivel == 5:
             jogador.velocidade += 1
-            print('Sua velocidade aumentou em 1.')
         
         # Habilidades
 
@@ -112,7 +104,7 @@ def SubirNivelGuerreiro(jogador):
             impacto = ativas_alvo_unico.ImpactoAtordoante(1, 100, "Normal", 4, 3)
             jogador.habilidades.append(impacto)
 
-            print('Você aprendeu uma nova habilidade: ' + Style.BRIGHT + 'Impacto Atordoante' + Style.RESET_ALL + '.')
+            print('Nova habilidade: ' + Style.BRIGHT + 'Impacto Atordoante' + Style.RESET_ALL + '.')
         
         if jogador.nivel == 4:
             habilidade =  jogador.HabilidadePresente("Impacto Atordoante")
@@ -130,23 +122,16 @@ def SubirNivelGuerreiro(jogador):
 
         jogador.ataque += 1
 
-        print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' máximo aumentou em 5.')
-        print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' máxima aumentou em 3.')
-        print('Seu ataque aumentou em 1.')
-
         # Níveis 6, 8 e 10
         if jogador.nivel % 2 == 0:
             jogador.magia += 1
-            print('Sua magia aumentou em 1.')
         
         # Níveis 6 e 9
         if jogador.nivel % 3 == 0:
             jogador.defesa += 1
-            print('Sua defesa aumentou em 1.')
         
         if jogador.nivel == 10:
             jogador.velocidade += 1
-            print('Sua velocidade aumentou em 1.')
         
         # Habilidades
 

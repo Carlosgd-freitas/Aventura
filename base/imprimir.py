@@ -64,13 +64,17 @@ def RetornarStringColorida(string):
     Recebe uma string e a retorna juntamente com as funções para aplicação de cor correspondentes.
     """
     
-    if string.lower() == 'hp' or string.lower() == '-':
+    if string.lower() == 'hp':
         return Back.BLACK + Fore.RED + string + Style.RESET_ALL
     elif string.lower() == 'mana':
         return Back.BLACK + Fore.BLUE + string + Style.RESET_ALL
+    elif  string.lower() == '+' or string.lower() == '>>':
+        return Back.BLACK + Fore.GREEN + string + Style.RESET_ALL
+    elif  string.lower() == '-' or string.lower() == '<<':
+        return Back.BLACK + Fore.RED + string + Style.RESET_ALL
     elif string.lower() == 'defendendo':
         return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'veneno' or string.lower() == 'envenenamento' or string.lower() == '+':
+    elif string.lower() == 'veneno' or string.lower() == 'envenenamento':
         return Back.BLACK + Fore.GREEN + string + Style.RESET_ALL
     elif string.lower() == 'lentidão' or string.lower() == 'atordoamento':
         return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
@@ -85,6 +89,8 @@ def RetornarStringColorida(string):
     elif string.lower() == 'chance de acerto crítico' or string.lower() == 'crit%':
         return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
     elif string.lower() == 'multiplicador de dano crítico' or string.lower() == 'crit':
+        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
+    elif string.lower() == 'nível':
         return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
 
 ### Impressão de classes ###
@@ -562,6 +568,30 @@ def ImprimirEfeitosEquipamentos(jogador):
         imprimiu = True
     
     return imprimiu
+
+def MensagemSubirNivel(atributos_antes, atributos_depois):
+    """
+    Imprime a mudança nos atributos do jogador após ele subir de nível.
+    """
+    hp = atributos_depois["maxHp"] -  atributos_antes["maxHp"]
+    mana = atributos_depois["maxMana"] -  atributos_antes["maxMana"]
+    ataque = atributos_depois["ataque"] -  atributos_antes["ataque"]
+    defesa = atributos_depois["defesa"] -  atributos_antes["defesa"]
+    magia = atributos_depois["magia"] -  atributos_antes["magia"]
+    velocidade = atributos_depois["velocidade"] -  atributos_antes["velocidade"]
+
+    if hp > 0:
+        print(f'{RetornarStringColorida("HP")}: {atributos_antes["maxHp"]} {RetornarStringColorida(">>")} {atributos_depois["maxHp"]}')
+    if mana > 0:
+        print(f'{RetornarStringColorida("Mana")}: {atributos_antes["maxMana"]} {RetornarStringColorida(">>")} {atributos_depois["maxMana"]}')
+    if ataque > 0:
+        print(f'{RetornarStringColorida("ATAQUE")}: {atributos_antes["ataque"]} {RetornarStringColorida(">>")} {atributos_depois["ataque"]}')
+    if defesa > 0:
+        print(f'{RetornarStringColorida("DEFESA")}: {atributos_antes["defesa"]} {RetornarStringColorida(">>")} {atributos_depois["defesa"]}')
+    if magia > 0:
+        print(f'{RetornarStringColorida("MAGIA")}: {atributos_antes["magia"]} {RetornarStringColorida(">>")} {atributos_depois["magia"]}')
+    if velocidade > 0:
+        print(f'{RetornarStringColorida("VELOCIDADE")}: {atributos_antes["velocidade"]} {RetornarStringColorida(">>")} {atributos_depois["velocidade"]}')
 
 ### Mensagens do Sistema ###
 

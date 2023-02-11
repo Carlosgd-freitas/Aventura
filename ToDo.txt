@@ -1,7 +1,6 @@
 ===== Alpha v0.0.5 =====
 
 * Retirar a duplicidade de código da impressão em "menu_inventario"/"menu_habilidades" e "imprimir"
-* Melhora as mensagens de subida de nível
 * Colocar o tipo dos argumentos nas funções (usar biblioteca Typing) e o que são os parâmetros nas """docstrings"""
 * Refazer métodos __str__
 
