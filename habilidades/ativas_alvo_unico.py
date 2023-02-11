@@ -116,7 +116,7 @@ def CuraInferior(mana, recarga):
     * Efeitos: Cura o hp do alvo em 20% de seu hp máximo.
     """
 
-    cura_efeito = efeito.Efeito("Cura HP %", 20, 0, -1, 100)
+    cura_efeito = efeito.Efeito("Cura HP % ou valor", [20, 5], 0, -1, 100)
 
     cura = habilidade.Habilidade("Cura Inferior", "Utiliza magia para curar o alvo em 20% de sua vida máxima.",
     "Normal", "Aliado", "Ativa", 0, [("Mana", mana)], recarga, recarga, [], [cura_efeito], "singular", "F", True,

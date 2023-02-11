@@ -18,56 +18,56 @@ def LinhaEquipamento(item, linha):
     """
 
     # Nível
-    if item.classificacao != "Item Vazio":
+    if item.classe_batalha != "Item Vazio":
         nivel = item.nivel
     else:
         nivel = '---'
     linha.append(nivel)
 
     # Tipo
-    if item.classificacao != "Item Vazio":
+    if item.classe_batalha != "Item Vazio":
         tipo = imprimir.RetornarTipo(item.tipo)
     else:
         tipo = '---'
     linha.append(tipo)
 
     # Vida Máxima
-    if item.classificacao != "Item Vazio":
+    if item.classe_batalha != "Item Vazio":
         maxHp = item.maxHp
     else:
         maxHp = '---'
     linha.append(maxHp)
 
     # Mana Máxima
-    if item.classificacao != "Item Vazio":
+    if item.classe_batalha != "Item Vazio":
         maxMana = item.maxMana
     else:
         maxMana = '---'
     linha.append(maxMana)
 
     # Ataque
-    if item.classificacao != "Item Vazio":
+    if item.classe_batalha != "Item Vazio":
         ataque = item.ataque
     else:
         ataque = '---'
     linha.append(ataque)
 
     # Defesa
-    if item.classificacao != "Item Vazio":
+    if item.classe_batalha != "Item Vazio":
         defesa = item.defesa
     else:
         defesa = '---'
     linha.append(defesa)
 
     # Magia
-    if item.classificacao != "Item Vazio":
+    if item.classe_batalha != "Item Vazio":
         magia = item.magia
     else:
         magia = '---'
     linha.append(magia)
 
     # Velocidade
-    if item.classificacao != "Item Vazio":
+    if item.classe_batalha != "Item Vazio":
         velocidade = item.velocidade
     else:
         velocidade = '---'
@@ -102,7 +102,7 @@ def ImprimirEquipados(jogador):
         t.append(f'[{i+1}] ' + parte)
 
         # Nome
-        if item.classificacao != "Item Vazio":
+        if item.classe_batalha != "Item Vazio":
             nome = item.nome
         else:
             nome = '---'
@@ -124,7 +124,7 @@ def EquipadosGanhos(jogador):
     # Aumentando os atributos do jogador
     equipado_indice = 0
     for e in jogador.equipados:
-        if equipado_indice == 1 and e.classificacao == "Duas Mãos":
+        if equipado_indice == 1 and e.classe_batalha == "Duas Mãos":
             pass
 
         else:
@@ -147,7 +147,7 @@ def EquipadosGanhos(jogador):
     # Mudando o tipo do Ataque Normal para o tipo da arma equipada na primeira mão
     atacar = jogador.HabilidadePresente("Atacar")
 
-    if jogador.equipados[0].classificacao == "Item Vazio":
+    if jogador.equipados[0].classe_batalha == "Item Vazio":
         atacar.tipo = "Normal"
     else:
         atacar.tipo = jogador.equipados[0].tipo
@@ -160,7 +160,7 @@ def EquipadosPerdas(jogador):
     # Diminuindo os atributos do jogador
     equipado_indice = 0
     for e in jogador.equipados:
-        if equipado_indice == 1 and e.classificacao == "Duas Mãos":
+        if equipado_indice == 1 and e.classe_batalha == "Duas Mãos":
             pass
 
         else:
@@ -213,12 +213,12 @@ def MenuDesequipar(jogador, lugar, verbose = 1):
 
     item = jogador.equipados[lugar - 1]
 
-    if item.classificacao == "Item Vazio":
+    if item.classe_batalha == "Item Vazio":
         return 0, "Item Vazio"
 
     # Mãos
     if lugar == 1 or lugar == 2:
-        if item.classificacao == "Item Vazio" and verbose == 1:
+        if item.classe_batalha == "Item Vazio" and verbose == 1:
             print('Não há nada equipado nesta mão para você desequipar.\n')
 
         # Desequipando Item
@@ -226,7 +226,7 @@ def MenuDesequipar(jogador, lugar, verbose = 1):
             vazio = equipamentos.Vazio()
             jogador.AdicionarAoInventario(item)
 
-            if item.classificacao == "Uma Mão":
+            if item.classe_batalha == "Uma Mão":
                 jogador.equipados[lugar - 1] = vazio
             
             else:
@@ -249,19 +249,19 @@ def MenuDesequipar(jogador, lugar, verbose = 1):
             return 1, item.nome
 
     # Cabeça
-    elif lugar == 3 and item.classificacao == "Item Vazio" and verbose == 1:
+    elif lugar == 3 and item.classe_batalha == "Item Vazio" and verbose == 1:
         print('Não há nada equipado na cabeça para você desequipar.\n')
     
     # Peitoral
-    elif lugar == 4 and item.classificacao == "Item Vazio" and verbose == 1:
+    elif lugar == 4 and item.classe_batalha == "Item Vazio" and verbose == 1:
         print('Não há nada equipado no peitoral para você desequipar.\n')
 
     # Pés
-    elif lugar == 5 and item.classificacao == "Item Vazio" and verbose == 1:
+    elif lugar == 5 and item.classe_batalha == "Item Vazio" and verbose == 1:
         print('Não há nada equipado nos pés para você desequipar.\n')
 
     # Acessório
-    elif lugar == 6 and item.classificacao == "Item Vazio" and verbose == 1:
+    elif lugar == 6 and item.classe_batalha == "Item Vazio" and verbose == 1:
         print('Não há acessório equipado para você desequipar.\n')
 
     # Desequipando Item
@@ -345,15 +345,15 @@ def MenuEquipar(jogador, lugar):
 
     # Classificação do item
     if lugar == 1 or lugar == 2:
-        classificacao = "Uma Mão"
+        classe_batalha = "Uma Mão"
     elif lugar == 3:
-        classificacao = "Cabeça"
+        classe_batalha = "Cabeça"
     elif lugar == 4:
-        classificacao = "Peitoral"
+        classe_batalha = "Peitoral"
     elif lugar == 5:
-        classificacao = "Pés"
+        classe_batalha = "Pés"
     elif lugar == 6:
-        classificacao = "Acessório"
+        classe_batalha = "Acessório"
         
     print('Qual item você deseja equipar?')
 
@@ -370,12 +370,12 @@ def MenuEquipar(jogador, lugar):
     for item in jogador.inventario:
         t = []
 
-        if ((classificacao == "Uma Mão") and (item.classificacao == "Uma Mão" or item.classificacao == "Duas Mãos") and \
+        if ((classe_batalha == "Uma Mão") and (item.classe_batalha == "Uma Mão" or item.classe_batalha == "Duas Mãos") and \
             (item.nivel <= jogador.nivel)) or \
-            ((item.classificacao == classificacao) and (item.nivel <= jogador.nivel)):
+            ((item.classe_batalha == classe_batalha) and (item.nivel <= jogador.nivel)):
 
             t.append(f'[{print_indice}] ' + item.nome)
-            t.append(item.classificacao)
+            t.append(item.classe_batalha)
             LinhaEquipamento(item, t)
             tabela.append(t)
 
@@ -411,11 +411,11 @@ def MenuEquipar(jogador, lugar):
 
         item_equipado = jogador.inventario[escolha]
 
-        if ((lugar == 1 or lugar == 2) and item_equipado.classificacao == "Uma Mão") or (lugar >= 3 and lugar <= 6):
+        if ((lugar == 1 or lugar == 2) and item_equipado.classe_batalha == "Uma Mão") or (lugar >= 3 and lugar <= 6):
             MenuDesequipar(jogador, lugar, verbose = 0)
             ClonarEquipar(jogador, lugar, item_equipado, verbose = 1)
 
-        elif (lugar == 1 or lugar == 2) and item_equipado.classificacao == "Duas Mãos":
+        elif (lugar == 1 or lugar == 2) and item_equipado.classe_batalha == "Duas Mãos":
             MenuDesequipar(jogador, 1, verbose = 0)
             MenuDesequipar(jogador, 2, verbose = 0)
             ClonarEquipar(jogador, 1, item_equipado, 2, verbose = 1)

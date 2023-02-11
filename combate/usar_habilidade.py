@@ -23,7 +23,10 @@ def UsarHabilidade(usuario, alvos, habilidade, verbose = True):
     e uma lista dizendo se cada acerto foi crítico.
     """
     if verbose:
-        print(f'{usuario.nome} utilizou {habilidade.nome}.')
+        if habilidade.alvo == "Inimigo" or habilidade.alvo == "Aliado":
+            print(f'{usuario.nome} utilizou {habilidade.nome} em {alvos[0].nome}.')
+        else:
+            print(f'{usuario.nome} utilizou {habilidade.nome}.')
 
     # Custos da habilidade
     ContabilizarCusto(usuario, habilidade)

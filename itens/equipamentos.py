@@ -10,7 +10,7 @@ def Vazio():
     (Cabeça, Peitoral, etc).
     """
 
-    vazio = item.Item([], [], 0, 1, "Item Vazio", False, "Item Vazio",
+    vazio = item.Item([], [], 0, 1, "Item Vazio", "Item Vazio", False, "Item Vazio",
         descricao = "Esse texto não é pra aparecer durante o jogo kkkkk")
     
     return vazio
@@ -22,7 +22,7 @@ def EspadaEnferrujada(quantidade, preco):
     * 1 de Ataque
     """
 
-    espada = item.Item([], [], preco, quantidade, "Uma Mão", False, "Espada Enferrujada",
+    espada = item.Item([], [], preco, quantidade, "Espada", "Uma Mão", False, "Espada Enferrujada",
         nivel = 1, tipo = "Normal", ataque = 1, singular_plural = "singular", genero = "F",
         descricao = "Uma espada velha que se enferrujou com o tempo.")
     
@@ -35,7 +35,7 @@ def EspadaFerro(quantidade, preco):
     * Requerimento: Nível 2
     """
 
-    espada = item.Item([], [], preco, quantidade, "Uma Mão", False, "Espada de Ferro", nivel = 2,
+    espada = item.Item([], [], preco, quantidade, "Espada", "Uma Mão", False, "Espada de Ferro", nivel = 2,
         tipo = "Normal", ataque = 2, singular_plural = "singular", genero = "F",
         descricao = "Uma espada de ferro de fácil manuseio.")
     
@@ -48,7 +48,7 @@ def CajadoIniciante(quantidade, preco):
     * 1 de Magia
     """
 
-    cajado = item.Item([], [], preco, quantidade, "Duas Mãos", False, "Cajado de Iniciante", nivel = 1,
+    cajado = item.Item([], [], preco, quantidade, "Cajado", "Duas Mãos", False, "Cajado de Iniciante", nivel = 1,
         tipo = "Normal", magia = 1, singular_plural = "singular", genero = "M",
         descricao = "Um cajado de madeira imbuído com uma pequena quantidade de mana. Este tipo de cajado " +
         "é normalmente utilizado por iniciantes da magia.")
@@ -62,7 +62,7 @@ def CajadoAprendiz(quantidade, preco):
     * Requerimento: Nível 2
     """
 
-    cajado = item.Item([], [], preco, quantidade, "Duas Mãos", False, "Cajado de Aprendiz", nivel = 2,
+    cajado = item.Item([], [], preco, quantidade, "Cajado", "Duas Mãos", False, "Cajado de Aprendiz", nivel = 2,
         tipo = "Normal", magia = 2, singular_plural = "singular", genero = "M",
         descricao = "Um cajado de madeira que possui uma pequena pedra azul que funciona como um catalisador de "+
         "mana.")
@@ -77,7 +77,7 @@ def BroquelMadeira(quantidade, preco):
     * Requerimento: Nível 2
     """
 
-    broquel = item.Item([], [], preco, quantidade, "Uma Mão", False, "Broquel de Madeira", nivel = 2,
+    broquel = item.Item([], [], preco, quantidade, "Escudo", "Uma Mão", False, "Broquel de Madeira", nivel = 2,
         tipo = "Normal", defesa = 1, singular_plural = "singular", genero = "M",
         descricao = "Um broquel de madeira que pode te ajudar a resistir alguns ataques.")
     
@@ -91,8 +91,8 @@ def ChapeuCouro(quantidade, preco):
     * Requerimento: Nível 1
     """
 
-    chapeu = item.Item([], [], preco, quantidade, "Cabeça", False, "Chapéu de Couro", nivel = 1, tipo = "Normal", hp = 2, maxHp = 2,
-        singular_plural = "singular", genero = "M",
+    chapeu = item.Item([], [], preco, quantidade, "Chapéu", "Cabeça", False, "Chapéu de Couro", nivel = 1,
+        tipo = "Normal", hp = 2, maxHp = 2, singular_plural = "singular", genero = "M",
         descricao = "Um chapéu de couro bovino que oferece o mínimo de proteção.")
     
     return chapeu
@@ -105,8 +105,9 @@ def PeitoralCouro(quantidade, preco):
     * Requerimento: Nível 3
     """
 
-    peitoral = item.Item([], [], preco, quantidade, "Peitoral", False, "Peitoral de Couro", nivel = 3,
-        tipo = "Normal", hp = 5, maxHp = 5, singular_plural = "singular", genero = "M",
+    peitoral = item.Item([], [], preco, quantidade, "Peitoral de Guerreiro", "Peitoral", False,
+        "Peitoral de Couro", nivel = 3, tipo = "Normal", hp = 5, maxHp = 5, singular_plural = "singular",
+        genero = "M",
         descricao = "Um peitoral de couro bovino que protege contra ataques frontais.")
     
     return peitoral
@@ -120,8 +121,8 @@ def RobeAlgodao(quantidade, preco):
     * Requerimento: Nível 3
     """
 
-    robe = item.Item([], [], preco, quantidade, "Peitoral", False, "Robe de Algodão", nivel = 3, tipo = "Normal",
-        mana = 5, maxMana = 5, velocidade = 1, singular_plural = "singular", genero = "M",
+    robe = item.Item([], [], preco, quantidade, "Robe de Mago", "Peitoral", False, "Robe de Algodão", nivel = 3,
+        tipo = "Normal", mana = 5, maxMana = 5, velocidade = 1, singular_plural = "singular", genero = "M",
         descricao = "Um robe confortável feito de algodão para ajudar o fluxo de mana a correr pelo seu corpo.")
     
     return robe
@@ -134,8 +135,8 @@ def BotasCouro(quantidade, preco):
     * Requerimento: Nível 3
     """
 
-    botas = item.Item([], [], preco, quantidade, "Pés", False, "Botas de Couro", nivel = 3, tipo = "Normal",
-        velocidade = 1, singular_plural = "plural", genero = "F",
+    botas = item.Item([], [], preco, quantidade, "Botas", "Pés", False, "Botas de Couro", nivel = 3,
+        tipo = "Normal", velocidade = 1, singular_plural = "plural", genero = "F",
         descricao = "Um par de botas de couro bovino para proteger seus pés de pequenas adversidades do terreno.")
     
     return botas
@@ -149,8 +150,8 @@ def AmuletoEsmeralda(quantidade, preco):
     """
 
     resistencia = efeito.Efeito("Resistência Veneno", 0.5, 0, 999, 100)
-    amuleto = item.Item([resistencia], [], preco, quantidade, "Acessório", False, "Amuleto de Esmeralda", nivel = 4, tipo = "Terrestre",
-        singular_plural = "singular", genero = "M",
+    amuleto = item.Item([resistencia], [], preco, quantidade, "Amuleto", "Acessório", False,
+        "Amuleto de Esmeralda", nivel = 4, tipo = "Terrestre", singular_plural = "singular", genero = "M",
         descricao = "Este amuleto é adornado com Esmeraldas de Terra que foram imbuídas em magia reversa após a liberação de seus potenciais mágicos. O resultado é " +
             "que o\nportador do amuleto se torna resistente a efeitos de envenenamento.")
     

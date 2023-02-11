@@ -4,11 +4,11 @@ class Item(basico.Base):
     """
     Esta classe serve para itens consumíveis e equipamentos.
     """
-    def __init__(self, buffs = [], debuffs = [], preco = 0, quantidade = 0, classificacao = "default",
-        fora_batalha = False, nome = "default", descricao = "default", tipo = "default", nivel = 0,
-        experiencia = 0, maxHp = 0, hp = 0,  maxMana = 0, mana = 0, ataque = 0, defesa = 0, magia = 0,
-        velocidade = 0, singular_plural = "default", genero = "default", chance_critico = 0.0,
-        multiplicador_critico = 1.0):
+    def __init__(self, buffs = [], debuffs = [], preco = 0, quantidade = 0, classe = "default",
+        classe_batalha = "default", fora_batalha = False, nome = "default", descricao = "default",
+        tipo = "default", nivel = 0, experiencia = 0, maxHp = 0, hp = 0,  maxMana = 0, mana = 0,
+        ataque = 0, defesa = 0, magia = 0, velocidade = 0, singular_plural = "default", genero = "default",
+        chance_critico = 0.0, multiplicador_critico = 1.0):
         """
         Inicializador da classe.
         """
@@ -24,8 +24,11 @@ class Item(basico.Base):
         # Quantidade do Item
         self.quantidade = quantidade
 
-        # Classificação do Item (Consumível, Peitoral, Uma Mão...)
-        self.classificacao = classificacao
+        # Classe do Item (Poção, Espada, Cajado...)
+        self.classe = classe
+
+        # Classe do Item em Batalha (Consumível, Peitoral, Uma Mão...)
+        self.classe_batalha = classe_batalha
 
         # Se o item pode ser usado fora de batalha
         self.fora_batalha = fora_batalha
@@ -53,6 +56,7 @@ class Item(basico.Base):
             string += '* ' + str(d)
             if i != len(self.debuffs) - 1:
                 string += '\n'
-        string += f'Preço: {self.preco}, Quantidade: {self.quantidade}, Classificação: {self.classificacao}, fora_batalha: {self.fora_batalha}'
+        string += f'Preço: {self.preco}, Quantidade: {self.quantidade}, Classe: {self.classe}, '
+        string += f'classe_batalha: {self.classe_batalha}, fora_batalha: {self.fora_batalha}'
 
         return string

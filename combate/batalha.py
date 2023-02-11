@@ -84,7 +84,7 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
 
             # Caso o jogador não seja o primeiro a agir, imprime os inimigos em batalha
             if jogador != ordem[0]:
-                print('\nInimigos em batalha:')
+                print('Inimigos em batalha:')
                 imprimir.InimigosPresentes(inimigos)
             
             for c in ordem:
@@ -150,11 +150,11 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
 
         else:
             for e in espolios:
-                if e.classificacao == "Ouro":
+                if e.classe == "Ouro":
                     jogador.ouro += e.quantidade
                     print(f'Você ganhou {e.quantidade} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + '.')
 
-                elif e.classificacao == "Experiência":
+                elif e.classe == "Experiência":
                     jogador.experiencia += e.quantidade
                     print(f'Você ganhou {e.quantidade} de experiência.')
                 

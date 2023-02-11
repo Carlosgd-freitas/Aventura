@@ -37,7 +37,7 @@ def EscolherConsumivel(jogador):
 
     for item in jogador.inventario:
 
-        if item.classificacao == "Consumível":
+        if item.classe_batalha == "Consumível":
 
             t = []
             t.append(f'[{indice_print}] ' + item.nome) # Índice + Nome

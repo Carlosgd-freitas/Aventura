@@ -210,29 +210,29 @@ class Jogador(criatura.Criatura):
 
         return valor
 
-    def ContarItens(self, classificacao = None, nivel = None):
+    def ContarItens(self, classe_batalha = None, nivel = None):
         """
-        * Se nenhuma classificação de item e nível de item forem passados por parâmetro, retorna o número de itens
-        únicos presentes no inventário do jogador.
-        * Se uma classificação de item for passada por parâmetro, mas não um nível de item, retorna o número de
-        itens únicos presentes no inventário do jogador que sejam daquela classificação.
-        * Se uma nível de item for passado por parâmetro, mas não uma classificação de item, retorna o número de
-        itens únicos presentes no inventário do jogador que possuam um nível igual ou inferior àquele nível.
-        * Se uma classificação de item e um nível de item forem passados por parâmetro, retorna o número de
-        itens únicos presentes no inventário do jogador que sejam daquela classificação e que possuam um nível igual
-        ou inferior àquele nível.
+        * Se nenhuma classe de batalha de item e nível de item forem passados por parâmetro, retorna o número
+        de itens únicos presentes no inventário do jogador.
+        * Se uma classe de batalha de item for passada por parâmetro, mas não um nível de item, retorna o número
+        de itens únicos presentes no inventário do jogador que sejam daquela classe de batalha.
+        * Se uma nível de item for passado por parâmetro, mas não uma classe de batalha de item, retorna o número
+        de itens únicos presentes no inventário do jogador que possuam um nível igual ou inferior àquele nível.
+        * Se uma classe de batalha de item e um nível de item forem passados por parâmetro, retorna o número de
+        itens únicos presentes no inventário do jogador que sejam daquela classe de batalha e que possuam um nível
+        igual ou inferior àquele nível.
         """
 
         cont = 0
         
-        condicao_1 = classificacao is None and nivel is None
-        condicao_2 = classificacao is not None and nivel is None
-        condicao_3 = classificacao is None and nivel is not None
-        condicao_4 = classificacao is not None and nivel is not None
+        condicao_1 = classe_batalha is None and nivel is None
+        condicao_2 = classe_batalha is not None and nivel is None
+        condicao_3 = classe_batalha is None and nivel is not None
+        condicao_4 = classe_batalha is not None and nivel is not None
 
         for item in self.inventario:
 
-            if (condicao_1) or (condicao_2 and item.classificacao == classificacao) or (condicao_3 and item.nivel <= nivel) or (condicao_4 and item.classificacao == classificacao and item.nivel <= nivel):
+            if (condicao_1) or (condicao_2 and item.classe_batalha == classe_batalha) or (condicao_3 and item.nivel <= nivel) or (condicao_4 and item.classe_batalha == classe_batalha and item.nivel <= nivel):
                 cont += 1
         
         return cont

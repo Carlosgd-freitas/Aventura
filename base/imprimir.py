@@ -267,20 +267,20 @@ def ImprimirItemDetalhado(item):
 
     # Informações "não-detalhadas" do item
     tabela = []
-    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classificação"]
+    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe"]
     alinhamento = ("left", "center", "center", "center")
     t = []
-    t.append(item.nome)          # Nome
-    t.append(item.quantidade)    # Quantidade
-    t.append(item.preco)         # Preço
-    t.append(item.classificacao) # Classificação
+    t.append(item.nome)           # Nome
+    t.append(item.quantidade)     # Quantidade
+    t.append(item.preco)          # Preço
+    t.append(item.classe_batalha) # Classe
     tabela.append(t)
     print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
 
     # Descrição
     print(f'Descrição: {item.descricao}')
 
-    if item.classificacao != "Consumível":
+    if item.classe_batalha != "Consumível" and item.classe != "Material":
         # Nível e Tipo
         mensagem = 'Nível: {:2d} | Tipo: '.format(item.nivel)
         print(mensagem, end = '')

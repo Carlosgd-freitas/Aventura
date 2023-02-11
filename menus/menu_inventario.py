@@ -33,7 +33,7 @@ def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
         t.append(f'[{item_indice+1}] ' + item.nome) # Índice + Nome
         t.append(item.quantidade)                   # Quantidade
         t.append(item.preco)                        # Preço
-        t.append(item.classificacao)                # Classificação
+        t.append(item.classe_batalha)               # Classe
         tabela.append(t)
 
         item_indice += 1

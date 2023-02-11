@@ -1,11 +1,11 @@
 ===== Alpha v0.0.5 =====
 
-> Programação
 * Retirar a duplicidade de código da impressão em "menu_inventario"/"menu_habilidades" e "imprimir"
-* Imprimir "CRÍTICO" em curas críticas em usar_habilidade.ImprimirDano()
-    - campo cura_critica : bool nas habilidades
-* Campo "item_classe": Espada, Escudo, Adaga, Poção...
+* Melhora as mensagens de subida de nível
 * Colocar o tipo dos argumentos nas funções (usar biblioteca Typing) e o que são os parâmetros nas """docstrings"""
+* Refazer métodos __str__
+
+> Programação
 * Colocar em menu_generico.py um modelo de menu genérico para MenuHabilidades e MenuInventario
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
 	- Atributo 'combinar' na classe Efeito: dicionário que indica como cada um dos
@@ -14,6 +14,8 @@
 	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
 	- Equipamentos e efeitos devem possuir um campo de conceder buffs/debuffs -> EquipamentosGanhos
 	e EquipamentosPerdas
+	- Efeitos de resistência: cálculo caso as chances de debuff e/ou buff sejam mais de 100%
+* Efeitos de resistência a atordoamento e lentidão
 * Mudar a descrição das habilidades
 
 > Jogabilidade
@@ -29,7 +31,7 @@
   - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
 
 > Itens
-* Peitoral de Casco de Tortuga
+* Peitoral de Carapaça de Tortuga
 * Adaga (duas adagas equipadas -> +1 VEL)
 * Adaga Peçonhenta (% de envenenar) (duas adagas equipadas -> +1 VEL, +% de envenenar)
 * Cajado de Erva Curativa

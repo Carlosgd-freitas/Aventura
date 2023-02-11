@@ -113,14 +113,14 @@ class Area():
 
                 # Listando os itens que o jogador pode comprar/vender
                 tabela = []
-                cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classificação"]
+                cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe"]
                 alinhamento = ("left", "center", "center", "center")
                 for i, item in enumerate(vendedor):
                     t = []
                     t.append(f'[{i+1}] ' + item.nome) # Índice + Nome
                     t.append(item.quantidade)         # Quantidade
                     t.append(item.preco)              # Preço
-                    t.append(item.classificacao)                    # Classificação
+                    t.append(item.classe_batalha)     # Classe
                     tabela.append(t)
                 print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
                 print('\n[0] Voltar ao menu anterior')
