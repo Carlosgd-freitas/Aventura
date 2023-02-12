@@ -263,6 +263,32 @@ def ImprimirEfeitoDetalhado(efeito):
 
         print(mensagem_vinganca)
 
+def RetornarTabelaItens(itens, indice = -1):
+    """
+    Monta e retorna uma tabela a ser imprimida com cada item presente na lista de itens. Se <índice> for
+    diferente de -1, [<indice>] será acrescentado antes do nome de cada item e incrementado em 1.
+    """
+    tabela = []
+    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe"]
+    alinhamento = ("left", "center", "center", "center")
+        
+    for item in itens:
+        t = []
+        # Índice + Nome
+        if indice != -1:
+            t.append(f'[{indice}] ' + item.nome)
+        else:
+            t.append(item.nome)
+        t.append(item.quantidade)     # Quantidade
+        t.append(item.preco)          # Preço
+        t.append(item.classe_batalha) # Classe
+        tabela.append(t)
+
+        indice += 1
+    
+    tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
+    return tabela
+
 def ImprimirItemDetalhado(item):
     """
     Imprime um item do inventário detalhadamente.
@@ -272,16 +298,8 @@ def ImprimirItemDetalhado(item):
     """
 
     # Informações "não-detalhadas" do item
-    tabela = []
-    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe"]
-    alinhamento = ("left", "center", "center", "center")
-    t = []
-    t.append(item.nome)           # Nome
-    t.append(item.quantidade)     # Quantidade
-    t.append(item.preco)          # Preço
-    t.append(item.classe_batalha) # Classe
-    tabela.append(t)
-    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+    tabela = RetornarTabelaItens([item])
+    print(tabela)
 
     # Descrição
     print(f'Descrição: {item.descricao}')
@@ -333,6 +351,52 @@ def ImprimirItemDetalhado(item):
 
     print('')
 
+def RetornarTabelaHabilidades(habilidades, indice = -1):
+    """
+    Monta e retorna uma tabela a ser imprimida com cada habilidade presente na lista de habilidades. Se <índice>
+    for diferente de -1, [<indice>] será acrescentado antes do nome de cada habilidade e incrementado em 1.
+    """
+    tabela = []
+    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center")
+
+    for habilidade in habilidades:
+        t = []
+        # Índice + Nome
+        if indice != -1:
+            t.append(f'[{indice}] ' + habilidade.nome)
+        else:
+            t.append(habilidade.nome)
+        # Custo
+        custo = ""
+        if len(habilidade.custo) > 0:
+            for i, c in enumerate(habilidade.custo):
+                if (i != 0) and (i < len(habilidade.custo) - 1):
+                    custo += ', '
+                if c[0] == "Mana":
+                    custo += str(c[1]) + " " + RetornarStringColorida(c[0])
+                elif c[0] == "HP":
+                    custo += str(c[1]) + " " + RetornarStringColorida(c[0])
+        else:
+            custo += '---'
+        t.append(custo)
+        # Recarga
+        recarga = ""
+        if habilidade.recarga == 1:
+            recarga += f'{habilidade.recarga} Turno'
+        else:
+            recarga += f'{habilidade.recarga} Turnos'
+        t.append(recarga)
+        t.append(RetornarTipo(habilidade.tipo)) # Tipo
+        t.append(habilidade.passiva_ativa)      # Passiva/Ativa
+        t.append(habilidade.alvo)               # Alvo
+        tabela.append(t)
+
+        indice += 1
+    
+    tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
+    return tabela
+
 def ImprimirHabilidadeDetalhada(habilidade):
     """
     Imprime uma habilidade de uma criatura detalhadamente.
@@ -342,36 +406,8 @@ def ImprimirHabilidadeDetalhada(habilidade):
     """
 
     # Informações "não-detalhadas" da habilidade
-    tabela = []
-    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
-    alinhamento = ("left", "center", "center", "center", "center", "center")
-    t = []
-    t.append(habilidade.nome)               # Nome
-    # Custo
-    custo = ""
-    if len(habilidade.custo) > 0:
-        for i, c in enumerate(habilidade.custo):
-            if (i != 0) and (i < len(habilidade.custo) - 1):
-                custo += ', '
-            if c[0] == "Mana":
-                custo += str(c[1]) + " " + RetornarStringColorida(c[0])
-            elif c[0] == "HP":
-                custo += str(c[1]) + " " + RetornarStringColorida(c[0])
-    else:
-        custo += '---'
-    t.append(custo)
-    # Recarga
-    recarga = ""
-    if habilidade.recarga == 1:
-        recarga += f'{habilidade.recarga} Turno'
-    else:
-        recarga += f'{habilidade.recarga} Turnos'
-    t.append(recarga)
-    t.append(RetornarTipo(habilidade.tipo)) # Tipo
-    t.append(habilidade.passiva_ativa)      # Passiva/Ativa
-    t.append(habilidade.alvo)               # Alvo
-    tabela.append(t)
-    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+    tabela = RetornarTabelaHabilidades([habilidade])
+    print(tabela)
 
     # Descrição
     print(f'Descrição: {habilidade.descricao}')

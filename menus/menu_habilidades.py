@@ -1,6 +1,5 @@
 import math
 import sys
-from tabulate import tabulate
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
@@ -15,50 +14,17 @@ def ImprimirHabilidades(criatura, habilidade_indice, impressoes_por_pagina):
     # Imprimindo as habilidades aprendidas pela criatura
     print('|========================================> HABILIDADES <========================================|')
 
-    tabela = []
-    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
-    alinhamento = ("left", "center", "center", "center", "center", "center")
-        
-    i = 0
-    while i < impressoes_por_pagina:
+    if habilidade_indice >= len(criatura.habilidades):
+        return
+    elif habilidade_indice + impressoes_por_pagina >= len(criatura.habilidades):
+        limite = len(criatura.habilidades)
+    else:
+        limite = impressoes_por_pagina
 
-        # Há menos que <impressoes_por_pagina> habilidades restantes
-        if habilidade_indice == len(criatura.habilidades):
-            break
-        
-        habilidade = criatura.habilidades[habilidade_indice]
+    habilidades = criatura.habilidades[habilidade_indice:limite]
 
-        t = []
-        t.append(f'[{habilidade_indice}] ' + habilidade.nome) # Índice + Nome
-        # Custo
-        custo = ""
-        if len(habilidade.custo) > 0:
-            for i, c in enumerate(habilidade.custo):
-                if (i != 0) and (i < len(habilidade.custo) - 1):
-                    custo += ', '
-                if c[0] == "Mana":
-                    custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
-                elif c[0] == "HP":
-                    custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
-        else:
-            custo += '---'
-        t.append(custo)
-        # Recarga
-        recarga = ""
-        if habilidade.recarga == 1:
-            recarga += f'{habilidade.recarga} Turno'
-        else:
-            recarga += f'{habilidade.recarga} Turnos'
-        t.append(recarga)
-        t.append(imprimir.RetornarTipo(habilidade.tipo))      # Tipo
-        t.append(habilidade.passiva_ativa)                    # Passiva/Ativa
-        t.append(habilidade.alvo)                             # Alvo
-        tabela.append(t)
-        
-        habilidade_indice += 1
-        i += 1
-    
-    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+    tabela = imprimir.RetornarTabelaHabilidades(habilidades, habilidade_indice)
+    print(tabela)
     print('')
 
 def MenuHabilidades(criatura):

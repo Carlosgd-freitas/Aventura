@@ -1,6 +1,5 @@
 import math
 import sys
-from tabulate import tabulate
 from colorama import Fore, Back, Style
 
 sys.path.append("..")
@@ -15,31 +14,18 @@ def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
 
     # Imprimindo os itens presentes no inventário do jogador
     print('|========================================> INVENTÁRIO <=========================================|')
-
-    tabela = []
-    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classificação"]
-    alinhamento = ("left", "center", "center", "center")
-        
-    i = 0
-    while i < impressoes_por_pagina:
-
-        # Há menos que <impressoes_por_pagina> itens restantes
-        if item_indice == len(jogador.inventario):
-            break
-
-        item = jogador.inventario[item_indice]
-        
-        t = []
-        t.append(f'[{item_indice+1}] ' + item.nome) # Índice + Nome
-        t.append(item.quantidade)                   # Quantidade
-        t.append(item.preco)                        # Preço
-        t.append(item.classe_batalha)               # Classe
-        tabela.append(t)
-
-        item_indice += 1
-        i += 1
     
-    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+    if item_indice >= len(jogador.inventario):
+        return
+    elif item_indice + impressoes_por_pagina >= len(jogador.inventario):
+        limite = len(jogador.inventario)
+    else:
+        limite = impressoes_por_pagina
+
+    itens = jogador.inventario[item_indice:limite]
+
+    tabela = imprimir.RetornarTabelaItens(itens, item_indice + 1)
+    print(tabela)
     print('')
 
 def MenuInventario(jogador):

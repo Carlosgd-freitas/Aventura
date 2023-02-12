@@ -1,11 +1,10 @@
 ===== Alpha v0.0.5 =====
 
-* Retirar a duplicidade de código da impressão em "menu_inventario"/"menu_habilidades" e "imprimir"
 * Colocar o tipo dos argumentos nas funções (usar biblioteca Typing) e o que são os parâmetros nas """docstrings"""
 * Refazer métodos __str__
+* Colocar em menu_generico.py um modelo de menu genérico para MenuHabilidades e MenuInventario
 
 > Programação
-* Colocar em menu_generico.py um modelo de menu genérico para MenuHabilidades e MenuInventario
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
 	- Atributo 'combinar' na classe Efeito: dicionário que indica como cada um dos
 	outros atributos se sobrepõem: '+', '-', '>', '<'
