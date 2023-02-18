@@ -84,7 +84,7 @@ class Area():
 
     def LojaMenu(self, jogador, loja_itens, venda_compra):
         """
-        Menu de compra/venda de itens na loja da área. Retorna 1 se o jogador comoprou ou vendeu algo
+        Menu de compra/venda de itens na loja da área. Retorna 1 se o jogador comprou ou vendeu algo
         e 0 caso contrário.
         """
 
@@ -112,17 +112,8 @@ class Area():
                 print(Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {jogador.ouro}')
 
                 # Listando os itens que o jogador pode comprar/vender
-                tabela = []
-                cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe"]
-                alinhamento = ("left", "center", "center", "center")
-                for i, item in enumerate(vendedor):
-                    t = []
-                    t.append(f'[{i+1}] ' + item.nome) # Índice + Nome
-                    t.append(item.quantidade)         # Quantidade
-                    t.append(item.preco)              # Preço
-                    t.append(item.classe_batalha)     # Classe
-                    tabela.append(t)
-                print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+                tabela = imprimir.RetornarTabelaItens(vendedor, jogador, indice = 1)
+                print(tabela)
                 print('\n[0] Voltar ao menu anterior')
 
                 # Jogador escolhendo qual item quer comprar/vender
@@ -139,7 +130,7 @@ class Area():
                 # Etapa final da compra/venda
                 else:
                     item = vendedor[escolha_item - 1]
-                    imprimir.ImprimirItemDetalhado(item)
+                    imprimir.ImprimirItemDetalhado(item, jogador)
 
                     if venda_compra == "Compra":
                         print(f'Deseja comprar quanto de {item.nome}?')

@@ -263,14 +263,14 @@ def ImprimirEfeitoDetalhado(efeito):
 
         print(mensagem_vinganca)
 
-def RetornarTabelaItens(itens, indice = -1):
+def RetornarTabelaItens(itens, jogador, indice = -1):
     """
     Monta e retorna uma tabela a ser imprimida com cada item presente na lista de itens. Se <índice> for
     diferente de -1, [<indice>] será acrescentado antes do nome de cada item e incrementado em 1.
     """
     tabela = []
-    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe"]
-    alinhamento = ("left", "center", "center", "center")
+    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe", "Nível", "Tipo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center")
         
     for item in itens:
         t = []
@@ -282,6 +282,19 @@ def RetornarTabelaItens(itens, indice = -1):
         t.append(item.quantidade)     # Quantidade
         t.append(item.preco)          # Preço
         t.append(item.classe_batalha) # Classe
+        # Nível
+        if item.nivel > 0:
+            if item.nivel > jogador.nivel:
+                t.append(Fore.RED + str(item.nivel) + Style.RESET_ALL)
+            else:
+                t.append(item.nivel)
+        else:
+            t.append("---")
+        # Tipo
+        if item.tipo != "default":
+            t.append(RetornarTipo(item.tipo))
+        else:
+            t.append("---")
         tabela.append(t)
 
         indice += 1
@@ -289,7 +302,7 @@ def RetornarTabelaItens(itens, indice = -1):
     tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
     return tabela
 
-def ImprimirItemDetalhado(item):
+def ImprimirItemDetalhado(item, jogador):
     """
     Imprime um item do inventário detalhadamente.
 
@@ -298,18 +311,13 @@ def ImprimirItemDetalhado(item):
     """
 
     # Informações "não-detalhadas" do item
-    tabela = RetornarTabelaItens([item])
+    tabela = RetornarTabelaItens([item], jogador)
     print(tabela)
 
     # Descrição
     print(f'Descrição: {item.descricao}')
 
     if item.classe_batalha != "Consumível" and item.classe != "Material":
-        # Nível e Tipo
-        mensagem = 'Nível: {:2d} | Tipo: '.format(item.nivel)
-        print(mensagem, end = '')
-        print(RetornarTipo(item.tipo))
-
         # Atributos concedidos pelo item
         if item.maxHp > 0:
             print(f'* {RetornarStringColorida("+")}{item.maxHp} {RetornarStringColorida("HP")}')

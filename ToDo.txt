@@ -1,6 +1,8 @@
 ===== Alpha v0.0.5 =====
 
-* Tirar a parte de caminhos do main
+* Se um menu paginado não possui len maior que o número de impressões por página, não é
+pra aparecer anterior / próximo
+* Paginar os itens na opção de comprar/vender na loja
 
 > Programação
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
@@ -14,6 +16,7 @@
 		- chance_debuff = chance_debuff - chance_resistencia (>= 0)
 * Efeitos de resistência a atordoamento e lentidão
 * Mudar a descrição das habilidades
+* Estabelecer um padrão e organizar os imports de todos os arquivos
 
 > Jogabilidade
 * Bestiário
@@ -23,7 +26,6 @@
 	- Inimigos comuns precisam ser derrotados 10 vezes para aparecerem suas habilidades
 	- Inimigos raros e chefões precisam ser derrotados apenas 1 vez pra aparecer tudo
 * Sistema de criação (crafting) / comprar e aprender receitas de criação
-* Monstros dropam experiencia e ouro baseados em um range
 * Dungeon na área 1 - Colméia de Abelhóides
   - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
 
@@ -50,6 +52,7 @@
 * Quando a lista de criaturas é alterada (invocação, criatura derrotada...), checar o sufixo dos nomes das criaturas
 
 > Jogabilidade
+* Monstros dropam experiencia e ouro baseados em um range
 * Larry dropa um item chave ao ser derrotado, um óculos de ourives
 * Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
 * Sistema de conquistas (achievements)

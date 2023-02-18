@@ -33,7 +33,7 @@ def MenuInventario(jogador):
         # Imprimindo uma página de itens presentes no inventário do jogador
         print('|========================================> INVENTÁRIO <=========================================|')
         itens = menu_paginado_generico.ComporPagina(jogador.inventario, item_indice_atual, itens_por_pagina)
-        tabela = imprimir.RetornarTabelaItens(itens, item_indice_atual + 1)
+        tabela = imprimir.RetornarTabelaItens(itens, jogador, item_indice_atual + 1)
         print(tabela)
         print('')
 
@@ -89,7 +89,7 @@ def MenuInventario(jogador):
 
                     # Analisar item
                     if op == 1:
-                        imprimir.ImprimirItemDetalhado(item_escolhido)
+                        imprimir.ImprimirItemDetalhado(item_escolhido, jogador)
                         break
 
                     # Usar item

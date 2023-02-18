@@ -144,11 +144,14 @@ def EquipadosGanhos(jogador):
 
         equipado_indice += 1
     
-    # Mudando o tipo do Ataque Normal para o tipo da arma equipada na primeira mão
+    # Mudando o tipo do Ataque Normal para o tipo da primeira arma equipada
     atacar = jogador.HabilidadePresente("Atacar")
 
     if jogador.equipados[0].classe_batalha == "Item Vazio":
-        atacar.tipo = "Normal"
+        if (jogador.equipados[1].classe_batalha == "Uma Mão") or (jogador.equipados[1].classe_batalha == "Duas Mãos"):
+            atacar.tipo = jogador.equipados[1].tipo
+        else:
+            atacar.tipo = "Normal"
     else:
         atacar.tipo = jogador.equipados[0].tipo
 
