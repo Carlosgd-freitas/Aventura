@@ -1,8 +1,11 @@
 ===== Alpha v0.0.5 =====
 
-* Se um menu paginado não possui len maior que o número de impressões por página, não é
-pra aparecer anterior / próximo
-* Paginar os itens na opção de comprar/vender na loja
+* Sistema de criação (crafting) / comprar e aprender receitas de criação / opção de crafting em lojas
+  - poção de cura  (receita)
+  - poção de regen (receita)
+  - elixir de def
+  - Peitoral de Carapaça de Tortuga (+hp, +def, -vel, Defender mais forte)
+  - vendedor ambulante não oferece crafting
 
 > Programação
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
@@ -25,20 +28,15 @@ pra aparecer anterior / próximo
 	- Inimigos comuns precisam ser derrotados 5 vezes para aparecerem seus loots, experiencia e gold dropados
 	- Inimigos comuns precisam ser derrotados 10 vezes para aparecerem suas habilidades
 	- Inimigos raros e chefões precisam ser derrotados apenas 1 vez pra aparecer tudo
-* Sistema de criação (crafting) / comprar e aprender receitas de criação
 * Dungeon na área 1 - Colméia de Abelhóides
   - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
 
 > Itens
-* Peitoral de Carapaça de Tortuga
-* Adaga (duas adagas equipadas -> +1 VEL)
-* Adaga Peçonhenta (% de envenenar) (duas adagas equipadas -> +1 VEL, +% de envenenar)
 * Cajado de Erva Curativa
 
 > Habilidades
 * Impacto Atordoante atordoa por +1 turno e tem +1 de recarga se um escudo estiver equipado
 * Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme o mago sobe de nível
-* Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
 
 > O De Sempre
 * Tirar imports desnecessários de todos os arquivos.
@@ -71,9 +69,12 @@ pra aparecer anterior / próximo
 * Refazer batalha contra o chefão da Área 1
 
 > Itens
+* Adaga (duas adagas equipadas -> +1 VEL)
+* Adaga Peçonhenta (% de envenenar) (duas adagas equipadas -> +1 VEL, +% de envenenar)
 * Robe de Seda
 
 > Habilidades
+* Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
 * Invocar Abelhóide
 * Ventania
 

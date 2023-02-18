@@ -37,10 +37,10 @@ def ImprimirOpções(opcoes, pagina_atual, ultima_pagina):
     anterior_indice = 0
     proximo = False
     proximo_indice = 0
-    tamanho_opcoes = len(opcoes) - 1
+    ultima_opcao = len(opcoes) - 1
 
     for indice, opcao in enumerate(opcoes):
-        if indice != tamanho_opcoes:
+        if indice != ultima_opcao:
             if opcao == "Anterior":
                 anterior_indice = indice + 1
                 if pagina_atual > 0:
@@ -60,9 +60,11 @@ def ImprimirOpções(opcoes, pagina_atual, ultima_pagina):
     print(f'\n[0] {opcoes[-1]}')
 
     while True:
-        op = utils.LerNumeroIntervalo('> ', 0, tamanho_opcoes)
+        op = utils.LerNumeroIntervalo('> ', 0, ultima_opcao)
 
-        if (op == anterior_indice and not anterior) or (op == proximo_indice and not proximo):
+        if (op == anterior_indice) and (not anterior) and (anterior_indice != 0):
+            continue
+        elif (op == proximo_indice) and (not proximo) and (proximo_indice != 0):
             continue
         else:
             break

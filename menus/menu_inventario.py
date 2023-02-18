@@ -38,10 +38,14 @@ def MenuInventario(jogador):
         print('')
 
         # Opções disponíveis no menu de inventário
-        opcoes = ['Analisar Item', 'Usar Item', 'Jogar Item Fora', 'Anterior', 'Próximo',
-                  'Retornar ao Menu Anterior']
+        opcoes = ['Analisar Item', 'Usar Item', 'Jogar Item Fora']
+        if anterior or proximo:
+            opcoes.append('Anterior')
+            opcoes.append('Próximo')
+        opcoes.append('Retornar ao Menu Anterior')  
         op = menu_paginado_generico.ImprimirOpções(opcoes, pagina, ultima_pagina)
-        print('')
+        if op != 0:
+            print('')
 
         # Retornando ao menu anterior
         if op == 0:

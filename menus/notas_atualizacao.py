@@ -223,6 +223,7 @@ class NotasAtualizacao():
         self.positivo('A impressão de itens, habilidades e da maioria das mensagens foi refeita.')
         self.positivo('As descrições dos itens consumíveis foi refeita.')
         # self.positivo('As descrições de itens consumíveis e habilidades foi refeita.')
+        self.neutro('A impressão de itens nas lojas possui limite por página.')
 
     def titulo(string):
         """

@@ -143,8 +143,8 @@ class Area_1(area.Area):
         # Possíveis inimigos raros a serem encontrados na área 1:
         # Slime de Mel
 
-        # Slime de Mel no nível do jogador: 5% de chance de ser encontrado
-        if utils.CalcularChance(0.05):
+        # Slime de Mel no nível do jogador: 3% de chance de ser encontrado
+        if utils.CalcularChance(0.03):
             inimigo = slime_mel.SlimeMel(jogador.nivel)
             inimigos.append(inimigo)
             peso_restante -= 3
@@ -365,11 +365,11 @@ class Area_1(area.Area):
                 operacao_realizada = self.Loja(jogador, self.lojas_itens[0])
 
                 # Primeira compra de poções realizada nesta loja
-                if operacao_realizada == 1 and self.primeira_compra_pocoes == False:
+                if operacao_realizada and self.primeira_compra_pocoes == False:
 
                     imprimir.ImprimirComDelay('Maelia: Minhas poções vão ajudar na sua aventura, pode ter certeza!\n', conf.npc_fala_delay)
                     imprimir.ImprimirComDelay('Maelia: No entanto, você não vai conseguir agir enquanto bebe uma delas, ' +
-                        'então faça isso quando tiver certeza que não vai morrer pros ataques dos seus inimigos.\n', conf.npc_fala_delay)
+                        'então faça isso quando tiver certeza que não vai morrer\npros ataques dos seus inimigos.\n', conf.npc_fala_delay)
                     imprimir.ImprimirComDelay('Maelia: Ou quando não estiver lutando, isso também serve.\n', conf.npc_fala_delay)
 
                     self.primeira_compra_pocoes = True
@@ -514,8 +514,8 @@ class Area_1(area.Area):
 
     def EventoVendedorAmbulante(self, jogador, conf):
         """
-        Uma loja que irá selecionar aleatoriamente alguns itens para serem vendidos ao jogador. Retorna 1 se o
-        jogador comprou ou vendeu algo e 0 caso contrário.
+        Uma loja que irá selecionar aleatoriamente alguns itens para serem vendidos ao jogador. Retorna True
+        se o jogador comprou ou vendeu algo e False caso contrário.
         """
 
         itens = []

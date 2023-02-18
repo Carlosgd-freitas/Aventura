@@ -43,9 +43,14 @@ def MenuHabilidades(criatura, atacar_incluso = False):
         print('')
 
         # Opções disponíveis no menu de habilidades
-        opcoes = ['Analisar Habilidade', 'Anterior', 'Próximo', 'Retornar ao Menu Anterior']
+        opcoes = ['Analisar Habilidade']
+        if anterior or proximo:
+            opcoes.append('Anterior')
+            opcoes.append('Próximo')
+        opcoes.append('Retornar ao Menu Anterior')
         op = menu_paginado_generico.ImprimirOpções(opcoes, pagina, ultima_pagina)
-        print('')
+        if op != 0:
+            print('')
 
         # Retornando ao menu anterior
         if op == 0:
