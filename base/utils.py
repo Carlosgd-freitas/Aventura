@@ -5,11 +5,14 @@ from colorama import Fore, Back, Style
 
 def LerNumero(string, tipo = "int"):
     """
-    Lê e retorna um número da entrada. Se a entrada não for um número, a função continuará em Loop. O parâmetro
-    'tipo' define que as operações serão realizadas com números inteiros por padrão, e para realizá-las com números
-    reais, basta mudá-lo para 'float'.
-    """
+    Lê e retorna um número da entrada. Se a entrada não for um número, a função continuará em Loop.
+    
+    Parâmetros:
+    - string: string que será impressa enquanto se espera a entrada do jogador.
 
+    Parâmetros opcionais:
+    - tipo: define o type cast que será realizado na entrada do jogador. O valor padrão é "int".
+    """
     quebrar = 0
     while True:
 
@@ -28,18 +31,27 @@ def LerNumero(string, tipo = "int"):
     
     return value
 
-def LerNumeroIntervalo(string, low, high, tipo = "int"):
+def LerNumeroIntervalo(string, low, high, tipo = "int", permitido = []):
     """
-    Lê e retorna um número da entrada que esteja dentro do intervalo [low, high]. Se a entrada não for um
-    número, ou não estiver dentro do intervalo [low, high], a função continuará em Loop. O parâmetro 'tipo'
-    define que as operações serão realizadas com números inteiros por padrão, e para realizá-las com números
-    reais, basta mudá-lo para 'float'.
-    """
+    Lê e retorna um número da entrada que esteja dentro do intervalo [low, high]. Se a entrada não for
+    um número válido, a função continuará em Loop.
+    
+    Parâmetros:
+    - string: string que será impressa enquanto se espera a entrada do jogador;
+    - low: menor número cuja entrada será considerada válida;
+    - high: maior número cuja entrada será considerada válida.
 
+    Parâmetros opcionais:
+    - tipo: define o type cast que será realizado na entrada do jogador. O valor padrão é "int";
+    - permitido: lista de números que não precisam estar no intervalo [low, high] para serem considerados
+    válidos. Por padrão, a lista é vazia.
+    """
     while True:
 
         value = LerNumero(string, tipo)
         if value >= low and value <= high:
+            break
+        elif value in permitido:
             break
     
     return value

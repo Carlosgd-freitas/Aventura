@@ -1,32 +1,11 @@
 import math
 import sys
-from colorama import Fore, Back, Style
+
+from . import menu_paginado_generico
 
 sys.path.append("..")
 from base import imprimir, utils
 from combate import jogador_acoes
-
-def ImprimirInventario(jogador, item_indice, impressoes_por_pagina):
-    """
-    Imprime até <impressoes_por_pagina> primeiros itens presentes no inventário do jogador, incluindo e a
-    partir do índice do item passado como parâmetro.
-    """
-
-    # Imprimindo os itens presentes no inventário do jogador
-    print('|========================================> INVENTÁRIO <=========================================|')
-    
-    if item_indice >= len(jogador.inventario):
-        return
-    elif item_indice + impressoes_por_pagina >= len(jogador.inventario):
-        limite = len(jogador.inventario)
-    else:
-        limite = impressoes_por_pagina
-
-    itens = jogador.inventario[item_indice:limite]
-
-    tabela = imprimir.RetornarTabelaItens(itens, item_indice + 1)
-    print(tabela)
-    print('')
 
 def MenuInventario(jogador):
     """
@@ -41,51 +20,39 @@ def MenuInventario(jogador):
     pagina = 0
 
     while True:
-
-        # Imprimindo até 'itens_por_pagina' itens
-        anterior = 0
-        proximo = 0
-        item_indice_atual = (pagina * itens_por_pagina)
-        ImprimirInventario(jogador, item_indice_atual, itens_por_pagina)
-
-        print('[1] Analisar item')
-        print('[2] Usar item')
-        print('[3] Jogar item fora')
-
-        # É possível imprimir até 'itens_por_pagina' itens anteriores
         if pagina > 0:
-            anterior = 1
-            print('[4] Anterior')
+            anterior = True
         else:
-            print(Fore.RED + '[4] Anterior' + Style.RESET_ALL)
-
-        # É possível imprimir até 'itens_por_pagina' próximos itens
+            anterior = False
         if pagina < ultima_pagina:
-            proximo = 1
-            print('[5] Próximo')
+            proximo = True
         else:
-            print(Fore.RED + '[5] Próximo' + Style.RESET_ALL)
+            proximo = False
+        item_indice_atual = (pagina * itens_por_pagina)
 
-        print('\n[0] Retornar ao menu anterior')
+        # Imprimindo uma página de itens presentes no inventário do jogador
+        print('|========================================> INVENTÁRIO <=========================================|')
+        itens = menu_paginado_generico.ComporPagina(jogador.inventario, item_indice_atual, itens_por_pagina)
+        tabela = imprimir.RetornarTabelaItens(itens, item_indice_atual + 1)
+        print(tabela)
+        print('')
 
-        while True:
-            op = utils.LerNumeroIntervalo('> ', 0, 5)
+        # Opções disponíveis no menu de inventário
+        opcoes = ['Analisar Item', 'Usar Item', 'Jogar Item Fora', 'Anterior', 'Próximo',
+                  'Retornar ao Menu Anterior']
+        op = menu_paginado_generico.ImprimirOpções(opcoes, pagina, ultima_pagina)
+        print('')
 
-            if (op == 4 and anterior == 0) or (op == 5 and proximo == 0):
-                continue
-            else:
-                break
-        
         # Retornando ao menu anterior
         if op == 0:
             break
     
         # Imprimir até 'itens_por_pagina' itens anteriores
-        elif op == 4 and anterior == 1:
+        elif op == 4 and anterior:
             pagina -= 1
         
         # Imprimir até 'itens_por_pagina' próximos itens
-        elif op == 5 and proximo == 1:
+        elif op == 5 and proximo:
             pagina += 1
 
         # Analisar, usar ou jogar o item fora
@@ -102,22 +69,22 @@ def MenuInventario(jogador):
 
                 if pergunta == 1:
                     if op == 1:
-                        print('\nQual item deseja analisar?')
+                        print('Qual item deseja analisar?')
                     elif op == 2:
-                        print('\nQual item deseja usar?')
+                        print('Qual item deseja usar?')
                     elif op == 3:
-                        print('\nQual item deseja jogar fora?')
+                        print('Qual item deseja jogar fora?')
                     pergunta = 0
 
-                escolha = utils.LerNumero('> ')
-            
+                escolha = utils.LerNumeroIntervalo('> ', menor_indice, maior_indice, permitido = [0])
+                print('')
+
                 # Saindo
                 if escolha == 0:
                     break
 
                 # Procedendo
-                elif escolha >= menor_indice and escolha <= maior_indice:
-
+                else:
                     item_escolhido = jogador.inventario[escolha - 1]
 
                     # Analisar item
@@ -132,35 +99,30 @@ def MenuInventario(jogador):
 
                             if valido:
                                 jogador_acoes.UsarConsumivel(jogador, escolha-1, fora_combate = True)
-
                         else:
-                            print('Este item não pode ser utilizado.')
-                        
-                        print('')
+                            print('Este item não pode ser utilizado.\n')
                         break
 
                     # Jogar item fora
                     elif op == 3:
-                        print('\nQuantos deste item deseja jogar fora?')
+                        print('Quantos deste item deseja jogar fora?')
                     
                         while True:
-                            escolha_quantidade = utils.LerNumero('> ')
+                            escolha_quantidade = utils.LerNumeroIntervalo('> ', 0, item_escolhido.quantidade)
+                            print('')
 
                             if escolha_quantidade == 0:
                                 break
-
-                            elif escolha_quantidade > 0 and escolha_quantidade <= item_escolhido.quantidade:
+                            elif escolha_quantidade > 0:
                                 item_escolhido.quantidade -= escolha_quantidade
 
                                 if item_escolhido.quantidade <= 0:
                                     jogador.inventario.remove(item_escolhido)
-
                                 break
 
                         # Operação foi cancelada
                         if escolha_quantidade == 0:
                             pergunta = 1
-
                         else:
                             break
         
