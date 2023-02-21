@@ -2,6 +2,8 @@ import sys
 import random
 from colorama import Fore, Back, Style
 
+from . import loja
+
 sys.path.append("..")
 from base.jogador import ReconhecerAcaoBasica
 from base import area, saver, configuracao, imprimir, utils
@@ -349,7 +351,7 @@ class Area_1(area.Area):
                 
                 else:
 
-                    if self.Reestocar(est):
+                    if loja.Reestocar(self, est):
                         self.reestoque_loja_pocoes = True
                         self.reestoque_loja_armamentos = True
 
@@ -362,7 +364,7 @@ class Area_1(area.Area):
                         imprimir.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Veio se prevenir com algumas das ' +
                         'minhas poções?\n', conf.npc_fala_delay)
 
-                operacao_realizada = self.Loja(jogador, self.lojas_itens[0])
+                operacao_realizada = loja.Loja(jogador, self.lojas_itens[0])
 
                 # Primeira compra de poções realizada nesta loja
                 if operacao_realizada and self.primeira_compra_pocoes == False:
@@ -407,7 +409,7 @@ class Area_1(area.Area):
 
                 else:
 
-                    if self.Reestocar(est):
+                    if loja.Reestocar(self, est):
                         self.reestoque_loja_pocoes = True
                         self.reestoque_loja_armamentos = True
 
@@ -428,7 +430,7 @@ class Area_1(area.Area):
                             imprimir.ImprimirComDelay(f'Scolf: Eaí moça! Vamo comprar uns equipamento novo?\n',
                             conf.npc_fala_delay)
 
-                operacao_realizada = self.Loja(jogador, self.lojas_itens[1])
+                operacao_realizada = loja.Loja(jogador, self.lojas_itens[1])
 
                 if jogador.genero == 'M':
                     imprimir.ImprimirComDelay(f'Scolf: Té mais, rapaz.\n', conf.npc_fala_delay)
@@ -587,7 +589,7 @@ class Area_1(area.Area):
                 itens.append(item)
                 indices.remove(10)
 
-        print('')
+        print('\nUm vendedor ambulante se aproxima de você.')
         if jogador.genero == 'M':
             imprimir.ImprimirComDelay('Vendedor: Olá, aventureiro! Quer dar uma olhada nas minhas coisas?', 
                 conf.npc_fala_delay)
@@ -595,6 +597,6 @@ class Area_1(area.Area):
             imprimir.ImprimirComDelay('Vendedor: Olá, aventureira! Quer dar uma olhada nas minhas coisas?', 
                 conf.npc_fala_delay)
 
-        operacao_realizada = self.Loja(jogador, itens)
+        operacao_realizada = loja.Loja(jogador, itens)
 
         return operacao_realizada

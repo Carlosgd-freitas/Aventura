@@ -68,6 +68,8 @@ def RetornarStringColorida(string):
         return Back.BLACK + Fore.RED + string + Style.RESET_ALL
     elif string.lower() == 'mana':
         return Back.BLACK + Fore.BLUE + string + Style.RESET_ALL
+    elif string.lower() == 'ouro' or string.lower() == 'preço':
+        return Back.BLACK + Fore.YELLOW + string + Style.RESET_ALL
     elif  string.lower() == '+' or string.lower() == '>>':
         return Back.BLACK + Fore.GREEN + string + Style.RESET_ALL
     elif  string.lower() == '-' or string.lower() == '<<':

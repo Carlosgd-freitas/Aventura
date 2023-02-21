@@ -7,6 +7,7 @@ sys.path.append("..")
 from base.jogador import ReconhecerAcaoBasica
 from base import configuracao, saver, imprimir, utils
 from combate import batalha
+from areas import eventos
 
 def MenuExplorar(jogador, area, est, conf, caminhos, pre_selecionado = None):
     """
@@ -105,9 +106,13 @@ def MenuExplorar(jogador, area, est, conf, caminhos, pre_selecionado = None):
             if explorar_flag == 0 and utils.CalcularChance(chance_descanso / 100) and \
                 (jogador.hp < jogador.maxHp or jogador.mana < jogador.maxMana):
 
-                resultado = area.EventoDescanso(jogador)
+                resultado = eventos.EventoDescanso(jogador, area)
                 chance_descanso = 0
                 explorar_flag = 1
+
+                batalha.ProcessarResultado(resultado, jogador, est)
+                if resultado == -1:
+                    return -1
 
             elif explorar_flag == 0 and (jogador.hp < jogador.maxHp or jogador.mana < jogador.maxMana):
                 chance_descanso += 5
@@ -129,9 +134,9 @@ def MenuExplorar(jogador, area, est, conf, caminhos, pre_selecionado = None):
                 aliados = [jogador]
                 resultado = batalha.BatalhaPrincipal(aliados, inimigos)
 
-            batalha.ProcessarResultado(resultado, jogador, est)
-            if resultado == -1:
-                return -1
+                batalha.ProcessarResultado(resultado, jogador, est)
+                if resultado == -1:
+                    return -1
 
             retorno = 1
         

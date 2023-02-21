@@ -1,5 +1,6 @@
 import sys
 from colorama import Fore, Back, Style
+from tabulate import tabulate
 
 from . import criatura, guerreiro, mago
 
@@ -126,37 +127,80 @@ class Jogador(criatura.Criatura):
         Imprime o jogador fora de batalha.
         """
 
-        # Nome, classe e nível do jogador
-        print(f'\n{self.nome} - Classe: {self.classe} - Nível: {self.nivel} - ', end = '')
+        # Nome do jogador + Possíveis Buffs/Debuffs
+        tabela = []
+        efeitos, n_efeitos = imprimir.RetornarEfeitos(self, espaco = False)
 
-        # Experiência do jogador
-        exp = self.ExperienciaSubirNivel(self.nivel)
-        print(f'Experiência: {self.experiencia}/{exp}')
-
-        # HP do jogador
-        mensagem = Fore.RED + 'HP' + Style.RESET_ALL + f' {self.hp}/{self.maxHp} - '
-
-        # Mana do jogador
-        mensagem += Fore.BLUE + 'Mana' + Style.RESET_ALL + f' {self.mana}/{self.maxMana} - '
-
-        # Ouro do jogador
-        mensagem += Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {self.ouro}'
-        print(mensagem)
-
-        # Possíveis Buffs/Debuffs
-        mensagem, n_efeitos = imprimir.RetornarEfeitos(self, espaco = False)
+        l1 = []
+        l1.append(self.nome)
         if n_efeitos > 0:
-            print(f'{mensagem}\n')
+            alinhamento = ("center", "center")
+            l1.append(efeitos)
+        else:
+            alinhamento = ("center",)
+        tabela.append(l1)
+        
+        tabela = tabulate(tabela, colalign = alinhamento, tablefmt="grid")
+        print(tabela)
+
+        # Classe, Nível, Experiência, HP, Mana e Ouro do jogador
+        tabela = []
+        alinhamento = ("right", "right", "right", "right", "right", "right")
+
+        # Linha 1: Classe + Nível + Experiência
+        l1 = []
+        l1.append("Classe")
+        l1.append(self.classe)
+        l1.append("Nível")
+        l1.append(self.nivel)
+        l1.append("Experiência")
+        exp = self.ExperienciaSubirNivel(self.nivel)
+        l1.append(f'{self.experiencia}/{exp}')
+        tabela.append(l1)
+
+        # Linha 2: HP + Mana + Ouro
+        l2 = []
+        l2.append(imprimir.RetornarStringColorida("HP"))
+        l2.append(f'{self.hp}/{self.maxHp}')
+        l2.append(imprimir.RetornarStringColorida("Mana"))
+        l2.append(f'{self.mana}/{self.maxMana}')
+        l2.append(imprimir.RetornarStringColorida("Ouro"))
+        l2.append(self.ouro)
+        tabela.append(l2)
+        
+        tabela = tabulate(tabela, colalign = alinhamento, tablefmt="grid")
+        print(tabela)
 
         # Atributos do jogador
-        print('    ATAQUE: {:2d}'.format(self.ataque), end = '')
-        print(' |      CHANCE DE ACERTO CRÍTICO: {:.2f}'.format(self.chance_critico) + '%')
+        tabela = []
+        alinhamento = ("right", "right", "right", "right")
 
-        print('    DEFESA: {:2d}'.format(self.defesa), end = '')
-        print(' | MULTIPLICADOR DE DANO CRÍTICO: {:.2f}'.format(self.multiplicador_critico) + 'x')
+        # Linha 1: Ataque + Defesa
+        l1 = []
+        l1.append("ATAQUE")
+        l1.append(self.ataque)
+        l1.append("DEFESA")
+        l1.append(self.defesa)
+        tabela.append(l1)
 
-        print('     MAGIA: {:2d}'.format(self.magia))
-        print('VELOCIDADE: {:2d}'.format(self.velocidade))
+        # Linha 2: Magia + Velocidade
+        l2 = []
+        l2.append("MAGIA")
+        l2.append(self.magia)
+        l2.append("VELOCIDADE")
+        l2.append(self.velocidade)
+        tabela.append(l2)
+
+        # Linha 3: Chance de Acerto Crítico + Multiplicador de Dano Crítico
+        l3 = []
+        l3.append("CHANCE DE ACERTO CRÍTICO")
+        l3.append('{:.2f}'.format(self.chance_critico) + '%')
+        l3.append("MULTIPLICADOR DE DANO CRÍTICO")
+        l3.append('{:.2f}'.format(self.multiplicador_critico) + 'x')
+        tabela.append(l3)
+        
+        tabela = tabulate(tabela, colalign = alinhamento, tablefmt="grid")
+        print(tabela)
 
         # Imprime os efeitos concedidos pelos equipamentos do jogador
         imprimir.ImprimirEfeitosEquipamentos(self)

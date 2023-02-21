@@ -1,5 +1,9 @@
 ===== Alpha v0.0.5 =====
 
+* Imprimir o nome da loja ao acessar o menu (Maelia: Loja de Poções)
+* Consertar reestoque
+* Retirar opção extra de comprar/vender item dentro do menu da loja
+
 * Sistema de criação (crafting) / comprar e aprender receitas de criação / opção de crafting em lojas
   - poção de cura  (receita)
   - poção de regen (receita)
