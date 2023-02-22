@@ -31,7 +31,6 @@ def Reestocar(area, est):
     Irá retornar as lojas presentes na área so seu estado inicial com base no número de batalhas ganhas
     pelo jogador. Retorna True se houve um reestoque das lojas presentes na área e False caso contrário.
     """
-
     b = est.batalhas_ganhas - area.ultimo_batalhas_ganhas
     area.reestoque_atual += b
     area.ultimo_batalhas_ganhas = est.batalhas_ganhas
@@ -84,9 +83,9 @@ def LojaMenu(jogador, loja_itens, venda_compra):
             item_indice_atual = (pagina * itens_por_pagina)
 
             if venda_compra == "Compra":
-                print('\n|=======================================> ITENS À VENDA <========================================|')
+                print('\n+-----> ITENS À VENDA <-----+')
             else:
-                print('\n|=======================================> SEU INVENTÁRIO <=======================================|')
+                print('\n+-----> SEU INVENTÁRIO <-----+')
 
             # Ouro do jogador
             print(Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {jogador.ouro}')
@@ -99,32 +98,40 @@ def LojaMenu(jogador, loja_itens, venda_compra):
 
             # Opções disponíveis no menu da loja
             opcoes = []
-            if venda_compra == "Compra":
-                opcoes.append('Comprar Item')
-            elif venda_compra == "Venda":
-                opcoes.append('Vender Item')
             if anterior or proximo:
+                if venda_compra == "Compra":
+                    opcoes.append('Comprar Item')
+                elif venda_compra == "Venda":
+                    opcoes.append('Vender Item')
                 opcoes.append('Anterior')
                 opcoes.append('Próximo')
-            opcoes.append('Retornar ao Menu Anterior')  
-            op = menu_paginado_generico.ImprimirOpções(opcoes, pagina, ultima_pagina)
-            if op == 1:
-                print('')
-            
-            # Jogador quer sair do menu interno
-            if op == 0:
-                break
+            opcoes.append('Retornar ao Menu Anterior')
 
-            # Imprimir até 'itens_por_pagina' itens anteriores
-            elif op == 2 and anterior:
-                pagina -= 1
-            
-            # Imprimir até 'itens_por_pagina' próximos itens
-            elif op == 3 and proximo:
-                pagina += 1
+            # O vendedor possui mais de <itens_por_pagina> itens a venda
+            if len(opcoes) > 1:
+                op = menu_paginado_generico.ImprimirOpções(opcoes, pagina, ultima_pagina)
+                
+                # Jogador quer sair do menu interno
+                if op == 0:
+                    break
+
+                # Jogador quer comprar/vender um item
+                elif op == 1:
+                    print('')
+
+                # Imprimir até <itens_por_pagina> itens anteriores
+                elif op == 2 and anterior:
+                    pagina -= 1
+                
+                # Imprimir até <itens_por_pagina> próximos itens
+                elif op == 3 and proximo:
+                    pagina += 1
+
+            else:
+                print('[0] Retornar ao Menu Anterior\n')
 
             # Comprar/Vender um item
-            else:
+            if (len(opcoes) == 1) or (len(opcoes) > 1 and op == 1):
                 menor_indice = (pagina * itens_por_pagina) + 1
                 maior_indice = (pagina + 1) * itens_por_pagina
                 if len(vendedor) < maior_indice:
@@ -214,14 +221,15 @@ def LojaMenu(jogador, loja_itens, venda_compra):
     
     return operacao_realizada
 
-def Loja(jogador, loja_itens):
+def Loja(jogador, loja_itens, loja_nome):
     """
     Menu principal de uma loja presente na área. Retorna True se o jogador comprou ou vendeu algo
     e False caso contrário.
 
     Parâmetros:
     - jogador: objeto da classe Jogador;
-    - loja_itens: lista de itens a venda na loja.
+    - loja_itens: lista de itens a venda na loja;
+    - loja_nome: nome da loja.
     """
     retorno = 1
     operacao_temporaria = False
@@ -231,7 +239,7 @@ def Loja(jogador, loja_itens):
         
         # Imprimindo o menu principal da loja
         if retorno == 1:
-            print('\n|============================================> LOJA <============================================|')
+            print(f'\n+-----> {loja_nome} <-----+')
             print(Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {jogador.ouro}')
             print('[1] Comprar Itens')
             print('[2] Vender Itens\n')

@@ -8,10 +8,12 @@ def ImprimirComDelay(string, delay):
     """
     Imprime cada letra de uma string após um delay definido em segundos.
     """
-
-    for letra in string:
-        print(letra, end = '')
-        time.sleep(delay)
+    if delay > 0:
+        for letra in string:
+            print(letra, end = '')
+            time.sleep(delay)
+    else:
+        print(string, end = '')
 
 def ImprimirLocal(nome):
     """

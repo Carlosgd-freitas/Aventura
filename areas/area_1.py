@@ -358,13 +358,13 @@ class Area_1(area.Area):
                     if self.reestoque_loja_pocoes:
                         imprimir.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Poções fresquinhas acabaram de ' +
                         'chegar!\n', conf.npc_fala_delay)
-                        self.reestoque_loja_pocoes == False
+                        self.reestoque_loja_pocoes = False
 
                     else:
                         imprimir.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Veio se prevenir com algumas das ' +
                         'minhas poções?\n', conf.npc_fala_delay)
 
-                operacao_realizada = loja.Loja(jogador, self.lojas_itens[0])
+                operacao_realizada = loja.Loja(jogador, self.lojas_itens[0], "Maelia: Loja de Poções")
 
                 # Primeira compra de poções realizada nesta loja
                 if operacao_realizada and self.primeira_compra_pocoes == False:
@@ -430,7 +430,7 @@ class Area_1(area.Area):
                             imprimir.ImprimirComDelay(f'Scolf: Eaí moça! Vamo comprar uns equipamento novo?\n',
                             conf.npc_fala_delay)
 
-                operacao_realizada = loja.Loja(jogador, self.lojas_itens[1])
+                operacao_realizada = loja.Loja(jogador, self.lojas_itens[1], "Scolf: Loja de Armamentos")
 
                 if jogador.genero == 'M':
                     imprimir.ImprimirComDelay(f'Scolf: Té mais, rapaz.\n', conf.npc_fala_delay)
@@ -597,6 +597,6 @@ class Area_1(area.Area):
             imprimir.ImprimirComDelay('Vendedor: Olá, aventureira! Quer dar uma olhada nas minhas coisas?', 
                 conf.npc_fala_delay)
 
-        operacao_realizada = loja.Loja(jogador, itens)
+        operacao_realizada = loja.Loja(jogador, itens, "Vendedor Ambulante")
 
         return operacao_realizada
