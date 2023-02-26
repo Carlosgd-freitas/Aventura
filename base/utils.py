@@ -1,7 +1,7 @@
+"""Utilitary functions used by many parts of the game."""
+
 import math
 import random
-from copy import deepcopy
-from colorama import Fore, Back, Style
 
 def LerNumero(string, tipo = "int"):
     """
@@ -69,6 +69,125 @@ def CalcularChance(chance):
         return True
     else:
         return False
+
+def CalcularDano(atacante, alvo, item = None, habilidade = None):
+    """
+    Calcula e retorna o dano que um atacante irá infligir em um alvo ao utilizar uma habilidade e se o acerto
+    foi crítico.
+    """
+    dano = 0
+    acerto_critico = False
+    fonte = None
+
+    if habilidade is not None:
+        # Se a habilidade não causa dano
+        if habilidade.nao_causa_dano == True:
+            return dano, acerto_critico
+
+        # Valor inicial
+        dano = habilidade.valor
+
+        # Acrescentando possíveis modificadores de dano
+        dano = habilidade.ContabilizarModificadores(dano, atacante)
+
+        # Dano vem do uso de uma habilidade
+        fonte = habilidade
+    
+    elif item is not None:
+        # Se o item não causa dano
+        if item.EfeitoPresente("Dano") is None:
+            return dano, acerto_critico
+
+        # Valor inicial
+        efeito = item.EfeitoPresente("Dano")
+        dano = efeito.valor
+
+        # Dano vem do uso de um item
+        fonte = item
+
+    # Dano é efetivo contra o tipo do alvo
+    if ((fonte.tipo == "Fogo" and alvo.tipo == "Terrestre") or
+        (fonte.tipo == "Fogo" and alvo.tipo == "Trevas") or
+        (fonte.tipo == "Terrestre" and alvo.tipo == "Agua") or
+        (fonte.tipo == "Terrestre" and alvo.tipo == "Luz") or
+        (fonte.tipo == "Vento" and alvo.tipo == "Fogo") or
+        (fonte.tipo == "Vento" and alvo.tipo == "Terrestre") or
+        (fonte.tipo == "Agua" and alvo.tipo == "Fogo") or
+        (fonte.tipo == "Agua" and alvo.tipo == "Vento") or
+        (fonte.tipo == "Trevas" and alvo.tipo == "Agua") or
+        (fonte.tipo == "Trevas" and alvo.tipo == "Luz") or
+        (fonte.tipo == "Luz" and alvo.tipo == "Vento") or
+        (fonte.tipo == "Luz" and alvo.tipo == "Trevas")):
+
+        dano *= 2
+    
+    # Alvo resiste o tipo do dano
+    elif ((alvo.tipo == "Fogo" and fonte.tipo == "Terrestre") or
+        (alvo.tipo == "Fogo" and fonte.tipo == "Trevas") or
+        (alvo.tipo == "Terrestre" and fonte.tipo == "Agua") or
+        (alvo.tipo == "Terrestre" and fonte.tipo == "Luz") or
+        (alvo.tipo == "Vento" and fonte.tipo == "Fogo") or
+        (alvo.tipo == "Vento" and fonte.tipo == "Terrestre") or
+        (alvo.tipo == "Agua" and fonte.tipo == "Fogo") or
+        (alvo.tipo == "Agua" and fonte.tipo == "Vento") or
+        (alvo.tipo == "Trevas" and fonte.tipo == "Agua") or
+        (alvo.tipo == "Trevas" and fonte.tipo == "Luz") or
+        (alvo.tipo == "Luz" and fonte.tipo == "Vento") or
+        (alvo.tipo == "Luz" and fonte.tipo == "Trevas")):
+
+        dano /= 2
+    
+    # Acerto Crítico
+    chance_critico = atacante.chance_critico + fonte.chance_critico
+    multiplicador_critico = atacante.multiplicador_critico * fonte.multiplicador_critico
+
+    if CalcularChance(chance_critico / 100):
+        dano = math.ceil(dano * multiplicador_critico)
+        acerto_critico = True
+
+    # Checando se a habilidade é perfurante e diminuindo o dano pela defesa do alvo
+    defesa = alvo.defesa
+
+    if habilidade is not None:
+        for e in habilidade.efeitos:
+            if e.nome == "Perfurante %" and CalcularChance(e.chance / 100):
+                defesa *= (1 - (e.valor / 100))
+            break
+    elif item is not None:
+        for e in item.buffs:
+            if e.nome == "Perfurante %" and CalcularChance(e.chance / 100):
+                defesa *= (1 - (e.valor / 100))
+            break
+    
+    dano -= defesa
+
+    # Checando se o alvo está defendendo
+    if alvo.EfeitoPresente("Defendendo") is not None:
+        buff = alvo.EfeitoPresente("Defendendo")
+        dano *= (buff.valor / 100)
+
+    # Impedindo valores negativos
+    dano = math.floor(dano)
+    if dano < 0:
+        dano = 0
+
+    return dano, acerto_critico
+
+def ListaEmString(lista):
+    """
+    Converte uma lista de elementos quaisquer em uma string para métodos __str__.
+    """
+    if len(lista) == 0:
+        string = '[]'
+        return string
+
+    string = '[\n'
+    for indice, elemento in enumerate(lista):
+        string += str(elemento)
+        if indice != len(lista) - 1:
+            string += ',\n'
+    string += '\n]'
+    return string
 
 def AtributoDestaque(criaturas, menor_maior, atributo):
     """
@@ -286,445 +405,3 @@ def NomesUnicos(nomes, nomes_zerados, criaturas, criaturas2 = None):
 
             nome += ' ' + sufixo
             c.nome = nome
-
-def ContabilizarModificadores(valor, usuario, habilidade):
-    """
-    Acrescenta os modificadores de uma habilidade em um valor, retornando o valor resultante.
-
-    Parâmetros:
-    - valor: valor base;
-    - usuario: qual criatura (ou jogador) está usando a habilidade;
-    - habilidade: habilidade que possui os modificadores.
-    """
-    saida = valor
-    for m in habilidade.modificadores:
-        if m[0] == "ataque":
-            saida += usuario.ataque * (m[1] / 100)
-        elif m[0] == "defesa":
-            saida += usuario.defesa * (m[1] / 100) 
-        elif m[0] == "magia":
-            saida += usuario.magia * (m[1] / 100)
-        elif m[0] == "velocidade":
-            saida += usuario.velocidade * (m[1] / 100) 
-    saida = math.floor(saida)
-    return saida
-
-def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_combate = False, append = True):
-    """
-    Processa um efeito de buff/debuff de um item ou habilidade, utilizado por um usuário em um alvo. Apenas um
-    dos parâmetros 'item' ou 'habilidade' deve receber um argumento, enquanto o outro permanece com None.
-    
-    Parâmetros:
-    - usuario: qual criatura (ou jogador) está causando o efeito;
-    - efeito: efeito a ser processado;
-    - alvo: alvo do efeito;
-    - item: item que irá causar o efeito;
-    - habilidade: habilidade que irá causar o efeito.
-
-    Parâmetros opcionais:
-    - fora_combate: se igual a True, o efeito sendo processado não foi causado em combate. O valor padrão é False;
-    - append: se igual a False, o efeito sendo processado não será adicionado a lista de buffs/debuffs da
-    criatura. O valor padrão é True.
-    """
-
-    # Alguns efeitos terão sua chance calculada posteriormente
-    if efeito.nome == "Veneno":
-        pass
-    # Se o efeito veio de uma habilidade e possui uma % de acontecer
-    elif (habilidade is not None) and (not CalcularChance(efeito.chance / 100)):
-        return
-
-    # Flags para efeitos de item
-    sobrecura_hp = 0
-    sobrecura_mana = 0
-
-    # Melhora das mensagens de uso de itens
-    mensagem = None
-    if item is not None:
-        artigo = item.RetornarArtigo()
-        contracao_por = item.RetornarContracaoPor().lower()
-
-    ## Efeitos de Buff ##
-
-    # Cura o HP em um valor definido, com base no HP máximo ou o que for maior dentre estas opções
-    if efeito.nome == "Cura HP" or efeito.nome == "Cura HP %" or efeito.nome == "Cura HP % ou valor":
-        valor = 0
-
-        if efeito.nome == "Cura HP":
-            valor = efeito.valor
-        elif efeito.nome == "Cura HP %":
-            valor = math.floor(alvo.maxHp * (efeito.valor / 100))
-        else:
-            valor1 = math.floor(alvo.maxHp * (efeito.valor[0] / 100))
-            valor2 = efeito.valor[1]
-            if valor1 > valor2:
-                valor = valor1
-            else:
-                valor = valor2
-        
-        if habilidade is not None:
-            valor = ContabilizarModificadores(valor, usuario, habilidade)
-
-            # Acerto Crítico
-            chance_critico = usuario.chance_critico + habilidade.chance_critico
-            multiplicador_critico = usuario.multiplicador_critico * habilidade.multiplicador_critico
-
-            if CalcularChance(chance_critico / 100):
-                valor = math.ceil(valor * multiplicador_critico)
-                print(Fore.GREEN + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
-
-        alvo.hp += valor
-
-        # Buff foi causado através de um item
-        if item is not None:
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
-        # Buff foi causado através de uma habilidade ou outra fonte
-        else:
-            mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
-
-        sobrecura_hp = 1
-
-    # Cura a Mana em um valor definido, com base na Mana máxima ou o que for maior dentre estas opções
-    elif efeito.nome == "Cura Mana" or efeito.nome == "Cura Mana %" or efeito.nome == "Cura Mana % ou valor":
-        valor = 0
-
-        if efeito.nome == "Cura Mana":
-            valor = efeito.valor
-        elif efeito.nome == "Cura Mana %":
-            valor = math.floor(alvo.maxMana * (efeito.valor / 100))
-        else:
-            valor1 = math.floor(alvo.maxMana * (efeito.valor[0] / 100))
-            valor2 = efeito.valor[1]
-            if valor1 > valor2:
-                valor = valor1
-            else:
-                valor = valor2
-        
-        if habilidade is not None:
-            valor = ContabilizarModificadores(valor, usuario, habilidade)
-
-            # Acerto Crítico
-            chance_critico = usuario.chance_critico + habilidade.chance_critico
-            multiplicador_critico = usuario.multiplicador_critico * habilidade.multiplicador_critico
-
-            if CalcularChance(chance_critico / 100):
-                valor = math.ceil(valor * multiplicador_critico)
-                print(Fore.GREEN + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
-
-        alvo.mana += valor
-
-        # Buff foi causado através de um item
-        if item is not None:
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
-        # Buff foi causado através de uma habilidade ou outra fonte
-        else:
-            mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
-
-        sobrecura_mana = 1
-
-    # Regenera o HP em um valor definido ou com base no HP máximo durante vários turnos
-    elif efeito.nome == "Regeneração HP" or efeito.nome == "Regeneração HP %":
-        valor = 0
-
-        if efeito.nome == "Regeneração HP":
-            valor = efeito.valor
-        elif efeito.nome == "Regeneração HP %":
-            valor = math.floor(alvo.maxHp * (efeito.valor / 100))
-        
-        # Se o efeito de regeneração foi causado fora de combate: recuperar todo o HP de uma vez
-        if fora_combate:
-            valor *= efeito.duracao
-
-        alvo.hp += valor
-
-        # Buff foi causado através de um item
-        if item is not None:
-            mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
-        # Buff foi causado através de uma habilidade ou outra fonte
-        else:
-            mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
-
-        if not fora_combate:
-            regen = deepcopy(efeito)
-            regen.duracao -= regen.decaimento
-            if append:
-                alvo.buffs.append(regen)
-        
-        sobrecura_hp = 1
-    
-    # Aumento de Atributo
-    elif efeito.nome == "Aumento Ataque" or efeito.nome == "Aumento Defesa" or \
-        efeito.nome == "Aumento Magia" or efeito.nome == "Aumento Velocidade" or \
-        efeito.nome == "Aumento Chance Crítico":
-
-        aumento = deepcopy(efeito)
-        valor_aumento = efeito.valor
-        if habilidade is not None:
-            valor_aumento = ContabilizarModificadores(valor_aumento, usuario, habilidade)
-        aumento.valor = valor_aumento
-
-        # Se a criatura já está sob o efeito de aumento do atributo
-        if alvo.EfeitoPresente(efeito.nome) is not None:
-            efeito_presente = alvo.EfeitoPresente(efeito.nome)
-            efeito_presente.duracao += 1
-            efeito_presente.valor += math.floor(0.25 * efeito_presente.valor)
-
-            if efeito.nome == "Aumento Ataque":
-                alvo.ataque += math.floor(0.25 * efeito_presente.valor)
-                print(f'{alvo.nome} teve seu aumento de ataque melhorado em 25% e a duração do efeito extendida em 1 turno.')
-            elif efeito.nome == "Aumento Defesa":
-                alvo.defesa += math.floor(0.25 * efeito_presente.valor)
-                print(f'{alvo.nome} teve seu aumento de defesa melhorado em 25% e a duração do efeito extendida em 1 turno.')
-            elif efeito.nome == "Aumento Magia":
-                alvo.magia += math.floor(0.25 * efeito_presente.valor)
-                print(f'{alvo.nome} teve seu aumento de magia melhorado em 25% e a duração do efeito extendida em 1 turno.')
-            elif efeito.nome == "Aumento Velocidade":
-                alvo.velocidade += math.floor(0.25 * efeito_presente.valor)
-                print(f'{alvo.nome} teve seu aumento de velocidade melhorado em 25% e a duração do efeito extendida em 1 turno.')
-            elif efeito.nome == "Aumento Chance Crítico":
-                alvo.chance_critico += math.floor(0.25 * efeito_presente.valor)
-                print(f'{alvo.nome} teve seu aumento de chance de crítico melhorado em 25% e a duração do efeito extendida em 1 turno.')
-
-        # Se a criatura não está sob o efeito de aumento do atributo
-        else:
-            if append:
-                alvo.buffs.append(aumento)
-            
-            if efeito.nome == "Aumento Ataque":
-                alvo.ataque += valor_aumento
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve seu ataque aumentado em {valor_aumento} até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve seu ataque aumentado em {valor_aumento} por {efeito.duracao} turnos.')
-
-            elif efeito.nome == "Aumento Defesa":
-                alvo.defesa += valor_aumento
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve sua defesa aumentada em {valor_aumento} até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve sua defesa aumentada em {valor_aumento} por {efeito.duracao} turnos.')
-
-            elif efeito.nome == "Aumento Magia":
-                alvo.magia += valor_aumento
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve sua magia aumentada em {valor_aumento} até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve sua magia aumentada em {valor_aumento} por {efeito.duracao} turnos.')
-
-            elif efeito.nome == "Aumento Velocidade":
-                alvo.velocidade += valor_aumento
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve sua velocidade aumentada em {valor_aumento} até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve sua velocidade aumentada em {valor_aumento} por {efeito.duracao} turnos.')
-
-            elif efeito.nome == "Aumento Chance Crítico":
-                alvo.chance_critico += valor_aumento
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve sua chance de crítico aumentada em {valor_aumento}% até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve sua chance de crítico aumentada em {valor_aumento}% por {efeito.duracao} turnos.')
-
-    # Criatura está defendendo
-    elif efeito.nome == "Defendendo":
-        defendendo = deepcopy(efeito)
-        if append:
-            alvo.buffs.append(defendendo)
-        print(f'{alvo.nome} está defendendo.')
-    
-    # Cura debuff de envenenamento
-    elif efeito.nome == "Cura Veneno":
-        debuff = alvo.EfeitoPresente("Veneno")
-        if debuff is not None:
-            alvo.debuffs.remove(debuff)
-
-            # Buff foi causado através de um item
-            if item is not None:
-                mensagem = f'{artigo} {item.nome} curou o ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + f' de {alvo.nome}.'
-            # Buff foi causado através de uma habilidade ou outra fonte
-            else:
-                mensagem = f'O ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + f' de {alvo.nome} foi curado.'
-
-    # Caso o HP ou Mana estrapole o valor máximo
-    if sobrecura_hp == 1 and alvo.hp >= alvo.maxHp:
-        alvo.hp = alvo.maxHp
-
-        if item is not None:
-            mensagem = f'{artigo} {item.nome} maximizou o ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
-        elif habilidade is not None:
-            mensagem = f'O ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome} foi maximizado.'
-
-    if sobrecura_mana == 1 and alvo.mana >= alvo.maxMana:
-        alvo.mana = alvo.maxMana
-
-        if item is not None:
-            mensagem = f'{artigo} {item.nome} maximizou a ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
-        elif habilidade is not None:
-            mensagem = f'A ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome} foi maximizada.'
-
-    if mensagem is not None:
-        print(mensagem)
-
-    ## Efeitos de Debuff ##
-
-    # Dá dano em todos os inimigos
-    if efeito.nome == "Dano":
-        dano = efeito.valor - alvo.defesa
-
-        # Checando se o alvo está defendendo
-        if alvo.EfeitoPresente("Defendendo") is not None:
-            buff = alvo.EfeitoPresente("Defendendo")
-            dano *= (buff.valor / 100)
-        
-        dano = math.floor(dano)
-        if dano < 0:
-            dano = 0
-
-        alvo.hp -= dano
-        mensagem = f'{artigo} {item.nome} infligiu {dano} de dano em {alvo.nome}.'
-
-        if alvo.hp < 0:
-            alvo.hp = 0
-        
-        if mensagem is not None:
-            print(mensagem)
-
-    elif efeito.nome == "Veneno":
-
-        chance_veneno = efeito.chance
-        chance_resistencia = 0
-
-        # Calculando a chance de resistir ao veneno
-        buff = alvo.EfeitoPresente('Resistência Veneno')
-        if buff is not None:
-            chance_resistencia += buff.valor
-        
-        if chance_resistencia > 1:
-            chance_resistencia = 1
-
-        chance = chance_veneno * (1 - chance_resistencia)
-
-        if CalcularChance(chance):
-            veneno = deepcopy(efeito)
-            if append:
-                alvo.debuffs.append(veneno)
-            print(f'{usuario.nome} ' + Fore.GREEN + 'envenenou' + Style.RESET_ALL + f' {alvo.nome}!')
-            alvo.CombinarEfeito("Veneno")
-    
-    elif efeito.nome == "Atordoamento":
-        atordoamento = deepcopy(efeito)
-        if append:
-            alvo.debuffs.append(atordoamento)
-        print(f'{usuario.nome} atordoou {alvo.nome}!')
-        alvo.CombinarEfeito("Atordoamento")
-    
-    elif efeito.nome == "Lentidão":
-        debuff_ja_presente = alvo.EfeitoPresente("Lentidão")
-
-        lentidao = deepcopy(efeito)
-        lentidao.nome = "Lentidão"
-        lentidao.valor = alvo.velocidade
-        alvo.velocidade = 0
-        if append:
-            alvo.debuffs.append(lentidao)
-
-        # Debuff foi causado através de um item
-        if item is not None:
-            if debuff_ja_presente is None:
-                if lentidao.duracao > 1:
-                    print(f'{artigo} {item.nome} infligiu Lentidão em {alvo.nome} por {efeito.duracao} turnos.')
-                else:
-                    print(f'{artigo} {item.nome} infligiu Lentidão em {alvo.nome} por {efeito.duracao} turno.')
-            else:
-                if lentidao.duracao > 1:
-                    print(f'{artigo} {item.nome} infligiu Lentidão em {alvo.nome} por mais {efeito.duracao} turnos.')
-                else:
-                    print(f'{artigo} {item.nome} infligiu Lentidão em {alvo.nome} por mais {efeito.duracao} turno.')
-        
-        # Debuff foi causado através de uma habilidade
-        elif habilidade is not None:
-            if debuff_ja_presente is None:
-                if lentidao.duracao > 1:
-                    print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por {lentidao.duracao} turnos.')
-                else:
-                    print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por {lentidao.duracao} turno.')
-            else:
-                if lentidao.duracao > 1:
-                    print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por mais {lentidao.duracao} turnos.')
-                else:
-                    print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por mais {lentidao.duracao} turno.')
-
-        alvo.CombinarEfeito("Lentidão")
-
-    # Diminuição de Atributo
-    elif efeito.nome == "Diminuição Ataque" or efeito.nome == "Diminuição Defesa" or \
-        efeito.nome == "Diminuição Magia" or efeito.nome == "Diminuição Velocidade" or \
-        efeito.nome == "Diminuição Chance Crítico":
-
-        diminuicao = deepcopy(efeito)
-        valor_diminuicao = efeito.valor
-        if habilidade is not None:
-            valor_diminuicao = ContabilizarModificadores(valor_diminuicao, usuario, habilidade)
-        diminuicao.valor = valor_diminuicao
-
-        # Se a criatura já está sob o efeito de diminuição do atributo
-        if alvo.EfeitoPresente(efeito.nome) is not None:
-            debuff = alvo.EfeitoPresente(efeito.nome)
-            debuff.duracao += 1
-            debuff.valor += math.floor(0.25 * debuff.valor)
-
-            if efeito.nome == "Diminuição Ataque":
-                alvo.ataque -= math.floor(0.25 * debuff.valor)
-                print(f'{alvo.nome} teve sua diminuição de ataque piorada em 25% e a duração do efeito extendida em 1 turno.')
-            elif efeito.nome == "Diminuição Defesa":
-                alvo.defesa -= math.floor(0.25 * debuff.valor)
-                print(f'{alvo.nome} teve sua diminuição de defesa piorada em 25% e a duração do efeito extendida em 1 turno.')
-            elif efeito.nome == "Diminuição Magia":
-                alvo.magia -= math.floor(0.25 * debuff.valor)
-                print(f'{alvo.nome} teve sua diminuição de magia piorada em 25% e a duração do efeito extendida em 1 turno.')
-            elif efeito.nome == "Diminuição Velocidade":
-                alvo.velocidade -= math.floor(0.25 * debuff.valor)
-                print(f'{alvo.nome} teve sua diminuição de velocidade piorada em 25% e a duração do efeito extendida em 1 turno.')
-            elif efeito.nome == "Diminuição Chance Crítico":
-                alvo.chance_critico -= math.floor(0.25 * debuff.valor)
-                print(f'{alvo.nome} teve sua diminuição de chance de crítico piorada em 25% e a duração do efeito extendida em 1 turno.')
-
-        # Se a criatura não está sob o efeito de diminuição do atributo
-        else:
-            if append:
-                alvo.debuffs.append(diminuicao)
-            
-            if efeito.nome == "Diminuição Ataque":
-                alvo.ataque -= valor_diminuicao
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve seu ataque diminuído em {valor_diminuicao} até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve seu ataque diminuído em {valor_diminuicao} por {efeito.duracao} turnos.')
-            
-            elif efeito.nome == "Diminuição Defesa":
-                alvo.defesa -= valor_diminuicao
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve sua defesa diminuída em {valor_diminuicao} até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve sua defesa diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
-            
-            elif efeito.nome == "Diminuição Magia":
-                alvo.magia -= valor_diminuicao
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve sua magia diminuída em {valor_diminuicao} até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve sua magia diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
-            
-            elif efeito.nome == "Diminuição Velocidade":
-                alvo.velocidade -= valor_diminuicao
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve sua velocidade diminuída em {valor_diminuicao} até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve sua velocidade diminuída em {valor_diminuicao} por {efeito.duracao} turnos.')
-            
-            elif efeito.nome == "Diminuição Chance Crítico":
-                alvo.chance_critico -= valor_diminuicao
-                if efeito.duracao >= 999:
-                    print(f'{alvo.nome} teve sua chance de crítico diminuída em {valor_diminuicao}% até o fim da batalha.')
-                else:
-                    print(f'{alvo.nome} teve sua chance de crítico diminuída em {valor_diminuicao}% por {efeito.duracao} turnos.')     

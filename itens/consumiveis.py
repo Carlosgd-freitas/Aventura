@@ -198,7 +198,7 @@ def BombaGrudentaInferior(quantidade, preco):
     * Dão 3 de dano em todos os inimigos
     * Dão 5 turnos de lentidão em todos os inimigos
     """
-    bomba_dano = efeito.Efeito("Dano", 3, 0, -1, 100)
+    bomba_dano = efeito.Efeito("Dano", 5, 0, -1, 100)
     bomba_lentidao = efeito.Efeito("Lentidão", 0, 1, 5, 100)
 
     bomba = item.Item(buffs = [],
@@ -213,6 +213,6 @@ def BombaGrudentaInferior(quantidade, preco):
         tipo = "Normal",
         singular_plural = "singular",
         genero = "F",
-        descricao = "Apesar de causar menos dano que uma bomba comum, seu conteúdo pegajoso fará com que os " +
+        descricao = "Além de causar dano igual a uma bomba comum, seu conteúdo pegajoso fará com que os " +
             "inimigos tenham dificuldade em tentar te matar rápido.")
     return bomba

@@ -34,13 +34,23 @@ class Base():
         """
         Converte a classe em uma string.
         """
-        string = f'Nome: {self.nome}, Tipo: {self.tipo}, Nível: {self.nivel}, Experiência: {self.experiencia}, HP Máximo: {self.maxHp}, HP: {self.hp}, ' + \
-            f'Mana Máxima: {self.maxMana}, Mana: {self.mana}\n' + \
-            f'Ataque: {self.ataque}, Defesa: {self.defesa}, Magia: {self.magia}, Velocidade: {self.velocidade}, Chance de Acerto Crítico: {self.chance_critico}, ' + \
-            f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n' + \
-            f'singular_plural: {self.singular_plural}, Gênero: {self.genero}\n' + \
-            f'Descrição: {self.descricao}'
-
+        string = f'Nome: {self.nome}\n'
+        string += f'Tipo: {self.tipo}\n'
+        string += f'Nível: {self.nivel}\n'
+        string += f'Experiência: {self.experiencia}\n'
+        string += f'HP Máximo: {self.maxHp}\n'
+        string += f'HP: {self.hp}\n'
+        string += f'Mana Máxima: {self.maxMana}\n'
+        string += f'Mana: {self.mana}\n'
+        string += f'Ataque:{self.ataque}\n'
+        string += f'Defesa: {self.defesa}\n'
+        string += f'Magia: {self.magia}\n'
+        string += f'Velocidade: {self.velocidade}\n'
+        string += f'Chance de Acerto Crítico: {self.chance_critico}\n'
+        string += f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n'
+        string += f'singular_plural: {self.singular_plural}\n'
+        string += f'Gênero: {self.genero}\n'
+        string += f'Descrição: {self.descricao}'
         return string
 
     def RetornarArtigo(self):

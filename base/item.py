@@ -1,4 +1,4 @@
-from . import basico
+from . import basico, utils
 
 class Item(basico.Base):
     """
@@ -43,23 +43,46 @@ class Item(basico.Base):
         """
         Converte a classe em uma string.
         """
-        string = f'Nome: {self.nome}, Tipo: {self.tipo}, Nível: {self.nivel}, Experiência: {self.experiencia}, HP Máximo: {self.maxHp}, HP: {self.hp}, ' + \
-            f'Mana Máxima: {self.maxMana}, Mana: {self.mana}\n' + \
-            f'Ataque: {self.ataque}, Defesa: {self.defesa}, Magia: {self.magia}, Velocidade: {self.velocidade}, Chance de Acerto Crítico: {self.chance_critico}, ' + \
-            f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n' + \
-            f'singular_plural: {self.singular_plural}, Gênero: {self.genero}\n' + \
-            f'Descrição: {self.descricao}\n'
+        string = f'Nome: {self.nome}\n'
+        string += f'Tipo: {self.tipo}\n'
+        string += f'Nível: {self.nivel}\n'
+        string += f'Experiência: {self.experiencia}\n'
+        string += f'HP Máximo: {self.maxHp}\n'
+        string += f'HP: {self.hp}\n'
+        string += f'Mana Máxima: {self.maxMana}\n'
+        string += f'Mana: {self.mana}\n'
+        string += f'Ataque:{self.ataque}\n'
+        string += f'Defesa: {self.defesa}\n'
+        string += f'Magia: {self.magia}\n'
+        string += f'Velocidade: {self.velocidade}\n'
+        string += f'Chance de Acerto Crítico: {self.chance_critico}\n'
+        string += f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n'
+        string += f'singular_plural: {self.singular_plural}\n'
+        string += f'Gênero: {self.genero}\n'
+        string += f'Descrição: {self.descricao}\n'
         string += 'Buffs:\n'
-        for i, b in enumerate(self.buffs):
-            string += '* ' + str(b)
-            if i != len(self.buffs) - 1:
-                string += '\n'
+        string += utils.ListaEmString(self.buffs) + '\n'
         string += 'Debuffs:\n'
-        for i, d in enumerate(self.debuffs):
-            string += '* ' + str(d)
-            if i != len(self.debuffs) - 1:
-                string += '\n'
-        string += f'Preço: {self.preco}, Quantidade: {self.quantidade}, Classe: {self.classe}, '
-        string += f'classe_batalha: {self.classe_batalha}, fora_batalha: {self.fora_batalha}'
-
+        string += utils.ListaEmString(self.debuffs) + '\n'
+        string += f'Preço: {self.preco}\n'
+        string += f'Quantidade: {self.quantidade}\n'
+        string += f'Classe: {self.classe}\n'
+        string += f'classe_batalha: {self.classe_batalha}\n'
+        string += f'fora_batalha: {self.fora_batalha}\n'
+        string += f'Alvo: {self.alvo}'
         return string
+
+    def EfeitoPresente(self, efeito_nome):
+        """
+        Retorna o primeiro efeito com nome <efeito_nome> presente no item, e retorna None caso o
+        item não possua este efeito.
+        """
+
+        for e in self.buffs:
+            if e.nome == efeito_nome:
+                return e
+        for e in self.debuffs:
+            if e.nome == efeito_nome:
+                return e
+        return None
+    

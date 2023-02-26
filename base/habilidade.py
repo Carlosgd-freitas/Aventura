@@ -1,3 +1,6 @@
+import math
+from . import utils
+
 class Habilidade():
     """
     Esta classe é utilizada para habilidades passivas e ativas.
@@ -63,17 +66,23 @@ class Habilidade():
         """
         Converte a classe em uma string.
         """
-        string = f'Nome: {self.nome}, Tipo: {self.tipo}, Alvo: {self.alvo}, passiva_ativa: {self.passiva_ativa}, Valor: {self.valor}, Custo: {self.custo}, ' + \
-            f'Recarga: {self.recarga}, Recarga Atual: {self.recarga_atual}\n' + \
-            f'Modificadores: {self.modificadores}, singular_plural: {self.singular_plural}, Gênero: {self.genero}, ' + \
-            f'Não causa dano: {self.nao_causa_dano}, Chance de Acerto Crítico: {self.chance_critico}, Multiplicador de Dano Crítico: {self.multiplicador_critico}\n' + \
-            f'Descrição: {self.descricao}\n' + \
-            'Efeitos:\n'
-        for i, e in enumerate(self.efeitos):
-            string += str(e)
-            if i != len(self.efeitos) - 1:
-                string += '\n'
-        
+        string = f'Nome: {self.nome}\n'
+        string += f'Tipo: {self.tipo}\n'
+        string += f'Alvo: {self.alvo}\n'
+        string += f'passiva_ativa: {self.passiva_ativa}\n'
+        string += f'Valor: {self.valor}\n'
+        string += f'Custo: {self.custo}\n'
+        string += f'Recarga: {self.recarga}\n'
+        string += f'Recarga Atual: {self.recarga_atual}\n'
+        string += f'Modificadores:{self.modificadores}\n'
+        string += f'singular_plural: {self.singular_plural}\n'
+        string += f'Gênero: {self.genero}\n'
+        string += f'Não causa dano: {self.nao_causa_dano}\n'
+        string += f'Chance de Acerto Crítico: {self.chance_critico}\n'
+        string += f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n'
+        string += f'Descrição: {self.descricao}\n'
+        string += 'Efeitos:\n'
+        string += utils.ListaEmString(self.efeitos)
         return string
 
     def RetornarCusto(self, recurso):
@@ -129,3 +138,25 @@ class Habilidade():
                 return e
         
         return None
+    
+    def ContabilizarModificadores(self, valor, usuario):
+        """
+        Acrescenta os modificadores de uma habilidade em um valor, retornando o valor resultante.
+
+        Parâmetros:
+        - valor: valor base;
+        - usuario: qual criatura (ou jogador) está usando a habilidade;
+        - habilidade: habilidade que possui os modificadores.
+        """
+        saida = valor
+        for m in self.modificadores:
+            if m[0] == "ataque":
+                saida += usuario.ataque * (m[1] / 100)
+            elif m[0] == "defesa":
+                saida += usuario.defesa * (m[1] / 100) 
+            elif m[0] == "magia":
+                saida += usuario.magia * (m[1] / 100)
+            elif m[0] == "velocidade":
+                saida += usuario.velocidade * (m[1] / 100) 
+        saida = math.floor(saida)
+        return saida

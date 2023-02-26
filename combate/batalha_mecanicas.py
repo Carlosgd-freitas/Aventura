@@ -9,85 +9,6 @@ sys.path.append("..")
 from base import imprimir, utils
 from itens import espolios
 
-def CalcularDano(atacante, alvo, habilidade):
-    """
-    Calcula e retorna o dano que um atacante irá infligir em um alvo ao utilizar uma habilidade e se o acerto
-    foi crítico.
-    """
-    acerto_critico = False
-
-    # Se a habilidade não causa dano
-    if habilidade.nao_causa_dano == True:
-        return 0, acerto_critico
-
-    # Valor inicial
-    dano = habilidade.valor
-
-    # Acrescentando possíveis modificadores de dano
-    dano = utils.ContabilizarModificadores(dano, atacante, habilidade)
-
-    # Habilidade é efetiva contra o tipo do alvo
-    if ((habilidade.tipo == "Fogo" and alvo.tipo == "Terrestre") or
-        (habilidade.tipo == "Fogo" and alvo.tipo == "Trevas") or
-        (habilidade.tipo == "Terrestre" and alvo.tipo == "Agua") or
-        (habilidade.tipo == "Terrestre" and alvo.tipo == "Luz") or
-        (habilidade.tipo == "Vento" and alvo.tipo == "Fogo") or
-        (habilidade.tipo == "Vento" and alvo.tipo == "Terrestre") or
-        (habilidade.tipo == "Agua" and alvo.tipo == "Fogo") or
-        (habilidade.tipo == "Agua" and alvo.tipo == "Vento") or
-        (habilidade.tipo == "Trevas" and alvo.tipo == "Agua") or
-        (habilidade.tipo == "Trevas" and alvo.tipo == "Luz") or
-        (habilidade.tipo == "Luz" and alvo.tipo == "Vento") or
-        (habilidade.tipo == "Luz" and alvo.tipo == "Trevas")):
-
-        dano *= 2
-    
-    # Alvo resiste o tipo da habilidade
-    elif ((alvo.tipo == "Fogo" and habilidade.tipo == "Terrestre") or
-        (alvo.tipo == "Fogo" and habilidade.tipo == "Trevas") or
-        (alvo.tipo == "Terrestre" and habilidade.tipo == "Agua") or
-        (alvo.tipo == "Terrestre" and habilidade.tipo == "Luz") or
-        (alvo.tipo == "Vento" and habilidade.tipo == "Fogo") or
-        (alvo.tipo == "Vento" and habilidade.tipo == "Terrestre") or
-        (alvo.tipo == "Agua" and habilidade.tipo == "Fogo") or
-        (alvo.tipo == "Agua" and habilidade.tipo == "Vento") or
-        (alvo.tipo == "Trevas" and habilidade.tipo == "Agua") or
-        (alvo.tipo == "Trevas" and habilidade.tipo == "Luz") or
-        (alvo.tipo == "Luz" and habilidade.tipo == "Vento") or
-        (alvo.tipo == "Luz" and habilidade.tipo == "Trevas")):
-
-        dano /= 2
-    
-    # Acerto Crítico
-    chance_critico = atacante.chance_critico + habilidade.chance_critico
-    multiplicador_critico = atacante.multiplicador_critico * habilidade.multiplicador_critico
-
-    if utils.CalcularChance(chance_critico / 100):
-        dano = math.ceil(dano * multiplicador_critico)
-        acerto_critico = True
-
-    # Checando se a habilidade é perfurante e diminuindo o dano pela defesa do alvo
-    defesa = alvo.defesa
-
-    for e in habilidade.efeitos:
-        if e.nome == "Perfurante %" and utils.CalcularChance(e.chance / 100):
-            defesa *= (1 - (e.valor / 100))
-        break
-    
-    dano -= defesa
-
-    # Checando se o alvo está defendendo
-    if alvo.EfeitoPresente("Defendendo") is not None:
-        buff = alvo.EfeitoPresente("Defendendo")
-        dano *= (buff.valor / 100)
-
-    # Retornando o valor
-    dano = math.floor(dano)
-    if dano < 0:
-        dano = 0
-
-    return dano, acerto_critico
-
 def InicioBatalha(criatura, verbose = True):
     """
     Esta função é chamada no início da batalha.
@@ -112,10 +33,10 @@ def InicioTurno(criatura, verbose = True):
         # Aplicando efeitos de buff
         if criatura.EfeitoPresente("Regeneração HP") is not None:
             buff = criatura.EfeitoPresente("Regeneração HP")
-            utils.ProcessarEfeito(criatura, buff, criatura, append = False)
+            buff.Processar(criatura, criatura, append = False)
         elif criatura.EfeitoPresente("Regeneração HP %") is not None:
             buff = criatura.EfeitoPresente("Regeneração HP %")
-            utils.ProcessarEfeito(criatura, buff, criatura, append = False)
+            buff.Processar(criatura, criatura, append = False)
 
         # Aplicando efeitos de debuff
         criatura.CombinarEfeito("Veneno")
@@ -483,7 +404,7 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
                                         print(f'{c2.nome} se sentem vingativas!')
 
                                 efeito.nome = conteudo[2]
-                                utils.ProcessarEfeito(c2, efeito, c2, habilidade = h)
+                                efeito.Processar(c2, c2, habilidade = h)
         
         indice += 1
     

@@ -1,3 +1,4 @@
+from . import utils
 from abc import abstractmethod
 
 class Area():
@@ -19,6 +20,22 @@ class Area():
         # Preço da estalagem na primeira opção do evento de descanso
         self.estalagem_preco = estalagem_preco
 
+    def __str__(self):
+        """
+        Converte a classe em uma string.
+        """
+        string = f'Nome: {self.nome}\n'
+        string += 'Itens das Lojas:\n'
+        if len(self.lojas_itens) == 0:
+            string += '[]\n'
+        else:
+            string += '[\n'
+            for loja_itens in self.lojas_itens:
+                string += utils.ListaEmString(loja_itens) + '\n'
+            string += ']\n'
+        string += f'Preço da Estalagem: {self.estalagem_preco}'
+        return string
+    
     # Métodos Abstratos
 
     @abstractmethod

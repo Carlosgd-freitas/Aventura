@@ -116,10 +116,10 @@ class Area_1(area.Area):
         loja_armamentos_itens.append(amuleto_esmeralda)
 
         # Consumíveis
-        bomba_inferior = consumiveis.BombaInferior(5, 6)
+        bomba_inferior = consumiveis.BombaInferior(4, 6)
         loja_armamentos_itens.append(bomba_inferior)
 
-        bomba_grudenta_inferior = consumiveis.BombaGrudentaInferior(5, 6)
+        bomba_grudenta_inferior = consumiveis.BombaGrudentaInferior(4, 10)
         loja_armamentos_itens.append(bomba_grudenta_inferior)
 
         # Armazenando os itens das lojas
@@ -521,7 +521,7 @@ class Area_1(area.Area):
         """
 
         itens = []
-        n_itens = 10
+        n_itens = 9
         indices = [i for i in range(1, n_itens+1)]
 
         while len(itens) < 5:
@@ -582,12 +582,6 @@ class Area_1(area.Area):
                 item = consumiveis.BombaInferior(quantidade, 6)
                 itens.append(item)
                 indices.remove(9)
-            
-            # Bombas Grudentas Inferiores
-            elif indice == 10:
-                item = consumiveis.BombaGrudentaInferior(quantidade, 6)
-                itens.append(item)
-                indices.remove(10)
 
         print('\nUm vendedor ambulante se aproxima de você.')
         if jogador.genero == 'M':

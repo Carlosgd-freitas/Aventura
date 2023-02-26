@@ -1,10 +1,7 @@
 ===== Alpha v0.0.5 =====
 
-* Consertar métodos __str__ para classes
-* buffar bomba iterior grudenta, preço de compra mais caro
-
 * Sistema de fabricação (crafting) / comprar e aprender receitas de fabricação / opção de fabricação em lojas
-	- novo diretório /mecanicas
+	- novo diretório /mecanicas -> atualizar README.md
  	- poção de cura  (receita)
   	- poção de regen (receita)
   	- bomba inferior grudenta (receita)
@@ -24,7 +21,11 @@
 * Efeitos de resistência a atordoamento e lentidão
 * Mudar a descrição das habilidades
 * Reorganizar itens a serem vendidos nas lojas
-* Estabelecer um padrão e organizar os imports de todos os arquivos
+  - amuleto de esmeralda -> maelia passa a vender
+  - bomba inferior grudenta, mel de abelhóide -> não são mais vendidos
+* Última mudança da versão:
+  - Estabelecer um padrão e organizar os imports de todos os arquivos
+  - Colocar docstrings em todos os módulos
 
 > Jogabilidade
 * Bestiário

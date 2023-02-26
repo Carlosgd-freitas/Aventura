@@ -2,7 +2,7 @@ import sys
 from colorama import Fore, Back, Style
 from tabulate import tabulate
 
-from . import criatura, guerreiro, mago
+from . import criatura, guerreiro, mago, utils
 
 sys.path.append("..")
 from base import imprimir, configuracao
@@ -39,44 +39,47 @@ class Jogador(criatura.Criatura):
         """
         Converte a classe em uma string.
         """
-        string = f'Nome: {self.nome}, Tipo: {self.tipo}, Nível: {self.nivel}, Experiência: {self.experiencia}, HP Máximo: {self.maxHp}, HP: {self.hp}, ' + \
-            f'Mana Máxima: {self.maxMana}, Mana: {self.mana}\n' + \
-            f'Ataque: {self.ataque}, Defesa: {self.defesa}, Magia: {self.magia}, Velocidade: {self.velocidade}, Chance de Acerto Crítico: {self.chance_critico}, ' + \
-            f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n' + \
-            f'singular_plural: {self.singular_plural}, Gênero: {self.genero}\n' + \
-            f'Descrição: {self.descricao}\n'
+        string = f'Nome: {self.nome}\n'
+        string += f'Tipo: {self.tipo}\n'
+        string += f'Nível: {self.nivel}\n'
+        string += f'Experiência: {self.experiencia}\n'
+        string += f'HP Máximo: {self.maxHp}\n'
+        string += f'HP: {self.hp}\n'
+        string += f'Mana Máxima: {self.maxMana}\n'
+        string += f'Mana: {self.mana}\n'
+        string += f'Ataque:{self.ataque}\n'
+        string += f'Defesa: {self.defesa}\n'
+        string += f'Magia: {self.magia}\n'
+        string += f'Velocidade: {self.velocidade}\n'
+        string += f'Chance de Acerto Crítico: {self.chance_critico}\n'
+        string += f'Multiplicador de Dano Crítico: {self.multiplicador_critico}\n'
+        string += f'singular_plural: {self.singular_plural}\n'
+        string += f'Gênero: {self.genero}\n'
+        string += f'Descrição: {self.descricao}\n'
         string += 'Buffs:\n'
-        for i, b in enumerate(self.buffs):
-            string += '* ' + str(b)
-            if i != len(self.buffs) - 1:
-                string += '\n'
+        string += utils.ListaEmString(self.buffs) + '\n'
         string += 'Debuffs:\n'
-        for i, d in enumerate(self.debuffs):
-            string += '* ' + str(d)
-            if i != len(self.debuffs) - 1:
-                string += '\n'
+        string += utils.ListaEmString(self.debuffs) + '\n'
         string += 'Habilidades:\n'
-        for i, h in enumerate(self.habilidades):
-            string += '* ' + str(h)
-            if i != len(self.habilidades) - 1:
-                string += '\n'
+        string += utils.ListaEmString(self.habilidades) + '\n'
         string += 'Espólios:\n'
-        for i, (e0, e1) in enumerate(self.espolios):
-            string += f'* {e0}% de chance: {e1}'
-            if i != len(self.espolios) - 1:
-                string += '\n'
-        string += f'Classe: {self.classe}, Ouro: {self.ouro}\n'
+        if len(self.espolios) == 0:
+            string += '[]\n'
+        else:
+            string += '[\n'
+            for indice, espolio in enumerate(self.espolios):
+                string += f'Chance de Drop: {espolio[0]}%\n'
+                string += f'Drop: {espolio[1]}'
+                if indice != len(self.espolios) - 1:
+                    string += f',\n'
+                string += "\n"
+            string += ']\n'
+        string += f'Classe: {self.classe}\n'
+        string += f'Ouro: {self.ouro}\n'
         string += 'Inventário:\n'
-        for i, it in enumerate(self.inventario):
-            string += '* ' + str(it)
-            if i != len(self.inventario) - 1:
-                string += '\n'
+        string += utils.ListaEmString(self.inventario) + '\n'
         string += 'Equipados:\n'
-        for i, eq in enumerate(self.equipados):
-            string += '* ' + str(eq)
-            if i != len(self.equipados) - 1:
-                string += '\n'
-
+        string += utils.ListaEmString(self.equipados)
         return string
 
     def AdicionarAoInventario(self, novo_item):

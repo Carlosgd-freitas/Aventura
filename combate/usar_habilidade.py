@@ -156,7 +156,7 @@ def UsarHabilidade(usuario, alvos, habilidade, verbose = True):
     acertos_criticos = []
 
     for alvo in alvos:
-        dano, acerto_critico = batalha_mecanicas.CalcularDano(usuario, alvo, habilidade)
+        dano, acerto_critico = utils.CalcularDano(usuario, alvo, habilidade = habilidade)
         danos.append(dano)
         acertos_criticos.append(acerto_critico)
 
@@ -165,7 +165,7 @@ def UsarHabilidade(usuario, alvos, habilidade, verbose = True):
 
         # Aplicando efeitos da habilidade no alvo
         for e in habilidade.efeitos:
-            utils.ProcessarEfeito(usuario, e, alvo, habilidade = habilidade)
+            e.Processar(usuario, alvo, habilidade = habilidade)
 
     # Retornando possíveis alterações na habilidade
     if flag_veneno == 1:

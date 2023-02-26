@@ -217,6 +217,7 @@ class NotasAtualizacao():
 
         print('\nItens')
         self.positivo('Amuleto de Esmeralda adicionado.')
+        self.positivo('Dano causado pela Bomba Grudenta Inferior aumentado de 3 para 5.')
         self.neutro('Espada renomeada para Espada de Ferro.')
 
         print('\nOutros')

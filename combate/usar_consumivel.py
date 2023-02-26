@@ -113,11 +113,11 @@ def UsarConsumivel(jogador, indice, inimigos = None, fora_combate = False):
 
         # Processando os buffs que o item concede
         for buff in item.buffs:
-            utils.ProcessarEfeito(jogador, buff, alvo, item = item, fora_combate = fora_combate)
+            buff.Processar(jogador, alvo, item = item, fora_combate = fora_combate)
     
         # Processando dano e os debuffs que o item concede
         for debuff in item.debuffs:
-            utils.ProcessarEfeito(jogador, debuff, alvo, item = item, fora_combate = fora_combate)
+            debuff.Processar(jogador, alvo, item = item, fora_combate = fora_combate)
                 
     # Contabilizando a usagem do item
     item.quantidade -= 1
