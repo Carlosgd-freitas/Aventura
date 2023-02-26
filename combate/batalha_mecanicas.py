@@ -6,7 +6,7 @@ from colorama import Fore, Back, Style
 from . import invocar_criaturas, batalha_chefao
 
 sys.path.append("..")
-from base import utils
+from base import imprimir, utils
 from itens import espolios
 
 def CalcularDano(atacante, alvo, habilidade):
@@ -362,6 +362,20 @@ def DecairBuffsDebuffs(criatura, nao_decair = [], verbose = 1, terminar = False)
         indice += 1
 
     return 1
+
+def EscolherAlvo(criaturas):
+    """
+    Imprime as possíveis criaturas que o jogador pode atacar ou usar uma habilidade de alvo único e retorna
+    o índice da lista de criaturas correspondente ao alvo escolhido.
+    """
+
+    print('\nEscolha quem deseja atacar:')
+    imprimir.InimigosPresentes(criaturas)
+
+    print('[0] Retornar e escolher outra ação.\n')
+
+    alvo = utils.LerNumeroIntervalo('> ', 0, len(criaturas))
+    return alvo
 
 def GerarEspolios(criatura):
     """

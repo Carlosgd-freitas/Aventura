@@ -5,10 +5,10 @@ class Item(basico.Base):
     Esta classe serve para itens consumíveis e equipamentos.
     """
     def __init__(self, buffs = [], debuffs = [], preco = 0, quantidade = 0, classe = "default",
-        classe_batalha = "default", fora_batalha = False, nome = "default", descricao = "default",
-        tipo = "default", nivel = 0, experiencia = 0, maxHp = 0, hp = 0,  maxMana = 0, mana = 0,
-        ataque = 0, defesa = 0, magia = 0, velocidade = 0, singular_plural = "default", genero = "default",
-        chance_critico = 0.0, multiplicador_critico = 1.0):
+        classe_batalha = "default", fora_batalha = False, alvo = "default", nome = "default",
+        descricao = "default", tipo = "default", nivel = 0, experiencia = 0, maxHp = 0, hp = 0,
+        maxMana = 0, mana = 0, ataque = 0, defesa = 0, magia = 0, velocidade = 0, singular_plural = "default",
+        genero = "default", chance_critico = 0.0, multiplicador_critico = 1.0):
         """
         Inicializador da classe.
         """
@@ -32,6 +32,9 @@ class Item(basico.Base):
 
         # Se o item pode ser usado fora de batalha
         self.fora_batalha = fora_batalha
+
+        # Alvo do uso de um item consumível
+        self.alvo = alvo
 
         super(Item, self).__init__(nome, descricao, tipo, nivel, experiencia, maxHp, hp, maxMana, mana,
             ataque, defesa, magia, velocidade, singular_plural, genero, chance_critico, multiplicador_critico)

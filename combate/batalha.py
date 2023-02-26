@@ -1,7 +1,7 @@
 import sys
 from colorama import Fore, Back, Style
 
-from . import jogador_acoes, mecanicas, usar_habilidade
+from . import batalha_mecanicas, usar_habilidade, usar_consumivel
 sys.path.append("..")
 from base import efeito, imprimir, utils
 from menus import menu_equipamentos
@@ -34,9 +34,9 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
 
     # Ativando certas habilidades no início da batalha
     for c in aliados:
-        mecanicas.InicioBatalha(c)
+        batalha_mecanicas.InicioBatalha(c)
     for c in inimigos:
-        mecanicas.InicioBatalha(c)
+        batalha_mecanicas.InicioBatalha(c)
 
     while acabou == 0:
 
@@ -90,10 +90,10 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
             for c in ordem:
 
                 if acabou == 0:
-                    consciente = mecanicas.InicioTurno(c)
-                    mecanicas.DecairBuffsDebuffs(c)
-                    mecanicas.AcrescentarRecargas(c)
-                    mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
+                    consciente = batalha_mecanicas.InicioTurno(c)
+                    batalha_mecanicas.DecairBuffsDebuffs(c)
+                    batalha_mecanicas.AcrescentarRecargas(c)
+                    batalha_mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
                         conf = conf, chefao = chefao)
 
                 if jogador.hp <= 0:
@@ -104,7 +104,7 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
                 if c == jogador and jogador.hp > 0 and consciente == 1 and len(inimigos) > 0:
                     acabou = JogadorVez(jogador, inimigos, correr)
 
-                    mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
+                    batalha_mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
                         conf = conf, chefao = chefao)
 
                 # Vez de um inimigo ou aliado
@@ -114,7 +114,7 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
 
                     # Vez de um aliado
                     if c in aliados:
-                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, gerar_espolios = False,
+                        morreu = batalha_mecanicas.AbaterCriaturas(inimigos, espolios, c, gerar_espolios = False,
                             nomes = nomes, nomes_zerados = nomes_zerados, conf = conf, chefao = chefao)
 
                         if morreu == 0:
@@ -122,7 +122,7 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
                     
                     # Vez de um inimigo
                     elif c in inimigos:
-                        morreu = mecanicas.AbaterCriaturas(inimigos, espolios, c, nomes = nomes,
+                        morreu = batalha_mecanicas.AbaterCriaturas(inimigos, espolios, c, nomes = nomes,
                             nomes_zerados = nomes_zerados, conf = conf, chefao = chefao)
 
                         if morreu == 0:
@@ -163,8 +163,8 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
                     print(f'Você ganhou {e.quantidade} {e.nome}.')
     
     if acabou == 1 or acabou == 2:
-        mecanicas.TerminarBuffsDebuffs(jogador)
-        mecanicas.AcrescentarRecargasMaximo(jogador)
+        batalha_mecanicas.TerminarBuffsDebuffs(jogador)
+        batalha_mecanicas.AcrescentarRecargasMaximo(jogador)
 
     return acabou
 
@@ -214,7 +214,7 @@ def JogadorVez(jogador, inimigos, correr = True):
         if op == 1:
 
             atacar = jogador.HabilidadePresente("Atacar")
-            alvo = jogador_acoes.EscolherAlvo(inimigos)
+            alvo = batalha_mecanicas.EscolherAlvo(inimigos)
 
             # Jogador não escolheu retornar 
             if alvo > 0:
@@ -240,12 +240,12 @@ def JogadorVez(jogador, inimigos, correr = True):
         elif op == 3:
             if jogador.ContarItens("Consumível") > 0:
             
-                indice = jogador_acoes.EscolherConsumivel(jogador)
+                indice = usar_consumivel.EscolherConsumivel(jogador)
 
                 # Jogador não escolheu retornar 
                 if indice != -1:
                     print('')
-                    jogador_acoes.UsarConsumivel(jogador, indice, inimigos)
+                    usar_consumivel.UsarConsumivel(jogador, indice, inimigos)
                     break
                 
                 # Jogador escolheu retornar 
@@ -258,7 +258,7 @@ def JogadorVez(jogador, inimigos, correr = True):
         # Usar uma Habilidade
         elif op == 4:
             if len(jogador.habilidades) > 1:
-                indice = jogador_acoes.EscolherHabilidade(jogador)
+                indice = usar_habilidade.EscolherHabilidade(jogador)
 
                 # Jogador não escolheu retornar 
                 if indice != -1:
@@ -267,9 +267,9 @@ def JogadorVez(jogador, inimigos, correr = True):
                     # Habilidade de alvo único
                     if habilidade.alvo == "Inimigo" or habilidade.alvo == "Aliado":
                         if habilidade.alvo == "Inimigo":
-                            alvo = jogador_acoes.EscolherAlvo(inimigos)
+                            alvo = batalha_mecanicas.EscolherAlvo(inimigos)
                         # else:
-                        #    alvo = jogador_acoes.EscolherAlvo([jogador, aliados])
+                        #    alvo = batalha_mecanicas.EscolherAlvo([jogador, aliados])
 
                         # Jogador não escolheu retornar 
                         if alvo > 0:

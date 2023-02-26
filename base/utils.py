@@ -568,7 +568,7 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
     ## Efeitos de Debuff ##
 
     # Dá dano em todos os inimigos
-    if efeito.nome == "Dano todos inimigos":
+    if efeito.nome == "Dano":
         dano = efeito.valor - alvo.defesa
 
         # Checando se o alvo está defendendo
@@ -618,7 +618,7 @@ def ProcessarEfeito(usuario, efeito, alvo, item = None, habilidade = None, fora_
         print(f'{usuario.nome} atordoou {alvo.nome}!')
         alvo.CombinarEfeito("Atordoamento")
     
-    elif efeito.nome == "Lentidão" or efeito.nome == "Lentidão todos inimigos":
+    elif efeito.nome == "Lentidão":
         debuff_ja_presente = alvo.EfeitoPresente("Lentidão")
 
         lentidao = deepcopy(efeito)

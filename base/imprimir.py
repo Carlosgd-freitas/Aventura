@@ -160,6 +160,8 @@ def ImprimirEfeitoDetalhado(efeito):
             'em {:.1f}% por '.format(efeito.valor) + f'{mensagem_duracao}.')
 
     # Efeitos de Debuff
+    elif efeito.nome == "Dano":
+        print(f'Causa {efeito.valor} de dano.')
     elif efeito.nome == "Veneno":
         print(f'Causa o debuff {RetornarStringColorida("Veneno")}, causando {efeito.valor} de dano no ' +
             f'início de cada turno, por {mensagem_duracao}.')
@@ -167,8 +169,8 @@ def ImprimirEfeitoDetalhado(efeito):
         print(f'Causa o debuff {RetornarStringColorida("Atordoamento")}, impedindo quaisquer ações de ' +
             f'serem realizadas por {mensagem_duracao}.')
     elif efeito.nome == "Lentidão":
-        print(f'Causa o debuff {RetornarStringColorida("Lentidão")}, reduzindo a' +
-            f'{RetornarStringColorida("VELOCIDADE")} para 1 por {mensagem_duracao}.')
+        print(f'Causa o debuff {RetornarStringColorida("Lentidão")}, reduzindo a ' +
+            f'{RetornarStringColorida("VELOCIDADE")} para 0 por {mensagem_duracao}.')
 
     # Efeitos de Resistência a Debuffs
     if efeito.nome == "Resistência Veneno":
@@ -177,13 +179,6 @@ def ImprimirEfeitoDetalhado(efeito):
     # Efeitos de Cura de Debuffs
     elif efeito.nome == "Cura Veneno":
         print(f'Cura o debuff de {RetornarStringColorida("Veneno")}.')
-
-    # Efeitos Em área de Itens Consumíveis
-    elif efeito.nome == "Dano todos inimigos":
-        print(f'Causa {efeito.valor} de dano a todos os inimigos.')
-    elif efeito.nome == "Lentidão todos inimigos":
-        print(f'Causa o debuff {RetornarStringColorida("Lentidão")} a todos os inimigos, reduzindo a ' +
-            f'{RetornarStringColorida("VELOCIDADE")} para 1 por {mensagem_duracao}.')
 
     # Efeitos de Diminuição de Atributo
     elif efeito.nome == "Diminuição Ataque":
@@ -273,8 +268,8 @@ def RetornarTabelaItens(itens, jogador, indice = -1):
     diferente de -1, [<indice>] será acrescentado antes do nome de cada item e incrementado em 1.
     """
     tabela = []
-    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe", "Nível", "Tipo"]
-    alinhamento = ("left", "center", "center", "center", "center", "center")
+    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe", "Nível", "Tipo", "Alvo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center", "center")
         
     for item in itens:
         t = []
@@ -297,6 +292,11 @@ def RetornarTabelaItens(itens, jogador, indice = -1):
         # Tipo
         if item.tipo != "default":
             t.append(RetornarTipo(item.tipo))
+        else:
+            t.append("---")
+        # Alvo
+        if item.alvo != "default":
+            t.append(item.alvo)
         else:
             t.append("---")
         tabela.append(t)

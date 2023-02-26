@@ -1,10 +1,105 @@
 import sys
 from copy import deepcopy
+from tabulate import tabulate
 from colorama import Fore, Back, Style
 
-from . import mecanicas
+from . import batalha_mecanicas
 sys.path.append("..")
-from base import utils
+from base import imprimir, utils
+
+def EscolherHabilidade(jogador):
+    """
+    Imprime as possíveis habilidades que o jogador pode usar e retorna o índice da lista de habilidades
+    correspondente à habilidade escolhida.
+    """
+
+    print('\nEscolha qual habilidade deseja usar:')
+
+    indice_atacar = jogador.HabilidadeIndice("Atacar")
+    indice_print = 1
+    indice_item = 0
+    relacao = [(0, -1)]
+
+    tabela = []
+    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center")
+
+    for habilidade in jogador.habilidades:
+
+        # A habilidade de ataque normal, bem como habilidades passivas, não serão listadas
+        if (indice_item != indice_atacar) and (habilidade.passiva_ativa == "Ativa"):
+
+            t = []
+            t.append(f'[{indice_print}] ' + habilidade.nome) # Índice + Nome
+            # Custo
+            custo = ""
+            if len(habilidade.custo) > 0:
+                for i, c in enumerate(habilidade.custo):
+                    if (i != 0) and (i < len(habilidade.custo) - 1):
+                        custo += ', '
+                    if c[0] == "Mana":
+                        custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
+                    elif c[0] == "HP":
+                        custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
+            else:
+                custo += '---'
+            t.append(custo)
+            # Recarga
+            recarga = ""
+            if habilidade.recarga_atual != habilidade.recarga:
+                recarga += Back.BLACK + Fore.RED + str(habilidade.recarga_atual) + Style.RESET_ALL
+            else:
+                recarga += str(habilidade.recarga_atual)
+            recarga += f' / {habilidade.recarga}'
+            t.append(recarga)
+            t.append(imprimir.RetornarTipo(habilidade.tipo))      # Tipo
+            t.append(habilidade.passiva_ativa)                    # Passiva/Ativa
+            t.append(habilidade.alvo)                             # Alvo
+            tabela.append(t)
+
+            relacao.append((indice_print, indice_item))
+            indice_print += 1
+
+        indice_item += 1
+    
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+    print('\n[0] Retornar e escolher outra ação.\n')
+
+    while True:
+        valido = 1
+        escolha = utils.LerNumero('> ')
+
+        if escolha >= 0 and escolha <= relacao[-1][0]:
+
+            # Mapeando a escolha para um índice da lista de habilidades
+            for r in relacao:
+                if r[0] == escolha:
+                    escolha = r[1]
+                    break
+            
+            if escolha != -1:
+
+                # Checando o custo de usar a habilidade
+                for c in jogador.habilidades[escolha].custo:
+                    if c[0] == "Mana" and c[1] > jogador.mana:
+                        print('Você não tem ' + Fore.BLUE + 'Mana' + Style.RESET_ALL +
+                            ' o suficiente para usar esta habilidade.')
+                        valido = 0
+
+                    elif c[0] == "HP" and c[1] > jogador.hp:
+                        print('Você não tem ' + Fore.RED + 'HP' + Style.RESET_ALL +
+                            ' o suficiente para usar esta habilidade.')
+                        valido = 0
+
+                # Checando a recarga da habilidade
+                if jogador.habilidades[escolha].recarga_atual < jogador.habilidades[escolha].recarga:
+                    print('Esta habilidade ainda está em recarga.')
+                    valido = 0
+
+            if valido == 1:
+                break
+    
+    return escolha
 
 def ContabilizarCusto(usuario, habilidade):
     """
@@ -61,7 +156,7 @@ def UsarHabilidade(usuario, alvos, habilidade, verbose = True):
     acertos_criticos = []
 
     for alvo in alvos:
-        dano, acerto_critico = mecanicas.CalcularDano(usuario, alvo, habilidade)
+        dano, acerto_critico = batalha_mecanicas.CalcularDano(usuario, alvo, habilidade)
         danos.append(dano)
         acertos_criticos.append(acerto_critico)
 

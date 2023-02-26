@@ -5,7 +5,7 @@ from . import menu_paginado_generico
 
 sys.path.append("..")
 from base import imprimir, utils
-from combate import jogador_acoes
+from combate import usar_consumivel
 
 def MenuInventario(jogador):
     """
@@ -99,10 +99,10 @@ def MenuInventario(jogador):
                     # Usar item
                     elif op == 2:
                         if item_escolhido.fora_batalha == True:
-                            valido = jogador_acoes.ValidaUsoConsumivel(jogador, item_escolhido)
+                            valido = usar_consumivel.ValidaUsoConsumivel(jogador, item_escolhido)
 
                             if valido:
-                                jogador_acoes.UsarConsumivel(jogador, escolha-1, fora_combate = True)
+                                usar_consumivel.UsarConsumivel(jogador, escolha-1, fora_combate = True)
                         else:
                             print('Este item não pode ser utilizado.\n')
                         break

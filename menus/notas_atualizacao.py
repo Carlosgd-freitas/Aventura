@@ -220,7 +220,7 @@ class NotasAtualizacao():
         self.neutro('Espada renomeada para Espada de Ferro.')
 
         print('\nOutros')
-        self.positivo('A impressão de itens, habilidades e da maioria das mensagens foi refeita.')
+        self.positivo('A impressão de itens, habilidades, status, loja e da maioria das mensagens foi refeita.')
         self.positivo('As descrições dos itens consumíveis foi refeita.')
         # self.positivo('As descrições de itens consumíveis e habilidades foi refeita.')
         self.neutro('A impressão de itens nas lojas possui limite por página.')
