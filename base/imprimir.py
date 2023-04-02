@@ -1,6 +1,10 @@
 import time
 from tabulate import tabulate
 from colorama import Fore, Back, Style
+import sys
+
+sys.path.append("..")
+from sistemas import receita
 
 ### Impressão de strings ###
 
@@ -97,7 +101,162 @@ def RetornarStringColorida(string):
     elif string.lower() == 'nível':
         return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
 
-### Impressão de classes ###
+### Impressões de Tabelas ###
+
+def RetornarTabelaItens(itens, jogador, indice = -1):
+    """
+    Monta e retorna uma tabela a ser imprimida com cada item presente na lista de itens. Se <índice> for
+    diferente de -1, [<indice>] será acrescentado antes do nome de cada item e incrementado em 1.
+    """
+    tabela = []
+    cabecalho = ["Nome", "Quantidade", RetornarStringColorida("Preço"), "Classe", "Nível", "Tipo", "Alvo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center", "center")
+        
+    for item in itens:
+        t = []
+
+        if not isinstance(item, receita.Receita):
+            # Índice + Nome
+            if indice != -1:
+                t.append(f'[{indice}] ' + item.nome)
+            else:
+                t.append(item.nome)
+            t.append(item.quantidade)     # Quantidade
+            t.append(item.preco)          # Preço
+            t.append(item.classe_batalha) # Classe
+            # Nível
+            if item.nivel > 0:
+                if item.nivel > jogador.nivel:
+                    t.append(Fore.RED + str(item.nivel) + Style.RESET_ALL)
+                else:
+                    t.append(item.nivel)
+            else:
+                t.append("---")
+            # Tipo
+            if item.tipo != "default":
+                t.append(RetornarTipo(item.tipo))
+            else:
+                t.append("---")
+            # Alvo
+            if item.alvo != "default":
+                t.append(item.alvo)
+            else:
+                t.append("---")
+
+        else:
+            # Índice + Nome
+            if indice != -1:
+                t.append(f'[{indice}] Receita: ' + item.nome)
+            else:
+                t.append(item.nome)
+            t.append(1)                   # Quantidade
+            t.append(item.preco)          # Preço
+            t.append("Receita")           # Classe
+            # Nível
+            if item.nivel > 0:
+                if item.nivel > jogador.nivel:
+                    t.append(Fore.RED + str(item.nivel) + Style.RESET_ALL)
+                else:
+                    t.append(item.nivel)
+            else:
+                t.append("---")
+            # Tipo
+            t.append("---")
+            # Alvo
+            t.append("---")
+
+        tabela.append(t)
+        indice += 1
+    
+    tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
+    return tabela
+
+def RetornarTabelaHabilidades(habilidades, indice = -1):
+    """
+    Monta e retorna uma tabela a ser imprimida com cada habilidade presente na lista de habilidades. Se <índice>
+    for diferente de -1, [<indice>] será acrescentado antes do nome de cada habilidade e incrementado em 1.
+    """
+    tabela = []
+    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
+    alinhamento = ("left", "center", "center", "center", "center", "center")
+
+    for habilidade in habilidades:
+        t = []
+        # Índice + Nome
+        if indice != -1:
+            t.append(f'[{indice}] ' + habilidade.nome)
+        else:
+            t.append(habilidade.nome)
+        # Custo
+        custo = ""
+        if len(habilidade.custo) > 0:
+            for i, c in enumerate(habilidade.custo):
+                if (i != 0) and (i < len(habilidade.custo) - 1):
+                    custo += ', '
+                if c[0] == "Mana":
+                    custo += str(c[1]) + " " + RetornarStringColorida(c[0])
+                elif c[0] == "HP":
+                    custo += str(c[1]) + " " + RetornarStringColorida(c[0])
+        else:
+            custo += '---'
+        t.append(custo)
+        # Recarga
+        recarga = ""
+        if habilidade.recarga == 1:
+            recarga += f'{habilidade.recarga} Turno'
+        else:
+            recarga += f'{habilidade.recarga} Turnos'
+        t.append(recarga)
+        t.append(RetornarTipo(habilidade.tipo)) # Tipo
+        t.append(habilidade.passiva_ativa)      # Passiva/Ativa
+        t.append(habilidade.alvo)               # Alvo
+        tabela.append(t)
+
+        indice += 1
+    
+    tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
+    return tabela
+
+def RetornarTabelaReceitas(receitas, jogador, incluir_preco = True, indice = -1):
+    """
+    Monta e retorna uma tabela a ser imprimida com cada receita de fabricação presente na lista de receitas. Se
+    <índice> for diferente de -1, [<indice>] será acrescentado antes do nome de cada item e incrementado em 1.
+    """
+    tabela = []
+
+    if incluir_preco:
+        cabecalho = ["Nome", "Nível", RetornarStringColorida("Preço")]
+        alinhamento = ("left", "center", "center")
+    else:
+        cabecalho = ["Nome", "Nível"]
+        alinhamento = ("left", "center")
+        
+    for receita in receitas:
+        t = []
+        # Índice + Nome
+        if indice != -1:
+            t.append(f'[{indice}] ' + receita.nome)
+        else:
+            t.append(receita.nome)
+        # Nível
+        if receita.nivel > 0:
+            if receita.nivel > jogador.nivel:
+                t.append(Fore.RED + str(receita.nivel) + Style.RESET_ALL)
+            else:
+                t.append(receita.nivel)
+        else:
+            t.append("---")
+        # Preço
+        if incluir_preco:
+            t.append(receita.preco)
+        tabela.append(t)
+
+        indice += 1
+    
+    tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
+    return tabela
+
+### Impressões Detalhadas ###
 
 def ImprimirEfeitoDetalhado(efeito):
     """
@@ -262,56 +421,13 @@ def ImprimirEfeitoDetalhado(efeito):
 
         print(mensagem_vinganca)
 
-def RetornarTabelaItens(itens, jogador, indice = -1):
-    """
-    Monta e retorna uma tabela a ser imprimida com cada item presente na lista de itens. Se <índice> for
-    diferente de -1, [<indice>] será acrescentado antes do nome de cada item e incrementado em 1.
-    """
-    tabela = []
-    cabecalho = ["Nome", "Quantidade", Fore.YELLOW + 'Preço' + Style.RESET_ALL, "Classe", "Nível", "Tipo", "Alvo"]
-    alinhamento = ("left", "center", "center", "center", "center", "center", "center")
-        
-    for item in itens:
-        t = []
-        # Índice + Nome
-        if indice != -1:
-            t.append(f'[{indice}] ' + item.nome)
-        else:
-            t.append(item.nome)
-        t.append(item.quantidade)     # Quantidade
-        t.append(item.preco)          # Preço
-        t.append(item.classe_batalha) # Classe
-        # Nível
-        if item.nivel > 0:
-            if item.nivel > jogador.nivel:
-                t.append(Fore.RED + str(item.nivel) + Style.RESET_ALL)
-            else:
-                t.append(item.nivel)
-        else:
-            t.append("---")
-        # Tipo
-        if item.tipo != "default":
-            t.append(RetornarTipo(item.tipo))
-        else:
-            t.append("---")
-        # Alvo
-        if item.alvo != "default":
-            t.append(item.alvo)
-        else:
-            t.append("---")
-        tabela.append(t)
-
-        indice += 1
-    
-    tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
-    return tabela
-
 def ImprimirItemDetalhado(item, jogador):
     """
-    Imprime um item do inventário detalhadamente.
+    Imprime um item detalhadamente.
 
     Parâmetros:
-    - item: item a ser impresso.
+    - item: item a ser impresso;
+    - jogador: objeto do jogador.
     """
 
     # Informações "não-detalhadas" do item
@@ -363,52 +479,6 @@ def ImprimirItemDetalhado(item, jogador):
 
     print('')
 
-def RetornarTabelaHabilidades(habilidades, indice = -1):
-    """
-    Monta e retorna uma tabela a ser imprimida com cada habilidade presente na lista de habilidades. Se <índice>
-    for diferente de -1, [<indice>] será acrescentado antes do nome de cada habilidade e incrementado em 1.
-    """
-    tabela = []
-    cabecalho = ["Nome", "Custo", "Recarga", "Tipo", "Passiva/Ativa", "Alvo"]
-    alinhamento = ("left", "center", "center", "center", "center", "center")
-
-    for habilidade in habilidades:
-        t = []
-        # Índice + Nome
-        if indice != -1:
-            t.append(f'[{indice}] ' + habilidade.nome)
-        else:
-            t.append(habilidade.nome)
-        # Custo
-        custo = ""
-        if len(habilidade.custo) > 0:
-            for i, c in enumerate(habilidade.custo):
-                if (i != 0) and (i < len(habilidade.custo) - 1):
-                    custo += ', '
-                if c[0] == "Mana":
-                    custo += str(c[1]) + " " + RetornarStringColorida(c[0])
-                elif c[0] == "HP":
-                    custo += str(c[1]) + " " + RetornarStringColorida(c[0])
-        else:
-            custo += '---'
-        t.append(custo)
-        # Recarga
-        recarga = ""
-        if habilidade.recarga == 1:
-            recarga += f'{habilidade.recarga} Turno'
-        else:
-            recarga += f'{habilidade.recarga} Turnos'
-        t.append(recarga)
-        t.append(RetornarTipo(habilidade.tipo)) # Tipo
-        t.append(habilidade.passiva_ativa)      # Passiva/Ativa
-        t.append(habilidade.alvo)               # Alvo
-        tabela.append(t)
-
-        indice += 1
-    
-    tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
-    return tabela
-
 def ImprimirHabilidadeDetalhada(habilidade):
     """
     Imprime uma habilidade de uma criatura detalhadamente.
@@ -448,6 +518,57 @@ def ImprimirHabilidadeDetalhada(habilidade):
                 print(f'* {RetornarStringColorida("VELOCIDADE")}: ' + '{:.1f}%'.format(m[1])) 
 
     print('')
+
+def ImprimirReceitaDetalhada(receita, jogador, incluir_preco = True):
+    """
+    Imprime uma receita de fabricação detalhadamente.
+
+    Parâmetros:
+    - receita: receita de fabricação a ser impressa;
+    - jogador: objeto do jogador.
+
+    Parâmetros Opcionais:
+    - incluir_preco: se igual a True, o preço da receita será impresso. O valor padrão é True.
+    """
+
+    # Receita
+    print('\nReceita:')
+    print(RetornarTabelaReceitas([receita], jogador, incluir_preco = incluir_preco))
+
+    # Materiais
+    tabela = []
+    cabecalho = ["Nome", "Quantidade"]
+    alinhamento = ("left", "center")
+
+    for item in receita.entrada:
+        item_inventario = jogador.ItemPresente(item.nome)
+        t = []
+
+        # Nome
+        t.append(item.nome)
+
+        # Quantidade
+        if not item_inventario:
+            quantidade = Back.BLACK + Fore.RED + f'[0 / {item.quantidade}]' + Style.RESET_ALL
+        elif item_inventario.quantidade < item.quantidade:
+            quantidade = Back.BLACK + Fore.RED + f'[{item_inventario.quantidade} / {item.quantidade}]' + Style.RESET_ALL
+        else:
+            quantidade = Back.BLACK + Fore.GREEN + f'[{item_inventario.quantidade} / {item.quantidade}]' + Style.RESET_ALL
+        t.append(quantidade)
+
+        tabela.append(t)
+
+    print('\nMateriais:')
+    print(tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql"))
+
+    print('\nResultado:')
+    for indice, item in enumerate(receita.saida):
+        ImprimirItemDetalhado(item, jogador)
+
+        if indice != len(receita.saida) - 1:
+            print('')
+
+### Impressões de Classes ###
 
 def RetornarEfeitos(criatura, espaco = True):
     """

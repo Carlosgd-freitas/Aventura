@@ -5,7 +5,8 @@ from colorama import Fore, Back, Style
 
 sys.path.append("..")
 from base import imprimir, utils
-from menus import menu_paginado_generico
+from menus import menu_paginado_generico, menu_fabricacao
+from sistemas import receita
 
 ### Métodos Auxiliares ###
     
@@ -42,7 +43,18 @@ def Reestocar(area, est):
         
     else:
         return False
-        
+
+def ItemPresente(loja_itens, item_nome):
+    """
+    Retorna o item com nome <item_nome> presente na loja, e retorna None caso a loja não possua aquele
+    item.
+    """
+
+    for i in loja_itens:
+        if i.nome == item_nome:
+            return i
+    return None
+ 
 ### Sistema de Loja ###
 
 def LojaMenu(jogador, loja_itens, venda_compra):
@@ -151,15 +163,23 @@ def LojaMenu(jogador, loja_itens, venda_compra):
                 # Procedendo
                 else:
                     item = vendedor[escolha - 1]
-                    imprimir.ImprimirItemDetalhado(item, jogador)
+                    is_receita = isinstance(item, receita.Receita)
 
-                    if venda_compra == "Compra":
-                        print(f'Deseja comprar quanto de {item.nome}?')
+                    if not is_receita:
+                        imprimir.ImprimirItemDetalhado(item, jogador)
                     else:
-                        print(f'Deseja vender quanto de {item.nome}?')
+                        imprimir.ImprimirReceitaDetalhada(item, jogador)
 
-                    # Jogador escolhendo a quantidade do item que quer vender
-                    escolha_quantidade = utils.LerNumeroIntervalo('> ', 0, item.quantidade)
+                    if not is_receita:
+                        if venda_compra == "Compra":
+                            print(f'Deseja comprar quanto de {item.nome}?')
+                        else:
+                            print(f'Deseja vender quanto de {item.nome}?')
+
+                        # Jogador escolhendo a quantidade do item que quer vender
+                        escolha_quantidade = utils.LerNumeroIntervalo('> ', 0, item.quantidade)
+                    else:
+                        escolha_quantidade = 1
 
                     # Jogador confirmou a compra/venda
                     if escolha_quantidade != 0:
@@ -183,23 +203,36 @@ def LojaMenu(jogador, loja_itens, venda_compra):
                         # Compra -> Jogador tem ouro suficiente
                         elif venda_compra == "Compra" and (jogador.ouro >= escolha_quantidade * item.preco):
                             item_comprado = deepcopy(item)
-
-                            item_comprado.preco = math.floor(item_comprado.preco / 2)
                             item_comprado.quantidade = escolha_quantidade
                             jogador.ouro -= escolha_quantidade * item.preco
-                            jogador.AdicionarAoInventario(item_comprado)
 
-                            item.quantidade -= escolha_quantidade
-                            if item.quantidade == 0:
+                            # Compra de um item
+                            if not is_receita:
+                                item_comprado.preco = math.floor(item_comprado.preco / 2)
+                                jogador.AdicionarAoInventario(item_comprado)
+
+                                item.quantidade -= escolha_quantidade
+                                if item.quantidade == 0:
+                                    loja_itens.remove(item)
+
+                            # Compra de uma receita
+                            else:
+                                item_comprado.preco = 0
+                                jogador.AdicionarReceita(item_comprado)
                                 loja_itens.remove(item)
 
-                            print(f'Você comprou {escolha_quantidade} {item_comprado.nome}.')
+                            if not is_receita:
+                                print(f'Você comprou {escolha_quantidade} {item_comprado.nome}.')
+                            else:
+                                print(f'Você aprendeu uma nova receita de fabricação: {item_comprado.nome}.')
 
                             operacao_realizada = True
                         
                         # Compra -> Jogador não tem ouro suficiente
-                        else:
+                        elif not is_receita:
                             print(f'Você não tem ouro suficiente para comprar {escolha_quantidade} {item.nome}.')
+                        else:
+                            print(f'Você não tem ouro suficiente para comprar Receita: {item.nome}.')
 
                         # Checando se a página tinha 1 item sobrando, e ele foi removido
                         tentativa_ultima_pagina = len(vendedor)
@@ -221,7 +254,7 @@ def LojaMenu(jogador, loja_itens, venda_compra):
     
     return operacao_realizada
 
-def Loja(jogador, loja_itens, loja_nome):
+def Loja(loja_nome, jogador, loja_itens, receitas_fabricacao = []):
     """
     Menu principal de uma loja presente na área. Retorna True se o jogador comprou ou vendeu algo
     e False caso contrário.
@@ -230,6 +263,9 @@ def Loja(jogador, loja_itens, loja_nome):
     - jogador: objeto da classe Jogador;
     - loja_itens: lista de itens a venda na loja;
     - loja_nome: nome da loja.
+
+    Parâmetros Opcionais:
+    - receitas_fabricacao: lista de receitas de fabricação disponíveis na loja.
     """
     retorno = 1
     operacao_temporaria = False
@@ -242,8 +278,12 @@ def Loja(jogador, loja_itens, loja_nome):
             print(f'\n+-----> {loja_nome} <-----+')
             print(Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {jogador.ouro}')
             print('[1] Comprar Itens')
-            print('[2] Vender Itens\n')
-            print('[0] Sair da Loja')
+            print('[2] Vender Itens')
+
+            if receitas_fabricacao:
+                print('[3] Fabricação')
+
+            print('\n[0] Sair da Loja')
             retorno = 0
 
         escolha = utils.LerNumero('> ')
@@ -262,6 +302,13 @@ def Loja(jogador, loja_itens, loja_nome):
         # Vender itens
         elif escolha == 2:
             operacao_temporaria = LojaMenu(jogador, loja_itens, "Venda")
+            if operacao_temporaria:
+                operacao_realizada = True
+            retorno = 1
+        
+        # Fabricação
+        elif receitas_fabricacao and escolha == 3:
+            operacao_temporaria = menu_fabricacao.FabricacaoMenu(jogador, receitas_fabricacao)
             if operacao_temporaria:
                 operacao_realizada = True
             retorno = 1

@@ -212,6 +212,14 @@ class NotasAtualizacao():
         print('\nJogabilidade')
         self.positivo('Jogadores podem ver os detalhes de um item ou habilidade ao analisá-los fora de batalha.')
         
+        print('\nFabricação')
+        self.positivo('O novo sistema de fabricação permite criar um novo item a partir de itens materiais.')
+        self.positivo('Fabricações exclusivas podem ser feitas nas lojas de uma vila.')
+        self.positivo('O jogador pode comprar receitas de fabricação, as quais poderá utilizar a qualquer momento.')
+
+        print('\nInimigos')
+        self.negativo('Chance de encontrar um Slime de Mel diminuída de 5% para 3%.')
+
         print('\nHabilidades')
         self.positivo("A chance de envenenar um alvo ao atacar pela habilidade 'Envenenamento' será aplicada a todas as habilidades.")
 
@@ -219,6 +227,8 @@ class NotasAtualizacao():
         self.positivo('Amuleto de Esmeralda adicionado.')
         self.positivo('Dano causado pela Bomba Grudenta Inferior aumentado de 3 para 5.')
         self.neutro('Espada renomeada para Espada de Ferro.')
+        # self.negativo('Mel de Abelhóide só pode ser obtido como espólio de inimigos derrotados.')
+        # self.negativo('Poções Pequenas de Regeneração e Bombas Grudentas Inferiores só podem ser obtidas através de fabricações.')
 
         print('\nOutros')
         self.positivo('A impressão de itens, habilidades, status, loja e da maioria das mensagens foi refeita.')

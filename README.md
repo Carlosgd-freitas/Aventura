@@ -30,6 +30,8 @@ A pasta _[itens](https://github.com/Carlosgd-freitas/Aventura/tree/main/itens)_ 
 
 A pasta _[menus](https://github.com/Carlosgd-freitas/Aventura/tree/main/menus)_ contém os menus relacionados a habilidades, inventário, equipamentos, etc.
 
+A pasta _[sistemas](https://github.com/Carlosgd-freitas/Aventura/tree/main/sistemas)_ contém funções relacionadas aos demais sistemas do jogo, como o sistema de fabricação.
+
 ***
 
 ### Executando o Jogo

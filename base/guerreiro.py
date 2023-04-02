@@ -69,9 +69,29 @@ def CriarNovoGuerreiro(nome = "default", genero = "default"):
     pocao = consumiveis.PocaoPequenaCura(2, 2)
     inventario.append(pocao)
 
-    j = jogador.Jogador(nome, classe, nivel, experiencia, ouro, maxHp, maxHp, maxMana, maxMana, ataque, defesa,
-        magia, velocidade, habilidades, equipados, inventario, singular_plural, genero, chance_critico,
-        multiplicador_critico)
+    j = jogador.Jogador(nome = nome,
+        classe = classe,
+        nivel = nivel,
+        experiencia = experiencia,
+        ouro = ouro,
+        maxHp = maxHp,
+        hp = maxHp,
+        maxMana = maxMana,
+        mana = maxMana,
+        ataque = ataque,
+        defesa = defesa,
+        magia = magia,
+        velocidade = velocidade,
+        habilidades = habilidades,
+        equipados = equipados,
+        inventario = inventario,
+        receitas = [],
+        singular_plural = singular_plural,
+        genero = genero,
+        chance_critico = chance_critico,
+        multiplicador_critico = multiplicador_critico
+    )
+
     return j
 
 def SubirNivelGuerreiro(jogador):

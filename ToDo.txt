@@ -1,12 +1,13 @@
 ===== Alpha v0.0.5 =====
 
-* Sistema de fabricação (crafting) / comprar e aprender receitas de fabricação / opção de fabricação em lojas
-	- novo diretório /mecanicas -> atualizar README.md
- 	- poção de cura  (receita)
+* Fabricação
   	- poção de regen (receita)
   	- bomba inferior grudenta (receita)
-  	- elixir de def
-  	- vendedor ambulante não oferece fabricação
+* Reorganizar itens a serem vendidos nas lojas
+  - amuleto de esmeralda -> maelia passa a vender
+  - bomba inferior grudenta, mel de abelhóide -> não são mais vendidos
+* Usar chr() e ord() para gerar os dicionários nomes e nomes_zerados
+* Contabilizar o tempo jogado, mostrar durante a seleção de save e ao matar o chefão da primeira área
 
 > Programação
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
@@ -20,26 +21,26 @@
 		- chance_debuff = chance_debuff - chance_resistencia (>= 0)
 * Efeitos de resistência a atordoamento e lentidão
 * Mudar a descrição das habilidades
-* Reorganizar itens a serem vendidos nas lojas
-  - amuleto de esmeralda -> maelia passa a vender
-  - bomba inferior grudenta, mel de abelhóide -> não são mais vendidos
 * Última mudança da versão:
-  - Estabelecer um padrão e organizar os imports de todos os arquivos
+  - Estabelecer um padrão e organizar os imports de todos os arquivos (from habilidades.ativas_alvo_unico import ProjetilDeMana...)
   - Colocar docstrings em todos os módulos
 
 > Jogabilidade
 * Bestiário
-  	- novo diretório /mecanicas
+  	- novo diretório /sistemas
 	- Inimigos ainda não encontrados aparecerão como "???"
 	- Inimigos comuns precisam ser derrotados 1 vez para aparecerem seus nomes, hp, mana e descrição
 	- Inimigos comuns precisam ser derrotados 5 vezes para aparecerem seus loots, experiencia e gold dropados
 	- Inimigos comuns precisam ser derrotados 10 vezes para aparecerem suas habilidades
 	- Inimigos raros e chefões precisam ser derrotados apenas 1 vez pra aparecer tudo
+	- Usar caracteres ☆★ e colorama
 * Dungeon na área 1 - Colméia de Abelhóides
   - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
 
 > Habilidades
-* Impacto Atordoante atordoa por +1 turno e tem +1 de recarga se um escudo estiver equipado
+* Arredondar o cálculo de dano pra cima
+* Impacto Atordoante causa 80% de dano e tem +1 de recarga; atordoa por +1 turno se um escudo estiver equipado
+* Pancada Forte: causa 150% de dano em um alvo
 * Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme o mago sobe de nível
 
 > O De Sempre
@@ -62,8 +63,9 @@
 	- Caçador de Anomalias: Derrote o chefão da Planície de Slimes
 	- Pesquisador Iniciante: desbloqueie 10 entradas no bestiário
 	- Que a Aventura(TM) começe!: derrote 25 inimigos
-* Modo Difícil / Refazer IA dos inimigos
+* Modo Fácil / Modo Difícil / Refazer IA dos inimigos
 * Sistema de missões (quests)
+* O jogador pode escolher as habilidades que quer aprender/melhorar dentre uma série de opções
 
 > Inimigos
 * Espírito de Mana (Mana Cristalizada Pequena)

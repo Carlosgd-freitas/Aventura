@@ -6,7 +6,7 @@ class Area():
     Esta classe é utilizada para áreas presentes no jogo.
     """
 
-    def __init__(self, nome = "default", lojas_itens = [], estalagem_preco = 9999999):
+    def __init__(self, nome = "default", lojas_itens = [], lojas_fabricacoes = [], estalagem_preco = 9999999):
         """
         Inicializador da classe.
         """
@@ -16,6 +16,10 @@ class Area():
         # Cada elemento da lista 'lojas_itens' é uma lista que contém os itens disponíveis para a venda
         # nas respectivas lojas da área
         self.lojas_itens = lojas_itens
+
+        # Cada elemento da lista 'lojas_fabricacoes' é uma lista que contém as receitas de fabricação
+        # disponíveis nas respectivas lojas da área
+        self.lojas_fabricacoes = lojas_fabricacoes
         
         # Preço da estalagem na primeira opção do evento de descanso
         self.estalagem_preco = estalagem_preco
@@ -67,6 +71,15 @@ class Area():
         """
         Retorna uma lista de listas, onde cada lista é o conjunto inicial de itens disponíveis para venda em
         uma loja presente na área. Este método também será chamado quando a loja for reestocada.
+        """
+
+        pass
+
+    @abstractmethod
+    def FabricacoesIniciais(self):
+        """
+        Retorna uma lista de listas, onde cada lista é o conjunto inicial de receitas de fabricação disponíveis
+        em uma loja presente na área.
         """
 
         pass

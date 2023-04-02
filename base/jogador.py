@@ -6,7 +6,7 @@ from . import criatura, guerreiro, mago, utils
 
 sys.path.append("..")
 from base import imprimir, configuracao
-from menus import menu_inventario, menu_habilidades, menu_equipamentos
+from menus import menu_inventario, menu_habilidades, menu_equipamentos, menu_fabricacao
 
 class Jogador(criatura.Criatura):
     """
@@ -14,8 +14,8 @@ class Jogador(criatura.Criatura):
     """
     def __init__(self, nome = "default", classe = "default", nivel = 0, experiencia = 0, ouro = 0, maxHp = 0,
         hp = 0, maxMana = 0, mana  = 0, ataque  = 0, defesa  = 0, magia  = 0, velocidade  = 0, habilidades = [],
-        equipados = [], inventario  = [], singular_plural = "default", genero = "default", chance_critico = 0.0,
-        multiplicador_critico = 1.0):
+        equipados = [], inventario  = [], receitas = [], singular_plural = "default", genero = "default",
+        chance_critico = 0.0, multiplicador_critico = 1.0):
         """
         Cria um jogador novo.
         """
@@ -30,6 +30,9 @@ class Jogador(criatura.Criatura):
 
         # Equipamentos atualmente equipados do Jogador
         self.equipados = equipados
+
+        # Receitas de Fabricação do Jogador
+        self.receitas = receitas
 
         super(Jogador, self).__init__([], [], habilidades, [], nome, "default", "Normal", nivel, experiencia,
             maxHp, hp, maxMana, mana, ataque, defesa, magia, velocidade, singular_plural, genero, chance_critico,
@@ -77,16 +80,17 @@ class Jogador(criatura.Criatura):
         string += f'Classe: {self.classe}\n'
         string += f'Ouro: {self.ouro}\n'
         string += 'Inventário:\n'
-        string += utils.ListaEmString(self.inventario) + '\n'
+        string += utils.ListaEmString(self.inventario)
         string += 'Equipados:\n'
         string += utils.ListaEmString(self.equipados)
+        string += 'Receitas de fabricação:\n'
+        string += utils.ListaEmString(self.receitas)
         return string
 
     def AdicionarAoInventario(self, novo_item):
         """
-        Recebe uma tupla (X, Y), onde X é a classificação do item ("Consumível", "Material", etc.) e Y é o item em
-        si e, caso o item já esteja presente no inventário, sua quantidade é aumentada, e caso contrário, ele é
-        adicionado normalmente ao inventário.
+        Recebe um novo item e, caso o item já esteja presente no inventário, sua quantidade é aumentada, e caso
+        contrário, ele é adicionado normalmente ao inventário.
         """
 
         for item in self.inventario:
@@ -95,6 +99,18 @@ class Jogador(criatura.Criatura):
                 return
         
         self.inventario.append(novo_item)
+
+    def AdicionarReceita(self, nova_receita):
+        """
+        Recebe uma nova receita de fabricação e a adiciona caso não haja nenhuma outra receita com o mesmo
+        nome.
+        """
+
+        for receita in self.receitas:
+            if receita.nome == nova_receita.nome:
+                return
+        
+        self.receitas.append(nova_receita)
 
     def ExperienciaSubirNivel(self, nivel):
         """
@@ -263,20 +279,14 @@ class Jogador(criatura.Criatura):
 
     def ItemPresente(self, item_nome):
         """
-        Retorna o índice do inventário correspondente ao nome do item passado por parâmetro se o jogador possui
-        aquele item e -1 caso contrário.
+        Retorna o item com nome <item_nome> presente no inventário do jogador, e retorna None caso o jogador
+        não possua aquele item.
         """
-
-        valor = -1
-        indice = 0
 
         for i in self.inventario:
             if i.nome == item_nome:
-                valor = indice
-                break
-            indice += 1
-
-        return valor
+                return i
+        return None
 
     def ContarItens(self, classe_batalha = None, nivel = None):
         """
@@ -333,6 +343,12 @@ def ReconhecerAcaoBasica(acao, jogador, conf):
 
         return True
     
+    # Equipamentos do Jogador
+    elif configuracao.CompararAcao(acao, conf.tecla_equipamentos):
+        print('')
+        menu_equipamentos.MenuEquipamentos(jogador)
+        return True
+    
     # Habilidades do Jogador
     elif configuracao.CompararAcao(acao, conf.tecla_habilidades):
         print('')
@@ -343,11 +359,19 @@ def ReconhecerAcaoBasica(acao, jogador, conf):
             menu_habilidades.MenuHabilidades(jogador)
 
         return True
+    
+    # Sistema de Fabricação de Itens
+    elif configuracao.CompararAcao(acao, conf.tecla_fabricacao):
 
-    # Equipamentos do Jogador
-    elif configuracao.CompararAcao(acao, conf.tecla_equipamentos):
-        print('')
-        menu_equipamentos.MenuEquipamentos(jogador)
+        if not jogador.receitas:
+            print('Você não tem possui receitas de fabricação.')
+        else:
+            menu_fabricacao.FabricacaoMenu(jogador, jogador.receitas, incluir_preco = False)
+
         return True
+    
+    # Bestiário
+    elif configuracao.CompararAcao(acao, conf.tecla_bestiario):
+        pass
     
     return False

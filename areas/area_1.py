@@ -7,9 +7,10 @@ from . import loja
 sys.path.append("..")
 from base.jogador import ReconhecerAcaoBasica
 from base import area, saver, configuracao, imprimir, utils
-from itens import consumiveis, equipamentos
+from itens import consumiveis, equipamentos, espolios
 from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
 from combate import batalha
+from sistemas import receita
 
 class Area_1(area.Area):
     """
@@ -45,7 +46,19 @@ class Area_1(area.Area):
         # lojas_itens[1] -> Itens da loja de armamentos
         lojas_itens = self.EstoqueInicial()
 
-        super(Area_1, self).__init__("Planície de Slimes", lojas_itens, estalagem_preco)
+        # Receitas de fabricação vendidas nas lojas
+        receita_pocao_cura = receita.Receita("Poção Pequena de Cura",
+            [consumiveis.ErvaCurativa(2, 0)],
+            [consumiveis.PocaoPequenaCura(1, 2)],
+            preco = 10, nivel = 1, singular_plural = "singular", genero = 'F')
+        lojas_itens[0].append(receita_pocao_cura)
+
+        # Receitas de Fabricação iniciais das lojas
+        # lojas_fabricacoes[0] -> Receitas da loja de poções
+        # lojas_fabricacoes[1] -> Receitas da loja de armamentos
+        lojas_fabricacoes = self.FabricacoesIniciais()
+
+        super(Area_1, self).__init__("Planície de Slimes", lojas_itens, lojas_fabricacoes, estalagem_preco)
 
     def EstoqueInicial(self):
         """
@@ -127,6 +140,47 @@ class Area_1(area.Area):
 
         return lojas_itens
 
+    def FabricacoesIniciais(self):
+        """
+        Retorna uma lista de listas, onde cada lista é o conjunto inicial de receitas de fabricação disponíveis
+        em uma loja presente na área.
+        """
+        
+        # Receitas de fabricação disponíveis na loja do Vendedor de Poções da área 1
+        loja_pocoes_receitas = []
+
+        pocao_cura = receita.Receita("Poção Pequena de Cura",
+            [consumiveis.ErvaCurativa(2, 0)],
+            [consumiveis.PocaoPequenaCura(1, 2)],
+            preco = 2, nivel = 1, singular_plural = "singular", genero = 'F')
+        loja_pocoes_receitas.append(pocao_cura)
+
+        pocao_regen = receita.Receita("Poção Pequena de Regeneração",
+            [consumiveis.PocaoPequenaCura(1, 0), consumiveis.MelAbelhoide(2, 0)],
+            [consumiveis.PocaoPequenaRegeneracao(1, 2)],
+            preco = 2, nivel = 3, singular_plural = "singular", genero = 'F')
+        loja_pocoes_receitas.append(pocao_regen)
+
+        pocao_regen = receita.Receita("Elixir Pequeno de Defesa" ,
+            [espolios.CarapacaTortuga(1, 0)],
+            [consumiveis.ElixirPequeno("Defesa", 1, 2)],
+            preco = 3, nivel = 3, singular_plural = "singular", genero = 'F')
+        loja_pocoes_receitas.append(pocao_regen)
+
+        # Receitas de fabricação disponíveis na loja do Vendedor de Armamentos da área 1
+        loja_armamentos_receitas = []
+
+        bomba_grudenta_inferior = receita.Receita("Bomba Grudenta Inferior",
+            [consumiveis.BombaInferior(1, 0), espolios.FluidoSlime(3, 0)],
+            [consumiveis.BombaGrudentaInferior(1, 5)],
+            preco = 2, nivel = 3, singular_plural = "singular", genero = "F")
+        loja_armamentos_receitas.append(bomba_grudenta_inferior)
+
+        # Armazenando os itens das lojas
+        lojas_itens = [loja_pocoes_receitas, loja_armamentos_receitas]
+
+        return lojas_itens
+    
     def RetornarEncontro(self, jogador):
         """
         Retorna uma lista de criaturas inimigas.
@@ -364,7 +418,7 @@ class Area_1(area.Area):
                         imprimir.ImprimirComDelay(f'Maelia: Olá, {jogador.nome}! Veio se prevenir com algumas das ' +
                         'minhas poções?\n', conf.npc_fala_delay)
 
-                operacao_realizada = loja.Loja(jogador, self.lojas_itens[0], "Maelia: Loja de Poções")
+                operacao_realizada = loja.Loja("Maelia: Loja de Poções", jogador, self.lojas_itens[0], self.lojas_fabricacoes[0])
 
                 # Primeira compra de poções realizada nesta loja
                 if operacao_realizada and self.primeira_compra_pocoes == False:
@@ -430,7 +484,7 @@ class Area_1(area.Area):
                             imprimir.ImprimirComDelay(f'Scolf: Eaí moça! Vamo comprar uns equipamento novo?\n',
                             conf.npc_fala_delay)
 
-                operacao_realizada = loja.Loja(jogador, self.lojas_itens[1], "Scolf: Loja de Armamentos")
+                operacao_realizada = loja.Loja("Scolf: Loja de Armamentos", jogador, self.lojas_itens[1], self.lojas_fabricacoes[1])
 
                 if jogador.genero == 'M':
                     imprimir.ImprimirComDelay(f'Scolf: Té mais, rapaz.\n', conf.npc_fala_delay)
@@ -591,6 +645,6 @@ class Area_1(area.Area):
             imprimir.ImprimirComDelay('Vendedor: Olá, aventureira! Quer dar uma olhada nas minhas coisas?', 
                 conf.npc_fala_delay)
 
-        operacao_realizada = loja.Loja(jogador, itens, "Vendedor Ambulante")
+        operacao_realizada = loja.Loja("Vendedor Ambulante", jogador, itens)
 
         return operacao_realizada
