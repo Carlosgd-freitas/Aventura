@@ -276,80 +276,50 @@ def AtributoDestaque(criaturas, menor_maior, atributo):
     
     return indice
 
-def NumeroEmSufixo(numero):
+def RetirarSufixo(nome):
     """
-    Recebe um número inteiro e retorna um sufixo para garantir o nome único das criaturas.
-    """
-
-    if numero == 1:
-        return 'A'
-    elif numero == 2:
-        return 'B'
-    elif numero == 3:
-        return 'C'
-    elif numero == 4:
-        return 'D'
-    elif numero == 5:
-        return 'E'
-    elif numero == 6:
-        return 'F'
-    elif numero == 7:
-        return 'G'
-    elif numero == 8:
-        return 'H'
-    elif numero == 9:
-        return 'I'
-    elif numero == 10:
-        return 'J'
-
-def CompararSufixos(nome):
-    """
-    Retorna verdadeiro se uma string for igual a um sufixo (letras maiúsculas de A até J), e falso caso contrário.
+    Retorna o nome de uma criatura sem o sufixo.
 
     Parâmetros:
-    - nome: string a ser comparada.
+    - nome: nome de uma criatura.
     """
-    if nome == 'A' or nome == 'B' or nome == 'C' or nome == 'D' or nome == 'E' or nome == 'F' or nome == 'G' or \
-        nome == 'H' or nome == 'I' or nome == 'J':
-        return True
-    else:
-        return False
+    nome_separado = nome.split(' ')
+    novo_nome = ''
 
-def CompararNomesSufixos(nomeA, nomeB):
+    for palavra in nome_separado:
+        if len(palavra) == 1 and palavra.isalpha() and palavra.isupper():
+            break
+        else:
+            novo_nome += palavra
+        novo_nome += ' '
+
+    return novo_nome.strip()
+
+def CompararNomes(nomes, ignorar_sufixos = True):
     """
-    Retorna o valor de comparação de duas strings sem o possível sufixo existente nelas.
+    Retorna True se todos as strings presentes na lista <nomes> forem iguais e False caso contrário.
 
     Parâmetros:
-    - nomeA: string a ser comparada;
-    - nomeB: string a ser comparada.
+    - nomes: lista de nomes das criaturas a serem comparados.
+    
+    Parâmetros Opcionais:
+    - ignorar_sufixos: se igual a True, ignora possíveis sufixos nos nomes das criaturas. O valor padrão
+    é True.
     """
-    a = nomeA.split(' ')
-    b = nomeB.split(' ')
-
-    novo_a = ''
-    novo_b = ''
-
-    if len(a) == 1:
-        novo_a = a[0]
+    if ignorar_sufixos:
+        novos_nomes = [RetirarSufixo(nome) for nome in nomes]
     else:
-        for i, palavra in enumerate(a):
-            if CompararSufixos(palavra):
-                break
-            if i > 0:
-                novo_a += ' '
-            novo_a += palavra
-
-    if len(b) == 1:
-        novo_b = b[0]
+        novos_nomes = nomes
+    
+    comparacao = True
+    if len(nomes) == 1:
+        return comparacao
     else:
-        for i, palavra in enumerate(b):
-            if CompararSufixos(palavra):
-                break
-            if i > 0:
-                novo_b += ' '
-            novo_b += palavra
-
-    return novo_a == novo_b
+        for i, _ in enumerate(novos_nomes[1:]):
+            comparacao = comparacao and (novos_nomes[i] == novos_nomes[i-1])
+            if not comparacao:
+                return comparacao
+    return comparacao
 
 def ContarNomes(nomes, nomes_zerados, criaturas, modifica_nomes_zerados = True):
     """
@@ -400,7 +370,7 @@ def NomesUnicos(nomes, nomes_zerados, criaturas, criaturas2 = None):
         if nomes[nome] > 0:
             # Convertendo o valor numérico em uma letra
             sufixo = nomes_zerados[nome] + 1
-            sufixo = NumeroEmSufixo(sufixo)
+            sufixo = chr(sufixo + 64)
             nomes_zerados[nome] += 1
 
             nome += ' ' + sufixo

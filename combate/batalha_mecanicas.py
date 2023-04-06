@@ -389,7 +389,7 @@ def AbaterCriaturas(lista_criaturas, lista_espolios, criatura = None, gerar_espo
                             conteudo = efeito.nome.split(":") # ["Vingança", "Larva de Abelhóide", "Aumento Ataque", "F"]
                             derrotada = conteudo[1]
 
-                            if utils.CompararNomesSufixos(c.nome, derrotada):
+                            if utils.CompararNomes([c.nome, derrotada]):
 
                                 if c2.singular_plural == 'singular':
                                     if c2.genero == 'M':

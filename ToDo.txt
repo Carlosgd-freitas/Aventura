@@ -6,7 +6,6 @@
 * Reorganizar itens a serem vendidos nas lojas
   - amuleto de esmeralda -> maelia passa a vender
   - bomba inferior grudenta, mel de abelhóide -> não são mais vendidos
-* Usar chr() e ord() para gerar os dicionários nomes e nomes_zerados
 * Contabilizar o tempo jogado, mostrar durante a seleção de save e ao matar o chefão da primeira área
 
 > Programação
