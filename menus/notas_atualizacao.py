@@ -229,8 +229,8 @@ class NotasAtualizacao():
         self.positivo('Amuleto de Esmeralda adicionado.')
         self.positivo('Dano causado pela Bomba Grudenta Inferior aumentado de 3 para 5.')
         self.neutro('Espada renomeada para Espada de Ferro.')
-        # self.negativo('Mel de Abelhóide só pode ser obtido como espólio de inimigos derrotados.')
-        # self.negativo('Poções Pequenas de Regeneração e Bombas Grudentas Inferiores só podem ser obtidas através de fabricações.')
+        self.negativo('Mel de Abelhóide só pode ser obtido como espólio de inimigos derrotados.')
+        self.negativo('Bombas Grudentas Inferiores só podem ser obtidas através de fabricação.')
 
         print('\nOutros')
         self.positivo('A impressão de itens, habilidades, status, loja e da maioria das mensagens foi refeita.')

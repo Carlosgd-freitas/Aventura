@@ -53,6 +53,12 @@ class Area_1(area.Area):
             preco = 10, nivel = 1, singular_plural = "singular", genero = 'F')
         lojas_itens[0].append(receita_pocao_cura)
 
+        receita_bomba_grudenta = receita.Receita("Bomba Grudenta Inferior",
+            [consumiveis.BombaInferior(1, 0), espolios.FluidoSlime(3, 0)],
+            [consumiveis.BombaGrudentaInferior(1, 5)],
+            preco = 10, nivel = 3, singular_plural = "singular", genero = "F")
+        lojas_itens[1].append(receita_bomba_grudenta)
+
         # Receitas de Fabricação iniciais das lojas
         # lojas_fabricacoes[0] -> Receitas da loja de poções
         # lojas_fabricacoes[1] -> Receitas da loja de armamentos
@@ -68,6 +74,10 @@ class Area_1(area.Area):
         
         # Itens disponíveis para venda na loja do Vendedor de Poções da área 1
         loja_pocoes_itens = []
+
+        # Acessórios
+        amuleto_esmeralda = equipamentos.AmuletoEsmeralda(2, 15)
+        loja_pocoes_itens.append(amuleto_esmeralda)
 
         # Consumíveis
         pocao_cura = consumiveis.PocaoPequenaCura(10, 5)
@@ -93,10 +103,6 @@ class Area_1(area.Area):
 
         antidoto = consumiveis.Antidoto(10, 3)
         loja_pocoes_itens.append(antidoto)
-
-        # Materiais
-        mel = consumiveis.MelAbelhoide(5, 4)
-        loja_pocoes_itens.append(mel)
 
         # Itens disponíveis para venda na loja do Vendedor de Armamentos da área 1
         loja_armamentos_itens = []
@@ -124,16 +130,9 @@ class Area_1(area.Area):
         botas_couro = equipamentos.BotasCouro(5, 8)
         loja_armamentos_itens.append(botas_couro)
 
-        # Acessórios
-        amuleto_esmeralda = equipamentos.AmuletoEsmeralda(2, 15)
-        loja_armamentos_itens.append(amuleto_esmeralda)
-
         # Consumíveis
         bomba_inferior = consumiveis.BombaInferior(4, 6)
         loja_armamentos_itens.append(bomba_inferior)
-
-        bomba_grudenta_inferior = consumiveis.BombaGrudentaInferior(4, 10)
-        loja_armamentos_itens.append(bomba_grudenta_inferior)
 
         # Armazenando os itens das lojas
         lojas_itens = [loja_pocoes_itens, loja_armamentos_itens]

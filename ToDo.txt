@@ -1,12 +1,5 @@
 ===== Alpha v0.0.5 =====
 
-* Fabricação
-  	- poção de regen (receita)
-  	- bomba inferior grudenta (receita)
-* Reorganizar itens a serem vendidos nas lojas
-  - amuleto de esmeralda -> maelia passa a vender
-  - bomba inferior grudenta, mel de abelhóide -> não são mais vendidos
-
 > Programação
 * Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
 	- Atributo 'combinar' na classe Efeito: dicionário que indica como cada um dos

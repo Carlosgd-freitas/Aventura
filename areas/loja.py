@@ -176,10 +176,15 @@ def LojaMenu(jogador, loja_itens, venda_compra):
                         else:
                             print(f'Deseja vender quanto de {item.nome}?')
 
-                        # Jogador escolhendo a quantidade do item que quer vender
+                        # Jogador escolhendo a quantidade do item que quer comprar/vender
                         escolha_quantidade = utils.LerNumeroIntervalo('> ', 0, item.quantidade)
                     else:
-                        escolha_quantidade = 1
+                        print(f'Deseja comprar Receita: {item.nome}?')
+                        print('[1] Sim')
+                        print('[0] Não\n')
+
+                        # Jogador confirmando a compra de uma receita
+                        escolha_quantidade = utils.LerNumeroIntervalo('> ', 0, 1)
 
                     # Jogador confirmou a compra/venda
                     if escolha_quantidade != 0:
