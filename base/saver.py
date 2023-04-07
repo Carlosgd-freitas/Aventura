@@ -1,6 +1,7 @@
 import os
 import pickle
 from . import imprimir
+from datetime import datetime
 
 def Salvar(caminho, jogador, estatisticas, area, local):
     """
@@ -13,12 +14,16 @@ def Salvar(caminho, jogador, estatisticas, area, local):
     - area: area em que o jogador estava quando salvou o jogo;
     - local: nome do local em que o jogador estava quando salvou o jogo.
     """
-    save = {}
-    save['valido'] = 'Arquivo de jogo salvo do Aventura'
-    save['jogador'] = jogador
-    save['estatisticas'] = estatisticas
-    save['area'] = area
-    save['local'] = local
+    estatisticas.data_jogo_salvo = datetime.now()
+    estatisticas.ContabilizarTempoJogado()
+
+    save = {
+        "valido": "Arquivo de jogo salvo do Aventura",
+        "jogador": jogador,
+        "estatisticas": estatisticas,
+        "area": area,
+        "local": local,
+    }
     
     caminho_save = os.path.join(caminho, jogador.nome + '.bin')
     f = open(caminho_save, 'wb')
@@ -55,6 +60,7 @@ def ListarSaves(caminho):
     - caminho: caminho relativo a pasta que contém os saves.
     """
     saves = []
+    saves_nomes = []
 
     i = 0
     for arquivo in os.listdir(caminho):
@@ -63,17 +69,14 @@ def ListarSaves(caminho):
         if arquivo.endswith('.bin'):
             save = pickle.loads(open(f, "rb").read())
 
-            if 'valido' in save and save['valido'] == 'Arquivo de jogo salvo do Aventura':
-                    i += 1
-                    nome = save['jogador'].nome
-                    classe = save['jogador'].classe
-                    nivel = save['jogador'].nivel
-                    local = save['local']
-
-                    print(f'[{i}] {nome} - Classe: {classe} - Nível: {nivel} - Local: {local}')
-                    saves.append(nome + '.bin')
+            if 'valido' in save and save['valido'] == "Arquivo de jogo salvo do Aventura":
+                saves.append(save)
+                saves_nomes.append(save['jogador'].nome + '.bin')
+    
+    if saves:
+        print(imprimir.RetornarTabelaSaves(saves), end = '\n\n')
 
     if i != 0:
         print('\n[0] Voltar ao menu principal\n')
 
-    return saves
+    return saves_nomes

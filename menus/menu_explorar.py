@@ -1,5 +1,6 @@
 import os
 import sys
+from colorama import Fore, Back, Style
 
 from . import creditos
 
@@ -170,15 +171,22 @@ def MenuExplorar(jogador, area, est, conf, caminhos, pre_selecionado = None):
 
             # Chefão derrotado
             if resultado == 1 and area.chefao_derrotado == True:
+                est.ContabilizarTempoJogado()
+
                 imprimir.ImprimirComDelay('\nVocê chegou ao final desta versão do jogo, parabéns! Você agora será '+
                 'retornado ao menu de exploração, com sua vida e mana maximizadas,\ne pode continuar jogando. O ' +
                 'chefão também estará vivo novamente, se quiser enfrentá-lo.\n\n', conf.npc_fala_delay)
-            
+
+                creditos.creditos()
+
+                tempo_finalizado = imprimir.FormatarTempo(est.tempo_total_jogado)
+                imprimir.ImprimirComDelay('\nJogo finalizado em: ' + Style.BRIGHT + tempo_finalizado + Style.RESET_ALL,
+                    conf.npc_fala_delay)
+
                 jogador.hp = jogador.maxHp
                 jogador.mana = jogador.maxMana
 
-                creditos.creditos()
-                input('Aperte [ENTER] para continuar.')
+                input('\n\nAperte [ENTER] para continuar.')
                 print('')
 
                 retorno = 1

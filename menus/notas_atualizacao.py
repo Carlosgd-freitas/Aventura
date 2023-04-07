@@ -211,7 +211,9 @@ class NotasAtualizacao():
         self.titulo('----------------------------------- Alpha Versão 0.0.5 -----------------------------------')
         print('\nJogabilidade')
         self.positivo('Jogadores podem ver os detalhes de um item ou habilidade ao analisá-los fora de batalha.')
-        
+        self.positivo('Ao carregar um jogo, as datas dos jogos salvos são mostradas.')
+        self.positivo('Ao derrotar o chefão da primeira área, o tempo em que o jogador finalizou o jogo é mostrado.')
+
         print('\nFabricação')
         self.positivo('O novo sistema de fabricação permite criar um novo item a partir de itens materiais.')
         self.positivo('Fabricações exclusivas podem ser feitas nas lojas de uma vila.')

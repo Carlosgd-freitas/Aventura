@@ -101,6 +101,24 @@ def RetornarStringColorida(string):
     elif string.lower() == 'nível':
         return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
 
+def FormatarTempo(tempo):
+    """
+    Retorna uma string no formato horas:minutos:segundos.milissegundos.
+
+    Parâmetros:
+    - tempo: um objeto datetime.timedelta.
+    """
+    tempo_separado = str(tempo).split('.')
+    ms = tempo_separado[1]
+    ms = ms[:2]
+    tempo_separado = tempo_separado[0].split(':')
+    h = tempo_separado[0]
+    m = tempo_separado[1]
+    s = tempo_separado[2]
+    if int(h) < 10:
+        h = '0' + h
+    return f'{h}:{m}:{s}.{ms}'
+
 ### Impressões de Tabelas ###
 
 def RetornarTabelaItens(itens, jogador, indice = -1):
@@ -254,6 +272,29 @@ def RetornarTabelaReceitas(receitas, jogador, incluir_preco = True, indice = -1)
         indice += 1
     
     tabela = tabulate(tabela, headers = cabecalho, colalign = alinhamento, tablefmt="psql")
+    return tabela
+
+def RetornarTabelaSaves(saves):
+    """
+    Monta e retorna uma tabela a ser imprimida com cada jogo salvo presente na lista.
+    """
+    tabela = []
+
+    alinhamento = ("left", "center", "center", "center", "center")
+        
+    for indice, save in enumerate(saves):
+        t = []
+
+        t.append(f'[{indice+1}] ' + save['jogador'].nome) # Índice + Nome do jogador
+        t.append(save['jogador'].classe)                  # Classe do jogador
+        t.append("Nível " + str(save['jogador'].nivel))   # Nível do jogador
+        t.append(save['local'])                           # Local em que o jogo foi salvo
+        # Data em que o jogo foi salvo
+        t.append(save['estatisticas'].data_jogo_salvo.strftime("%d/%m/%Y - %H:%M:%S"))
+
+        tabela.append(t)
+    
+    tabela = tabulate(tabela, colalign = alinhamento, tablefmt="grid")
     return tabela
 
 ### Impressões Detalhadas ###

@@ -1,5 +1,6 @@
 import os
 import sys
+from datetime import datetime
 
 from . import notas_atualizacao, menu_explorar, menu_equipamentos, menu_configuracoes, creditos
 
@@ -127,6 +128,8 @@ def NovoJogo(conf, caminhos):
         'agrada.\n', conf.npc_fala_delay)
     imprimir.ImprimirComDelay('Mas o que está consolidado mesmo.\n',conf.npc_fala_delay)
     imprimir.ImprimirComDelay('É que você partiu em uma Aventura.\n',conf.npc_fala_delay)
+
+    est.data_inicio = datetime.now()
     retorno = menu_explorar.MenuExplorar(j, area, est, conf, caminhos)
 
     if retorno == -1:
@@ -154,11 +157,13 @@ def ContinuarJogo(conf, caminhos):
         caminho_save = os.path.join(caminho_saves, nome)
         save = saver.Carregar(caminho_save)
 
-        j = save['jogador']
-        est = save['estatisticas']
+        j = save["jogador"]
+        est = save["estatisticas"]
+        area = save["area"]
+        local = save["local"]
+
         est.Atualizar()
-        area = save['area']
-        local = save['local']
+        est.data_inicio = datetime.now()
 
         # Jogo foi salvo na parte principal de uma área
         if local == "Planície de Slimes":
