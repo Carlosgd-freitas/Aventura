@@ -1,5 +1,4 @@
-from colorama import Fore, Back, Style
-from base import utils
+from base import utils, imprimir, cor
 
 class NotasAtualizacao():
     """
@@ -49,17 +48,17 @@ class NotasAtualizacao():
                 # Opções do menu
                 if pagina != 0:
                     anterior = 1
-                    print('[1] Anterior')
+                    print('[1] Próximas Versões')
                 else:
                     anterior = 0
-                    print(Fore.RED + '[1] Anterior' + Style.RESET_ALL + '')
+                    print(cor.colorir('[1] Próximas Versões', frente='vermelho'))
 
                 if pagina != 2:
                     proximo = 1
-                    print('[2] Próximo\n')
+                    print('[2] Versões Anteriores\n')
                 else:
                     proximo = 0
-                    print(Fore.RED + '[2] Próximo' + Style.RESET_ALL + '\n')
+                    print(cor.colorir('[2] Versões Anteriores', frente='vermelho') + '\n')
                 
                 print('[0] Retornar ao menu anterior\n')
 
@@ -213,6 +212,8 @@ class NotasAtualizacao():
         self.positivo('Jogadores podem ver os detalhes de um item ou habilidade ao analisá-los fora de batalha.')
         self.positivo('Ao carregar um jogo, as datas dos jogos salvos são mostradas.')
         self.positivo('Ao derrotar o chefão da primeira área, o tempo em que o jogador finalizou o jogo é mostrado.')
+        self.positivo(f"Os tipos {imprimir.RetornarTipo('Elétrico')} e {imprimir.RetornarTipo('Gelo')} foram adicionados, " +
+            "e a efetividade dos tipos no cálculo de dano foi refeita.")
 
         print('\nFabricação')
         self.positivo('O novo sistema de fabricação permite criar um novo item a partir de itens materiais.')
@@ -224,6 +225,7 @@ class NotasAtualizacao():
 
         print('\nHabilidades')
         self.positivo("A chance de envenenar um alvo ao atacar pela habilidade 'Envenenamento' será aplicada a todas as habilidades.")
+        self.neutro(f"'Disparo Elétrico' agora é uma habilidade do tipo {imprimir.RetornarTipo('Elétrico')}.")
 
         print('\nItens')
         self.positivo('Amuleto de Esmeralda adicionado.')
@@ -236,28 +238,30 @@ class NotasAtualizacao():
         self.positivo('A impressão de itens, habilidades, status, loja e da maioria das mensagens foi refeita.')
         self.positivo('As descrições dos itens consumíveis foi refeita.')
         # self.positivo('As descrições de itens consumíveis e habilidades foi refeita.')
+        self.positivo('O jogo agora conta com mais possibilidades para impressão de textos coloridos.')
         self.neutro('A impressão de itens nas lojas possui limite por página.')
 
     def titulo(string):
         """
         Utilizado para imprimir o título de uma versão. Impime a string em preto com fundo branco.
         """
-        print(Fore.BLACK + Back.WHITE + string + Style.RESET_ALL)
+        print(cor.colorir(string, frente='preto', fundo='branco'))
 
     def positivo(string):
         """
         Imprime um '+' verde e uma string em branco, ambos com fundo preto.
         """
-        print(Back.BLACK + Fore.GREEN + '+ ' + Fore.WHITE + string + Style.RESET_ALL)
+        print(f"{cor.colorir('+', frente='verde', frente_claro=True)} {string}")
     
     def negativo(string):
         """
         Imprime um '-' vermelho e uma string em branco, ambos com fundo preto.
         """
-        print(Back.BLACK + Fore.RED + '- ' + Fore.WHITE + string + Style.RESET_ALL)
+        print(f"{cor.colorir('-', frente='vermelho', frente_claro=True)} {string}")
     
     def neutro(string):
         """
         Imprime um '*' amarelo e uma string em branco, ambos com fundo preto.
         """
-        print(Back.BLACK + Fore.YELLOW + '* ' + Fore.WHITE + string + Style.RESET_ALL)
+        print(f"{cor.colorir('*', frente='amarelo', frente_claro=True)} {string}")
+

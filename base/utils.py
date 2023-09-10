@@ -1,7 +1,9 @@
-"""Utilitary functions used by many parts of the game."""
+"""Funções utilitárias usadas por diversas partes do jogo."""
 
 import math
 import random
+
+from unidecode import unidecode
 
 def LerNumero(string, tipo = "int"):
     """
@@ -105,37 +107,57 @@ def CalcularDano(atacante, alvo, item = None, habilidade = None):
         # Dano vem do uso de um item
         fonte = item
 
-    # Dano é efetivo contra o tipo do alvo
-    if ((fonte.tipo == "Fogo" and alvo.tipo == "Terrestre") or
-        (fonte.tipo == "Fogo" and alvo.tipo == "Trevas") or
-        (fonte.tipo == "Terrestre" and alvo.tipo == "Agua") or
-        (fonte.tipo == "Terrestre" and alvo.tipo == "Luz") or
-        (fonte.tipo == "Vento" and alvo.tipo == "Fogo") or
-        (fonte.tipo == "Vento" and alvo.tipo == "Terrestre") or
-        (fonte.tipo == "Agua" and alvo.tipo == "Fogo") or
-        (fonte.tipo == "Agua" and alvo.tipo == "Vento") or
-        (fonte.tipo == "Trevas" and alvo.tipo == "Agua") or
-        (fonte.tipo == "Trevas" and alvo.tipo == "Luz") or
-        (fonte.tipo == "Luz" and alvo.tipo == "Vento") or
-        (fonte.tipo == "Luz" and alvo.tipo == "Trevas")):
+    tipo_fonte = unidecode(fonte.tipo).lower()
+    tipo_alvo = unidecode(alvo.tipo).lower()
 
-        dano *= 2
+    # Alvo recebe 200% do dano
+    if ((tipo_fonte == "fogo" and tipo_alvo == "terrestre") or
+        (tipo_fonte == "fogo" and tipo_alvo == "gelo") or
+        (tipo_fonte == "terrestre" and tipo_alvo == "agua") or
+        (tipo_fonte == "terrestre" and tipo_alvo == "eletrico") or
+        (tipo_fonte == "agua" and tipo_alvo == "fogo") or
+        (tipo_fonte == "agua" and tipo_alvo == "vento") or
+        (tipo_fonte == "vento" and tipo_alvo == "fogo") or
+        (tipo_fonte == "vento" and tipo_alvo == "gelo") or
+        (tipo_fonte == "eletrico" and tipo_alvo == "agua") or
+        (tipo_fonte == "eletrico" and tipo_alvo == "vento") or
+        (tipo_fonte == "gelo" and tipo_alvo == "terrestre") or
+        (tipo_fonte == "gelo" and tipo_alvo == "eletrico") or
+        (tipo_fonte == "trevas" and tipo_alvo == "luz") or
+        (tipo_fonte == "luz" and tipo_alvo == "trevas")):
+        dano *= 2.0
     
-    # Alvo resiste o tipo do dano
-    elif ((alvo.tipo == "Fogo" and fonte.tipo == "Terrestre") or
-        (alvo.tipo == "Fogo" and fonte.tipo == "Trevas") or
-        (alvo.tipo == "Terrestre" and fonte.tipo == "Agua") or
-        (alvo.tipo == "Terrestre" and fonte.tipo == "Luz") or
-        (alvo.tipo == "Vento" and fonte.tipo == "Fogo") or
-        (alvo.tipo == "Vento" and fonte.tipo == "Terrestre") or
-        (alvo.tipo == "Agua" and fonte.tipo == "Fogo") or
-        (alvo.tipo == "Agua" and fonte.tipo == "Vento") or
-        (alvo.tipo == "Trevas" and fonte.tipo == "Agua") or
-        (alvo.tipo == "Trevas" and fonte.tipo == "Luz") or
-        (alvo.tipo == "Luz" and fonte.tipo == "Vento") or
-        (alvo.tipo == "Luz" and fonte.tipo == "Trevas")):
-
-        dano /= 2
+    # Alvo recebe 75% do dano
+    elif ((tipo_alvo == "trevas" and tipo_fonte == "fogo") or
+        (tipo_alvo == "trevas" and tipo_fonte == "terrestre") or
+        (tipo_alvo == "trevas" and tipo_fonte == "agua") or
+        (tipo_alvo == "trevas" and tipo_fonte == "vento") or
+        (tipo_alvo == "trevas" and tipo_fonte == "eletrico") or
+        (tipo_alvo == "trevas" and tipo_fonte == "gelo") or
+        (tipo_alvo == "luz" and tipo_fonte == "fogo") or
+        (tipo_alvo == "luz" and tipo_fonte == "terrestre") or
+        (tipo_alvo == "luz" and tipo_fonte == "agua") or
+        (tipo_alvo == "luz" and tipo_fonte == "vento") or
+        (tipo_alvo == "luz" and tipo_fonte == "eletrico") or
+        (tipo_alvo == "luz" and tipo_fonte == "gelo")):
+        dano *= 0.75
+    
+    # Alvo recebe 50% do dano
+    elif ((tipo_alvo == "fogo" and tipo_fonte == "terrestre") or
+        (tipo_alvo == "fogo" and tipo_fonte == "gelo") or
+        (tipo_alvo == "terrestre" and tipo_fonte == "agua") or
+        (tipo_alvo == "terrestre" and tipo_fonte == "eletrico") or
+        (tipo_alvo == "agua" and tipo_fonte == "fogo") or
+        (tipo_alvo == "agua" and tipo_fonte == "vento") or
+        (tipo_alvo == "vento" and tipo_fonte == "fogo") or
+        (tipo_alvo == "vento" and tipo_fonte == "gelo") or
+        (tipo_alvo == "eletrico" and tipo_fonte == "agua") or
+        (tipo_alvo == "eletrico" and tipo_fonte == "vento") or
+        (tipo_alvo == "gelo" and tipo_fonte == "terrestre") or
+        (tipo_alvo == "gelo" and tipo_fonte == "eletrico") or
+        (tipo_alvo == "trevas" and tipo_fonte == "luz") or
+        (tipo_alvo == "luz" and tipo_fonte == "trevas")):
+        dano *= 0.5
     
     # Acerto Crítico
     chance_critico = atacante.chance_critico + fonte.chance_critico

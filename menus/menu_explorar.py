@@ -1,12 +1,11 @@
 import os
 import sys
-from colorama import Fore, Back, Style
 
 from . import creditos
 
 sys.path.append("..")
 from base.jogador import ReconhecerAcaoBasica
-from base import configuracao, saver, imprimir, utils
+from base import configuracao, saver, imprimir, utils, cor
 from combate import batalha
 from areas import eventos
 
@@ -68,7 +67,7 @@ def MenuExplorar(jogador, area, est, conf, caminhos, pre_selecionado = None):
                 op = int(op)
 
         # Status, Inventário, Habilidades, Equipamentos
-        if ReconhecerAcaoBasica(op, jogador, conf):
+        if ReconhecerAcaoBasica(op, jogador, conf, est):
             retorno = 1
         
         # Salvar o Jogo
@@ -180,7 +179,7 @@ def MenuExplorar(jogador, area, est, conf, caminhos, pre_selecionado = None):
                 creditos.creditos()
 
                 tempo_finalizado = imprimir.FormatarTempo(est.tempo_total_jogado)
-                imprimir.ImprimirComDelay('\nJogo finalizado em: ' + Style.BRIGHT + tempo_finalizado + Style.RESET_ALL,
+                imprimir.ImprimirComDelay(f'\nJogo finalizado em: {cor.colorir(tempo_finalizado, frente_claro=True)}',
                     conf.npc_fala_delay)
 
                 jogador.hp = jogador.maxHp

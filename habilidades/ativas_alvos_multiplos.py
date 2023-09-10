@@ -26,14 +26,14 @@ def DisparoEletrico(mana):
     """
     Habilidade ativa que atinge todos os inimigos com uma corrente elétrica, mas causa pouco dano.
     * Alvo: Múltiplos inimigos
-    * Tipo: Vento
+    * Tipo: Elétrico
     * Custo: <mana> de Mana
     * Recarga: 3 Turnos
     * Modificadores: 50% da magia
     """
 
     disparo = habilidade.Habilidade("Disparo Elétrico", "Atinge todos os inimigos com uma corrente elétrica, " + 
-    "mas causa pouco dano.", "Vento", "Inimigos", "Ativa", 0, [("Mana", mana)], 3, 3, [("magia", 50)], [],
+    "mas causa pouco dano.", "Elétrico", "Inimigos", "Ativa", 0, [("Mana", mana)], 3, 3, [("magia", 50)], [],
     "singular", "M", False, 0.0, 1.0)
 
     return disparo

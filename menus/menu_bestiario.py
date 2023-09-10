@@ -6,10 +6,12 @@ sys.path.append("..")
 from base import imprimir, utils
 from menus import menu_paginado_generico
 
-def MenuFabricacao(jogador, receitas, incluir_preco = True):
+def MenuBestiario(jogador, estatisticas):
     """
-    Menu de fabricação de itens na loja da área. Retorna True se o jogador fabricou algo e False caso contrário.
+    Menu principal do sistema de bestiário.
     """
+    return ##
+
     operacao_realizada = False
 
     # Variáveis do sistema de paginação
@@ -38,7 +40,7 @@ def MenuFabricacao(jogador, receitas, incluir_preco = True):
             print('\n+-----> FABRICAÇÃO DE ITENS <-----+')
 
             # Ouro do jogador
-            print(f"{imprimir.RetornarStringColorida('Ouro')}: {jogador.ouro}")
+            print(Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {jogador.ouro}')
 
             # Listando os itens que o jogador pode fabricar
             disponivel = menu_paginado_generico.ComporPagina(receitas, item_indice_atual, receitas_por_pagina)

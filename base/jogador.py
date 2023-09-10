@@ -1,12 +1,11 @@
 import sys
-from colorama import Fore, Back, Style
 from tabulate import tabulate
 
-from . import criatura, guerreiro, mago, utils
+from . import criatura, guerreiro, mago, utils, cor
 
 sys.path.append("..")
 from base import imprimir, configuracao
-from menus import menu_inventario, menu_habilidades, menu_equipamentos, menu_fabricacao
+from menus import menu_inventario, menu_habilidades, menu_equipamentos, menu_fabricacao, menu_bestiario
 
 class Jogador(criatura.Criatura):
     """
@@ -258,9 +257,8 @@ class Jogador(criatura.Criatura):
                 self.experiencia -= exp_necessaria
                 self.nivel += 1
 
-                print('\nVocê subiu para o ', end = '')
-                print(Style.BRIGHT + 'Nível ' + f'{self.nivel}' + Style.RESET_ALL, end = '')
-                print('!')
+                print(f"\nVocê subiu para o {imprimir.RetornarStringColorida('Nível')} " +
+                    f"{cor.colorir(self.nivel, frente_claro=True)}!")
                 atributos_antes = self.AtributosBasicos()
 
                 if self.classe == "Guerreiro" or self.classe == "Guerreira":
@@ -315,7 +313,7 @@ class Jogador(criatura.Criatura):
         
         return cont
 
-def ReconhecerAcaoBasica(acao, jogador, conf):
+def ReconhecerAcaoBasica(acao, jogador, conf, est):
     """
     Compara uma ação tomada pelo jogador fora de combate e a executa caso ela seja uma das ações básicas:
     status, inventário, habilidades ou equipamentos. Caso uma das ações básicas seja executada, retorna True,
@@ -325,6 +323,7 @@ def ReconhecerAcaoBasica(acao, jogador, conf):
     - acao: ação do jogador a ser comparada;
     - jogador: objeto do jogador;
     - conf: configurações do usuário relativas ao jogo;
+    - est: estatísticas relacionadas ao jogador e ao jogo.
     """
 
     # Status do Jogador
@@ -366,12 +365,14 @@ def ReconhecerAcaoBasica(acao, jogador, conf):
         if not jogador.receitas:
             print('Você não tem possui receitas de fabricação.')
         else:
-            menu_fabricacao.FabricacaoMenu(jogador, jogador.receitas, incluir_preco = False)
+            menu_fabricacao.MenuFabricacao(jogador, jogador.receitas, incluir_preco = False)
 
         return True
     
     # Bestiário
     elif configuracao.CompararAcao(acao, conf.tecla_bestiario):
-        pass
+        print('')
+        menu_bestiario.MenuBestiario(jogador, est)
+        return True
     
     return False

@@ -1,88 +1,130 @@
 ===== Alpha v0.0.5 =====
 
-> Programação
-* Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
-	- Atributo 'combinar' na classe Efeito: dicionário que indica como cada um dos
-	outros atributos se sobrepõem: '+', '-', '>', '<'
-	- Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
-	- Efeitos de aumento e diminuição de um mesmo atributo devem ter uma interação
-	- Equipamentos e efeitos devem possuir um campo de conceder buffs/debuffs -> EquipamentosGanhos
-	e EquipamentosPerdas
-	- Efeitos de resistência: cálculo caso as chances de debuff e/ou buff sejam mais de 100%
+[Próximo Patch]
+	* Usar o RetornarCriatura() em habilidades de invocação
+		* Refatora o efeito de Invocação, usar um parâmetro adicional invocacao={} no lugar de uma string separada por :
+
+	* Jogador tem a ação de passar o turno dentro de batalhas
+
+	* Utilizar base.cor em vez de colorama
+
+	* Refazer o sistema de sufixos
+		- Quando a lista de criaturas é alterada (invocação, criatura derrotada...), checar o sufixo dos nomes das criaturas
+	
+	* Integrar RetornarTipo() em RetornarStringColorida() e renomear tudo para Colorir()
+
+[Bestiário]
+  	* novo diretório /sistemas
+	* Inimigos ainda não encontrados aparecerão como "???"
+	* Inimigos comuns precisam ser derrotados 1 vez para aparecer nome, hp e mana
+	* Inimigos comuns precisam ser derrotados 5 vezes para aparecer descrição, experiencia e gold dropados
+	* Inimigos comuns precisam ser derrotados 10 vezes para aparecer loots e habilidades
+	* Inimigos raros e chefões precisam ser derrotados apenas 1 vez pra aparecer tudo
+	* Usar caracteres ☆★ e base.cor
+
+	* Mudar a descrição das habilidades
+
+[Combate]
+	* Boneco de Treinamento
+		- 1 de vida e 0 em outros atributos, independente do nível
+		- não morre, mas recebe dano
+		- só passa o turno
+
+	* Vila Pwikutt tem um campo de treino com 3 bonecos de treinamento
+	* NPC explica como funciona o campo de treino na primeira vez
+	* NPC também explica como cada uma das ações do jogador funciona
+
+	* Modo Fácil / Modo Normal / Modo Difícil -> Variação nos atributos dos inimigos (50% / 100% / 150%)
+
+	* Correr de uma batalha pode ser fixado em vez de calculado
+		- 100% para o campo de treinamento
+		- 0% para chefões
+
+[Sistema de Efeitos]
+	* Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
+    * Atributo 'combinar' na classe Efeito: dicionário que indica como cada um dos
+    outros atributos se sobrepõem: '+', '-', '>', '<'
+    * Efeitos de aumento e diminuição de atributos devem arredondar o atributo para cima ou para baixo
+    para que haja diferença em batalhas de níveis baixos
+    * Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
+    * Efeitos de aumento e diminuição de um mesmo atributo devem se sobrepor
+    * Equipamentos e efeitos devem possuir um campo de conceder buffs/debuffs -> EquipamentosGanhos e EquipamentosPerdas
+    * Efeitos de resistência: cálculo caso as chances de debuff e/ou buff sejam mais de 100%
 		- chance_debuff = chance_debuff - chance_resistencia (>= 0)
-* Efeitos de resistência a atordoamento e lentidão
-* Mudar a descrição das habilidades
-* Última mudança da versão:
-  - Estabelecer um padrão e organizar os imports de todos os arquivos (from habilidades.ativas_alvo_unico import ProjetilDeMana...)
-  - Colocar docstrings em todos os módulos
+	* Efeitos de resistência a buffs/debuffs (veneno, atordoamento, lentidão...)
 
-> Jogabilidade
-* Bestiário
-  	- novo diretório /sistemas
-	- Inimigos ainda não encontrados aparecerão como "???"
-	- Inimigos comuns precisam ser derrotados 1 vez para aparecerem seus nomes, hp, mana e descrição
-	- Inimigos comuns precisam ser derrotados 5 vezes para aparecerem seus loots, experiencia e gold dropados
-	- Inimigos comuns precisam ser derrotados 10 vezes para aparecerem suas habilidades
-	- Inimigos raros e chefões precisam ser derrotados apenas 1 vez pra aparecer tudo
-	- Usar caracteres ☆★ e colorama
-* Dungeon na área 1 - Colméia de Abelhóides
-  - Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
+[Miscelâneo]
+	* Multiplicar todos os atributos por 10 (itens, criaturas, jogador) e re-balancear
+		- Desse jeito, efeitos de % (cura, aumento/diminuição de atributos) irão fazer mais diferença
 
-> Habilidades
-* Arredondar o cálculo de dano pra cima
-* Impacto Atordoante causa 80% de dano e tem +1 de recarga; atordoa por +1 turno se um escudo estiver equipado
-* Pancada Forte: causa 150% de dano em um alvo
-* Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme o mago sobe de nível
+	* Renomear Escudo Mágico para Reforço Mágico / reforço mágico afeta outros atributos conforme a habilidade sobe de nível
 
-> O De Sempre
-* Tirar imports desnecessários de todos os arquivos.
-* Rever readme.md e notas de atualização.
-* Gerar os executáveis para Windows e Linux (pyinstaller --onefile --name Aventura main.py).
+	* Última mudança da versão:
+		- Estabelecer um padrão e organizar os imports de todos os arquivos (from habilidades.ativas_alvo_unico import ProjetilDeMana...)
+		- Colocar docstrings em todos os módulos
+
+[O De Sempre]
+	* Tirar imports desnecessários de todos os arquivos.
+	* Rever readme.md e notas de atualização.
+	* Gerar os executáveis para Windows e Linux (pyinstaller --onefile --name Aventura main.py).
 
 ===== Alpha v0.1.0 =====
 
-> Programação
-* Jogo retorna ao menu inicial quando erros acontecem em vez de fechar
-* Quando a lista de criaturas é alterada (invocação, criatura derrotada...), checar o sufixo dos nomes das criaturas
+[Dungeon: Colméia de Abelhóides]
+	* Dungeon na área 1 - Colméia de Abelhóides
+		- Possibilidade de acessar status, inventario, habilidades e equipamento da dungeon
+	
+[Combate]
+	* Refazer IA dos inimigos
 
-> Jogabilidade
-* Monstros dropam experiencia e ouro baseados em um range
-* Larry dropa um item chave ao ser derrotado, um óculos de ourives
-* Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
-* Sistema de conquistas (achievements)
-	- Apicultor: Derrote o chefão da Colméia de Abelhóides
-	- Caçador de Anomalias: Derrote o chefão da Planície de Slimes
-	- Pesquisador Iniciante: desbloqueie 10 entradas no bestiário
-	- Que a Aventura(TM) começe!: derrote 25 inimigos
-* Modo Fácil / Modo Difícil / Refazer IA dos inimigos
-* Sistema de missões (quests)
-* O jogador pode escolher as habilidades que quer aprender/melhorar dentre uma série de opções
+	* Monstros dropam experiencia e ouro baseados em um range
 
-> Inimigos
-* Espírito de Mana (Mana Cristalizada Pequena)
-* Abelhóide Curandeira / Vento / Vingança - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
-* Abelhóide Guerreiro / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
-* Chefão: Rainha Abelhóide / Vento / Vingança - 1 de Ataque - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
-* Um inimigo raro para a colméia
-* Refazer batalha contra o chefão da Área 1
+	* Refazer batalha contra o chefão da Área 1
 
-> Itens
-* Poção Pequena de Mana (fabricação + receita)
-* Peitoral de Carapaça de Tortuga (+hp, +def, -vel, Defender mais forte)
-* Cajado de Erva Curativa
-* Set de Equipamentos de Abelhóide
-* Adaga (duas adagas equipadas -> +1 VEL)
-* Adaga Peçonhenta (% de envenenar) (duas adagas equipadas -> +1 VEL, +% de envenenar)
+[Inimigos]
+	* Espírito de Mana (Mana Cristalizada Pequena)
+	* Abelhóide Curandeira / Vento / Vingança - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
+	* Abelhóide Guerreiro / Vento / Vingança - 1 de Ataque - Larva de Abelhóide / Mel de abelhóide
+	* Chefão: Rainha Abelhóide / Vento / Vingança - 1 de Ataque - 1 de Magia - Larva de Abelhóide / Mel de abelhóide
+	* Um inimigo raro para a colméia
 
-> Habilidades
-* Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
-* Invocar Abelhóide
-* Ventania
+[Missões / Quests]
+	* Larry dropa um item chave ao ser derrotado, um óculos de ourives
 
-> O De Sempre
-* Tirar imports desnecessários de todos os arquivos.
-* Rever readme.md e notas de atualização.
-* Gerar os executáveis para Windows e Linux (pyinstaller --onefile --name Aventura main.py).
+[Conquistas / Achievements]
+	* Apicultor: Derrote o chefão da Colméia de Abelhóides
+	* Caçador de Anomalias: Derrote o chefão da Planície de Slimes
+	* Pesquisador Iniciante: desbloqueie 10 entradas no bestiário
+	* Que a Aventura(TM) começe!: derrote 25 inimigos
+
+[Miscelâneo]
+	* Jogo retorna ao menu inicial quando erros acontecem em vez de fechar
+
+	* Configuração para aumentar ou diminuir o tamanho máximo de uma linha para melhor impressão
+
+	* O jogador pode escolher as habilidades que quer aprender/melhorar dentre uma série de opções
+
+[Equipamentos]
+	* Mostrar as mudanças que irão ocorrer ao Equipar/Desequipar um item
+
+	* Poção Pequena de Mana (fabricação + receita)
+	* Peitoral de Carapaça de Tortuga (+hp, +def, -vel, Defender mais forte)
+	* Cajado de Erva Curativa
+	* Set de Equipamentos de Abelhóide
+	* Adaga (duas adagas equipadas -> +1 VEL)
+	* Adaga Peçonhenta (% de envenenar) (duas adagas equipadas -> +1 VEL, +% de envenenar)
+
+[Habilidades]
+	* Impacto Atordoante causa 80% de dano e tem +1 de recarga; atordoa por +1 turno se um escudo estiver equipado
+	* Bola de Fogo / Ativa / Fogo / Dano + burn em um inimigo
+	* Novo Escudo Mágico irá fazer a criatura ganhar um shield que fica em cima do HP, tipo em MOBA
+	* Invocar Abelhóide
+	* Ventania
+
+[O De Sempre]
+	* Tirar imports desnecessários de todos os arquivos.
+	* Rever readme.md e notas de atualização.
+	* Gerar os executáveis para Windows e Linux (pyinstaller --onefile --name Aventura main.py).
 
 ===== Alpha v0.1.1+ =====
 
@@ -111,7 +153,6 @@
 * Facas / Adagas
 
 > Habilidades
-* novo Escudo Mágico irá fazer a criatura ganhar um shield que fica em cima do HP, tipo em MOBA
 * Resistência Metálica / Passiva / Danos abaixo de X são anulados
 * Cuspe de Mercúrio / Ativa / Fogo / Dano + Def- + Slow + burn em um inimigo
 * Mordida de Fogo / Ativa / Fogo / Dano + burn em um inimigo

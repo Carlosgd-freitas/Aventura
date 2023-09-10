@@ -1,9 +1,11 @@
-import time
-from tabulate import tabulate
-from colorama import Fore, Back, Style
 import sys
+import time
+
+from tabulate import tabulate
+from unidecode import unidecode
 
 sys.path.append("..")
+from base.cor import colorir
 from sistemas import receita
 
 ### Impressão de strings ###
@@ -27,79 +29,78 @@ def ImprimirLocal(nome):
     - nome: nome do local a ser impresso.
     """
     print('\n== Local: ', end = '')
-    print(Style.BRIGHT, end = '')
 
     if nome == "Planície de Slimes":
-        print(Fore.GREEN + Back.BLACK + 'Planície de Slimes', end = '')
+        print(colorir(nome, frente="lima", frente_claro=True), end = ' ')
     elif nome == "Vila Pwikutt":
-        print(Fore.WHITE + Back.BLACK + 'Vila Pwikutt', end = '')
+        print(colorir(nome, frente="oliva", frente_claro=True), end = ' ')
 
-    print(Style.RESET_ALL, end = '')
-    print(' ==')
+    print('==')
 
 def RetornarTipo(tipo):
     """
-    Recebe um tipo como parâmetro e o retorna juntamente com as funções para aplicação de cor
-    correspondentes:
+    Recebe um texto referente a um tipo como parâmetro e o retorna colorido.
     * Normal    -> Branco
     * Fogo      -> Vermelho
     * Terrestre -> Verde
-    * Agua      -> Azul
-    * Vento     -> Ciano
-    * Trevas    -> Magenta
-    * Luz       -> Amarelo
+    * Água      -> Azul
+    * Vento     -> Azul Claro
+    * Elétrico  -> Amarelo
+    * Gelo      -> Ciano
+    * Trevas    -> Roxo
+    * Luz       -> Rosa
     """
-    
-    if tipo == 'Normal':
-        return Back.BLACK + Fore.WHITE + 'Normal' + Style.RESET_ALL
-    elif tipo == 'Fogo':
-        return Back.BLACK + Fore.RED + 'Fogo' + Style.RESET_ALL
-    elif tipo == 'Terrestre':
-        return Back.BLACK + Fore.GREEN + 'Terrestre' + Style.RESET_ALL
-    elif tipo == 'Água':
-        return Back.BLACK + Fore.BLUE + 'Água' + Style.RESET_ALL
-    elif tipo == 'Vento':
-        return Back.BLACK + Fore.CYAN + 'Vento' + Style.RESET_ALL
-    elif tipo == 'Trevas':
-        return Back.BLACK + Fore.MAGENTA + 'Trevas' + Style.RESET_ALL
-    elif tipo == 'Luz':
-        return Back.BLACK + Fore.YELLOW + 'Luz' + Style.RESET_ALL
+    tipo_normalizado = unidecode(tipo).lower()
+
+    if tipo_normalizado == "normal":
+        return colorir(tipo, frente="branco", frente_claro=True)
+    elif tipo_normalizado == "fogo":
+        return colorir(tipo, frente="vermelho", frente_claro=True)
+    elif tipo_normalizado == "terrestre":
+        return colorir(tipo, frente="verde", frente_claro=True)
+    elif tipo_normalizado == "agua":
+        return colorir(tipo, frente="azul", frente_claro=True)
+    elif tipo_normalizado == "vento":
+        return colorir(tipo, frente="azul claro", frente_claro=True)
+    elif tipo_normalizado == "eletrico":
+        return colorir(tipo, frente="amarelo", frente_claro=True)
+    elif tipo_normalizado == "gelo":
+        return colorir(tipo, frente="ciano", frente_claro=True)
+    elif tipo_normalizado == "trevas":
+        return colorir(tipo, frente="roxo", frente_claro=True)
+    elif tipo_normalizado == "luz":
+        return colorir(tipo, frente="rosa", frente_claro=True)
 
 def RetornarStringColorida(string):
     """
-    Recebe uma string e a retorna juntamente com as funções para aplicação de cor correspondentes.
+    Recebe uma string e a retorna colorida.
     """
+    string_normalizada = unidecode(string).lower()
+
+    if string_normalizada == "hp":
+        return colorir(string, frente="vermelho", frente_claro=True)
+    elif string_normalizada == "mana":
+        return colorir(string, frente="azul", frente_claro=True)
     
-    if string.lower() == 'hp':
-        return Back.BLACK + Fore.RED + string + Style.RESET_ALL
-    elif string.lower() == 'mana':
-        return Back.BLACK + Fore.BLUE + string + Style.RESET_ALL
-    elif string.lower() == 'ouro' or string.lower() == 'preço':
-        return Back.BLACK + Fore.YELLOW + string + Style.RESET_ALL
-    elif  string.lower() == '+' or string.lower() == '>>':
-        return Back.BLACK + Fore.GREEN + string + Style.RESET_ALL
-    elif  string.lower() == '-' or string.lower() == '<<':
-        return Back.BLACK + Fore.RED + string + Style.RESET_ALL
-    elif string.lower() == 'defendendo':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'veneno' or string.lower() == 'envenenamento':
-        return Back.BLACK + Fore.GREEN + string + Style.RESET_ALL
-    elif string.lower() == 'lentidão' or string.lower() == 'atordoamento':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'ataque' or string.lower() == 'atq':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'defesa' or string.lower() == 'def':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'magia' or string.lower() == 'mag':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'velocidade' or string.lower() == 'vel':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'chance de acerto crítico' or string.lower() == 'crit%':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'multiplicador de dano crítico' or string.lower() == 'crit':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
-    elif string.lower() == 'nível':
-        return Style.BRIGHT + Back.BLACK + Fore.WHITE + string + Style.RESET_ALL
+    elif string_normalizada == "ouro" or string_normalizada == "preco":
+        return colorir(string, frente="dourado", frente_claro=True)
+    
+    elif  string_normalizada == "+" or string_normalizada == ">>":
+        return colorir(string, frente="verde", frente_claro=True)
+    elif  string_normalizada == "-" or string_normalizada == "<<":
+        return colorir(string, frente="vermelho", frente_claro=True)
+    
+    elif string_normalizada in ["veneno", "envenenar", "envenenado", "envenenada", "envenenamento"]:
+        return colorir(string, frente="oliva", frente_claro=True)
+    elif string_normalizada in ["lentidao", "atordoar", "atordoamento"]:
+        return colorir(string, frente="branco", frente_claro=True)
+    
+    elif string_normalizada == "defendendo":
+        return colorir(string, frente="branco", frente_claro=True)
+    
+    elif string_normalizada in ["ataque", "atq", "defesa", "def", "magia", "mag", "velocidade", "vel",
+        "chance de acerto critico", "crit%", "multiplicador de dano critico", "crit", "nivel"]:
+        return colorir(string, frente="branco", frente_claro=True)
 
 def FormatarTempo(tempo):
     """
@@ -145,7 +146,7 @@ def RetornarTabelaItens(itens, jogador, indice = -1):
             # Nível
             if item.nivel > 0:
                 if item.nivel > jogador.nivel:
-                    t.append(Fore.RED + str(item.nivel) + Style.RESET_ALL)
+                    t.append(colorir(item.nivel, frente="vermelho"))
                 else:
                     t.append(item.nivel)
             else:
@@ -173,7 +174,7 @@ def RetornarTabelaItens(itens, jogador, indice = -1):
             # Nível
             if item.nivel > 0:
                 if item.nivel > jogador.nivel:
-                    t.append(Fore.RED + str(item.nivel) + Style.RESET_ALL)
+                    t.append(colorir(item.nivel, frente="vermelho"))
                 else:
                     t.append(item.nivel)
             else:
@@ -259,7 +260,7 @@ def RetornarTabelaReceitas(receitas, jogador, incluir_preco = True, indice = -1)
         # Nível
         if receita.nivel > 0:
             if receita.nivel > jogador.nivel:
-                t.append(Fore.RED + str(receita.nivel) + Style.RESET_ALL)
+                t.append(colorir(receita.nivel, frente="vermelho"))
             else:
                 t.append(receita.nivel)
         else:
@@ -590,11 +591,11 @@ def ImprimirReceitaDetalhada(receita, jogador, incluir_preco = True):
 
         # Quantidade
         if not item_inventario:
-            quantidade = Back.BLACK + Fore.RED + f'[0 / {item.quantidade}]' + Style.RESET_ALL
+            quantidade = colorir(f'[0 / {item.quantidade}]', frente="vermelho")
         elif item_inventario.quantidade < item.quantidade:
-            quantidade = Back.BLACK + Fore.RED + f'[{item_inventario.quantidade} / {item.quantidade}]' + Style.RESET_ALL
+            quantidade = colorir(f'[{item_inventario.quantidade} / {item.quantidade}]', frente="vermelho")
         else:
-            quantidade = Back.BLACK + Fore.GREEN + f'[{item_inventario.quantidade} / {item.quantidade}]' + Style.RESET_ALL
+            quantidade = colorir(f'[{item_inventario.quantidade} / {item.quantidade}]', frente="verde")
         t.append(quantidade)
 
         tabela.append(t)
@@ -816,12 +817,12 @@ def MensagemErro(string, modo = 'input'):
     - modo: caso seja 'input', o jogo irá esperar o usuário apertar [ENTER] antes de prosseguir, e caso seja
     'print', esta espera não ocorrerá. O valor padrão é 'input'.
     """
-    print(Style.BRIGHT + Back.BLACK + Fore.RED + '[ERRO]' + Style.RESET_ALL, end = '')
+    print(colorir("[ERRO]", frente="vermelho", frente_claro=True), end = ' ')
 
     if modo == 'input':
-        input(' ' + string)
+        input(string)
     else:
-        print(' ' + string)
+        print(string)
 
 def MensagemSistema(string, modo = 'input'):
     """
@@ -834,9 +835,9 @@ def MensagemSistema(string, modo = 'input'):
     - modo: caso seja 'input', o jogo irá esperar o usuário apertar [ENTER] antes de prosseguir, e caso seja
     'print', esta espera não ocorrerá. O valor padrão é 'input'.
     """
-    print(Style.BRIGHT + Back.BLACK + Fore.WHITE + '[SISTEMA]' + Style.RESET_ALL, end = '')
+    print(colorir("[SISTEMA]", frente="branco", frente_claro=True), end = ' ')
 
     if modo == 'input':
-        input(' ' + string)
+        input(string)
     else:
-        print(' ' + string)
+        print(string)

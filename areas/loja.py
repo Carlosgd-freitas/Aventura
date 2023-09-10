@@ -1,7 +1,6 @@
 import sys
 import math
 from copy import deepcopy
-from colorama import Fore, Back, Style
 
 sys.path.append("..")
 from base import imprimir, utils
@@ -100,7 +99,7 @@ def LojaMenu(jogador, loja_itens, venda_compra):
                 print('\n+-----> SEU INVENTÁRIO <-----+')
 
             # Ouro do jogador
-            print(Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {jogador.ouro}')
+            print(f"{imprimir.RetornarStringColorida('Ouro')}: {jogador.ouro}")
 
             # Listando os itens que o jogador pode comprar/vender
             disponivel = menu_paginado_generico.ComporPagina(vendedor, item_indice_atual, itens_por_pagina)
@@ -281,7 +280,7 @@ def Loja(loja_nome, jogador, loja_itens, receitas_fabricacao = []):
         # Imprimindo o menu principal da loja
         if retorno == 1:
             print(f'\n+-----> {loja_nome} <-----+')
-            print(Fore.YELLOW + 'Ouro' + Style.RESET_ALL + f': {jogador.ouro}')
+            print(f"{imprimir.RetornarStringColorida('Ouro')}: {jogador.ouro}")
             print('[1] Comprar Itens')
             print('[2] Vender Itens')
 
@@ -313,7 +312,7 @@ def Loja(loja_nome, jogador, loja_itens, receitas_fabricacao = []):
         
         # Fabricação
         elif receitas_fabricacao and escolha == 3:
-            operacao_temporaria = menu_fabricacao.FabricacaoMenu(jogador, receitas_fabricacao)
+            operacao_temporaria = menu_fabricacao.MenuFabricacao(jogador, receitas_fabricacao)
             if operacao_temporaria:
                 operacao_realizada = True
             retorno = 1

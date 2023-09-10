@@ -1,12 +1,11 @@
 import sys
 import random
-from colorama import Fore, Back, Style
 
 from . import loja
 
 sys.path.append("..")
 from base.jogador import ReconhecerAcaoBasica
-from base import area, saver, configuracao, imprimir, utils
+from base import area, saver, configuracao, imprimir, utils, cor
 from itens import consumiveis, equipamentos, espolios
 from criaturas import slime, cobra_venenosa, slime_gigante, tortuga, ervagora, slime_mel, larry, cristal_atacante
 from combate import batalha
@@ -372,7 +371,7 @@ class Area_1(area.Area):
                 op = int(op)
             
             # Status, Inventário, Habilidades, Equipamentos
-            if ReconhecerAcaoBasica(op, jogador, conf):
+            if ReconhecerAcaoBasica(op, jogador, conf, est):
                 retorno = 1
 
             # Salvar o Jogo
@@ -530,9 +529,9 @@ class Area_1(area.Area):
         print('')
 
         if jogador.ouro >= self.estalagem_preco:
-            print('[1] Descansar na estalagem: ' + Fore.YELLOW + 'Preço' + Style.RESET_ALL + f': {self.estalagem_preco}')
+            print(f"[1] Descansar na estalagem: {imprimir.RetornarStringColorida('Preço')}: {self.estalagem_preco}")
         else:
-            print(Fore.RED + f'[1] Descansar na estalagem: Preço: {self.estalagem_preco}' + Style.RESET_ALL)
+            print(cor.colorir(f"[1] Descansar na estalagem: Preço: {self.estalagem_preco}", frente="vermelho"))
         print('[0] Sair da estalagem\n')
         
         op = utils.LerNumeroIntervalo('> ', 0, 1)
@@ -542,12 +541,8 @@ class Area_1(area.Area):
 
             # Jogador está com vida e mana maximizados
             if jogador.hp == jogador.maxHp and jogador.mana == jogador.maxMana:
-                imprimir.ImprimirComDelay(f'Ruwick: Pareçe que você já está descansado! Permitir sua estadia aqui ' + 
-                    'seria um roubo do seu ', conf.npc_fala_delay)
-                print(Fore.YELLOW, end = '')
-                imprimir.ImprimirComDelay('ouro', conf.npc_fala_delay)
-                print(Style.RESET_ALL, end = '')
-                imprimir.ImprimirComDelay('!\n', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay(f"Ruwick: Pareçe que você já está descansado! Permitir sua estadia aqui " +
+                    f"seria um roubo do seu {imprimir.RetornarStringColorida('ouro')}!\n", conf.npc_fala_delay)
 
             # Jogador descansa na estalagem
             elif jogador.ouro >= self.estalagem_preco:
@@ -555,17 +550,13 @@ class Area_1(area.Area):
                 jogador.hp = jogador.maxHp
                 jogador.mana = jogador.maxMana
 
-                print(f'Você gastou {self.estalagem_preco} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + ' e \
-                    recuperou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' e ' + Fore.BLUE + 'Mana' + Style.RESET_ALL
-                    + ' completamente.')
+                print(f"Você gastou {self.estalagem_preco} de {imprimir.RetornarStringColorida('ouro')} e recuperou seu " +
+                    f"{imprimir.RetornarStringColorida('HP')}  e  {imprimir.RetornarStringColorida('Mana')} completamente.")
 
             # Jogador não tem ouro suficiente pra descansar na estalagem
             elif op == 1:
-                imprimir.ImprimirComDelay(f'Ruwick: Desculpe, mas pareçe que você não tem ', conf.npc_fala_delay)
-                print(Fore.YELLOW, end = '')
-                imprimir.ImprimirComDelay('ouro', conf.npc_fala_delay)
-                print(Style.RESET_ALL, end = '')
-                imprimir.ImprimirComDelay(f' o suficiente para descansar aqui.\n', conf.npc_fala_delay)
+                imprimir.ImprimirComDelay(f"Ruwick: Desculpe, mas pareçe que você não tem " +
+                    f"{imprimir.RetornarStringColorida('ouro')} o suficiente para descansar aqui.\n", conf.npc_fala_delay)
 
     def EventoVendedorAmbulante(self, jogador, conf):
         """
