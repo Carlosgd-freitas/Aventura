@@ -1,9 +1,8 @@
 import sys
-from colorama import Fore, Back, Style
 
 from . import batalha_mecanicas, usar_habilidade, usar_consumivel
 sys.path.append("..")
-from base import efeito, imprimir, utils
+from base import efeito, imprimir, utils, cor
 from menus import menu_equipamentos
 
 def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = True, chefao = 0):
@@ -78,9 +77,7 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
                 emboscada = 0
             
             # Imprimindo o índice do turno
-            print('')
-            print(Fore.BLACK + Back.WHITE + "> Turno " + str(turno) + " <" + Style.RESET_ALL)
-            print('')
+            print(f"\n{cor.colorir(f'> Turno {str(turno)} <')}\n")
 
             # Caso o jogador não seja o primeiro a agir, imprime os inimigos em batalha
             if jogador != ordem[0]:
@@ -152,7 +149,7 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
             for e in espolios:
                 if e.classe == "Ouro":
                     jogador.ouro += e.quantidade
-                    print(f'Você ganhou {e.quantidade} de ' + Fore.YELLOW + 'ouro' + Style.RESET_ALL + '.')
+                    print(f"Você ganhou {e.quantidade} de {imprimir.RetornarColorido('ouro')}.")
 
                 elif e.classe == "Experiência":
                     jogador.experiencia += e.quantidade
@@ -198,7 +195,7 @@ def JogadorVez(jogador, inimigos, correr = True):
             if correr == True:
                 print('[6] Correr')
             elif correr == False:
-                print(Fore.RED + '[6] Correr' + Style.RESET_ALL)
+                print(cor.colorir('[6] Correr', frente='vermelho'))
             
             print('')
 

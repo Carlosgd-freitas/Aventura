@@ -1,7 +1,6 @@
 import sys
 from copy import deepcopy
 from tabulate import tabulate
-from colorama import Fore, Back, Style
 
 sys.path.append("..")
 from base import imprimir, utils
@@ -26,7 +25,7 @@ def LinhaEquipamento(item, linha):
 
     # Tipo
     if item.classe_batalha != "Item Vazio":
-        tipo = imprimir.RetornarTipo(item.tipo)
+        tipo = imprimir.RetornarColorido(item.tipo)
     else:
         tipo = '---'
     linha.append(tipo)
@@ -81,8 +80,8 @@ def ImprimirEquipados(jogador):
     print('|========================================> EQUIPAMENTOS <========================================|')
 
     tabela = []
-    cabecalho = ["", "Nome", "Nível", "Tipo", Back.BLACK + Fore.RED + 'HP' + Style.RESET_ALL,
-        Back.BLACK + Fore.BLUE + 'Mana' + Style.RESET_ALL, "ATQ", "DEF", "MAG", "VEL"]
+    cabecalho = ["", "Nome", "Nível", "Tipo", imprimir.RetornarColorido("HP"), imprimir.RetornarColorido("Mana"),
+        "ATQ", "DEF", "MAG", "VEL"]
     alinhamento = ("left", "left", "center", "center", "center", "center", "center", "center", "center", "center")
     
     for i, item in enumerate(jogador.equipados):
@@ -366,8 +365,8 @@ def MenuEquipar(jogador, lugar):
     relacao = [(0, -1)]
     
     tabela = []
-    cabecalho = ["Nome", "Classificação", "Nível", "Tipo", Back.BLACK + Fore.RED + 'HP' + Style.RESET_ALL,
-        Back.BLACK + Fore.BLUE + 'Mana' + Style.RESET_ALL, "ATQ", "DEF", "MAG", "VEL"]
+    cabecalho = ["Nome", "Classificação", "Nível", "Tipo", imprimir.RetornarColorido("HP"), imprimir.RetornarColorido("Mana"),
+        "ATQ", "DEF", "MAG", "VEL"]
     alinhamento = ("left", "center", "center", "center", "center", "center", "center", "center", "center", "center")
 
     for item in jogador.inventario:

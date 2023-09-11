@@ -1,11 +1,9 @@
 import sys
 from copy import deepcopy
 from tabulate import tabulate
-from colorama import Fore, Back, Style
 
-from . import batalha_mecanicas
 sys.path.append("..")
-from base import imprimir, utils
+from base import imprimir, utils, cor
 
 def EscolherHabilidade(jogador):
     """
@@ -37,24 +35,21 @@ def EscolherHabilidade(jogador):
                 for i, c in enumerate(habilidade.custo):
                     if (i != 0) and (i < len(habilidade.custo) - 1):
                         custo += ', '
-                    if c[0] == "Mana":
-                        custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
-                    elif c[0] == "HP":
-                        custo += str(c[1]) + " " + imprimir.RetornarStringColorida(c[0])
+                    custo += str(c[1]) + " " + imprimir.RetornarColorido(c[0])
             else:
                 custo += '---'
             t.append(custo)
             # Recarga
             recarga = ""
             if habilidade.recarga_atual != habilidade.recarga:
-                recarga += Back.BLACK + Fore.RED + str(habilidade.recarga_atual) + Style.RESET_ALL
+                recarga += cor.colorir(habilidade.recarga_atual, frente='vermelho')
             else:
                 recarga += str(habilidade.recarga_atual)
             recarga += f' / {habilidade.recarga}'
             t.append(recarga)
-            t.append(imprimir.RetornarTipo(habilidade.tipo))      # Tipo
-            t.append(habilidade.passiva_ativa)                    # Passiva/Ativa
-            t.append(habilidade.alvo)                             # Alvo
+            t.append(imprimir.RetornarColorido(habilidade.tipo)) # Tipo
+            t.append(habilidade.passiva_ativa)                   # Passiva/Ativa
+            t.append(habilidade.alvo)                            # Alvo
             tabela.append(t)
 
             relacao.append((indice_print, indice_item))
@@ -82,18 +77,16 @@ def EscolherHabilidade(jogador):
                 # Checando o custo de usar a habilidade
                 for c in jogador.habilidades[escolha].custo:
                     if c[0] == "Mana" and c[1] > jogador.mana:
-                        print('Você não tem ' + Fore.BLUE + 'Mana' + Style.RESET_ALL +
-                            ' o suficiente para usar esta habilidade.')
+                        print(f"Você não tem {imprimir.RetornarColorido('Mana')} o suficiente para usar esta habilidade.")
                         valido = 0
 
                     elif c[0] == "HP" and c[1] > jogador.hp:
-                        print('Você não tem ' + Fore.RED + 'HP' + Style.RESET_ALL +
-                            ' o suficiente para usar esta habilidade.')
+                        print(f"Você não tem {imprimir.RetornarColorido('HP')} o suficiente para usar esta habilidade.")
                         valido = 0
 
                 # Checando a recarga da habilidade
                 if jogador.habilidades[escolha].recarga_atual < jogador.habilidades[escolha].recarga:
-                    print('Esta habilidade ainda está em recarga.')
+                    print("Esta habilidade ainda está em recarga.")
                     valido = 0
 
             if valido == 1:
@@ -189,16 +182,15 @@ def ImprimirDano(atacante, alvos, habilidade, danos, acertos_criticos):
         # Uso da habilidade básica: Atacar
         if habilidade.nome == "Atacar":
             if acertos_criticos[indice]:
-                print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+                print(imprimir.RetornarColorido('CRÍTICO! '), end = '')
             print(f'{atacante.nome} atacou {alvo.nome} e deu {danos[indice]} de dano!')
 
         # Uso de outras habilidades
         else:
             if acertos_criticos[indice]:
-                print(Fore.RED + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+                print(imprimir.RetornarColorido('CRÍTICO! '), end = '')
             
             if alvo.singular_plural == "singular":
                 print(f'{alvo.nome} recebeu {danos[indice]} de dano.')
             elif alvo.singular_plural == "plural":
                 print(f'{alvo.nome} receberam {danos[indice]} de dano.')
-

@@ -1,9 +1,8 @@
 import sys
 from tabulate import tabulate
-from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from base import utils
+from base import utils, imprimir
 
 def EscolherConsumivel(jogador):
     """
@@ -69,21 +68,21 @@ def ValidaUsoConsumivel(jogador, item):
     if jogador.hp == jogador.maxHp and (item.nome == "Poção Pequena de Cura" or \
         item.nome == "Poção Pequena de Regeneração" or item.nome == "Erva Curativa" or \
         item.nome == "Mel de Abelhóide"):
-        print('Seu ' + Fore.RED + 'HP' + Style.RESET_ALL + ' já está maximizado.\n')
+        print(f"Seu {imprimir.RetornarColorido('HP')} já está maximizado.\n")
         valido = False
     
     # Poções de Mana com a mana cheia
     elif jogador.mana == jogador.maxMana and item.nome == "Poção Pequena de Mana":
-        print('Sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + ' já está maximizada.\n')
+        print(f"Sua {imprimir.RetornarColorido('Mana')} já está maximizada.\n")
         valido = False
     
     # Antídoto sem estar envenenado
     elif jogador.EfeitoPresente("Veneno") is None and item.nome == "Antídoto":
 
         if jogador.genero == "M":
-            print('Você não está ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.\n')
+            print(f"Você não está {imprimir.RetornarColorido('envenenado')}.\n")
         elif jogador.genero == "F":
-            print('Você não está ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.\n')
+            print(f"Você não está {imprimir.RetornarColorido('envenenada')}.\n")
 
         valido = False
     

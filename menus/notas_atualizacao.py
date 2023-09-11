@@ -212,7 +212,7 @@ class NotasAtualizacao():
         self.positivo('Jogadores podem ver os detalhes de um item ou habilidade ao analisá-los fora de batalha.')
         self.positivo('Ao carregar um jogo, as datas dos jogos salvos são mostradas.')
         self.positivo('Ao derrotar o chefão da primeira área, o tempo em que o jogador finalizou o jogo é mostrado.')
-        self.positivo(f"Os tipos {imprimir.RetornarTipo('Elétrico')} e {imprimir.RetornarTipo('Gelo')} foram adicionados, " +
+        self.positivo(f"Os tipos {imprimir.RetornarColorido('Elétrico')} e {imprimir.RetornarColorido('Gelo')} foram adicionados, " +
             "e a efetividade dos tipos no cálculo de dano foi refeita.")
 
         print('\nFabricação')
@@ -225,7 +225,7 @@ class NotasAtualizacao():
 
         print('\nHabilidades')
         self.positivo("A chance de envenenar um alvo ao atacar pela habilidade 'Envenenamento' será aplicada a todas as habilidades.")
-        self.neutro(f"'Disparo Elétrico' agora é uma habilidade do tipo {imprimir.RetornarTipo('Elétrico')}.")
+        self.neutro(f"'Disparo Elétrico' agora é uma habilidade do tipo {imprimir.RetornarColorido('Elétrico')}.")
 
         print('\nItens')
         self.positivo('Amuleto de Esmeralda adicionado.')
@@ -264,4 +264,3 @@ class NotasAtualizacao():
         Imprime um '*' amarelo e uma string em branco, ambos com fundo preto.
         """
         print(f"{cor.colorir('*', frente='amarelo', frente_claro=True)} {string}")
-

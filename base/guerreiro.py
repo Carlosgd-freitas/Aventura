@@ -1,7 +1,6 @@
 import sys
-from colorama import Fore, Back, Style
 
-from . import jogador
+from . import jogador, cor
 
 sys.path.append("..")
 from habilidades import ativas_alvo_unico
@@ -124,7 +123,7 @@ def SubirNivelGuerreiro(jogador):
             impacto = ativas_alvo_unico.ImpactoAtordoante(1, 100, "Normal", 4, 3)
             jogador.habilidades.append(impacto)
 
-            print('Nova habilidade: ' + Style.BRIGHT + 'Impacto Atordoante' + Style.RESET_ALL + '.')
+            print(f"Nova habilidade: {cor.colorir('Impacto Atordoante', frente_claro=True)}.")
         
         if jogador.nivel == 4:
             habilidade =  jogador.HabilidadePresente("Impacto Atordoante")

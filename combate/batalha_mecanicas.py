@@ -1,7 +1,6 @@
 import sys
 import math
 from copy import deepcopy
-from colorama import Fore, Back, Style
 
 from . import invocar_criaturas, batalha_chefao
 
@@ -47,7 +46,7 @@ def InicioTurno(criatura, verbose = True):
             debuff = criatura.EfeitoPresente("Veneno")
             valor = debuff.valor
             criatura.hp -= valor
-            print(f'{criatura.nome} sofreu {valor} de dano do ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + '!')
+            print(f"{criatura.nome} sofreu {valor} de dano do {imprimir.RetornarColorido('envenenamento')}!")
         
         elif criatura.EfeitoPresente("Atordoamento") is not None:
             debuff = criatura.EfeitoPresente("Atordoamento")
@@ -177,19 +176,18 @@ def DecairBuffsDebuffs(criatura, nao_decair = [], verbose = 1, terminar = False)
 
                         if criatura.hp > criatura.maxHp:
                             criatura.hp = criatura.maxHp
-                            print(f'O ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {criatura.nome} foi maximizado' +
-                                ' pelo restante do efeito de regeneração.')
+                            print(f"O {imprimir.RetornarColorido('HP')} de {criatura.nome} foi maximizado" +
+                                " pelo restante do efeito de regeneração.")
                         else:
-                            print(f'{criatura.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + 
-                                ' pelo restante do efeito de regeneração.')
+                            print(f"{criatura.nome} recuperou {valor} de {imprimir.RetornarColorido('HP')}" + 
+                                " pelo restante do efeito de regeneração.")
 
                         if verbose == 1:
-                            print('A regeneração de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {criatura.nome} terminou.')
+                            print(f"A regeneração de {imprimir.RetornarColorido('HP')} de {criatura.nome} terminou.")
         
                 # Resistência a Veneno
                 elif buff.nome == "Resistência Veneno" and verbose == 1:
-                    print(f'{criatura.nome} não possui mais resistência a ' + Fore.GREEN + 'Veneno' +
-                        Style.RESET_ALL + '.')
+                    print(f"{criatura.nome} não possui mais resistência a {imprimir.RetornarColorido('Veneno')}.")
 
     # Removendo Buffs expirados
     indice = 0
@@ -216,15 +214,15 @@ def DecairBuffsDebuffs(criatura, nao_decair = [], verbose = 1, terminar = False)
                 if verbose == 1:
                     if criatura.singular_plural == "singular":
                         if criatura.genero == "M":
-                            print(f'{criatura.nome} não está mais atordoado.')
+                            print(f"{criatura.nome} não está mais {imprimir.RetornarColorido('atordoado')}.")
                         elif criatura.genero == "F":
-                            print(f'{criatura.nome} não está mais atordoada.')
+                            print(f"{criatura.nome} não está mais {imprimir.RetornarColorido('atordoada')}.")
 
                     elif criatura.singular_plural == "plural":
                         if criatura.genero == "M":
-                            print(f'{criatura.nome} não estão mais atordoados.')
+                            print(f"{criatura.nome} não estão mais {imprimir.RetornarColorido('atordoados')}.")
                         elif criatura.genero == "F":
-                            print(f'{criatura.nome} não estão mais atordoadas.')
+                            print(f"{criatura.nome} não estão mais {imprimir.RetornarColorido('atordoadas')}.")
 
             # Demais debuffs
             elif debuff.duracao <= 0 and criatura.hp > 0:
@@ -234,21 +232,21 @@ def DecairBuffsDebuffs(criatura, nao_decair = [], verbose = 1, terminar = False)
                 if debuff.nome == "Veneno" and verbose == 1:
                     if criatura.singular_plural == "singular":
                         if criatura.genero == "M":
-                            print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenado' + Style.RESET_ALL + '.')
+                            print(f"{criatura.nome} não está mais {imprimir.RetornarColorido('envenenado')}.")
                         elif criatura.genero == "F":
-                            print(f'{criatura.nome} não está mais ' + Fore.GREEN + 'envenenada' + Style.RESET_ALL + '.')
+                            print(f"{criatura.nome} não está mais {imprimir.RetornarColorido('envenenada')}.")
 
                     elif criatura.singular_plural == "plural":
                         if criatura.genero == "M":
-                            print(f'{criatura.nome} não estão mais ' + Fore.GREEN + 'envenenados' + Style.RESET_ALL + '.')
+                            print(f"{criatura.nome} não estão mais {imprimir.RetornarColorido('envenenados')}.")
                         elif criatura.genero == "F":
-                            print(f'{criatura.nome} não estão mais ' + Fore.GREEN + 'envenenadas' + Style.RESET_ALL + '.')
+                            print(f"{criatura.nome} não estão mais {imprimir.RetornarColorido('envenenadas')}.")
             
                 # Lentidão
                 elif debuff.nome == "Lentidão":
                     criatura.velocidade += debuff.valor
                     if verbose == 1:
-                        print(f'{criatura.nome} não está mais sob o efeito de Lentidão.')
+                        print(f"{criatura.nome} não está mais sob o efeito de {imprimir.RetornarColorido('Lentidão')}.")
 
                 # Diminuição de atributo: Ataque, Defesa, Magia, Velocidade, Chance de Crítico
                 elif debuff.nome == "Diminuição Ataque":

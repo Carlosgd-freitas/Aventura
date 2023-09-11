@@ -50,9 +50,9 @@ Para compilar e executar o código, siga os passos descritos a seguir:
 
 1. Instale o Python 3, cujo download, processo de instalação e demais informações podem ser vistas em https://www.python.org.
 2. Instale um gerenciador de pacotes, como o pip, cujas informações podem ser vistas em https://pypi.org/project/pip/.
-3. Instale o pacote ```tabulate```: ```pip install tabulate```.
-4. Instale o pacote ```unidecode```: ```pip install unidecode```.
-5. Execute o comando ```python main.py``` (ou ```python3 main.py```).
+3. Instale os pacotes necessários através do arquivo de requerimentos: ```pip install -r requirements.txt```.
+    - Alternativamente, certifique-se de que os pacotes `colorama`, `tabulate` e `Unidecode` já estejam instalados em sua máquina.
+4. Execute o comando ```python main.py``` (ou ```python3 main.py```).
 
 **Obs.:** Caso você não modifique o código do jogo, não renomeie as pastas ou os arquivos para que o código compile e o jogo execute corretamente.
 

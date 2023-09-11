@@ -1,9 +1,8 @@
 import sys
 import math
-from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from base import utils
+from base import utils, imprimir
 from combate import batalha
 
 def EventoDescanso(jogador, area):
@@ -55,11 +54,11 @@ def EventoDescanso(jogador, area):
             if math.floor(jogador.maxHp * 0.25) > valor:
                 valor = math.floor(jogador.maxHp * 0.25)
             jogador.hp += valor
-            mensagem = f'Você recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+            mensagem = f"Você recuperou {valor} de {imprimir.RetornarColorido('HP')}."
 
             if jogador.hp >= jogador.maxHp:
                 jogador.hp = jogador.maxHp
-                mensagem = f'Você maximizou seu ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+                mensagem = f"Você maximizou seu {imprimir.RetornarColorido('HP')}."
             print(mensagem)
 
             # Recuperar 5 de mana ou 25% da mana máxima, o que for maior
@@ -67,11 +66,11 @@ def EventoDescanso(jogador, area):
             if math.floor(jogador.maxMana) * 0.25 > valor:
                 valor = math.floor(jogador.maxMana * 0.25)
             jogador.mana += valor
-            mensagem = f'Você recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+            mensagem = f"Você recuperou {valor} de {imprimir.RetornarColorido('Mana')}."
 
             if jogador.mana >= jogador.maxMana:
                 jogador.mana = jogador.maxMana
-                mensagem = f'Você maximizou sua ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+                mensagem = f"Você maximizou sua {imprimir.RetornarColorido('Mana')}."
             print(mensagem)
 
             # Emboscada

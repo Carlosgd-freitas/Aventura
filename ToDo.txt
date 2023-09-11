@@ -2,16 +2,13 @@
 
 [Próximo Patch]
 	* Usar o RetornarCriatura() em habilidades de invocação
-		* Refatora o efeito de Invocação, usar um parâmetro adicional invocacao={} no lugar de uma string separada por :
+		- Refatora o efeito de Invocação, usar um parâmetro adicional invocacao={} no lugar de uma string separada por :
+		- imprimir.py também será alterado
 
 	* Jogador tem a ação de passar o turno dentro de batalhas
 
-	* Utilizar base.cor em vez de colorama
-
 	* Refazer o sistema de sufixos
 		- Quando a lista de criaturas é alterada (invocação, criatura derrotada...), checar o sufixo dos nomes das criaturas
-	
-	* Integrar RetornarTipo() em RetornarStringColorida() e renomear tudo para Colorir()
 
 [Bestiário]
   	* novo diretório /sistemas
@@ -49,9 +46,6 @@
     * Stack de aumento de chance de crítico precisa ser arredondado pra duas casas decimais
     * Efeitos de aumento e diminuição de um mesmo atributo devem se sobrepor
     * Equipamentos e efeitos devem possuir um campo de conceder buffs/debuffs -> EquipamentosGanhos e EquipamentosPerdas
-    * Efeitos de resistência: cálculo caso as chances de debuff e/ou buff sejam mais de 100%
-		- chance_debuff = chance_debuff - chance_resistencia (>= 0)
-	* Efeitos de resistência a buffs/debuffs (veneno, atordoamento, lentidão...)
 
 [Miscelâneo]
 	* Multiplicar todos os atributos por 10 (itens, criaturas, jogador) e re-balancear

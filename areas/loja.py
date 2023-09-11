@@ -99,7 +99,7 @@ def LojaMenu(jogador, loja_itens, venda_compra):
                 print('\n+-----> SEU INVENTÁRIO <-----+')
 
             # Ouro do jogador
-            print(f"{imprimir.RetornarStringColorida('Ouro')}: {jogador.ouro}")
+            print(f"{imprimir.RetornarColorido('Ouro')}: {jogador.ouro}")
 
             # Listando os itens que o jogador pode comprar/vender
             disponivel = menu_paginado_generico.ComporPagina(vendedor, item_indice_atual, itens_por_pagina)
@@ -280,7 +280,7 @@ def Loja(loja_nome, jogador, loja_itens, receitas_fabricacao = []):
         # Imprimindo o menu principal da loja
         if retorno == 1:
             print(f'\n+-----> {loja_nome} <-----+')
-            print(f"{imprimir.RetornarStringColorida('Ouro')}: {jogador.ouro}")
+            print(f"{imprimir.RetornarColorido('Ouro')}: {jogador.ouro}")
             print('[1] Comprar Itens')
             print('[2] Vender Itens')
 

@@ -178,11 +178,11 @@ class Jogador(criatura.Criatura):
 
         # Linha 2: HP + Mana + Ouro
         l2 = []
-        l2.append(imprimir.RetornarStringColorida("HP"))
+        l2.append(imprimir.RetornarColorido("HP"))
         l2.append(f'{self.hp}/{self.maxHp}')
-        l2.append(imprimir.RetornarStringColorida("Mana"))
+        l2.append(imprimir.RetornarColorido("Mana"))
         l2.append(f'{self.mana}/{self.maxMana}')
-        l2.append(imprimir.RetornarStringColorida("Ouro"))
+        l2.append(imprimir.RetornarColorido("Ouro"))
         l2.append(self.ouro)
         tabela.append(l2)
         
@@ -257,7 +257,7 @@ class Jogador(criatura.Criatura):
                 self.experiencia -= exp_necessaria
                 self.nivel += 1
 
-                print(f"\nVocê subiu para o {imprimir.RetornarStringColorida('Nível')} " +
+                print(f"\nVocê subiu para o {imprimir.RetornarColorido('Nível')} " +
                     f"{cor.colorir(self.nivel, frente_claro=True)}!")
                 atributos_antes = self.AtributosBasicos()
 

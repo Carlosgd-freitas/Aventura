@@ -1,6 +1,5 @@
 import pickle
-from colorama import Fore, Back, Style
-from . import imprimir
+from . import imprimir, cor
 
 class Configuracao():
     """
@@ -87,9 +86,9 @@ def ImprimirConfiguracaoLigadoDesligado(conf):
     """
 
     if conf == True:
-        print(Fore.GREEN + 'LIGADO' + Style.RESET_ALL)
+        print(cor.colorir('LIGADO', frente='verde'))
     else:
-        print(Fore.RED + 'DESLIGADO' + Style.RESET_ALL)
+        print(cor.colorir('DESLIGADO', frente='vermelho'))
 
 def ImprimirConfiguracaoValor(conf):
     """
@@ -100,10 +99,7 @@ def ImprimirConfiguracaoValor(conf):
     - conf: uma configuração.
     """
 
-    if isinstance(conf, str):
-        print(Style.BRIGHT + Fore.WHITE + Back.BLACK + conf + Style.RESET_ALL)
-    else:
-        print(Style.BRIGHT + Fore.WHITE + Back.BLACK + str(conf) + Style.RESET_ALL)
+    print(cor.colorir(conf, frente='branco', frente_claro=True))
 
 def DefinirConfiguracaoValor(conf, c):
     """

@@ -1,7 +1,6 @@
 import math
-from . import utils
+from . import imprimir, utils
 from copy import deepcopy
-from colorama import Fore, Back, Style
 
 class Efeito():
     """
@@ -64,13 +63,26 @@ class Efeito():
         - append: se igual a False, o efeito sendo processado não será adicionado a lista de buffs/debuffs da
         criatura. O valor padrão é True.
         """
+            
+        # Se o efeito possui uma % de acontecer
+        if isinstance(self.chance, int) or isinstance(self.chance, float):
+            chance_efeito = self.chance
+            chance_resistencia = 0
 
-        # Alguns efeitos terão sua chance calculada posteriormente
-        if self.nome == "Veneno":
-            pass
-        # Se o efeito veio de uma habilidade e possui uma % de acontecer
-        elif (habilidade is not None) and (not utils.CalcularChance(self.chance / 100)):
-            return
+            # Chance de resistir à aplicação do efeito
+            e = alvo.EfeitoPresente(f'Resistência {self.nome}')
+            if e is not None:
+                chance_resistencia += e.valor
+            
+            # Normalizando as chances
+            chance_efeito /= 100
+            chance_resistencia /= 100
+
+            # Calculando a chance do efeito ser aplicado
+            chance = chance_efeito * (1 - chance_resistencia)
+
+            if not utils.CalcularChance(chance):
+                return
 
         # Flags para efeitos de item
         sobrecura_hp = 0
@@ -109,16 +121,16 @@ class Efeito():
 
                 if utils.CalcularChance(chance_critico / 100):
                     valor = math.ceil(valor * multiplicador_critico)
-                    print(Fore.GREEN + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+                    print(imprimir.RetornarColorido('CRÍTICO! '), end = '')
 
             alvo.hp += valor
 
             # Buff foi causado através de um item
             if item is not None:
-                mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
+                mensagem = f"{artigo} {item.nome} recuperou {valor} de {imprimir.RetornarColorido('HP')} de {alvo.nome}."
             # Buff foi causado através de uma habilidade ou outra fonte
             else:
-                mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+                mensagem = f"{alvo.nome} recuperou {valor} de {imprimir.RetornarColorido('HP')}."
 
             sobrecura_hp = 1
 
@@ -147,16 +159,16 @@ class Efeito():
 
                 if utils.CalcularChance(chance_critico / 100):
                     valor = math.ceil(valor * multiplicador_critico)
-                    print(Fore.GREEN + 'CRÍTICO!' + Style.RESET_ALL + ' ', end = '')
+                    print(imprimir.RetornarColorido('CRÍTICO! '), end = '')
 
             alvo.mana += valor
 
             # Buff foi causado através de um item
             if item is not None:
-                mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
+                mensagem = f"{artigo} {item.nome} recuperou {valor} de {imprimir.RetornarColorido('Mana')} de {alvo.nome}."
             # Buff foi causado através de uma habilidade ou outra fonte
             else:
-                mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + '.'
+                mensagem = f"{alvo.nome} recuperou {valor} de {imprimir.RetornarColorido('Mana')}."
 
             sobrecura_mana = 1
 
@@ -177,10 +189,10 @@ class Efeito():
 
             # Buff foi causado através de um item
             if item is not None:
-                mensagem = f'{artigo} {item.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
+                mensagem = f"{artigo} {item.nome} recuperou {valor} de {imprimir.RetornarColorido('HP')} de {alvo.nome}."
             # Buff foi causado através de uma habilidade ou outra fonte
             else:
-                mensagem = f'{alvo.nome} recuperou {valor} de ' + Fore.RED + 'HP' + Style.RESET_ALL + '.'
+                mensagem = f"{alvo.nome} recuperou {valor} de {imprimir.RetornarColorido('HP')}."
 
             if not fora_combate:
                 regen = deepcopy(self)
@@ -278,27 +290,27 @@ class Efeito():
 
                 # Buff foi causado através de um item
                 if item is not None:
-                    mensagem = f'{artigo} {item.nome} curou o ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + f' de {alvo.nome}.'
+                    mensagem = f"{artigo} {item.nome} curou o {imprimir.RetornarColorido('envenenamento')} de {alvo.nome}."
                 # Buff foi causado através de uma habilidade ou outra fonte
                 else:
-                    mensagem = f'O ' + Fore.GREEN + 'envenenamento' + Style.RESET_ALL + f' de {alvo.nome} foi curado.'
+                    mensagem = f"O {imprimir.RetornarColorido('envenenamento')} de {alvo.nome} foi curado."
 
         # Caso o HP ou Mana estrapole o valor máximo
         if sobrecura_hp == 1 and alvo.hp >= alvo.maxHp:
             alvo.hp = alvo.maxHp
 
             if item is not None:
-                mensagem = f'{artigo} {item.nome} maximizou o ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome}.'
+                mensagem = f"{artigo} {item.nome} maximizou o {imprimir.RetornarColorido('HP')} de {alvo.nome}."
             elif habilidade is not None:
-                mensagem = f'O ' + Fore.RED + 'HP' + Style.RESET_ALL + f' de {alvo.nome} foi maximizado.'
+                mensagem = f"O {imprimir.RetornarColorido('HP')} de {alvo.nome} foi maximizado."
 
         if sobrecura_mana == 1 and alvo.mana >= alvo.maxMana:
             alvo.mana = alvo.maxMana
 
             if item is not None:
-                mensagem = f'{artigo} {item.nome} maximizou a ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome}.'
+                mensagem = f"{artigo} {item.nome} maximizou a {imprimir.RetornarColorido('Mana')} de {alvo.nome}."
             elif habilidade is not None:
-                mensagem = f'A ' + Fore.BLUE + 'Mana' + Style.RESET_ALL + f' de {alvo.nome} foi maximizada.'
+                mensagem = f"A {imprimir.RetornarColorido('Mana')} de {alvo.nome} foi maximizada."
 
         if mensagem is not None:
             print(mensagem)
@@ -322,32 +334,17 @@ class Efeito():
                 print(f'{habilidade.nome} infligiu {dano} de dano em {alvo.nome}.')
 
         elif self.nome == "Veneno":
-
-            chance_veneno = self.chance
-            chance_resistencia = 0
-
-            # Calculando a chance de resistir ao veneno
-            buff = alvo.EfeitoPresente('Resistência Veneno')
-            if buff is not None:
-                chance_resistencia += buff.valor
-            
-            if chance_resistencia > 1:
-                chance_resistencia = 1
-
-            chance = chance_veneno * (1 - chance_resistencia)
-
-            if utils.CalcularChance(chance):
-                veneno = deepcopy(self)
-                if append:
-                    alvo.debuffs.append(veneno)
-                print(f'{usuario.nome} ' + Fore.GREEN + 'envenenou' + Style.RESET_ALL + f' {alvo.nome}!')
-                alvo.CombinarEfeito("Veneno")
+            veneno = deepcopy(self)
+            if append:
+                alvo.debuffs.append(veneno)
+            print(f"{usuario.nome} {imprimir.RetornarColorido('envenenou')} {alvo.nome}!")
+            alvo.CombinarEfeito("Veneno")
         
         elif self.nome == "Atordoamento":
             atordoamento = deepcopy(self)
             if append:
                 alvo.debuffs.append(atordoamento)
-            print(f'{usuario.nome} atordoou {alvo.nome}!')
+            print(f"{usuario.nome} {imprimir.RetornarColorido('atordoou')} {alvo.nome}!")
             alvo.CombinarEfeito("Atordoamento")
         
         elif self.nome == "Lentidão":
@@ -364,27 +361,27 @@ class Efeito():
             if item is not None:
                 if debuff_ja_presente is None:
                     if lentidao.duracao > 1:
-                        print(f'{artigo} {item.nome} infligiu Lentidão em {alvo.nome} por {self.duracao} turnos.')
+                        print(f"{artigo} {item.nome} infligiu {imprimir.RetornarColorido('Lentidão')} em {alvo.nome} por {self.duracao} turnos.")
                     else:
-                        print(f'{artigo} {item.nome} infligiu Lentidão em {alvo.nome} por {self.duracao} turno.')
+                        print(f"{artigo} {item.nome} infligiu {imprimir.RetornarColorido('Lentidão')} em {alvo.nome} por {self.duracao} turno.")
                 else:
                     if lentidao.duracao > 1:
-                        print(f'{artigo} {item.nome} infligiu Lentidão em {alvo.nome} por mais {self.duracao} turnos.')
+                        print(f"{artigo} {item.nome} infligiu {imprimir.RetornarColorido('Lentidão')} em {alvo.nome} por mais {self.duracao} turnos.")
                     else:
-                        print(f'{artigo} {item.nome} infligiu Lentidão em {alvo.nome} por mais {self.duracao} turno.')
+                        print(f"{artigo} {item.nome} infligiu {imprimir.RetornarColorido('Lentidão')} em {alvo.nome} por mais {self.duracao} turno.")
             
             # Debuff foi causado através de uma habilidade
             elif habilidade is not None:
                 if debuff_ja_presente is None:
                     if lentidao.duracao > 1:
-                        print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por {lentidao.duracao} turnos.')
+                        print(f"{usuario.nome} infligiu {imprimir.RetornarColorido('Lentidão')} em {alvo.nome} por {lentidao.duracao} turnos.")
                     else:
-                        print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por {lentidao.duracao} turno.')
+                        print(f"{usuario.nome} infligiu {imprimir.RetornarColorido('Lentidão')} em {alvo.nome} por {lentidao.duracao} turno.")
                 else:
                     if lentidao.duracao > 1:
-                        print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por mais {lentidao.duracao} turnos.')
+                        print(f"{usuario.nome} infligiu {imprimir.RetornarColorido('Lentidão')} em {alvo.nome} por mais {lentidao.duracao} turnos.")
                     else:
-                        print(f'{usuario.nome} infligiu Lentidão em {alvo.nome} por mais {lentidao.duracao} turno.')
+                        print(f"{usuario.nome} infligiu {imprimir.RetornarColorido('Lentidão')} em {alvo.nome} por mais {lentidao.duracao} turno.")
 
             alvo.CombinarEfeito("Lentidão")
 

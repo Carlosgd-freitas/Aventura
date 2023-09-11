@@ -37,45 +37,11 @@ def ImprimirLocal(nome):
 
     print('==')
 
-def RetornarTipo(tipo):
-    """
-    Recebe um texto referente a um tipo como parâmetro e o retorna colorido.
-    * Normal    -> Branco
-    * Fogo      -> Vermelho
-    * Terrestre -> Verde
-    * Água      -> Azul
-    * Vento     -> Azul Claro
-    * Elétrico  -> Amarelo
-    * Gelo      -> Ciano
-    * Trevas    -> Roxo
-    * Luz       -> Rosa
-    """
-    tipo_normalizado = unidecode(tipo).lower()
-
-    if tipo_normalizado == "normal":
-        return colorir(tipo, frente="branco", frente_claro=True)
-    elif tipo_normalizado == "fogo":
-        return colorir(tipo, frente="vermelho", frente_claro=True)
-    elif tipo_normalizado == "terrestre":
-        return colorir(tipo, frente="verde", frente_claro=True)
-    elif tipo_normalizado == "agua":
-        return colorir(tipo, frente="azul", frente_claro=True)
-    elif tipo_normalizado == "vento":
-        return colorir(tipo, frente="azul claro", frente_claro=True)
-    elif tipo_normalizado == "eletrico":
-        return colorir(tipo, frente="amarelo", frente_claro=True)
-    elif tipo_normalizado == "gelo":
-        return colorir(tipo, frente="ciano", frente_claro=True)
-    elif tipo_normalizado == "trevas":
-        return colorir(tipo, frente="roxo", frente_claro=True)
-    elif tipo_normalizado == "luz":
-        return colorir(tipo, frente="rosa", frente_claro=True)
-
-def RetornarStringColorida(string):
+def RetornarColorido(string):
     """
     Recebe uma string e a retorna colorida.
     """
-    string_normalizada = unidecode(string).lower()
+    string_normalizada = unidecode(string).lower().strip()
 
     if string_normalizada == "hp":
         return colorir(string, frente="vermelho", frente_claro=True)
@@ -85,22 +51,49 @@ def RetornarStringColorida(string):
     elif string_normalizada == "ouro" or string_normalizada == "preco":
         return colorir(string, frente="dourado", frente_claro=True)
     
-    elif  string_normalizada == "+" or string_normalizada == ">>":
+    elif string_normalizada == "+" or string_normalizada == ">>":
         return colorir(string, frente="verde", frente_claro=True)
-    elif  string_normalizada == "-" or string_normalizada == "<<":
+    elif string_normalizada == "-" or string_normalizada == "<<":
         return colorir(string, frente="vermelho", frente_claro=True)
     
-    elif string_normalizada in ["veneno", "envenenar", "envenenado", "envenenada", "envenenamento"]:
-        return colorir(string, frente="oliva", frente_claro=True)
-    elif string_normalizada in ["lentidao", "atordoar", "atordoamento"]:
+    elif string_normalizada == "normal":
         return colorir(string, frente="branco", frente_claro=True)
+    elif string_normalizada == "fogo":
+        return colorir(string, frente="vermelho", frente_claro=True)
+    elif string_normalizada == "terrestre":
+        return colorir(string, frente="verde", frente_claro=True)
+    elif string_normalizada == "agua":
+        return colorir(string, frente="azul", frente_claro=True)
+    elif string_normalizada == "vento":
+        return colorir(string, frente="azul claro", frente_claro=True)
+    elif string_normalizada == "eletrico":
+        return colorir(string, frente="amarelo", frente_claro=True)
+    elif string_normalizada == "gelo":
+        return colorir(string, frente="ciano", frente_claro=True)
+    elif string_normalizada == "trevas":
+        return colorir(string, frente="roxo", frente_claro=True)
+    elif string_normalizada == "luz":
+        return colorir(string, frente="rosa", frente_claro=True)
     
-    elif string_normalizada == "defendendo":
+    elif string_normalizada in ["veneno", "envenenar", "envenenado", "envenenados", "envenenada", "envenenadas",
+        "envenenamento", "envenenou"]:
+        return colorir(string, frente="oliva", frente_claro=True)
+    elif string_normalizada in ["lentidao"]:
+        return colorir(string, frente="branco", frente_claro=True)
+    elif string_normalizada in ["atordoamento", "atordoar", "atordoado", "atordoados", "atordoada", "atordoadas",
+        "atordoou"]:
+        return colorir(string, frente="branco", frente_claro=True)
+    elif string_normalizada in ["defendendo", "defendeu"]:
         return colorir(string, frente="branco", frente_claro=True)
     
     elif string_normalizada in ["ataque", "atq", "defesa", "def", "magia", "mag", "velocidade", "vel",
         "chance de acerto critico", "crit%", "multiplicador de dano critico", "crit", "nivel"]:
         return colorir(string, frente="branco", frente_claro=True)
+
+    elif string_normalizada in ["critico!"]:
+        return colorir(string, frente='laranja queimado', frente_claro=True)
+
+    return string
 
 def FormatarTempo(tempo):
     """
@@ -128,7 +121,7 @@ def RetornarTabelaItens(itens, jogador, indice = -1):
     diferente de -1, [<indice>] será acrescentado antes do nome de cada item e incrementado em 1.
     """
     tabela = []
-    cabecalho = ["Nome", "Quantidade", RetornarStringColorida("Preço"), "Classe", "Nível", "Tipo", "Alvo"]
+    cabecalho = ["Nome", "Quantidade", RetornarColorido("Preço"), "Classe", "Nível", "Tipo", "Alvo"]
     alinhamento = ("left", "center", "center", "center", "center", "center", "center")
         
     for item in itens:
@@ -153,7 +146,7 @@ def RetornarTabelaItens(itens, jogador, indice = -1):
                 t.append("---")
             # Tipo
             if item.tipo != "default":
-                t.append(RetornarTipo(item.tipo))
+                t.append(RetornarColorido(item.tipo))
             else:
                 t.append("---")
             # Alvo
@@ -212,10 +205,7 @@ def RetornarTabelaHabilidades(habilidades, indice = -1):
             for i, c in enumerate(habilidade.custo):
                 if (i != 0) and (i < len(habilidade.custo) - 1):
                     custo += ', '
-                if c[0] == "Mana":
-                    custo += str(c[1]) + " " + RetornarStringColorida(c[0])
-                elif c[0] == "HP":
-                    custo += str(c[1]) + " " + RetornarStringColorida(c[0])
+                custo += str(c[1]) + " " + RetornarColorido(c[0])
         else:
             custo += '---'
         t.append(custo)
@@ -226,9 +216,9 @@ def RetornarTabelaHabilidades(habilidades, indice = -1):
         else:
             recarga += f'{habilidade.recarga} Turnos'
         t.append(recarga)
-        t.append(RetornarTipo(habilidade.tipo)) # Tipo
-        t.append(habilidade.passiva_ativa)      # Passiva/Ativa
-        t.append(habilidade.alvo)               # Alvo
+        t.append(RetornarColorido(habilidade.tipo)) # Tipo
+        t.append(habilidade.passiva_ativa)          # Passiva/Ativa
+        t.append(habilidade.alvo)                   # Alvo
         tabela.append(t)
 
         indice += 1
@@ -244,7 +234,7 @@ def RetornarTabelaReceitas(receitas, jogador, incluir_preco = True, indice = -1)
     tabela = []
 
     if incluir_preco:
-        cabecalho = ["Nome", "Nível", RetornarStringColorida("Preço")]
+        cabecalho = ["Nome", "Nível", RetornarColorido("Preço")]
         alinhamento = ("left", "center", "center")
     else:
         cabecalho = ["Nome", "Nível"]
@@ -321,81 +311,81 @@ def ImprimirEfeitoDetalhado(efeito):
 
     # Efeitos de Cura de HP
     if efeito.nome == "Cura HP":
-        print(f'Cura {efeito.valor} de {RetornarStringColorida("HP")}.')
+        print(f'Cura {efeito.valor} de {RetornarColorido("HP")}.')
     elif efeito.nome == "Cura HP %":
-        print(f'Cura {efeito.valor}% do {RetornarStringColorida("HP")} máximo.')
+        print(f'Cura {efeito.valor}% do {RetornarColorido("HP")} máximo.')
     elif efeito.nome == "Cura HP % ou valor":
-        print(f'Cura {efeito.valor[0]}% do {RetornarStringColorida("HP")} máximo, ou ' +
-            f'{efeito.valor[1]} de {RetornarStringColorida("HP")} o que for maior.')
+        print(f'Cura {efeito.valor[0]}% do {RetornarColorido("HP")} máximo, ou ' +
+            f'{efeito.valor[1]} de {RetornarColorido("HP")} o que for maior.')
     
     # Efeitos de Cura de Mana
     elif efeito.nome == "Cura Mana":
-        print(f'Cura {efeito.valor} de {RetornarStringColorida("Mana")}.')
+        print(f'Cura {efeito.valor} de {RetornarColorido("Mana")}.')
     elif efeito.nome == "Cura Mana %":
-        print(f'Cura {efeito.valor}% + da {RetornarStringColorida("Mana")} máxima.')
+        print(f'Cura {efeito.valor}% + da {RetornarColorido("Mana")} máxima.')
     elif efeito.nome == "Cura Mana % ou valor":
-        print(f'Cura {efeito.valor[0]}% da {RetornarStringColorida("Mana")} máxima, ou ' +
-            f'{efeito.valor[1]} de {RetornarStringColorida("Mana")}, o que for maior.')
+        print(f'Cura {efeito.valor[0]}% da {RetornarColorido("Mana")} máxima, ou ' +
+            f'{efeito.valor[1]} de {RetornarColorido("Mana")}, o que for maior.')
     
     # Efeitos de Regeneração de HP
     elif efeito.nome == "Regeneração HP":
-        print(f'Cura {efeito.valor} de {RetornarStringColorida("HP")} ao longo de {mensagem_duracao}.')
+        print(f'Cura {efeito.valor} de {RetornarColorido("HP")} ao longo de {mensagem_duracao}.')
     elif efeito.nome == "Regeneração HP %":
-        print(f'Cura {efeito.valor}% do {RetornarStringColorida("HP")} máximo ao longo de {mensagem_duracao}.')
+        print(f'Cura {efeito.valor}% do {RetornarColorido("HP")} máximo ao longo de {mensagem_duracao}.')
     
     # Efeitos de Aumento de Atributo
     elif efeito.nome == "Aumento Ataque":
-        print(f'Aumenta o {RetornarStringColorida("ATAQUE")} em {efeito.valor} por {mensagem_duracao}.')
+        print(f'Aumenta o {RetornarColorido("ATAQUE")} em {efeito.valor} por {mensagem_duracao}.')
     elif efeito.nome == "Aumento Defesa":
-        print(f'Aumenta a {RetornarStringColorida("DEFESA")} em {efeito.valor} por {mensagem_duracao}.')
+        print(f'Aumenta a {RetornarColorido("DEFESA")} em {efeito.valor} por {mensagem_duracao}.')
     elif efeito.nome == "Aumento Magia":
-        print(f'Aumenta a {RetornarStringColorida("MAGIA")} em {efeito.valor} por {mensagem_duracao}.')
+        print(f'Aumenta a {RetornarColorido("MAGIA")} em {efeito.valor} por {mensagem_duracao}.')
     elif efeito.nome == "Aumento Velocidade":
-        print(f'Aumenta a {RetornarStringColorida("VELOCIDADE")} em {efeito.valor} por {mensagem_duracao}.')
+        print(f'Aumenta a {RetornarColorido("VELOCIDADE")} em {efeito.valor} por {mensagem_duracao}.')
     elif efeito.nome == "Aumento Chance Crítico":
-        print(f'Aumenta a {RetornarStringColorida("Chance de Acerto Crítico")} em {efeito.valor}% por {mensagem_duracao}.')
+        print(f'Aumenta a {RetornarColorido("Chance de Acerto Crítico")} em {efeito.valor}% por {mensagem_duracao}.')
 
     # Efeitos de Buff
     elif efeito.nome == "Defendendo":
-        print(f'Concede o buff {RetornarStringColorida("Defendendo")}, reduzindo todo o dano recebido ' +
+        print(f'Concede o buff {RetornarColorido("Defendendo")}, reduzindo todo o dano recebido ' +
             'em {:.1f}% por '.format(efeito.valor) + f'{mensagem_duracao}.')
 
     # Efeitos de Debuff
     elif efeito.nome == "Dano":
         print(f'Causa {efeito.valor} de dano.')
     elif efeito.nome == "Veneno":
-        print(f'Causa o debuff {RetornarStringColorida("Veneno")}, causando {efeito.valor} de dano no ' +
+        print(f'Causa o debuff {RetornarColorido("Veneno")}, causando {efeito.valor} de dano no ' +
             f'início de cada turno, por {mensagem_duracao}.')
     elif efeito.nome == "Atordoamento":
-        print(f'Causa o debuff {RetornarStringColorida("Atordoamento")}, impedindo quaisquer ações de ' +
+        print(f'Causa o debuff {RetornarColorido("Atordoamento")}, impedindo quaisquer ações de ' +
             f'serem realizadas por {mensagem_duracao}.')
     elif efeito.nome == "Lentidão":
-        print(f'Causa o debuff {RetornarStringColorida("Lentidão")}, reduzindo a ' +
-            f'{RetornarStringColorida("VELOCIDADE")} para 0 por {mensagem_duracao}.')
+        print(f'Causa o debuff {RetornarColorido("Lentidão")}, reduzindo a ' +
+            f'{RetornarColorido("VELOCIDADE")} para 0 por {mensagem_duracao}.')
 
     # Efeitos de Resistência a Debuffs
     if efeito.nome == "Resistência Veneno":
-        print(f'{(efeito.valor * 100)}% de chance de não receber efeitos de {RetornarStringColorida("Veneno")}.')
+        print(f'{(efeito.valor * 100)}% de chance de não receber efeitos de {RetornarColorido("Veneno")}.')
 
     # Efeitos de Cura de Debuffs
     elif efeito.nome == "Cura Veneno":
-        print(f'Cura o debuff de {RetornarStringColorida("Veneno")}.')
+        print(f'Cura o debuff de {RetornarColorido("Veneno")}.')
 
     # Efeitos de Diminuição de Atributo
     elif efeito.nome == "Diminuição Ataque":
-        print(f'Diminui o {RetornarStringColorida("ATAQUE")} em {efeito.valor} por {mensagem_duracao}.')
+        print(f'Diminui o {RetornarColorido("ATAQUE")} em {efeito.valor} por {mensagem_duracao}.')
     elif efeito.nome == "Diminuição Defesa":
-        print(f'Diminui a {RetornarStringColorida("DEFESA")} em {efeito.valor} por {mensagem_duracao}.')
+        print(f'Diminui a {RetornarColorido("DEFESA")} em {efeito.valor} por {mensagem_duracao}.')
     elif efeito.nome == "Diminuição Magia":
-        print(f'Diminui a {RetornarStringColorida("MAGIA")} em {efeito.valor} por {mensagem_duracao}.')
+        print(f'Diminui a {RetornarColorido("MAGIA")} em {efeito.valor} por {mensagem_duracao}.')
     elif efeito.nome == "Diminuição Velocidade":
-        print(f'Diminui a {RetornarStringColorida("VELOCIDADE")} em {efeito.valor} por {mensagem_duracao}.')
+        print(f'Diminui a {RetornarColorido("VELOCIDADE")} em {efeito.valor} por {mensagem_duracao}.')
     elif efeito.nome == "Diminuição Chance Crítico":
-        print(f'Diminui a {RetornarStringColorida("Chance de Acerto Crítico")} em {efeito.valor}% por {mensagem_duracao}.')
+        print(f'Diminui a {RetornarColorido("Chance de Acerto Crítico")} em {efeito.valor}% por {mensagem_duracao}.')
     
     # Efeitos de Modificação de Ataque
     elif efeito.nome == "Perfurante %":
-        print('Ignora {:.1f}% da '.format(efeito.valor) + f'{RetornarStringColorida("DEFESA")} no cálculo de dano.')
+        print('Ignora {:.1f}% da '.format(efeito.valor) + f'{RetornarColorido("DEFESA")} no cálculo de dano.')
 
     # Efeitos Miscelâneos
     elif efeito.nome.startswith("Invocar:"):
@@ -433,26 +423,26 @@ def ImprimirEfeitoDetalhado(efeito):
 
         # Efeito a ser acionado quando uma criatura aliada é derrotada
         if efeito_acionado == "Aumento Ataque":
-            mensagem_vinganca = f'Aumenta o {RetornarStringColorida("ATAQUE")} em {efeito.valor}'
+            mensagem_vinganca = f'Aumenta o {RetornarColorido("ATAQUE")} em {efeito.valor}'
         elif efeito_acionado == "Aumento Defesa":
-            mensagem_vinganca = f'Aumenta a {RetornarStringColorida("DEFESA")} em {efeito.valor}'
+            mensagem_vinganca = f'Aumenta a {RetornarColorido("DEFESA")} em {efeito.valor}'
         elif efeito_acionado == "Aumento Magia":
-            mensagem_vinganca = f'Aumenta a {RetornarStringColorida("MAGIA")} em {efeito.valor}'
+            mensagem_vinganca = f'Aumenta a {RetornarColorido("MAGIA")} em {efeito.valor}'
         elif efeito_acionado == "Aumento Velocidade":
-            mensagem_vinganca = f'Aumenta a {RetornarStringColorida("VELOCIDADE")} em {efeito.valor}'
+            mensagem_vinganca = f'Aumenta a {RetornarColorido("VELOCIDADE")} em {efeito.valor}'
         elif efeito_acionado == "Aumento Chance Crítico":
-            mensagem_vinganca = f'Aumenta a {RetornarStringColorida("Chance de Acerto Crítico")} em ' + \
+            mensagem_vinganca = f'Aumenta a {RetornarColorido("Chance de Acerto Crítico")} em ' + \
                 '{:.1f}%'.format(efeito.valor)
         elif efeito_acionado == "Diminuição Ataque":
-            mensagem_vinganca = f'Diminui o {RetornarStringColorida("ATAQUE")} em {efeito.valor}'
+            mensagem_vinganca = f'Diminui o {RetornarColorido("ATAQUE")} em {efeito.valor}'
         elif efeito_acionado == "Diminuição Defesa":
-            mensagem_vinganca = f'Diminui a {RetornarStringColorida("DEFESA")} em {efeito.valor}'
+            mensagem_vinganca = f'Diminui a {RetornarColorido("DEFESA")} em {efeito.valor}'
         elif efeito_acionado == "Diminuição Magia":
-            mensagem_vinganca = f'Diminui a {RetornarStringColorida("MAGIA")} em {efeito.valor}'
+            mensagem_vinganca = f'Diminui a {RetornarColorido("MAGIA")} em {efeito.valor}'
         elif efeito_acionado == "Diminuição Velocidade":
-            mensagem_vinganca = f'Diminui a {RetornarStringColorida("VELOCIDADE")} em {efeito.valor}'
+            mensagem_vinganca = f'Diminui a {RetornarColorido("VELOCIDADE")} em {efeito.valor}'
         elif efeito_acionado == "Diminuição Chance Crítico":
-            mensagem_vinganca = f'Diminui a {RetornarStringColorida("Chance de Acerto Crítico")} em ' + \
+            mensagem_vinganca = f'Diminui a {RetornarColorido("Chance de Acerto Crítico")} em ' + \
                 '{:.1f}%'.format(efeito.valor)
 
         # Criatura aliada a ser derrotada para ativar o efeito
@@ -482,34 +472,34 @@ def ImprimirItemDetalhado(item, jogador):
     if item.classe_batalha != "Consumível" and item.classe != "Material":
         # Atributos concedidos pelo item
         if item.maxHp > 0:
-            print(f'* {RetornarStringColorida("+")}{item.maxHp} {RetornarStringColorida("HP")}')
+            print(f'* {RetornarColorido("+")}{item.maxHp} {RetornarColorido("HP")}')
         elif item.maxHp < 0:
-            print(f'* {RetornarStringColorida("-")}{item.maxHp} {RetornarStringColorida("HP")}')
+            print(f'* {RetornarColorido("-")}{item.maxHp} {RetornarColorido("HP")}')
 
         if item.maxMana > 0:
-            print(f'* {RetornarStringColorida("+")}{item.maxMana} {RetornarStringColorida("Mana")}')
+            print(f'* {RetornarColorido("+")}{item.maxMana} {RetornarColorido("Mana")}')
         elif item.maxMana < 0:
-            print(f'* {RetornarStringColorida("-")}{item.maxMana} {RetornarStringColorida("Mana")}')
+            print(f'* {RetornarColorido("-")}{item.maxMana} {RetornarColorido("Mana")}')
 
         if item.ataque > 0:
-            print(f'* {RetornarStringColorida("+")}{item.ataque} {RetornarStringColorida("ATAQUE")}')
+            print(f'* {RetornarColorido("+")}{item.ataque} {RetornarColorido("ATAQUE")}')
         elif item.ataque < 0:
-            print(f'* {RetornarStringColorida("-")}{item.ataque} {RetornarStringColorida("ATAQUE")}')
+            print(f'* {RetornarColorido("-")}{item.ataque} {RetornarColorido("ATAQUE")}')
 
         if item.defesa > 0:
-            print(f'* {RetornarStringColorida("+")}{item.defesa} {RetornarStringColorida("DEFESA")}')
+            print(f'* {RetornarColorido("+")}{item.defesa} {RetornarColorido("DEFESA")}')
         elif item.defesa < 0:
-            print(f'* {RetornarStringColorida("-")}{item.defesa} {RetornarStringColorida("DEFESA")}')
+            print(f'* {RetornarColorido("-")}{item.defesa} {RetornarColorido("DEFESA")}')
 
         if item.magia > 0:
-            print(f'* {RetornarStringColorida("+")}{item.magia} {RetornarStringColorida("MAGIA")}')
+            print(f'* {RetornarColorido("+")}{item.magia} {RetornarColorido("MAGIA")}')
         elif item.magia < 0:
-            print(f'* {RetornarStringColorida("-")}{item.magia} {RetornarStringColorida("MAGIA")}')
+            print(f'* {RetornarColorido("-")}{item.magia} {RetornarColorido("MAGIA")}')
 
         if item.velocidade > 0:
-            print(f'* {RetornarStringColorida("+")}{item.velocidade} {RetornarStringColorida("VELOCIDADE")}')
+            print(f'* {RetornarColorido("+")}{item.velocidade} {RetornarColorido("VELOCIDADE")}')
         elif item.velocidade < 0:
-            print(f'* {RetornarStringColorida("-")}{item.velocidade} {RetornarStringColorida("VELOCIDADE")}')
+            print(f'* {RetornarColorido("-")}{item.velocidade} {RetornarColorido("VELOCIDADE")}')
         
     # Efeitos 'positivos' concedidos pelo item
     for buff in item.buffs:
@@ -538,9 +528,9 @@ def ImprimirHabilidadeDetalhada(habilidade):
 
     # Chance de Acerto Crítico e Multiplicador de Dano Crítico
     if abs(habilidade.chance_critico - 0) > 0.0001:
-        print(f'* {RetornarStringColorida("Chance de Acerto Crítico")}: ' + '{:.1f}%'.format(habilidade.chance_critico))
+        print(f'* {RetornarColorido("Chance de Acerto Crítico")}: ' + '{:.1f}%'.format(habilidade.chance_critico))
     if abs(habilidade.multiplicador_critico - 1) > 0.0001:
-        print(f'* {RetornarStringColorida("Multiplicador de Dano Crítico")}: ' + '{:.1f}x'.format(habilidade.multiplicador_critico))
+        print(f'* {RetornarColorido("Multiplicador de Dano Crítico")}: ' + '{:.1f}x'.format(habilidade.multiplicador_critico))
 
     # Efeitos causados pelo uso da habilidade
     for e in habilidade.efeitos:
@@ -551,13 +541,13 @@ def ImprimirHabilidadeDetalhada(habilidade):
         print('\nModificadores:')
         for m in habilidade.modificadores:
             if m[0] == "ataque":
-                print(f'* {RetornarStringColorida("ATAQUE")}: ' + '{:.1f}%'.format(m[1]))
+                print(f'* {RetornarColorido("ATAQUE")}: ' + '{:.1f}%'.format(m[1]))
             elif m[0] == "defesa":
-                print(f'* {RetornarStringColorida("DEFESA")}: ' + '{:.1f}%'.format(m[1]))
+                print(f'* {RetornarColorido("DEFESA")}: ' + '{:.1f}%'.format(m[1]))
             elif m[0] == "magia":
-                print(f'* {RetornarStringColorida("MAGIA")}: ' + '{:.1f}%'.format(m[1]))
+                print(f'* {RetornarColorido("MAGIA")}: ' + '{:.1f}%'.format(m[1]))
             elif m[0] == "velocidade":
-                print(f'* {RetornarStringColorida("VELOCIDADE")}: ' + '{:.1f}%'.format(m[1])) 
+                print(f'* {RetornarColorido("VELOCIDADE")}: ' + '{:.1f}%'.format(m[1])) 
 
     print('')
 
@@ -642,25 +632,25 @@ def RetornarEfeitos(criatura, espaco = True):
 
         for i, b in enumerate(c_buffs):
             if criatura.buffs[b].nome == "Defendendo":
-                mensagem += RetornarStringColorida("DEFENDENDO")
+                mensagem += RetornarColorido("DEFENDENDO")
             
             elif criatura.buffs[b].nome == "Aumento Ataque":
-                mensagem +=  RetornarStringColorida("ATQ") + RetornarStringColorida("+")
+                mensagem +=  RetornarColorido("ATQ") + RetornarColorido("+")
 
             elif criatura.buffs[b].nome == "Aumento Defesa":
-                mensagem += RetornarStringColorida("DEF") + RetornarStringColorida("+")
+                mensagem += RetornarColorido("DEF") + RetornarColorido("+")
             
             elif criatura.buffs[b].nome == "Aumento Magia":
-                mensagem += RetornarStringColorida("MAG") + RetornarStringColorida("+")
+                mensagem += RetornarColorido("MAG") + RetornarColorido("+")
 
             elif criatura.buffs[b].nome == "Aumento Velocidade":
-                mensagem += RetornarStringColorida("VEL") + RetornarStringColorida("+")
+                mensagem += RetornarColorido("VEL") + RetornarColorido("+")
             
             elif criatura.buffs[b].nome == "Aumento Chance Crítico":
-                mensagem += RetornarStringColorida("CRIT%") + RetornarStringColorida("+")
+                mensagem += RetornarColorido("CRIT%") + RetornarColorido("+")
             
             elif criatura.buffs[b].nome == "Regeneração HP" or criatura.buffs[b].nome == "Regeneração HP %":
-                mensagem += 'REGEN ' + RetornarStringColorida("HP")
+                mensagem += 'REGEN ' + RetornarColorido("HP")
 
             if i != n_buffs - 1:
                 mensagem += ' | '
@@ -679,28 +669,28 @@ def RetornarEfeitos(criatura, espaco = True):
         for i, d in enumerate(c_debuffs):
             
             if criatura.debuffs[d].nome == "Veneno":
-                mensagem += RetornarStringColorida('VENENO')
+                mensagem += RetornarColorido('VENENO')
             
             elif criatura.debuffs[d].nome == "Atordoamento":
-                mensagem += RetornarStringColorida('ATORDOAMENTO')
+                mensagem += RetornarColorido('ATORDOAMENTO')
             
             elif criatura.debuffs[d].nome == "Lentidão":
-                mensagem += RetornarStringColorida("LENTIDÃO")
+                mensagem += RetornarColorido("LENTIDÃO")
             
             elif criatura.debuffs[d].nome == "Diminuição Ataque":
-                mensagem += RetornarStringColorida("ATQ") + RetornarStringColorida("-")
+                mensagem += RetornarColorido("ATQ") + RetornarColorido("-")
 
             elif criatura.debuffs[d].nome == "Diminuição Defesa":
-                mensagem += RetornarStringColorida("DEF") + RetornarStringColorida("-")
+                mensagem += RetornarColorido("DEF") + RetornarColorido("-")
             
             elif criatura.debuffs[d].nome == "Diminuição Magia":
-                mensagem += RetornarStringColorida("MAG") + RetornarStringColorida("-")
+                mensagem += RetornarColorido("MAG") + RetornarColorido("-")
 
             elif criatura.debuffs[d].nome == "Diminuição Velocidade":
-                mensagem += RetornarStringColorida("VEL") + RetornarStringColorida("-")
+                mensagem += RetornarColorido("VEL") + RetornarColorido("-")
             
             elif criatura.debuffs[d].nome == "Diminuição Chance Crítico":
-                mensagem += RetornarStringColorida("CRIT%") + RetornarStringColorida("-")
+                mensagem += RetornarColorido("CRIT%") + RetornarColorido("-")
 
             if i != n_debuffs - 1:
                 mensagem += ' | '
@@ -722,13 +712,13 @@ def InimigosPresentes(inimigos):
         # Índice + Nome
         t.append(f'[{indice+1}] ' + inimigo.nome)
         # HP / MaxHP
-        hp = f'- {RetornarStringColorida("HP")} {inimigo.hp}/{inimigo.maxHp}'
+        hp = f'- {RetornarColorido("HP")} {inimigo.hp}/{inimigo.maxHp}'
         t.append(hp)
         # Mana / MaxMana
-        mana = f'- {RetornarStringColorida("Mana")} {inimigo.mana}/{inimigo.maxMana}'
+        mana = f'- {RetornarColorido("Mana")} {inimigo.mana}/{inimigo.maxMana}'
         t.append(mana)
         # Tipo
-        t.append(f'- Tipo: {RetornarTipo(inimigo.tipo)}')
+        t.append(f'- Tipo: {RetornarColorido(inimigo.tipo)}')
         # Efeitos de buff/debuff
         efeitos, n_efeitos = RetornarEfeitos(inimigo)
         if n_efeitos > 0:
@@ -748,10 +738,10 @@ def ImprimirJogador(jogador):
     mensagem = f'{jogador.nome} - Classe: {jogador.classe} - Nível: {jogador.nivel} - '
 
     # HP do jogador
-    mensagem += f'{RetornarStringColorida("HP")} {jogador.hp}/{jogador.maxHp} - '
+    mensagem += f'{RetornarColorido("HP")} {jogador.hp}/{jogador.maxHp} - '
 
     # Mana do jogador
-    mensagem += f'{RetornarStringColorida("Mana")} {jogador.mana}/{jogador.maxMana}'
+    mensagem += f'{RetornarColorido("Mana")} {jogador.mana}/{jogador.maxMana}'
 
     print(mensagem, end = '')
     mensagem, n_efeitos = RetornarEfeitos(jogador)
@@ -775,7 +765,7 @@ def ImprimirEfeitosEquipamentos(jogador):
     
     # Imprimindo efeitos
     if "Resistência Veneno" in efeitos:
-        print(f'* Resistência a {RetornarStringColorida("Veneno")}: {b.valor * 100}%')
+        print(f'* Resistência a {RetornarColorido("Veneno")}: {b.valor * 100}%')
         imprimiu = True
     
     return imprimiu
@@ -792,17 +782,17 @@ def MensagemSubirNivel(atributos_antes, atributos_depois):
     velocidade = atributos_depois["velocidade"] -  atributos_antes["velocidade"]
 
     if hp > 0:
-        print(f'{RetornarStringColorida("HP")}: {atributos_antes["maxHp"]} {RetornarStringColorida(">>")} {atributos_depois["maxHp"]}')
+        print(f'{RetornarColorido("HP")}: {atributos_antes["maxHp"]} {RetornarColorido(">>")} {atributos_depois["maxHp"]}')
     if mana > 0:
-        print(f'{RetornarStringColorida("Mana")}: {atributos_antes["maxMana"]} {RetornarStringColorida(">>")} {atributos_depois["maxMana"]}')
+        print(f'{RetornarColorido("Mana")}: {atributos_antes["maxMana"]} {RetornarColorido(">>")} {atributos_depois["maxMana"]}')
     if ataque > 0:
-        print(f'{RetornarStringColorida("ATAQUE")}: {atributos_antes["ataque"]} {RetornarStringColorida(">>")} {atributos_depois["ataque"]}')
+        print(f'{RetornarColorido("ATAQUE")}: {atributos_antes["ataque"]} {RetornarColorido(">>")} {atributos_depois["ataque"]}')
     if defesa > 0:
-        print(f'{RetornarStringColorida("DEFESA")}: {atributos_antes["defesa"]} {RetornarStringColorida(">>")} {atributos_depois["defesa"]}')
+        print(f'{RetornarColorido("DEFESA")}: {atributos_antes["defesa"]} {RetornarColorido(">>")} {atributos_depois["defesa"]}')
     if magia > 0:
-        print(f'{RetornarStringColorida("MAGIA")}: {atributos_antes["magia"]} {RetornarStringColorida(">>")} {atributos_depois["magia"]}')
+        print(f'{RetornarColorido("MAGIA")}: {atributos_antes["magia"]} {RetornarColorido(">>")} {atributos_depois["magia"]}')
     if velocidade > 0:
-        print(f'{RetornarStringColorida("VELOCIDADE")}: {atributos_antes["velocidade"]} {RetornarStringColorida(">>")} {atributos_depois["velocidade"]}')
+        print(f'{RetornarColorido("VELOCIDADE")}: {atributos_antes["velocidade"]} {RetornarColorido(">>")} {atributos_depois["velocidade"]}')
 
 ### Mensagens do Sistema ###
 

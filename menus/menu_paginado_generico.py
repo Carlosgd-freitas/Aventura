@@ -1,8 +1,7 @@
 import sys
-from colorama import Fore, Back, Style
 
 sys.path.append("..")
-from base import utils
+from base import utils, cor
 
 def ComporPagina(lista, indice_inicial, impressoes_por_pagina):
     """
@@ -47,14 +46,14 @@ def ImprimirOpções(opcoes, pagina_atual, ultima_pagina):
                     anterior = True
                     print(f'[{indice+1}] {opcao}')
                 else:
-                    print(Fore.RED + f'[{indice+1}] {opcao}' + Style.RESET_ALL)
+                    print(cor.colorir(f'[{indice+1}] {opcao}', frente='vermelho'))
             elif opcao == "Próximo":
                 proximo_indice = indice + 1
                 if pagina_atual < ultima_pagina:
                     proximo = True
                     print(f'[{indice+1}] {opcao}')
                 else:
-                    print(Fore.RED + f'[{indice+1}] {opcao}' + Style.RESET_ALL)
+                    print(cor.colorir(f'[{indice+1}] {opcao}', frente='vermelho'))
             else:
                 print(f'[{indice+1}] {opcao}')
     print(f'\n[0] {opcoes[-1]}')

@@ -1,7 +1,6 @@
 import sys
-from colorama import Fore, Back, Style
 
-from . import jogador
+from . import jogador, cor
 
 sys.path.append("..")
 from habilidades import ativas_alvo_unico, ativas_alvo_proprio, ativas_alvos_multiplos
@@ -131,7 +130,7 @@ def SubirNivelMago(jogador):
             escudo = ativas_alvo_proprio.EscudoMagico()
             jogador.habilidades.append(escudo)
 
-            print('Nova habilidade: ' + Style.BRIGHT + 'Escudo Mágico' + Style.RESET_ALL + '.')
+            print(f"Nova habilidade: {cor.colorir('Escudo Mágico', frente_claro=True)}.")
         
         if jogador.nivel == 4:
             habilidade =  jogador.HabilidadePresente("Escudo Mágico")
@@ -141,7 +140,7 @@ def SubirNivelMago(jogador):
             disparo = ativas_alvos_multiplos.DisparoEletrico(4)
             jogador.habilidades.append(disparo)
 
-            print('Nova habilidade: ' + Style.BRIGHT + 'Disparo Elétrico' + Style.RESET_ALL + '.')
+            print(f"Nova habilidade: {cor.colorir('Disparo Elétrico', frente_claro=True)}.")
 
     # Até o nível 10
     elif jogador.nivel <= 10:

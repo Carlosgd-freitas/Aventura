@@ -38,7 +38,7 @@ def MenuFabricacao(jogador, receitas, incluir_preco = True):
             print('\n+-----> FABRICAÇÃO DE ITENS <-----+')
 
             # Ouro do jogador
-            print(f"{imprimir.RetornarStringColorida('Ouro')}: {jogador.ouro}")
+            print(f"{imprimir.RetornarColorido('Ouro')}: {jogador.ouro}")
 
             # Listando os itens que o jogador pode fabricar
             disponivel = menu_paginado_generico.ComporPagina(receitas, item_indice_atual, receitas_por_pagina)

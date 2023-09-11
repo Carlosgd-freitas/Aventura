@@ -529,7 +529,7 @@ class Area_1(area.Area):
         print('')
 
         if jogador.ouro >= self.estalagem_preco:
-            print(f"[1] Descansar na estalagem: {imprimir.RetornarStringColorida('Preço')}: {self.estalagem_preco}")
+            print(f"[1] Descansar na estalagem: {imprimir.RetornarColorido('Preço')}: {self.estalagem_preco}")
         else:
             print(cor.colorir(f"[1] Descansar na estalagem: Preço: {self.estalagem_preco}", frente="vermelho"))
         print('[0] Sair da estalagem\n')
@@ -542,7 +542,7 @@ class Area_1(area.Area):
             # Jogador está com vida e mana maximizados
             if jogador.hp == jogador.maxHp and jogador.mana == jogador.maxMana:
                 imprimir.ImprimirComDelay(f"Ruwick: Pareçe que você já está descansado! Permitir sua estadia aqui " +
-                    f"seria um roubo do seu {imprimir.RetornarStringColorida('ouro')}!\n", conf.npc_fala_delay)
+                    f"seria um roubo do seu {imprimir.RetornarColorido('ouro')}!\n", conf.npc_fala_delay)
 
             # Jogador descansa na estalagem
             elif jogador.ouro >= self.estalagem_preco:
@@ -550,13 +550,13 @@ class Area_1(area.Area):
                 jogador.hp = jogador.maxHp
                 jogador.mana = jogador.maxMana
 
-                print(f"Você gastou {self.estalagem_preco} de {imprimir.RetornarStringColorida('ouro')} e recuperou seu " +
-                    f"{imprimir.RetornarStringColorida('HP')}  e  {imprimir.RetornarStringColorida('Mana')} completamente.")
+                print(f"Você gastou {self.estalagem_preco} de {imprimir.RetornarColorido('ouro')} e recuperou seu " +
+                    f"{imprimir.RetornarColorido('HP')}  e  {imprimir.RetornarColorido('Mana')} completamente.")
 
             # Jogador não tem ouro suficiente pra descansar na estalagem
             elif op == 1:
                 imprimir.ImprimirComDelay(f"Ruwick: Desculpe, mas pareçe que você não tem " +
-                    f"{imprimir.RetornarStringColorida('ouro')} o suficiente para descansar aqui.\n", conf.npc_fala_delay)
+                    f"{imprimir.RetornarColorido('ouro')} o suficiente para descansar aqui.\n", conf.npc_fala_delay)
 
     def EventoVendedorAmbulante(self, jogador, conf):
         """
