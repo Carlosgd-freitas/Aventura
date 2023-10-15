@@ -214,6 +214,7 @@ class NotasAtualizacao():
         self.positivo('Ao derrotar o chefão da primeira área, o tempo em que o jogador finalizou o jogo é mostrado.')
         self.positivo(f"Os tipos {imprimir.RetornarColorido('Elétrico')} e {imprimir.RetornarColorido('Gelo')} foram adicionados, " +
             "e a efetividade dos tipos no cálculo de dano foi refeita.")
+        self.neutro('A ação de passar o turno pode ser efetuada pelo jogador.')
 
         print('\nFabricação')
         self.positivo('O novo sistema de fabricação permite criar um novo item a partir de itens materiais.')

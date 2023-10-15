@@ -251,6 +251,11 @@ class Jogador(criatura.Criatura):
         subiu = 0
 
         while True:
+
+            # Nível máximo do jogador permitido
+            if self.nivel >= 10:
+                return subiu
+        
             exp_necessaria = self.ExperienciaSubirNivel(self.nivel)
 
             if self.experiencia >= exp_necessaria:

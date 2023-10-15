@@ -1,11 +1,12 @@
 import sys
+import random
 
 from . import batalha_mecanicas, usar_habilidade, usar_consumivel
 sys.path.append("..")
 from base import efeito, imprimir, utils, cor
 from menus import menu_equipamentos
 
-def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = True, chefao = 0):
+def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, chance_correr = None, chefao = 0):
     """
     Recebe uma lista de aliados, onde a primeira posição da lista é o jogador, e uma lista de inimigos, e
     emula uma batalha. Retorna:
@@ -24,6 +25,33 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
     espolios = []
     jogador = aliados[0]
 
+    # Calculando a chance base de correr padrão
+    if chance_correr is None:
+        # Criatura de maior nível
+        maior_nivel = 0
+        for c in inimigos:
+            if c.nivel > maior_nivel:
+                maior_nivel = c.nivel
+        
+        # Calculando a chance de correr do combate
+        chance_correr = 50
+        if jogador.nivel > maior_nivel:
+            chance_correr += (jogador.nivel - maior_nivel) * 10
+        else:
+            chance_correr -= (maior_nivel - jogador.nivel) * 10
+        
+        # Limites padrão de correr de uma batalha
+        if chance_correr > 90:
+            chance_correr = 90
+        elif chance_correr < 10:
+            chance_correr = 10
+        
+    # Limites universais de correr de uma batalha
+    if chance_correr > 100:
+        chance_correr = 100
+    elif chance_correr < 0:
+        chance_correr = 0
+    
     # Garantindo nomes únicos
     nomes = {}
     nomes_zerados = {}
@@ -99,7 +127,7 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
 
                 # Vez do Jogador
                 if c == jogador and jogador.hp > 0 and consciente == 1 and len(inimigos) > 0:
-                    acabou = JogadorVez(jogador, inimigos, correr)
+                    acabou = JogadorVez(jogador, inimigos, chance_correr)
 
                     batalha_mecanicas.AbaterCriaturas(inimigos, espolios, nomes = nomes, nomes_zerados = nomes_zerados,
                         conf = conf, chefao = chefao)
@@ -165,7 +193,7 @@ def BatalhaPrincipal(aliados, inimigos, emboscada = 0, conf = None, correr = Tru
 
     return acabou
 
-def JogadorVez(jogador, inimigos, correr = True):
+def JogadorVez(jogador, inimigos, chance_correr):
     """
     Controla as ações que o jogador pode fazer. A função retornará o valor 2 se o jogador tiver escapado da
     batalha com sucesso.
@@ -179,7 +207,7 @@ def JogadorVez(jogador, inimigos, correr = True):
         if retorno == 1:
 
             # Imprimindo os inimigos
-            print('\nInimigos em batalha:')
+            print('Inimigos em batalha:')
             imprimir.InimigosPresentes(inimigos)
 
             # Imprimindo o jogador
@@ -191,11 +219,12 @@ def JogadorVez(jogador, inimigos, correr = True):
             print('[3] Consumível')
             print('[4] Habilidades')
             print('[5] Equipamentos')
+            print('[6] Passar o Turno')
 
-            if correr == True:
-                print('[6] Correr')
-            elif correr == False:
-                print(cor.colorir('[6] Correr', frente='vermelho'))
+            if chance_correr > 0:
+                print('[7] Correr')
+            else:
+                print(cor.colorir('[7] Correr', frente='vermelho'))
             
             print('')
 
@@ -319,37 +348,34 @@ def JogadorVez(jogador, inimigos, correr = True):
             else:
                 break
 
-        # Correr
+        # Passar o Turno
         elif op == 6:
+            indice = random.randint(1, 5)
+            if indice == 1:
+                print(f'\n{jogador.nome} não fez nada.')
+            elif indice == 2:
+                print(f'\n{jogador.nome} bocejou.')
+            elif indice == 3:
+                if jogador.genero == 'M':
+                    print(f'\n{jogador.nome} estava concentrado no formato das nuvens.')
+                elif jogador.genero == 'F':
+                    print(f'\n{jogador.nome} estava concentrada no formato das nuvens.')
+            elif indice == 4:
+                print(f'\n{jogador.nome} tentou fazer um truque de malabarismo.')
+            else:
+                print(f'\n{jogador.nome} cantarolou uma música.')
+            break
+
+        # Correr
+        elif op == 7:
 
             # Jogador não pode correr da batalha
-            if correr == False:
-                print('Você não pode correr desta batalha.')
+            if chance_correr == 0:
+                print('\nVocê não pode correr desta batalha.\n')
                 retorno = 1
             
             else:
-                # Criatura de maior nível
-                maior_nivel = 0
-                for c in inimigos:
-                    if c.nivel > maior_nivel:
-                        maior_nivel = c.nivel
-                
-                # Calculando a chance de correr do combate
-                chance_correr = 50
-                if jogador.nivel > maior_nivel:
-                    chance_correr += (jogador.nivel - maior_nivel) * 10
-                
-                else:
-                    chance_correr -= (maior_nivel - jogador.nivel) * 10
-                
-                # Impedindo o extrapolamento da chance de correr
-                if chance_correr > 100:
-                    chance_correr = 100
-                elif chance_correr < 0:
-                    chance_correr = 0
-                
-                # Escolha do jogador
-                print(f'Você tem {chance_correr}% de chance de correr dessa batalha. Prosseguir?')
+                print(f'\nVocê tem {chance_correr}% de chance de correr dessa batalha. Prosseguir?')
                 print('[0] Não, voltar ao combate.')
                 print('[1] Sim, tentar escapar.\n')
 

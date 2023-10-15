@@ -308,7 +308,7 @@ class Area_1(area.Area):
             inimigos.append(inimigo)
             aliados = [jogador]
 
-            resultado = batalha.BatalhaPrincipal(aliados, inimigos, conf = conf, correr = False, chefao = 1)
+            resultado = batalha.BatalhaPrincipal(aliados, inimigos, conf = conf, chance_correr = 0, chefao = 1)
             batalha.ProcessarResultado(resultado, jogador, est, chefao = True)
             if resultado == 1:
                 self.chefao_derrotado = True

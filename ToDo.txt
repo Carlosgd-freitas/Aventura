@@ -1,14 +1,23 @@
 ===== Alpha v0.0.5 =====
 
 [Próximo Patch]
+	* /catalogos
+		* criaturas.py -> RetornarCriatura()
+		* itens.py -> RetornarItem()
+		* habilidades.py -> RetornarHabilidade()
+
 	* Usar o RetornarCriatura() em habilidades de invocação
 		- Refatora o efeito de Invocação, usar um parâmetro adicional invocacao={} no lugar de uma string separada por :
 		- imprimir.py também será alterado
-
-	* Jogador tem a ação de passar o turno dentro de batalhas
+	
+	* Ao salvar o jogador, apenas os nomes dos itens no inventario/equipamentos/habilidades são salvos, e não os objetos em si
+		> Rebalanceamentos entre versões não irão afetar o save <
 
 	* Refazer o sistema de sufixos
 		- Quando a lista de criaturas é alterada (invocação, criatura derrotada...), checar o sufixo dos nomes das criaturas
+
+	* Efeito novo que faz com que o tipo do ataque vire o tipo da arma na primeira mão
+		* Usado por Atacar e Projétil de Mana
 
 [Bestiário]
   	* novo diretório /sistemas
@@ -28,14 +37,11 @@
 		- só passa o turno
 
 	* Vila Pwikutt tem um campo de treino com 3 bonecos de treinamento
-	* NPC explica como funciona o campo de treino na primeira vez
-	* NPC também explica como cada uma das ações do jogador funciona
+		- NPC explica como funciona o campo de treino na primeira vez
+		- NPC também explica como cada uma das ações do jogador funciona
+		- 100% de chance de correr
 
 	* Modo Fácil / Modo Normal / Modo Difícil -> Variação nos atributos dos inimigos (50% / 100% / 150%)
-
-	* Correr de uma batalha pode ser fixado em vez de calculado
-		- 100% para o campo de treinamento
-		- 0% para chefões
 
 [Sistema de Efeitos]
 	* Refazer como os efeitos de buff e debuff se stackam: CombinarEfeito() em efeito.py
@@ -74,6 +80,9 @@
 	* Monstros dropam experiencia e ouro baseados em um range
 
 	* Refazer batalha contra o chefão da Área 1
+
+	* Tipos de ataque e defesa podem ser %
+		* Ex.: Uma arma de fogo e uma arma de água fará com que Atacar seja 50% Fogo/50% Água
 
 [Inimigos]
 	* Espírito de Mana (Mana Cristalizada Pequena)
