@@ -2,7 +2,7 @@ import sys
 
 sys.path.append("..")
 from base import utils
-from criaturas import slime
+from catalogo.criaturas import RetornarCriatura
 
 def InvocarCriaturas(invocador, habilidade, lista_criaturas, nomes, nomes_zerados):
     """
@@ -12,36 +12,25 @@ def InvocarCriaturas(invocador, habilidade, lista_criaturas, nomes, nomes_zerado
 
     lista_invocados = []
 
-    efeito = habilidade.RetornarEfeito("Invocar", startswith = True)
-    conteudo = efeito.nome.split(":") # ["Invocar", "2", "Slime", "1", "Derrotado", "M"]
-
-    quantidade = int(conteudo[1])
-    invocado = conteudo[2]
-    nivel = int(conteudo[3])
-    forma = conteudo[4]
-    genero = conteudo[5]
+    efeito = habilidade.RetornarEfeito("Invocar")
+    nome = efeito.invocacao["nome"]
+    nivel = efeito.invocacao["nivel"]
+    quantidade = int(efeito.invocacao["quantidade"])
+    condicao = efeito.invocacao["condicao"]
 
     if nivel <= 0:
         nivel = 1
 
     # A criatura será invocada <quantidade> vezes
     for i in range(quantidade):
-        if invocado == "Slime":
-            invocacao = slime.Slime(nivel)
-
+        invocacao = RetornarCriatura(nome, nivel)
         lista_invocados.append(invocacao)
 
     # Mensagem a ser impressa
     if habilidade.nome == "Subdivisão":
-        if invocado == "Slime" and quantidade > 1:
-            print(f'{invocador.nome} se subdividiu em {quantidade} Slimes!')
-        else:
-            print(f'{invocador.nome} se subdividiu em {quantidade} {invocado}!')
+        print(f'{invocador.nome} se subdividiu em {quantidade} {nome}!')
     else:
-        if invocado == "Slime" and quantidade > 1:
-            print(f'{invocador.nome} invocou {quantidade} Slimes!')
-        else:
-            print(f'{invocador.nome} invocou {quantidade} {invocado}!')
+        print(f'{invocador.nome} invocou {quantidade} {nome}!')
     
     nomes, nomes_zerados = utils.ContarNomes(nomes, nomes_zerados, lista_invocados, modifica_nomes_zerados = False)
     utils.NomesUnicos(nomes, nomes_zerados, lista_invocados)

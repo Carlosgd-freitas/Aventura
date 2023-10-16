@@ -7,7 +7,7 @@ class Efeito():
     Esta classe é utilizada para efeitos de buff e debuff.
     """
 
-    def __init__(self, nome = "default", valor = 0, decaimento = 0, duracao = 0, chance = 100,
+    def __init__(self, nome = "default", valor = 0, decaimento = 0, duracao = 0, chance = 100, invocacao = {},
         singular_plural = "default", genero = "default"):
         """
         Inicializador da classe.
@@ -24,8 +24,12 @@ class Efeito():
         # Quantos turnos o efeito irá perdurar. Se igual a -1, o efeito é instantâneo.
         self.duracao = duracao
 
-        # Qual é chance deste efeito acontecer, em %
+        # Chance do efeito acontecer, em %
         self.chance = chance
+
+        # Parâmetros da criatura a ser invocada pelo efeito. As chaves deste dicionário são "nome", "nivel", "quantidade"
+        # e "condicao".
+        self.invocacao = invocacao
 
         # Se o nome do efeito é em singular ou plural
         self.singular_plural = singular_plural
@@ -42,6 +46,7 @@ class Efeito():
         string += f'Decaimento: {self.decaimento}\n'
         string += f'Duração: {self.duracao}\n'
         string += f'Chance: {self.chance}\n'
+        string += f'Invocação: {self.invocacao}\n'
         string += f'singular_plural: {self.singular_plural}\n'
         string += f'Gênero: {self.genero}'
         return string

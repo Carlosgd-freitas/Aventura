@@ -2,13 +2,14 @@
 
 [Próximo Patch]
 	* /catalogos
-		* criaturas.py -> RetornarCriatura()
 		* itens.py -> RetornarItem()
 		* habilidades.py -> RetornarHabilidade()
-
-	* Usar o RetornarCriatura() em habilidades de invocação
-		- Refatora o efeito de Invocação, usar um parâmetro adicional invocacao={} no lugar de uma string separada por :
-		- imprimir.py também será alterado
+	
+	* Se certificar de que apenas habilidades que causam dano e curam podem critar
+		- Caso necessário, utilizar um parâmetro adicional, permitir_critico=True
+	
+	* Refazer efeito de Vingança
+		- Refatorar parâmetro startswith de Habilidade.RetornarEfeito() para PT-BR
 	
 	* Ao salvar o jogador, apenas os nomes dos itens no inventario/equipamentos/habilidades são salvos, e não os objetos em si
 		> Rebalanceamentos entre versões não irão afetar o save <

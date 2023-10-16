@@ -20,6 +20,8 @@ A pasta _[areas](https://github.com/Carlosgd-freitas/Aventura/tree/main/areas)_ 
 
 A pasta _[base](https://github.com/Carlosgd-freitas/Aventura/tree/main/base)_ contém classes e funções básicas, utilizadas no sistema de configurações do jogo e para criar itens, por exemplo.
 
+A pasta _[catalogo](https://github.com/Carlosgd-freitas/Aventura/tree/main/catalogo)_ contém funções que recebem um nome, dentre outros parâmetros, e retornam um objeto, como uma criatura ou um item em específico.
+
 A pasta _[combate](https://github.com/Carlosgd-freitas/Aventura/tree/main/combate)_ contém funções relacionadas ao sistema de combate.
 
 A pasta _[criaturas](https://github.com/Carlosgd-freitas/Aventura/tree/main/criaturas)_ contém as criaturas presentes no jogo, tais como Slimes e Cobras Venenosas.

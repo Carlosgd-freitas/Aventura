@@ -388,30 +388,16 @@ def ImprimirEfeitoDetalhado(efeito):
         print('Ignora {:.1f}% da '.format(efeito.valor) + f'{RetornarColorido("DEFESA")} no cálculo de dano.')
 
     # Efeitos Miscelâneos
-    elif efeito.nome.startswith("Invocar:"):
-        conteudo = efeito.nome.split(":") # ["Invocar", "2", "Slime", "1", "Derrotado", "M"]
-        quantidade = conteudo[1]
-        invocado = conteudo[2]
-        nivel = conteudo[3]
-        forma = conteudo[4]
-        genero = conteudo[5]
+    elif efeito.nome == "Invocar":
+        nome = efeito.invocacao["nome"]
+        nivel = efeito.invocacao["nivel"]
+        quantidade = efeito.invocacao["quantidade"]
+        condicao = efeito.invocacao["condicao"]
 
-        # Quantidade de criaturas a serem invocadas
-        mensagem_invocacao = f'Invoca {quantidade} '
-        if invocado == "Slime" and quantidade > 1:
-            mensagem_invocacao += "Slimes"
-        else:
-            mensagem_invocacao += invocado
-
-        # Forma com que as criaturas serão invocadas
-        mensagem_invocacao += f' de nível {nivel}'
-        if forma == "Derrotado":
-            if genero == "M":
-                mensagem_invocacao += ' ao ser derrotado.'
-            if genero == "F":
-                mensagem_invocacao += ' ao ser derrotada.'
-        elif forma == "Usar":
-            mensagem_invocacao += '.'
+        mensagem_invocacao = f"Invoca {quantidade} {nome} de nível {nivel}"
+        if condicao.lower() == "derrota":
+            mensagem_invocacao += " quando esta criatura é derrotada"
+        mensagem_invocacao += "."
 
         print(mensagem_invocacao)
     
