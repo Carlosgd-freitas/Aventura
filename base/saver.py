@@ -17,9 +17,23 @@ def Salvar(caminho, jogador, estatisticas, area, local):
     estatisticas.data_jogo_salvo = datetime.now()
     estatisticas.ContabilizarTempoJogado()
 
+    inventario = [{
+        "nome": item.nome,
+        "quantidade": item.quantidade,
+        "preco": item.preco
+        } for item in jogador.inventario]
+    
+    equipados = [{
+        "nome": equipado.nome,
+        "quantidade": equipado.quantidade,
+        "preco": equipado.preco
+        } for equipado in jogador.equipados]
+
     save = {
         "valido": "Arquivo de jogo salvo do Aventura",
         "jogador": jogador,
+        "inventario": inventario,
+        "equipados": equipados,
         "estatisticas": estatisticas,
         "area": area,
         "local": local,

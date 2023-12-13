@@ -7,6 +7,7 @@ from . import notas_atualizacao, menu_explorar, menu_equipamentos, menu_configur
 sys.path.append("..")
 from base import guerreiro, mago, imprimir, saver, estatisticas, utils
 from areas import area_1
+from catalogo.itens import RetornarItem
 
 def MenuInicial(conf, caminhos):
     """
@@ -29,7 +30,7 @@ def MenuInicial(conf, caminhos):
             print(f"  / _ \ \ \ / / / _ \ | '_ \  | __| | | | | | '__| / _` |")
             print(f" / ___ \ \ V / |  __/ | | | | | |_  | |_| | | |   | (_| |")
             print(f"/_/   \_\ \_/   \___| |_| |_|  \__|  \__,_| |_|    \__,_|\n")
-            print(f"      por Carlos Gabriel de Freitas - Alpha v0.0.5\n")        
+            print(f"      por Carlos Gabriel de Freitas - Alpha v0.0.5\n")
 
             print('[1] Novo Jogo')
             print('[2] Carregar Jogo')
@@ -158,9 +159,29 @@ def ContinuarJogo(conf, caminhos):
         save = saver.Carregar(caminho_save)
 
         j = save["jogador"]
+        inventario = save["inventario"]
+        equipados = save["equipados"]
         est = save["estatisticas"]
         area = save["area"]
         local = save["local"]
+
+        j.inventario = [
+            RetornarItem(
+                nome=item.get("nome"),
+                quantidade=item.get("quantidade"),
+                preco=item.get("preco")
+            )
+            for item in inventario
+        ]
+        
+        j.equipados = [
+            RetornarItem(
+                nome=equipado.get("nome"),
+                quantidade=equipado.get("quantidade"),
+                preco=equipado.get("preco")
+            )
+            for equipado in equipados
+        ]
 
         est.Atualizar()
         est.data_inicio = datetime.now()

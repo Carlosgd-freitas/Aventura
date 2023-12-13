@@ -1,24 +1,58 @@
 ===== Alpha v0.0.5 =====
 
 [Próximo Patch]
-	* /catalogos
-		* itens.py -> RetornarItem()
-		* habilidades.py -> RetornarHabilidade()
+	* jogador -> retornarAtaqueBase(), retornarDefesaBase(), etc. -> não considera os atributos ganhos
+	pelos equipamentos
+	* jogador -> retornarAtaqueEquipados(), retornarDefesaEquipados(), etc. -> só considera os atributos ganhos
+	pelos equipamentos
+	* Estas funções são usadas na hora de trocar de equipamentos, dentro e fora da batalha
+	* Cada um dos demais atributos do jogador (ataque base, defesa base, buffs, debuffs) também devem ser
+	salvos e carregados separadamente
+	* Ao carregar um save, os atributos de um jogador são inicializados pelos valores base, e então os valores
+	recebidos por equipamentos são contabilizados
+
+	* No __init__ das classes base, a primeira coisa a ser feita é passar os parâmetros pro super().__init__, e não a última
+
+	* Fazer uma classe que gerencia a mudança de áreas
+		- Substitui a opção bizarra de "pre_selecionado" usada no saver.py
 	
+	* basico.Basico possui um parâmetro Identificador
+		* Funções de catálogo utilizam o ID em vez de um nome na hora de retornar objetos
+		* Itens podem mudar de nome que não vão quebrar o save/load
+
+	* Reorganizar /habilidades em ativas.py, passivas.py e invocacao.py
+		- Padronizar os parâmetros na construção  das habilidades + Utilizar **kwargs
+			> modificador_ataque, modificador_defesa, modificador_magia e modificador_velocidade
+			> grau da habilidade (I, II, III...)
+			> nome e nível da criatura que deterá a habilidade, ou se é o jogador
+	* /catalogos/habilidades.py
+		- RetornarHabilidade() -> Utilizar **kwargs
+		- Habilidades são salvas e carregadas em saves pelos parâmetros, e não pelos objetos em si
+			> Os valores dinâmicos de uma habilidade são salvos em um dicionário e armazenados em uma variável
+			> Quando uma habilidade é salva, cada um desses valores é salvo (assim como os equipamentos salvam nome,
+			quantidade e preco)
+			> Quando uma habilidade é carregada, os valores serão carregados por .get(<nome do parâmetro>)
+
+	* Mover receita para /base
+	* Receita é identificada por ID e não por nome + /catalogos/receitas.py
+		- Permite a criação de um mesmo item com materiais diferentes
+		- Receitas são vendidas e disponibilizadas na loja pelo ID
+		- Receitas são salvas e carregadas em saves pelo ID
+
+	* Refazer o sistema de sufixos
+		- Quando a lista de criaturas é alterada (invocação, criatura derrotada...), checar o sufixo dos nomes das criaturas
+
 	* Se certificar de que apenas habilidades que causam dano e curam podem critar
 		- Caso necessário, utilizar um parâmetro adicional, permitir_critico=True
 	
 	* Refazer efeito de Vingança
 		- Refatorar parâmetro startswith de Habilidade.RetornarEfeito() para PT-BR
 	
-	* Ao salvar o jogador, apenas os nomes dos itens no inventario/equipamentos/habilidades são salvos, e não os objetos em si
-		> Rebalanceamentos entre versões não irão afetar o save <
-
-	* Refazer o sistema de sufixos
-		- Quando a lista de criaturas é alterada (invocação, criatura derrotada...), checar o sufixo dos nomes das criaturas
+	* Colocar um cabeçalho na tabela de jogos salvos em "Carregar Jogo"
+	* Opção de deletar um save
 
 	* Efeito novo que faz com que o tipo do ataque vire o tipo da arma na primeira mão
-		* Usado por Atacar e Projétil de Mana
+		- Usado por Atacar e Projétil de Mana
 
 [Bestiário]
   	* novo diretório /sistemas
